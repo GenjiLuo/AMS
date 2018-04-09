@@ -1,0 +1,185 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>汽修系统 | 登陆</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 9pt;
+        }
+        html,
+        body{
+            min-height:100%;
+        }
+        .body {
+            min-width: 320px;
+            background: linear-gradient(#4265d8,#5fccff);
+            overflow: hidden;
+        }
+
+        header {
+            height: 47px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+            header ul {
+                padding-right: 30px;
+                display: flex;
+            }
+
+                header ul li {
+                    margin-left: 20px;
+                    line-height: 47px;
+                    display: block;
+                    list-style: none;
+                }
+
+        #help, #showAbout {
+            color: #d3d3d3;
+            text-decoration: none;
+        }
+
+            #help > img, #showAbout > img {
+                vertical-align: text-bottom;
+            }
+
+        main {
+            position: absolute;
+            width: 100%;
+            z-index: 991;
+            top: 25%;
+        }
+
+        .loginbgyun {
+            position: absolute;
+            top: -100px;
+            z-index: -1;
+        }
+
+        .loginform {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+        }
+
+            .loginform .left img {
+                width: 70%;
+                position: relative;
+                top: 80px;
+            }
+
+            .loginform .left,
+            .loginform .right {
+                width: 50%;
+            }
+            .loginform .right{
+                padding:0 20px;
+            }
+
+        form {
+            padding: 45px 55px;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        .logo img {
+            max-width: 200px;
+            margin-bottom: 30px;
+        }
+
+        .validate-error {
+            display: none;
+            position: absolute;
+            right: 8px;
+            top: 9px;
+            color: red;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #userName,
+        #userPwd {
+            padding-left: 30px;
+            border-radius: 2px;
+        }
+
+        .otherError {
+            display: none;
+            margin-top: -15px;
+            padding: 6px 0;
+            color: red;
+        }
+        #login {
+            background-color: #3a5be1;
+            color: white;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="body">
+    <div>
+        <header>
+        <ul>
+            <li>
+                <a href="#" id="help"><img src="~/Content/img/login/help_normal.png">&nbsp;&nbsp;帮助</a>
+            </li>
+            <li>
+                <a id="showAbout" href="#"><img src="~/Content/img/login/about_normal.png">&nbsp;&nbsp;关于</a>
+            </li>
+        </ul>
+    </header>
+    <main>
+        <img class="loginbgyun" src="~/Content/img/login/bgyun.png" />
+        <div class="loginform">
+            <div class="left">
+                <img src="~/Content/img/login/washcar.png" />
+            </div>
+            <div class="right">
+                <form>
+                    <div class="logo text-center">
+                        <img src="~/Content/img/login/logo.jpg" />
+                    </div>
+                    <div class="form-group">
+                        <i class="input-icon glyphicon glyphicon-user"></i>
+                        <input type="text" class="form-control" id="userName" placeholder="请输入用户名">
+                        <span class="validate-error">账户不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <i class="input-icon glyphicon glyphicon-lock"></i>
+                        <input type="password" class="form-control" id="userPwd" placeholder="请输入密码">
+                        <span class="validate-error">密码不能为空</span>
+                    </div>
+                    <div class="otherError">
+                        <span>密码错误</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-block" id="login" value="登录">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    </div>
+</body>
+</html>

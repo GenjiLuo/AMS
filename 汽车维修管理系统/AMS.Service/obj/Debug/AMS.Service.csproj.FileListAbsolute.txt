@@ -1,0 +1,6 @@
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\AMS.Service.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\AMS.Service.pdb
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.csprojResolveAssemblyReference.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.csproj.CoreCompileInputs.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.pdb

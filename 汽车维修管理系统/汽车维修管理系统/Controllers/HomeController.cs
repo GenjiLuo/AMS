@@ -10,6 +10,10 @@ namespace 汽车维修管理系统.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["LogUser"]==null)
+            {
+                RedirectToAction("Index","Account");
+            }
             return View();
         }
 
