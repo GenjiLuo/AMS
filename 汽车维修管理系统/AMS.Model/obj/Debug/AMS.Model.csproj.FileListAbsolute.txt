@@ -1,12 +1,11 @@
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\AMS.Model.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\AMS.Model.pdb
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CoreCompileInputs.cache
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.dll
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.pdb
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\AMS.Model.dll.config
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\EntityFramework.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\EntityFramework.SqlServer.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\EntityFramework.xml
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\EntityFramework.SqlServer.xml
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CoreCompileInputs.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.pdb
