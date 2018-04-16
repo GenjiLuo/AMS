@@ -59,7 +59,9 @@
     </main>
     <footer></footer>
     <script>
-    var loginUrl = "@Url.Action("Login", "Account")";
+        var loginUrl = "@Url.Action("Login", "Account")";
+        var returnUrl = "@TempData["returnUrl"]";
+        var defaultReturnUrl = "@Url.Action("Index","Home")";
     </script>
     <script>
     $().ready(function() {
@@ -85,13 +87,7 @@
                     }),
                     success: function (res) {
                         if (res.success) {
-                            var redirectUrl = sessionStorage.getItem("redirectUrl");
-                            if (redirectUrl) {
-                                window.location.href = redirectUrl;
-                                sessionStorage.removeItem("redirectUrl");
-                                return;
-                            }
-                            window.location.href = "@Url.Action("Index","Home")";
+                            window.location.href = returnUrl || defaultReturnUrl;
                         } else {
                             $(".otherError span").html(res.message).parent().show();
                         }
