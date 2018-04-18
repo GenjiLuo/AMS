@@ -284,6 +284,7 @@
     <Content Include="Content\assets\swf\flashExport.swf" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\common\admin.png" />
     <Content Include="Content\img\common\baseinfo.png" />
     <Content Include="Content\img\common\customer.png" />
     <Content Include="Content\img\common\kefunormal.png" />

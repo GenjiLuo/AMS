@@ -1,44 +1,801 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>汽车维修管理系统 | 首页</title>
+
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/Content/assets/font-awesome/css/font-awesome.min.css"/>
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/Content/assets/googlefonts/fonts.googleapis.com.css"/>
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css"/>
+    <link rel="stylesheet" href="~/Content/assets/css/ace-rtl.min.css"/>
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/assets/css/ace-ie.min.css" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="~/Content/assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+        <script src="~/Content/assets/js/html5shiv.min.js"></script>
+        <script src="~/Content/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .ace-nav > li > a > .badge {
+            left: -7px;
+            top: -7px;
+        }
+
+        .logo { height: 60px;
+            position: relative;
+    right: 10px;
+        }
+
+        .navbar { background: #fff; }
+
+        .ace-nav > li {
+             height: 80px;
+            border: none;
+        }
+
+        
+        .navbar-menu-container {
+            margin: 0;
+        }
+        .navbar-menu-container li{
+            height: 80px;
+            width: 80px;
+            display: inline-block;
+            list-style: none;
+        }
+        .menu-label {
+            display: block;
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei";
+            color: #888585;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .navbar-menu-container li .menu-icon {
+            background: #888585;
+        }
+        .navbar-menu-container li:hover {
+            cursor: pointer;
+            color: rgb(58, 91, 225);
+        }
+        .navbar-menu-container li.active .menu-label,
+        .navbar-menu-container li:hover .menu-label{
+            color: rgb(58, 91, 225);
+        }
+        .navbar-menu-container li.active .menu-icon,
+        .navbar-menu-container li:hover .menu-icon{
+            background: rgb(58, 91, 225);
+        }
+        .ace-nav>li>a {
+            background-color: #fff;
+            padding-top: 10px;
+        }
+        .info-label {
+            display: block;
+            color: #666666;
+            font-size: 12px;
+            position: relative;
+            bottom: 28px;
+        }
+        .help-icon-container {
+            display: inline-block;
+            width: 25px;
+            height: 30px;
+            background: url('../../Content/img/common/kefunormal.png') center center no-repeat;
+        }
+        .info-icon-container {
+            display: inline-block;
+            width: 25px;
+            height: 30px;
+            background: url('../../Content/img/common/lingdang.png') center center no-repeat;
+        }
+        .info-icon-container .badge {
+            position: absolute;
+            z-index: 9;
+        }
+        .ace-nav>li.open>a, 
+        .ace-nav>li>a:focus, 
+        .ace-nav>li>a:hover {
+            background-color: #eee;
+        }
+        .ace-nav>li.open>a .info-label, 
+        .ace-nav>li>a:focus .info-label, 
+        .ace-nav>li>a:hover .info-label {
+              color: rgb(58, 91, 225);
+        }
+        .ace-nav>li.open>a .help-icon-container, 
+        .ace-nav>li>a:focus .help-icon-container, 
+        .ace-nav>li>a:hover .help-icon-container {
+            background: url('../../Content/img/common/kefuselected.png') center center no-repeat;
+        }
+        .ace-nav>li.open>a .info-icon-container, 
+        .ace-nav>li>a:focus .info-icon-container, 
+        .ace-nav>li>a:hover .info-icon-container {
+            background: url('../../Content/img/common/lingdangselected.png') center center no-repeat;
+        }
+        .user-info {
+            font-size: 16px;
+            padding-bottom: 12px;
+        }
+        .user-info,
+        .ace-nav>li>a>.ace-icon{
+            color: #999;
+        }
+        .user-option {
+            display: flex !important;
+    padding-top: 0 !important;
+    align-items: center !important;
+        }
+    </style>
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                    <li class="pull-right">@Html.ActionLink("注销", "Logout", "Account")</li>
-                </ul>
-            </div>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default ace-save-state">
+<div class="navbar-container ace-save-state" id="navbar-container">
+<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+    <span class="sr-only">切换栏</span>
+
+    <span class="icon-bar"></span>
+
+    <span class="icon-bar"></span>
+
+    <span class="icon-bar"></span>
+</button>
+
+<div class="navbar-header pull-left">
+    <a href="index.html" class="navbar-brand">
+        <img class="logo" src="~/Content/img/login/logo.jpg"/>
+    </a>
+</div>
+
+<div class="navbar-menu pull-left">
+    <ul class="navbar-menu-container">
+        <li class="text-center active">
+            <img class="menu-icon" src="~/Content/img/common/service.png" />
+            <label class="menu-label">维修接待</label>
+        </li>
+        <li class="text-center">
+            <img class="menu-icon" src="~/Content/img/common/warehouse.png" />
+            <label class="menu-label">配件管理</label>
+        </li>
+        <li class="text-center">
+            <img class="menu-icon" src="~/Content/img/common/customer.png" />
+            <label class="menu-label">客户关系</label>
+        </li>
+        <li class="text-center">
+            <img class="menu-icon" src="~/Content/img/common/report.png" />
+            <label class="menu-label">报表分析</label>
+        </li>
+        <li class="text-center">
+            <img class="menu-icon" src="~/Content/img/common/baseinfo.png" />
+            <label class="menu-label">基础资料</label>
+        </li>
+        <li class="text-center">
+            <img class="menu-icon" src="~/Content/img/common/system.png" />
+            <label class="menu-label">系统设置</label>
+        </li>
+    </ul>
+</div>
+
+<div class="navbar-buttons navbar-header pull-right" role="navigation">
+<ul class="nav ace-nav">
+<li class="dropdown-modal">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <div class="help-icon-container">
+        </div>
+        <label class="info-label">帮助</label>
+    </a>
+
+    <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+        <li class="dropdown-header">
+            <i class="ace-icon fa fa-exclamation-triangle"></i>
+            8条通知
+        </li>
+
+        <li class="dropdown-content">
+            <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                新评论
+                            </span>
+                            <span class="pull-right badge badge-info">+12</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="btn btn-xs btn-primary fa fa-user"></i>
+                        新用户注册...
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                新订单
+                            </span>
+                            <span class="pull-right badge badge-success">+8</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                粉丝
+                            </span>
+                            <span class="pull-right badge badge-info">+11</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown-footer">
+            <a href="#">
+                查看所有通知
+                <i class="ace-icon fa fa-arrow-right"></i>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="dropdown-modal">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <div class="info-icon-container">
+            <span class="badge badge-warning">500</span>
+        </div>
+        <label class="info-label">通知</label>
+    </a>
+
+    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+        <li class="dropdown-header">
+            <i class="ace-icon fa fa-envelope-o"></i>
+            5条消息
+        </li>
+
+        <li class="dropdown-content">
+            <ul class="dropdown-menu dropdown-navbar">
+                <li>
+                    <a href="#" class="clearfix">
+                        <img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                <span class="blue">小明:</span>
+                                这是一个不错的模板呦...
+                            </span>
+
+                            <span class="msg-time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span>刚刚</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="clearfix">
+                        <img src="assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar"/>
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                <span class="blue">苏珊:</span>
+                                该模板可到东云网进行下载...
+                            </span>
+
+                            <span class="msg-time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span>20分钟前</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="clearfix">
+                        <img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar"/>
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                <span class="blue">鲍勃:</span>
+                                这个模板是基于Bootstrap开发的...
+                            </span>
+
+                            <span class="msg-time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span>下午3:15</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="clearfix">
+                        <img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar"/>
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                <span class="blue">凯特:</span>
+                                这个留言的功能很不错呢...
+                            </span>
+
+                            <span class="msg-time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span>下午1:33</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="clearfix">
+                        <img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar"/>
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                <span class="blue">福瑞德:</span>
+                                精美的模板...
+                            </span>
+
+                            <span class="msg-time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span>上午10:09</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown-footer">
+            <a href="inbox.html">
+                查看所有消息
+                <i class="ace-icon fa fa-arrow-right"></i>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="dropdown-modal">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle user-option">
+        <img class="nav-user-photo" src="~/Content/img/common/admin.png"  alt="Jason's Photo" />
+        <span class="user-info">
+            管理员
+        </span>
+
+        <i class="ace-icon fa fa-caret-down"></i>
+    </a>
+
+    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+        <li>
+            <a href="#">
+                <i class="ace-icon fa fa-cog"></i>
+                设置
+            </a>
+        </li>
+
+        <li>
+            <a href="profile.html">
+                <i class="ace-icon fa fa-user"></i>
+                个人信息
+            </a>
+        </li>
+
+        <li class="divider"></li>
+
+        <li>
+            <a href="#">
+                <i class="ace-icon fa fa-power-off"></i>
+                退出
+            </a>
+        </li>
+    </ul>
+</li>
+</ul>
+</div>
+</div><!-- /.navbar-container -->
+</div>
+
+<div class="main-container ace-save-state" id="main-container">
+<script type="text/javascript">
+    try {
+        ace.settings.loadState('main-container');
+    } catch (e) {
+    }
+</script>
+
+<div id="sidebar" class="sidebar responsive ace-save-state">
+<script type="text/javascript">
+    try {
+        ace.settings.loadState('sidebar');
+    } catch (e) {
+    }
+</script>
+<ul class="nav nav-list">
+<li class="">
+    <a href="index.html">
+        <i class="menu-icon fa fa-tachometer"></i>
+        <span class="menu-text"> 控制台 </span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-desktop"></i>
+        <span class="menu-text">
+            UI和组件
+        </span>
+
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+
+    <ul class="submenu">
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+
+                布局
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="top-menu.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        顶部菜单
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="two-menu-1.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        双菜单1
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="two-menu-2.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        双菜单2
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="mobile-menu-1.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        默认移动菜单
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="mobile-menu-2.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        移动菜单2
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="mobile-menu-3.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        移动菜单3
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="typography.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                排版
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="elements.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                组件
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="buttons.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                按钮和图标
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="content-slider.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                滑块内容
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="treeview.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                树状视图
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="jquery-ui.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                jQuery UI
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="nestable-list.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                可拖拽列表
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+
+                三级菜单
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-leaf green"></i>
+                        第一项
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        四级菜单
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                添加产品
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                查看产品
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-list"></i>
+        <span class="menu-text"> 表格 </span>
+
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+
+    <ul class="submenu">
+        <li class="">
+            <a href="tables.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                简单和动态表格
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="jqgrid.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                jqGrid插件表格
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+    </ul>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-pencil-square-o"></i>
+        <span class="menu-text"> 表单 </span>
+
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+
+    <ul class="submenu">
+        <li class="">
+            <a href="form-elements.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                表单组件
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="form-elements-2.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                表单组件2
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="form-wizard.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                向导和验证
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="wysiwyg.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Wysiwyg和Markdown
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="dropzone.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Dropzone文件上传
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+    </ul>
+</li>
+
+</ul><!-- /.nav-list -->
+
+<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+    <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+</div>
+</div>
+
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">首页</a>
+                </li>
+
+                <li>
+                    <a href="#">其他页面</a>
+                </li>
+                <li class="active">空白页</li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+
+        <div class="page-content">
+            @RenderBody()
+        </div><!-- /.page-content -->
+    </div>
+</div><!-- /.main-content -->
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-content text-right">
+            <span class="">
+                <span class="blue bolder">基于ASP.NET MVC的汽修系统&nbsp;v1.0</span>
+            </span>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-        </footer>
-    </div>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+<!-- basic scripts -->
+<!--[if !IE]> -->
+    <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+        <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement)
+            document.write("<script src='~/Content/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <!-- ace scripts -->
+    <script src="~/Content/assets/js/ace-elements.min.js"></script>
+    <script src="~/Content/assets/js/ace.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    </body>
+    </html>
