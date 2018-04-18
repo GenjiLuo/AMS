@@ -1,0 +1,135 @@
+﻿.ace-nav > li > a > .badge {
+    left: -7px;
+    top: -7px;
+}
+
+.logo {
+    height: 60px;
+    position: relative;
+    right: 10px;
+}
+
+.navbar {
+    background: #fff;
+}
+
+.ace-nav > li {
+    border: none;
+    height: 80px;
+}
+
+
+.navbar-menu-container {
+    margin: 0;
+}
+
+    .navbar-menu-container li {
+        display: inline-block;
+        height: 80px;
+        list-style: none;
+        width: 80px;
+    }
+
+.menu-label {
+    color: #888585;
+    display: block;
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu-container li .menu-icon {
+    background: #888585;
+}
+
+.navbar-menu-container li:hover {
+    color: rgb(58, 91, 225);
+    cursor: pointer;
+}
+
+    .navbar-menu-container li.active .menu-label,
+    .navbar-menu-container li:hover .menu-label {
+        color: rgb(58, 91, 225);
+    }
+
+    .navbar-menu-container li.active .menu-icon,
+    .navbar-menu-container li:hover .menu-icon {
+        background: rgb(58, 91, 225);
+    }
+
+.ace-nav > li > a {
+    background-color: #fff;
+    padding-top: 10px;
+}
+
+.info-label {
+    bottom: 28px;
+    color: #666666;
+    display: block;
+    font-size: 12px;
+    position: relative;
+}
+
+.help-icon-container {
+    background: url('../../Content/img/common/kefunormal.png') center center no-repeat;
+    display: inline-block;
+    height: 30px;
+    width: 25px;
+}
+
+.info-icon-container {
+    background: url('../../Content/img/common/lingdang.png') center center no-repeat;
+    display: inline-block;
+    height: 30px;
+    width: 25px;
+}
+
+    .info-icon-container .badge {
+        position: absolute;
+        z-index: 9;
+    }
+
+.ace-nav > li.open > a,
+.ace-nav > li > a:focus,
+.ace-nav > li > a:hover {
+    background-color: #eee;
+}
+
+    .ace-nav > li.open > a .info-label,
+    .ace-nav > li > a:focus .info-label,
+    .ace-nav > li > a:hover .info-label {
+        color: rgb(58, 91, 225);
+    }
+
+    .ace-nav > li.open > a .help-icon-container,
+    .ace-nav > li > a:focus .help-icon-container,
+    .ace-nav > li > a:hover .help-icon-container {
+        background: url('../../Content/img/common/kefuselected.png') center center no-repeat;
+    }
+
+    .ace-nav > li.open > a .info-icon-container,
+    .ace-nav > li > a:focus .info-icon-container,
+    .ace-nav > li > a:hover .info-icon-container {
+        background: url('../../Content/img/common/lingdangselected.png') center center no-repeat;
+    }
+
+.user-info {
+    font-size: 16px;
+    padding-bottom: 12px;
+}
+
+.user-info,
+.ace-nav > li > a > .ace-icon {
+    color: #999;
+}
+
+.user-option {
+    align-items: center !important;
+    display: flex !important;
+    padding-top: 0 !important;
+}
+[v-cloak] {
+    display: none
+}

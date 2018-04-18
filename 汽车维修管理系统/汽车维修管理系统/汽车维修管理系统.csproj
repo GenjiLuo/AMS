@@ -349,6 +349,7 @@
     <Content Include="Content\assets\googlefonts\woff\woff01.woff" />
     <Content Include="Content\assets\googlefonts\woff\woff02.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -359,6 +360,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vue.js" />
+    <Content Include="Scripts\vue.min.js" />
+    <Content Include="Style\common\common.css" />
     <Content Include="Style\login\login.css" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Web.config" />
