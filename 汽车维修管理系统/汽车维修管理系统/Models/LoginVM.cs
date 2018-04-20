@@ -7,7 +7,7 @@ namespace 汽车维修管理系统.Models
 {
     public class LoginVM
     {
-        public string UserName { get; set; }
-        public string UserPwd { set; get; }
+        public string Account { get; set; }
+        public string Password { set; get; }
     }
 }

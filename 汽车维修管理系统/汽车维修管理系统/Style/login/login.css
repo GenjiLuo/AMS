@@ -105,8 +105,8 @@ form {
     left: 10px;
 }
 
-#userName,
-#userPwd {
+#account,
+#password {
     padding-left: 30px;
     border-radius: 2px;
 }

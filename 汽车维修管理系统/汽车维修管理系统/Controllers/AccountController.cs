@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AMS.Service.Services.implements;
 using System.Web.Mvc;
-using AMS.Model.Models;
+using AMS.Model.dto;
+using AMS.Model.ResponseModel;
 using 汽车维修管理系统.Models;
 
 namespace 汽车维修管理系统.Controllers
 {
     public class AccountController : Controller
     {
+        private LoginService _loginService;
+        public AccountController()
+        {
+            _loginService = new LoginService();
+        }
         [AllowAnonymous]
         public ActionResult Index(string returnUrl)
         {
@@ -23,19 +26,24 @@ namespace 汽车维修管理系统.Controllers
         [AllowAnonymous]
         public ActionResult Login(LoginVM loginVM)
         {
-            if (loginVM.UserName == "admin" && loginVM.UserPwd == "admin")
+             if (ModelState.IsValid)
             {
-                Session["LogUser"]=new User()
+                var user = _loginService.Login(new UserDto()
                 {
-                    UserName = "admin", 
-                    Password = "admin"
-                };
-                return Json(new { success = true, message = "登录成功" });
+                    Account = loginVM.Account,
+                    Password = loginVM.Password
+                });
+
+                if (user != null)
+                {
+                    Session["LogUser"] = user;
+                    return Json(new ResponseModel { Success = true, Msg = "登录成功" });
+                }
+
+                return Json(new ResponseModel { Success = false, Msg = "账号或密码错误" });
             }
-            else
-            {
-                return Json(new { success = false, message = "密码或者账号错误" });
-            }
+
+            return Json(new ResponseModel { Success = false, Msg = "账号或密码错误" });
         }
 
         [AllowAnonymous]
@@ -47,7 +55,7 @@ namespace 汽车维修管理系统.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

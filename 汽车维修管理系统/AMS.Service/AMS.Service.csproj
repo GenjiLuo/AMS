@@ -41,10 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Implements\LoginService.cs" />
+    <Compile Include="Services\Interfaces\ILoginService.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Services\implement\" />
-    <Folder Include="Services\interface\" />
+    <ProjectReference Include="..\AMS.Model\AMS.Model.csproj">
+      <Project>{EE2D31CA-DD2F-4459-BF5A-12167BD4668C}</Project>
+      <Name>AMS.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

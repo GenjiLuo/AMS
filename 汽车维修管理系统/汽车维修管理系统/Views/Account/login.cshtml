@@ -39,13 +39,13 @@
                     </div>
                     <div class="form-group">
                         <i class="input-icon glyphicon glyphicon-user"></i>
-                        <input id="userName" name="userName" type="text" class="form-control" placeholder="请输入用户名">
-                        <label for="userName" class="validate-error error">账户不能为空</label>
+                        <input id="account" name="account" type="text" class="form-control" placeholder="请输入用户名">
+                        <label for="account" class="validate-error error">账户不能为空</label>
                     </div>
                     <div class="form-group">
                         <i class="input-icon glyphicon glyphicon-lock"></i>
-                        <input id="userPwd" name="userPwd" type="password" class="form-control" placeholder="请输入密码">
-                        <label for="userPwd" class="validate-error error">密码不能为空</label>
+                        <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码">
+                        <label for="password" class="validate-error error">密码不能为空</label>
                     </div>
                     <div class="otherError">
                         <span>账户或密码错误</span>
@@ -67,12 +67,12 @@
     $().ready(function() {
         $("#loginForm").validate({
             rules: {
-                userName: "required",
-                userPwd: "required"
+                account: "required",
+                password: "required"
             },
             messages: {
-                userName: "账户不能为空",
-                userPwd: "密码不能为空"
+                account: "账户不能为空",
+                password: "密码不能为空"
             },
             submitHandler: function(form) {
                 $(".otherError").hide();
@@ -82,11 +82,11 @@
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        userName: $("#userName").val().trim(),
-                        userPwd: $("#userPwd").val().trim()
+                        account: $("#account").val().trim(),
+                        password: $("#password").val().trim()
                     }),
                     success: function (res) {
-                        if (res.success) {
+                        if (res.Success) {
                             window.location.href = returnUrl || defaultReturnUrl;
                         } else {
                             $(".otherError span").html(res.message).parent().show();

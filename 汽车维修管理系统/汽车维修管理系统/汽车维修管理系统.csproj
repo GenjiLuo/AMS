@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -143,6 +149,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\LoginAuthAttribute.cs" />
+    <Compile Include="Areas\AutoRepair\AutoRepairAreaRegistration.cs" />
+    <Compile Include="Areas\BaseInfo\BaseInfoAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -348,6 +356,8 @@
     <Content Include="Content\assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\assets\googlefonts\woff\woff01.woff" />
     <Content Include="Content\assets\googlefonts\woff\woff02.woff" />
+    <Content Include="Areas\AutoRepair\Views\web.config" />
+    <Content Include="Areas\BaseInfo\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -383,6 +393,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\AutoRepair\Controllers\" />
+    <Folder Include="Areas\AutoRepair\Models\" />
+    <Folder Include="Areas\AutoRepair\Views\Shared\" />
+    <Folder Include="Areas\BaseInfo\Controllers\" />
+    <Folder Include="Areas\BaseInfo\Models\" />
+    <Folder Include="Areas\BaseInfo\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -399,8 +415,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMS.Model\AMS.Model.csproj">
-      <Project>{00EC7B1F-E26F-4453-A427-6DFCED509A89}</Project>
+      <Project>{EE2D31CA-DD2F-4459-BF5A-12167BD4668C}</Project>
       <Name>AMS.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AMS.Service\AMS.Service.csproj">
+      <Project>{c8210425-9e91-49ac-97de-1dc772ef80ca}</Project>
+      <Name>AMS.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

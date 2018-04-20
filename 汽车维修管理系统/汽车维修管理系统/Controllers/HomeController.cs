@@ -13,7 +13,7 @@ namespace 汽车维修管理系统.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Help()
         {
             ViewBag.Message = "Your application description page.";
             return View();

@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using 汽车维修管理系统.App_Start;
 
 namespace 汽车维修管理系统
 {

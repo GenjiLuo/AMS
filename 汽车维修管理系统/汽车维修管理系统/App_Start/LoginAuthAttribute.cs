@@ -1,11 +1,9 @@
-﻿using AMS.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using AMS.Model.dto;
 
-namespace 汽车维修管理系统.App_Start
+namespace 汽车维修管理系统
 {
     public class LoginAuthAttribute:AuthorizeAttribute
     {
@@ -15,7 +13,7 @@ namespace 汽车维修管理系统.App_Start
             try
             {
                 var webSession = httpContext.Session["LogUser"];
-                var logUser = webSession as User;
+                var logUser = webSession as UserDto;
                 if (webSession != null && logUser != null)
                 {
                     IsLogin = true;
@@ -42,7 +40,7 @@ namespace 汽车维修管理系统.App_Start
             {
                 if (!IsLogin)
                 {
-                    string returnUrl = filterContext.HttpContext.Request.Url.PathAndQuery;
+                    var returnUrl = filterContext.HttpContext.Request.Url.PathAndQuery;
                     string loginUrl = $"~/Account/Index?returnUrl={returnUrl}";
                     filterContext.HttpContext.Response.Redirect(loginUrl);
                 }
