@@ -21,5 +21,6 @@ namespace AMS.Model
 
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
     }
 }

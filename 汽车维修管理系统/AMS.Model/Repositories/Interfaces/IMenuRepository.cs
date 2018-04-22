@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMS.Model.dto;
-namespace AMS.Service.Services.interfaces
+
+namespace AMS.Model.Repositories.Interfaces
 {
-    public interface ILoginService
+    public interface IMenuRepository
     {
-        UserDto Login(UserDto userDto);
+        List<MenuDto> GetAllMenu();
     }
 }

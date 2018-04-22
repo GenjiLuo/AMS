@@ -91,9 +91,9 @@
                         <img class="menu-icon" src="~/Content/img/common/system.png" />
                         <label class="menu-label">系统设置</label>
                     </li>*@
-                    <li class="text-center top-menu-item" :class="{active:menu.id==item.id}" v-for="item in totalMenu" @@click="changeMenu(item)">
-                        <img class="menu-icon" :src="item.menuIconUrl"/>
-                        <label class="menu-label">{{item.name}}</label>
+                    <li class="text-center top-menu-item" :class="{active:selectedMenu.Id==item.Id}" v-for="item in totalMenu" @@click="changeMenu(item)">
+                        <img class="menu-icon" :src="item.Icon"/>
+                        <label class="menu-label">{{item.Name}}</label>
                     </li>
                 </ul>
             </div>
@@ -337,25 +337,21 @@
                 }
             </script>
             <ul class="nav nav-list" v-cloak>
-                
-
-                <li class="" v-for="item in menu.subMenu">
-                    <a :href="item.url" class="dropdown-toggle">
-                        <i class="menu-icon fa" :class="[item.menuIconClass]"></i>
-                        <span class="menu-text">{{item.name}}</span>
-
+                <li class="" v-for="item in selectedMenu.SubMenuDto">
+                    <a class="dropdown-toggle">
+                        <i class="menu-icon fa" :class="[item.Icon]"></i>
+                        <span class="menu-text">{{item.Name}}</span>
                         <b class="arrow fa fa-caret-down"></b>
                     </a>
 
                     <b class="arrow"></b>
 
-                    <ul v-if="item.subMenu.length>0" class="submenu">
-                        <li class="" v-for="subItem in item.subMenu">
-                            <a :href="subItem.url">
+                    <ul v-if="item.SubMenuDto.length>0" class="submenu">
+                        <li class="" v-for="subItem in item.SubMenuDto">
+                            <a :href="subItem.Url">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                {{subItem.name}}
+                                {{subItem.Name}}
                             </a>
-
                             <b class="arrow"></b>
                         </li>
                     </ul>

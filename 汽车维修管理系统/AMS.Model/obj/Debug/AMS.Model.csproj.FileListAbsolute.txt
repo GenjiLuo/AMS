@@ -7,7 +7,6 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Ent
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\EntityFramework.SqlServer.xml
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CoreCompileInputs.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.pdb

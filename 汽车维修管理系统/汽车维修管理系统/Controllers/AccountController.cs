@@ -2,13 +2,14 @@
 using System.Web.Mvc;
 using AMS.Model.dto;
 using AMS.Model.ResponseModel;
+using AMS.Service.Services.interfaces;
 using 汽车维修管理系统.Models;
 
 namespace 汽车维修管理系统.Controllers
 {
     public class AccountController : Controller
     {
-        private LoginService _loginService;
+        private readonly ILoginService _loginService;
         public AccountController()
         {
             _loginService = new LoginService();

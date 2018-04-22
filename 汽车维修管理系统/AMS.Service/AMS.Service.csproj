@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Implements\LoginService.cs" />
+    <Compile Include="Services\Implements\MenuService.cs" />
     <Compile Include="Services\Interfaces\ILoginService.cs" />
+    <Compile Include="Services\Interfaces\IMenuService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

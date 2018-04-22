@@ -2,7 +2,7 @@
 
 namespace AMS.Model.Repositories.Interfaces
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         UserDto GetUserByLoginVM(UserDto userDto);
     }

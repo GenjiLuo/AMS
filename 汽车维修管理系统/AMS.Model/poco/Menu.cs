@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.poco
 {
-    public class Organization
+    public class Menu
     {
-        public Organization()
+        public Menu()
         {
-            User = new HashSet<User>();
-            SubOrg = new HashSet<Organization>();
+            SubMenu = new HashSet<Menu>();
         }
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public virtual ICollection<User> User { get; set; }
+        public string Icon { get; set; }
+        public string SelectedIcon { get; set; }
+        public string Url { get; set; }
 
         public Guid? ParentId { get; set; }
         [ForeignKey("ParentId")]
-        public virtual ICollection<Organization> SubOrg { get; set; }
-        public virtual Organization ParentOrg { get; set; }
+        public virtual ICollection<Menu> SubMenu { get; set; }
+        public virtual Menu ParentMenu { get; set; }
     }
 }

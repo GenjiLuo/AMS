@@ -8,14 +8,31 @@ namespace AMS.Model.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Menu",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Name = c.String(nullable: false),
+                        Icon = c.String(),
+                        SelectedIcon = c.String(),
+                        Url = c.String(),
+                        ParentId = c.Guid(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Menu", t => t.ParentId)
+                .Index(t => t.ParentId);
+            
+            CreateTable(
                 "dbo.Organization",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        ParentId = c.Guid(),
                         Name = c.String(nullable: false),
+                        ParentId = c.Guid(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Organization", t => t.ParentId)
+                .Index(t => t.ParentId);
             
             CreateTable(
                 "dbo.User",
@@ -40,9 +57,14 @@ namespace AMS.Model.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.User", "Org_Id", "dbo.Organization");
+            DropForeignKey("dbo.Organization", "ParentId", "dbo.Organization");
+            DropForeignKey("dbo.Menu", "ParentId", "dbo.Menu");
             DropIndex("dbo.User", new[] { "Org_Id" });
+            DropIndex("dbo.Organization", new[] { "ParentId" });
+            DropIndex("dbo.Menu", new[] { "ParentId" });
             DropTable("dbo.User");
             DropTable("dbo.Organization");
+            DropTable("dbo.Menu");
         }
     }
 }
