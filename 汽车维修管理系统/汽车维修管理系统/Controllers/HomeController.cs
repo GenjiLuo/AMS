@@ -24,7 +24,7 @@ namespace 汽车维修管理系统.Controllers
 
         public ActionResult GetAllMenu()
         {
-            return Json(_menuService.GetAllMenu(),JsonRequestBehavior.AllowGet);
+            return Json(_menuService.GetAllMenu().OrderBy(i=>i.OrderNum),JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Help()

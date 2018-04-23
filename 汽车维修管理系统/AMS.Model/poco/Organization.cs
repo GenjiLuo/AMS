@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.poco
 {
-    public class Organization
+    public class Organization:BaseModel
     {
         public Organization()
         {
             User = new HashSet<User>();
             SubOrg = new HashSet<Organization>();
         }
-        public Guid Id { get; set; }
-        [Required]
-        public string Name { get; set; }
 
         public virtual ICollection<User> User { get; set; }
 

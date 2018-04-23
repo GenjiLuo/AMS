@@ -14,8 +14,8 @@ namespace AMS.Model.Repositories.Implements
             {
                 var user = db.User.Where(i => i.Account == userDto.Account && i.Password == userDto.Password).Select(i => new UserDto
                 {
-                    UserId = i.Id,
-                    UserName = i.Name,
+                    Id = i.Id,
+                    Name = i.Name,
                     Account = i.Account,
                     Password = i.Password,
                     OrgId = i.Org.Id,

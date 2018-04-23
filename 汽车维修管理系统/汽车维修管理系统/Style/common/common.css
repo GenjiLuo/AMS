@@ -52,6 +52,7 @@
     .navbar-menu-container li.active .menu-label,
     .navbar-menu-container li:hover .menu-label {
         color: rgb(58, 91, 225);
+        cursor: pointer;
     }
 
     .navbar-menu-container li.active .menu-icon,
@@ -101,6 +102,7 @@
     .ace-nav > li > a:focus .info-label,
     .ace-nav > li > a:hover .info-label {
         color: rgb(58, 91, 225);
+        cursor: pointer;
     }
 
     .ace-nav > li.open > a .help-icon-container,

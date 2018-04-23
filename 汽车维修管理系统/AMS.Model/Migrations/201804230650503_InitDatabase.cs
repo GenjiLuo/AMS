@@ -12,11 +12,17 @@ namespace AMS.Model.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Name = c.String(nullable: false),
                         Icon = c.String(),
                         SelectedIcon = c.String(),
                         Url = c.String(),
                         ParentId = c.Guid(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Menu", t => t.ParentId)
@@ -27,8 +33,14 @@ namespace AMS.Model.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Name = c.String(nullable: false),
                         ParentId = c.Guid(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Organization", t => t.ParentId)
@@ -39,11 +51,13 @@ namespace AMS.Model.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Name = c.String(nullable: false),
                         Account = c.String(nullable: false),
                         Password = c.String(nullable: false),
-                        CreateBy = c.Guid(nullable: false),
-                        CreateTime = c.DateTime(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        CreateTime = c.DateTime(),
                         UpdateBy = c.Guid(),
                         UpdateTime = c.DateTime(),
                         Org_Id = c.Guid(),

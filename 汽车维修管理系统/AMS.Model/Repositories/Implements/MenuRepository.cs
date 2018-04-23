@@ -23,7 +23,9 @@ namespace AMS.Model.Repositories.Implements
                     {
                         Id = firstLevelItem.Id,
                         Name = firstLevelItem.Name,
-                        Icon = firstLevelItem.Icon
+                        Icon = firstLevelItem.Icon,
+                        OrderNum = firstLevelItem.OrderNum,
+                        Description = firstLevelItem.Description
                     };
                     foreach (var secondLevelItem in firstLevelItem.SubMenu)
                     {
@@ -32,7 +34,9 @@ namespace AMS.Model.Repositories.Implements
                             Id = secondLevelItem.Id,
                             Name = secondLevelItem.Name,
                             Icon = secondLevelItem.Icon,
-                            ParentId = secondLevelItem.ParentId
+                            ParentId = secondLevelItem.ParentId,
+                            OrderNum = secondLevelItem.OrderNum,
+                            Description = secondLevelItem.Description
                         };
                         foreach (var thirdLevelItem in secondLevelItem.SubMenu)
                         {
@@ -42,7 +46,9 @@ namespace AMS.Model.Repositories.Implements
                                 Name = thirdLevelItem.Name,
                                 Icon = thirdLevelItem.Icon,
                                 ParentId = thirdLevelItem.ParentId,
-                                Url = thirdLevelItem.Url
+                                Url = thirdLevelItem.Url,
+                                OrderNum = thirdLevelItem.OrderNum,
+                                Description = thirdLevelItem.Description
                             };
                             //三级菜单
                             subMenuDto.SubMenuDto.Add(subSubMenuDto);

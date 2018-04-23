@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.poco
 {
-    public class Menu
+    public class Menu:BaseModel
     {
         public Menu()
         {
             SubMenu = new HashSet<Menu>();
         }
-        public Guid Id { get; set; }
-        [Required]
-        public string Name { get; set; }
         public string Icon { get; set; }
         public string SelectedIcon { get; set; }
         public string Url { get; set; }
