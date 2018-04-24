@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AMS.Model.poco;
+using AMS.Model.Static;
 
 namespace AMS.Model.Migrations
 {
@@ -54,7 +55,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "维修接待",
                         OrderNum = 0,
-                        Icon = "../Content/img/common/service.png",
+                        Icon = "../../Content/img/common/service.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -70,14 +71,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "洗车开单",
-                                        Url = "洗车开单Url"
+                                        Url = CommonUrl.WashCarCreate
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "综合开单",
-                                        Url = "综合开单Url"
+                                        Url = CommonUrl.RepairCreate
                                     }
                                 }
                             },
@@ -94,14 +95,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "新建预约",
-                                        Url = "新建预约Url"
+                                        Url = CommonUrl.BookingCreate
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "预约列表",
-                                        Url = "预约列表Url"
+                                        Url = CommonUrl.BookingList
                                     }
                                 }
                             }
@@ -112,7 +113,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "配件管理",
                         OrderNum = 1,
-                        Icon = "../Content/img/common/warehouse.png",
+                        Icon = "../../Content/img/common/warehouse.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -128,14 +129,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "供应商管理",
-                                        Url = "供应商管理Url"
+                                        Url = CommonUrl.Supplier
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "配件档案",
-                                        Url = "配件档案Url"
+                                        Url = CommonUrl.PartDictionary
                                     }
                                 }
                             },
@@ -152,7 +153,7 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "维修领退料",
-                                        Url = "维修领退料Url"
+                                        Url = CommonUrl.UseOrReturn
                                     }
                                 }
                             }
@@ -163,7 +164,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "客户关系",
                         OrderNum = 2,
-                        Icon = "../Content/img/common/customer.png",
+                        Icon = "../../Content/img/common/customer.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -179,14 +180,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "客户",
                                         OrderNum = 0,
-                                        Url = "客户Url"
+                                        Url = CommonUrl.Customer
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "车辆",
                                         OrderNum = 1,
-                                        Url = "车辆Url"
+                                        Url = CommonUrl.Car
                                     }
                                 }
                             },
@@ -203,14 +204,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "综合查询",
                                         OrderNum = 0,
-                                        Url = "综合查询Url"
+                                        Url = CommonUrl.Query
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "积分调整",
                                         OrderNum = 1,
-                                        Url = "积分调整Url"
+                                        Url = CommonUrl.Integral
                                     }
                                 }
                             }
@@ -221,7 +222,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "报表分析",
                         OrderNum = 3,
-                        Icon = "../Content/img/common/report.png",
+                        Icon = "../../Content/img/common/report.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -237,14 +238,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "维修统计日报",
                                         OrderNum = 0,
-                                        Url = "维修统计日报Url"
+                                        Url = CommonUrl.DailyRepairReport
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "工时提成报表",
                                         OrderNum = 1,
-                                        Url = "工时提成报表Url"
+                                        Url = CommonUrl.WorkHourPay
                                     }
                                 }
                             },
@@ -261,14 +262,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "经营概况报表",
                                         OrderNum = 0,
-                                        Url = "经营概况报表Url"
+                                        Url = CommonUrl.BusinessSituation
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "配件毛利统计",
                                         OrderNum = 1,
-                                        Url = "配件毛利统计Url"
+                                        Url = CommonUrl.PartDictionaryProfit
                                     }
                                 }
                             }
@@ -279,7 +280,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "基础资料",
                         OrderNum = 4,
-                        Icon = "../Content/img/common/baseinfo.png",
+                        Icon = "../../Content/img/common/baseinfo.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -293,16 +294,23 @@ namespace AMS.Model.Migrations
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
-                                        Name = "员工管理",
+                                        Name = "组织结构",
                                         OrderNum = 0,
-                                        Url = "员工管理Url"
+                                        Url = CommonUrl.OrgSchemaUrl
+                                    },
+                                    new Menu()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "员工管理",
+                                        OrderNum = 1,
+                                        Url = CommonUrl.EmployeeManagement
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "岗位管理",
-                                        OrderNum = 1,
-                                        Url = "岗位管理Url"
+                                        OrderNum = 2,
+                                        Url = CommonUrl.JobManagement
                                     }
                                 }
                             },
@@ -319,14 +327,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "维修类型",
                                         OrderNum = 0,
-                                        Url = "维修类型Url"
+                                        Url = CommonUrl.RepairItem
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "维修项目类型",
                                         OrderNum = 1,
-                                        Url = "维修项目类型Url"
+                                        Url = CommonUrl.RepairItemType
                                     }
                                 }
                             }
@@ -337,7 +345,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "系统设置",
                         OrderNum = 5,
-                        Icon = "../Content/img/common/system.png",
+                        Icon = "../../Content/img/common/system.png",
                         SubMenu = new List<Menu>()
                         {
                             new Menu()
@@ -353,14 +361,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "参数控制",
                                         OrderNum = 0,
-                                        Url = "参数控制Url"
+                                        Url = CommonUrl.ParameterControll
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "单据号配置",
                                         OrderNum = 1,
-                                        Url = "单据号配置Url"
+                                        Url = CommonUrl.OrderNoSetting
                                     }
                                 }
                             },
@@ -377,14 +385,14 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "操作日志",
                                         OrderNum = 0,
-                                        Url = "操作日志Url"
+                                        Url = CommonUrl.OperationLog
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "数据日志",
                                         OrderNum = 1,
-                                        Url = "数据日志Url"
+                                        Url = CommonUrl.DataLog
                                     }
                                 }
                             }

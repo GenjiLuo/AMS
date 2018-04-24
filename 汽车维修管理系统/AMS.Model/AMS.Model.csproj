@@ -53,9 +53,9 @@
     <Compile Include="dto\BaseDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
-    <Compile Include="Migrations\201804230650503_InitDatabase.cs" />
-    <Compile Include="Migrations\201804230650503_InitDatabase.Designer.cs">
-      <DependentUpon>201804230650503_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201804240606022_InitDatabase.cs" />
+    <Compile Include="Migrations\201804240606022_InitDatabase.Designer.cs">
+      <DependentUpon>201804240606022_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="Repositories\Interfaces\IMenuRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="ResponseModel\ResponseModel.cs" />
+    <Compile Include="Static\CommonUrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -78,8 +79,8 @@
     <Folder Include="Enum\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804230650503_InitDatabase.resx">
-      <DependentUpon>201804230650503_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804240606022_InitDatabase.resx">
+      <DependentUpon>201804240606022_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

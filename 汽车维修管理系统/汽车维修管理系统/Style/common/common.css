@@ -135,3 +135,11 @@
 [v-cloak] {
     display: none
 }
+
+.no-skin .nav-list li.active>a.secondlevel:after {
+    border-right-color: transparent;
+}
+a {
+    cursor: pointer;
+}
+

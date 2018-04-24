@@ -13,7 +13,7 @@ namespace AMS.Model.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201804230650503_InitDatabase"; }
+            get { return "201804230828551_InitDatabase"; }
         }
         
         string IMigrationMetadata.Source

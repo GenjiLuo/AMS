@@ -60,37 +60,13 @@
             </button>
 
             <div class="navbar-header pull-left">
-                <a href="@Url.Action("Index","Home")" class="navbar-brand">
+                <a id="navbarBrand" class="navbar-brand">
                     <img class="logo" src="~/Content/img/login/logo.jpg" />
                 </a>
             </div>
 
             <div id="navbarMenu" class="navbar-menu pull-left">
                 <ul class="navbar-menu-container" v-cloak>
-                    @*<li class="text-center active top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/service.png" />
-                        <label class="menu-label">维修接待</label>
-                    </li>
-                    <li class="text-center top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/warehouse.png" />
-                        <label class="menu-label">配件管理</label>
-                    </li>
-                    <li class="text-center top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/customer.png" />
-                        <label class="menu-label">客户关系</label>
-                    </li>
-                    <li class="text-center top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/report.png" />
-                        <label class="menu-label">报表分析</label>
-                    </li>
-                    <li class="text-center top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/baseinfo.png" />
-                        <label class="menu-label">基础资料</label>
-                    </li>
-                    <li class="text-center top-menu-item">
-                        <img class="menu-icon" src="~/Content/img/common/system.png" />
-                        <label class="menu-label">系统设置</label>
-                    </li>*@
                     <li class="text-center top-menu-item" :class="{active:selectedMenu.Id==item.Id}" v-for="item in totalMenu" @@click="changeMenu(item)">
                         <img class="menu-icon" :src="item.Icon"/>
                         <label class="menu-label">{{item.Name}}</label>
@@ -309,7 +285,7 @@
                             <li class="divider"></li>
 
                             <li>
-                                <a href="@Url.Action("Logout","Account")">
+                                <a id="logOut">
                                     <i class="ace-icon fa fa-power-off"></i>
                                     退出
                                 </a>
@@ -337,8 +313,8 @@
                 }
             </script>
             <ul class="nav nav-list" v-cloak>
-                <li class="" v-for="item in selectedMenu.SubMenuDto">
-                    <a class="dropdown-toggle">
+                <li :class="{active: item.Id == selectedSecondMenu.Id,open:autoOpen && item.Id == selectedSecondMenu.Id}" v-for="item in selectedMenu.SubMenuDto">
+                    <a class="dropdown-toggle secondlevel">
                         <i class="menu-icon fa" :class="[item.Icon]"></i>
                         <span class="menu-text">{{item.Name}}</span>
                         <b class="arrow fa fa-caret-down"></b>
@@ -347,8 +323,8 @@
                     <b class="arrow"></b>
 
                     <ul v-if="item.SubMenuDto.length>0" class="submenu">
-                        <li class="" v-for="subItem in item.SubMenuDto">
-                            <a :href="subItem.Url">
+                        <li :class="{active:subItem.Id == selectedThirdMenu.Id}" v-for="subItem in item.SubMenuDto">
+                            <a  @@click="chooseThirdLevel(subItem,item,selectedMenu)" :data-href="subItem.Url">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 {{subItem.Name}}
                             </a>
