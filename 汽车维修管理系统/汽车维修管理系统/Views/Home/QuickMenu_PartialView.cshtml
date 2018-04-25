@@ -65,6 +65,9 @@
     });
     $(document).ready(function() {
         $("#btn_save").click(function() {
+            if (vmQuickMenu.currentSelectedMenu.length == 0) {
+                return;
+            }
             $.ajax({
                 url: "@Url.Action("AddUserQuickMenu", "Home")",
                 type: "POST",

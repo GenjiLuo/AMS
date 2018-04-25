@@ -31,7 +31,8 @@ namespace AMS.Model.Repositories.Implements
                             {
                                 MenuId = thirdLevelMenu.Id,
                                 Name = thirdLevelMenu.Name,
-                                Url = thirdLevelMenu.Url
+                                Url = thirdLevelMenu.Url,
+                                QuickMenuIcon = thirdLevelMenu.QuickMenuIcon
                             };
                             if (userQuickMenuIds.Contains(userQuickMenu.MenuId))
                             {

@@ -31,6 +31,7 @@
     align-content: flex-start;
     width: 65%;
     height: 570px;
+    overflow: auto;
     background-color: #fff;
     margin-right: 10px;
 }
@@ -44,6 +45,8 @@
     height: 120px;
     color: #333;
     padding: 12px;
+    list-style: none;
+    border: none !important;
 }
 .menu-item {
     padding: 10px;

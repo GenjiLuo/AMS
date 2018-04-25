@@ -31,62 +31,13 @@
         </ul>
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
-                <div class="menu-container">
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
-                        <div class="menu-item">
-                            <img src="~/Content/img/home/Repair.Create.WashCar.png" />
-                            <p>洗车开单</p>
-                            <i class="fa fa-trash fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="menu-item-container">
+                <ul class="menu-container">
+                    <li id="addMenuContainer" class="menu-item-container">
                         <div class="menu-item" id="addMenu">
                             <span class="fa fa-plus fa-3x"></span>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
                 <div class="info-list">
                     <div id="notice">
                         <div class="row title">
@@ -150,7 +101,9 @@
                         <div class="row title">
                             <div class="bottom-line">
                                 <span class="pull-left">企业寄语</span>
-                                <span id="writeOrgHope" class="pull-right"><i class="fa fa-edit"></i></span>
+                                <span id="writeOrgHope" class="pull-right">
+                                    <i class="fa fa-edit"></i>
+                                </span>
                             </div>
                         </div>
                         <p>事事顺心</p>
@@ -176,12 +129,58 @@
     </div>
 </div>
 <script>
-    $(document).ready(function() {
-
-    });
-    $("#addMenu").click(function () {
+    $.get("@Url.Action("GetAllQuickMenu")",
+        function(res) {
+            for (var t in res) {
+                var menus = res[t].AllThirdLevelMenu;
+                for (var i in menus) {
+                    if (menus[i].IsSelected) {
+                        var content = '<li class="menu-item-container">' +
+                            '              <div class="menu-item" data-url='+menus[i].Url+'>' +
+                            '                   <img src="' +
+                            menus[i].QuickMenuIcon +
+                            '"/>' +
+                            '                   <p>' +
+                            menus[i].Name +
+                            '</p>' +
+                            '                   <i data-menuId='+menus[i].MenuId+' class="delete-item fa fa-trash fa-lg"></i>' +
+                            '              </div>' +
+                            '         </li>';
+                        $(content).insertBefore($("#addMenuContainer"));
+                    }
+                }
+            }
+            $("#home .menu-container").on("click", ".menu-item", function() {
+                var url = $(this).attr("data-url");
+                if (!url) {
+                    return;
+                }
+                window.location.href = url;
+            });
+            $("#home .menu-container").on("click", ".delete-item", function(e) {
+                var menuId = $(this).attr("data-menuId");
+                e.stopPropagation();
+                var _this = this;
+                $.ajax({
+                    url: "@Url.Action("DeleteUserQuickMenu")",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        menuId:menuId
+                    },
+                    success: function(res) {
+                        if (res.Success) {
+                            $(_this).parent().parent().animateCss('zoomOut', function () {
+                                $(_this).parent().parent().remove();
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    $("#addMenu").click(function() {
         $('body').append("<div id='addWindow'></div>");
-        var addWindow=$("#addWindow").kendoWindow({
+        var addWindow = $("#addWindow").kendoWindow({
             width: $(window).width() - 300,
             height: $(window).height() - 100,
             title: "快捷菜单设置",
