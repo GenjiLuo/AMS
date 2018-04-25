@@ -38,13 +38,13 @@ namespace 汽车维修管理系统.Controllers
                 if (user != null)
                 {
                     Session["LogUser"] = user;
-                    return Json(new ResponseModel { Success = true, Msg = "登录成功" });
+                    return Json(new ResModel { Success = true, Msg = "登录成功" });
                 }
 
-                return Json(new ResponseModel { Success = false, Msg = "账号或密码错误" });
+                return Json(new ResModel { Success = false, Msg = "账号或密码错误" });
             }
 
-            return Json(new ResponseModel { Success = false, Msg = "账号或密码错误" });
+            return Json(new ResModel { Success = false, Msg = "账号或密码错误" });
         }
 
         [AllowAnonymous]

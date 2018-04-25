@@ -71,14 +71,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "洗车开单",
-                                        Url = CommonUrl.WashCarCreate
+                                        Url = CommonUrl.WashCarCreate,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "综合开单",
-                                        Url = CommonUrl.RepairCreate
+                                        Url = CommonUrl.RepairCreate,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -95,14 +97,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "新建预约",
-                                        Url = CommonUrl.BookingCreate
+                                        Url = CommonUrl.BookingCreate,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "预约列表",
-                                        Url = CommonUrl.BookingList
+                                        Url = CommonUrl.BookingList,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -129,14 +133,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "供应商管理",
-                                        Url = CommonUrl.Supplier
+                                        Url = CommonUrl.Supplier,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
                                         Name = "配件档案",
-                                        Url = CommonUrl.PartDictionary
+                                        Url = CommonUrl.PartDictionary,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -153,7 +159,8 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         OrderNum = 0,
                                         Name = "维修领退料",
-                                        Url = CommonUrl.UseOrReturn
+                                        Url = CommonUrl.UseOrReturn,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -180,14 +187,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "客户",
                                         OrderNum = 0,
-                                        Url = CommonUrl.Customer
+                                        Url = CommonUrl.Customer,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "车辆",
                                         OrderNum = 1,
-                                        Url = CommonUrl.Car
+                                        Url = CommonUrl.Car,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -204,14 +213,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "综合查询",
                                         OrderNum = 0,
-                                        Url = CommonUrl.Query
+                                        Url = CommonUrl.Query,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "积分调整",
                                         OrderNum = 1,
-                                        Url = CommonUrl.Integral
+                                        Url = CommonUrl.Integral,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -238,14 +249,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "维修统计日报",
                                         OrderNum = 0,
-                                        Url = CommonUrl.DailyRepairReport
+                                        Url = CommonUrl.DailyRepairReport,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "工时提成报表",
                                         OrderNum = 1,
-                                        Url = CommonUrl.WorkHourPay
+                                        Url = CommonUrl.WorkHourPay,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -262,14 +275,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "经营概况报表",
                                         OrderNum = 0,
-                                        Url = CommonUrl.BusinessSituation
+                                        Url = CommonUrl.BusinessSituation,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "配件毛利统计",
                                         OrderNum = 1,
-                                        Url = CommonUrl.PartDictionaryProfit
+                                        Url = CommonUrl.PartDictionaryProfit,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -296,21 +311,24 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "组织结构",
                                         OrderNum = 0,
-                                        Url = CommonUrl.OrgSchemaUrl
+                                        Url = CommonUrl.OrgSchemaUrl,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "员工管理",
                                         OrderNum = 1,
-                                        Url = CommonUrl.EmployeeManagement
+                                        Url = CommonUrl.EmployeeManagement,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "岗位管理",
                                         OrderNum = 2,
-                                        Url = CommonUrl.JobManagement
+                                        Url = CommonUrl.JobManagement,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -327,14 +345,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "维修类型",
                                         OrderNum = 0,
-                                        Url = CommonUrl.RepairItem
+                                        Url = CommonUrl.RepairItem,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "维修项目类型",
                                         OrderNum = 1,
-                                        Url = CommonUrl.RepairItemType
+                                        Url = CommonUrl.RepairItemType,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -361,14 +381,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "参数控制",
                                         OrderNum = 0,
-                                        Url = CommonUrl.ParameterControll
+                                        Url = CommonUrl.ParameterControll,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "单据号配置",
                                         OrderNum = 1,
-                                        Url = CommonUrl.OrderNoSetting
+                                        Url = CommonUrl.OrderNoSetting,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             },
@@ -385,14 +407,16 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "操作日志",
                                         OrderNum = 0,
-                                        Url = CommonUrl.OperationLog
+                                        Url = CommonUrl.OperationLog,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "数据日志",
                                         OrderNum = 1,
-                                        Url = CommonUrl.DataLog
+                                        Url = CommonUrl.DataLog,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }
                             }
@@ -400,6 +424,35 @@ namespace AMS.Model.Migrations
                     }
                 };
                 context.Menu.AddRange(defaultMenus);
+            }
+            //预填快捷菜单
+            if (!context.QuickMenu.Any())
+            {
+                var defaultUser = context.User.FirstOrDefault();
+                var defaultMenu1 = context.Menu.FirstOrDefault(i => i.Name == "组织结构");
+                var defaultMenu2 = context.Menu.FirstOrDefault(i => i.Name == "员工管理");
+
+                if (defaultUser != null && defaultMenu1!=null) 
+                {
+                    var defaultQuickMenu1 = new QuickMenu()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = defaultUser.Id,
+                        Menu = defaultMenu1,
+                    };
+                    context.QuickMenu.Add(defaultQuickMenu1);
+                }
+                if (defaultUser != null && defaultMenu2 != null)
+                {
+                    var defaultQuickMenu2 = new QuickMenu()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = defaultUser.Id,
+                        Menu = defaultMenu2,
+                    };
+                    context.QuickMenu.Add(defaultQuickMenu2);
+                }
+
             }
         }
     }

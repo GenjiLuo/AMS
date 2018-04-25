@@ -28,6 +28,10 @@
     <![endif]-->
     <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css" />
     <link rel="stylesheet" href="~/Content/assets/css/ace-rtl.min.css" />
+
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.mobile.min.css" rel="stylesheet" />
     <link href="~/Style/common/common.css" rel="stylesheet" />
 
     <!--[if lte IE 9]>
@@ -42,6 +46,28 @@
         <script src="~/Content/assets/js/html5shiv.min.js"></script>
         <script src="~/Content/assets/js/respond.min.js"></script>
     <![endif]-->
+    <!-- basic scripts -->
+    <!-- [if !IE]> -->
+    <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+        <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement)
+            document.write("<script src='~/Content/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <!-- ace scripts -->
+    <script src="~/Content/assets/js/ace-elements.min.js"></script>
+    <script src="~/Content/assets/js/ace.min.js"></script>
+    <script src="~/Content/sweetAlert2/sweetalert2.all.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+
     <style>
     </style>
 </head>
@@ -68,7 +94,7 @@
             <div id="navbarMenu" class="navbar-menu pull-left">
                 <ul class="navbar-menu-container" v-cloak>
                     <li class="text-center top-menu-item" :class="{active:selectedMenu.Id==item.Id}" v-for="item in totalMenu" @@click="changeMenu(item)">
-                        <img class="menu-icon" :src="item.Icon"/>
+                        <img class="menu-icon" :src="item.Icon" />
                         <label class="menu-label">{{item.Name}}</label>
                     </li>
                 </ul>
@@ -324,7 +350,7 @@
 
                     <ul v-if="item.SubMenuDto.length>0" class="submenu">
                         <li :class="{active:subItem.Id == selectedThirdMenu.Id}" v-for="subItem in item.SubMenuDto">
-                            <a  @@click="chooseThirdLevel(subItem,item,selectedMenu)" :data-href="subItem.Url">
+                            <a @@click="chooseThirdLevel(subItem,item,selectedMenu)" :data-href="subItem.Url">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 {{subItem.Name}}
                             </a>
@@ -360,25 +386,7 @@
             <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
         </a>
     </div><!-- /.main-container -->
-    <!-- basic scripts -->
-    <!-- [if !IE]> -->
-    <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
-
-    <!-- <![endif]-->
-    <!--[if IE]>
-        <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-        if ('ontouchstart' in document.documentElement)
-            document.write("<script src='~/Content/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-    </script>
-    <script src="~/Content/assets/js/bootstrap.min.js"></script>
-
-    <!-- page specific plugin scripts -->
-    <!-- ace scripts -->
-    <script src="~/Content/assets/js/ace-elements.min.js"></script>
-    <script src="~/Content/assets/js/ace.min.js"></script>
-    <script src="~/Scripts/vue.min.js"></script>
+    
     <script src="~/Scripts/common/common.js"></script>
 
     <!-- inline scripts related to this page -->

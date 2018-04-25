@@ -1,0 +1,162 @@
+﻿.page-content {
+    background-color: #E6E9F2;
+}
+/*1.欢迎语*/
+#welcome {
+    padding: 6px 1px;
+    padding-left: 12px;
+    font-size: 16px;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+/*2.tab*/
+.tab-content {
+    padding: 0;
+    border: none;
+}
+/*3.tab首页*/
+#home {
+    display: flex;
+    border: 1px solid rgb(197, 197, 197);
+}
+#home.fade {
+    display: none;
+}
+#home.fade.active {
+    display: flex;
+}
+#home .menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    width: 65%;
+    height: 570px;
+    background-color: #fff;
+    margin-right: 10px;
+}
+    #home .info-list {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+    }
+.menu-item-container {
+    width: 25%;
+    height: 120px;
+    color: #333;
+    padding: 12px;
+}
+.menu-item {
+    padding: 10px;
+    border: 1px solid #e6e9f2;
+    position: relative;
+    text-align: center;
+}
+.menu-item>img {
+    width: 45px;
+    height: 45px;
+}
+.menu-item>p{
+    text-align: center;
+    margin: 0;
+    margin-top: 10px;
+}
+.menu-item>i{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+}
+.menu-item:hover {
+    color: #fff;
+    background-color: rgba(152, 154, 156,1);
+    cursor: pointer;
+}
+    .menu-item:hover > i {
+        display: inline-block;
+    }
+.menu-item>i:hover {
+    color: red;
+    cursor: pointer;
+}
+#addMenu{
+    display: flex;
+    color: grey;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+#addMenu:hover {
+    color: #fff;
+}
+/*4.公告*/
+#notice,
+#businessSituation,
+#orgHope{
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+}
+.title {
+    color: #0099FF;
+    font-size: 18px;
+    padding: 0 15px;
+    padding-bottom: 10px;
+}
+#moreNotice {
+    color: #2e2e2e;
+    font-size: 13px;
+    cursor: pointer;
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+#notice ul li {
+    list-style: none;
+    border-bottom: 1px dashed gainsboro;
+    display: flex;
+    color: #2e2e2e;
+    font-size: 13px;
+    line-height: 25px;
+    padding-left: 5px;
+}
+.notice-icon {
+    margin-right: 5px;
+    color: #ffb404;
+    font-size: 16px;
+    position: relative;
+    top: 4px;
+}
+.notice-content {
+    display: inline-block;
+    width: 1px;
+    flex: 1;
+}
+#businessSituation ul li {
+    list-style: none;
+    font-family: SimHei !important;
+    font-size: 13px;
+    color: #2e2e2e;
+    line-height: 26px;
+    padding-left: 5px;
+}
+#orgHope {
+    flex: 1;
+    margin-bottom: 0;
+}
+#orgHope .title .bottom-line {
+    padding-bottom: 4px;
+    overflow: hidden;
+    border-bottom: 1px solid gainsboro;
+}
+#orgHope p {
+    margin: 0 3px;
+    font-size: 13px;
+}
+.footer {
+    padding-top: 12px;
+}
+.footer .footer-inner .footer-content {
+    padding: 0;
+    line-height: 30px;
+}

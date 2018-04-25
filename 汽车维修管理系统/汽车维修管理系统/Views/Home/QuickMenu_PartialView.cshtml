@@ -1,0 +1,95 @@
+﻿<link href="~/Style/home/quickMenu.css" rel="stylesheet"/>
+<div id="quickMenuApp">
+    <div class="menu-content">
+        <div v-for="item in totalMenu">
+            <div class="menu-title">
+                {{item.Name}}
+            </div>
+            <ul class="quick-menu-box">
+                <li v-for="subItem in item.AllThirdLevelMenu" :class="{selected:subItem.IsSelected,active:subItem.IsActive}" @@click="chooseOrCancel(subItem)">{{subItem.Name}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="option row">
+        <ul class="note pull-left">
+            <li>
+                <span class="previous-active"></span><label>先前选择&nbsp;</label>
+            </li>
+            <li>
+                <span class="current-active"></span><label>当前选择&nbsp;</label>
+            </li>
+            <li>
+                <span class="current-cancel"></span><label>未选择&nbsp;</label>
+            </li>
+        </ul>
+        <div class="pull-right">
+
+            <button id="btn_save" type="button" class="btn btn-sm btn-primary" data-loading-text="保存中..." autocomplete="off">
+                <i class="ace-icon fa fa-save"></i>&nbsp;保存
+            </button>
+            <button id="btn_cancel" type="button" class="btn btn-sm btn-light">
+                <i class="ace-icon fa fa-reply"></i>&nbsp;返回
+            </button>
+        </div>
+        <span class="pull-right"><i class="fa fa-exclamation-circle"></i>当前已选择<strong>{{currentSelectedMenu.length}}</strong>个菜单&nbsp;</span>
+    </div>
+</div>
+<script>
+    var vmQuickMenu = new Vue({
+        el: "#quickMenuApp",
+        data: {
+            totalMenu: [],
+            currentSelectedMenu: []
+        },
+        methods: {
+            chooseOrCancel: function(item) {
+                if (item.IsSelected) {
+                    return;
+                }
+                if (item.IsActive && item.IsActive == true) {
+                    item.IsActive = false;
+                    this.currentSelectedMenu.pop(item);
+                } else {
+                    item.IsActive = true;
+                    this.currentSelectedMenu.push(item);
+                }
+            }
+        },
+        created: function() {
+            var _this = this;
+            $.get("@Url.Action("GetAllQuickMenu")",
+                function(res) {
+                    _this.totalMenu = res;
+                });
+        }
+    });
+    $(document).ready(function() {
+        $("#btn_save").click(function() {
+            $.ajax({
+                url: "@Url.Action("AddUserQuickMenu", "Home")",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(vmQuickMenu.currentSelectedMenu),
+                success: function(res) {
+                    console.log(res);
+                    if (res.Success) {
+                        $("#addWindow").data("kendoWindow").destroy();
+                        swal({
+                            position: 'center',
+                            type: 'success',
+                            title: '添加成功',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        alert(res.Msg);
+                    }
+                }
+            });
+        });
+        $("#btn_cancel").click(function() {
+            $("#addWindow").data("kendoWindow").destroy();
+        });
+    });
+</script>

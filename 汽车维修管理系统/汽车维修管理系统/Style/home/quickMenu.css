@@ -1,0 +1,85 @@
+﻿.menu-title {
+    background: #F5F5F5;
+    color: #067CFE;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 15px;
+    font-family: SimHei;
+    padding-left: 6px;
+}
+
+.quick-menu-box {
+    padding-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+    .quick-menu-box li {
+        list-style: none;
+        margin-top: 8px;
+        margin-right: 8px;
+        width: 120px;
+        padding-top: 4px;
+        padding-left: 8px;
+        padding-bottom: 4px;
+        cursor: pointer;
+    }
+.quick-menu-box li:hover {
+    background: #E5E8F0;
+}
+
+        .quick-menu-box li.selected {
+            background: lightslategrey;
+            color: white;
+        }
+
+        .quick-menu-box li.active {
+            background: #E5E8F0;
+        }
+#quickMenuApp {
+    height: 100%;
+}
+.menu-content {
+    height: 90%;
+    overflow: auto;
+}
+.option {
+    width: 100%;
+    position: absolute;
+    bottom: 8px;
+    right: 20px;
+}
+.option>span {
+    position: relative;
+    top: 10px;
+}
+.option button {
+    width: 44px; 
+    height: 19px;
+    border-radius: 3px;
+}
+.note {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+}
+.note li {
+    list-style: none;
+    display: inline-block;
+}
+.note li span {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    border: 1px solid#e6e9f2;
+}
+.previous-active {
+    background: lightslategrey;
+}
+.current-active {
+    background: #E5E8F0;
+ }
+.current-cancel {
+    background: #fff;
+}

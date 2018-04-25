@@ -51,24 +51,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dto\BaseDto.cs" />
+    <Compile Include="dto\UserQuickMenuDto.cs" />
+    <Compile Include="dto\QuickMenuDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
-    <Compile Include="Migrations\201804240606022_InitDatabase.cs" />
-    <Compile Include="Migrations\201804240606022_InitDatabase.Designer.cs">
-      <DependentUpon>201804240606022_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201804251340172_InitDatabase.cs" />
+    <Compile Include="Migrations\201804251340172_InitDatabase.Designer.cs">
+      <DependentUpon>201804251340172_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
+    <Compile Include="poco\QuickMenu.cs" />
     <Compile Include="poco\Menu.cs" />
     <Compile Include="poco\Organization.cs" />
     <Compile Include="poco\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Implements\QuickMenuRepository.cs" />
     <Compile Include="Repositories\Implements\MenuRepository.cs" />
     <Compile Include="Repositories\Implements\UserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IMenuRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IQuickMenuRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
-    <Compile Include="ResponseModel\ResponseModel.cs" />
+    <Compile Include="ResponseModel\ResModel.cs" />
     <Compile Include="Static\CommonUrl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,8 +84,8 @@
     <Folder Include="Enum\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804240606022_InitDatabase.resx">
-      <DependentUpon>201804240606022_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804251340172_InitDatabase.resx">
+      <DependentUpon>201804251340172_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
