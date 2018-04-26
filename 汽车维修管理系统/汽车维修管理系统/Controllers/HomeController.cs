@@ -16,11 +16,13 @@ namespace 汽车维修管理系统.Controllers
     {
         private readonly IMenuService _menuService;
         private readonly IQuickMenuService _quickMenuService;
+        private readonly IOrgService _orgService;
 
         public HomeController()
         {
             _menuService=new MenuService();
             _quickMenuService=new QuickMenuService();
+            _orgService=new OrgService();
         }
         public ActionResult Index()
         {
@@ -60,10 +62,30 @@ namespace 汽车维修管理系统.Controllers
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_quickMenuService.AddUserQuickMenu(userQuickMenuDtos, currentUser));
         }
-
+        [HttpPost]
         public ActionResult DeleteUserQuickMenu(string menuId)
         {
-            return Json(new ResModel(){Msg = "删除成功",Success = true});
+            var currentUser = Session["LogUser"] as UserDto;
+            var userQuickMenu =new UserQuickMenuDto()
+            {
+                UserId = currentUser.Id,
+                MenuId = Guid.Parse(menuId)
+            };
+            return Json(_quickMenuService.DeleteUserQuickMenu(userQuickMenu));
+        }
+
+        public ActionResult GetOrgHope()
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            var orgDto=new OrgDto(){ Id = currentUser.OrgId };
+            return Json(_orgService.GetOrgHope(orgDto),JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateOrgHope(string orgHopeContent)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            var orgDto = new OrgDto() { Id = currentUser.OrgId, OrgHope = orgHopeContent };
+            return Json(_orgService.UpdateOrgHope(orgDto,currentUser));
         }
     }
 }

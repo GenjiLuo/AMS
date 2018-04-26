@@ -23,6 +23,11 @@ namespace AMS.Service.Services.Implements
         {
             return _quickMenuRepository.AddUserQuickMenu(userQuickMenuDtos, userDto);
         }
+
+        public ResModel DeleteUserQuickMenu(UserQuickMenuDto userQuickMenu)
+        {
+            return _quickMenuRepository.DeleteUserQuickMenu(userQuickMenu);
+        }
     }
 }
  

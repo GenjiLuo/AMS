@@ -12,5 +12,6 @@ namespace AMS.Model.dto
         public string Password { get; set; }
         public Guid OrgId { get; set; }
         public string OrgName { get; set; }
+        public string OrgHope { get; set; }
     }
 }

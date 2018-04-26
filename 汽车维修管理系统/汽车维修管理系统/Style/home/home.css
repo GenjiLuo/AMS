@@ -163,3 +163,18 @@ ul {
     padding: 0;
     line-height: 30px;
 }
+/*企业寄语*/
+#orgHopeWindow .row {
+    margin: 0;
+    padding-top: 8px;
+}
+#orgHopeWindow textarea {
+    height: 70%;
+    width: 98%;
+}
+#orgHopeWindow .row button {
+    border-radius: 3px;
+}
+#btn_orgHopeSave {
+    margin-right: 5px;
+}

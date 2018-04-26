@@ -8,5 +8,6 @@ namespace AMS.Model.Repositories.Interfaces
     {
         List<UserQuickMenuDto> GetUserQuickMenu(UserDto userDto);
         ResModel AddUserQuickMenu(List<UserQuickMenuDto> userQuickMenuDtos, UserDto userDto);
+        ResModel DeleteUserQuickMenu(UserQuickMenuDto userQuickMenu);
     }
 }

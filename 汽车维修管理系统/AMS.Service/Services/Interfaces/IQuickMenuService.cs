@@ -8,5 +8,6 @@ namespace AMS.Service.Services.Interfaces
     {
         List<UserQuickMenuDto> GetUserQuickMenu(UserDto userDto);
         ResModel AddUserQuickMenu(List<UserQuickMenuDto> userQuickMenuDtos, UserDto userDto);
+        ResModel DeleteUserQuickMenu(UserQuickMenuDto userQuickMenu);
     }
 }

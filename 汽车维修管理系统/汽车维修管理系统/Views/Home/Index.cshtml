@@ -1,5 +1,7 @@
-﻿@{
+﻿@using AMS.Model.dto
+@{
     ViewBag.title = "汽车维修管理系统 | 首页";
+    var currentUser = Session["LogUser"] as UserDto;
 }
 <link href="~/Style/home/home.css" rel="stylesheet" />
 <div class="row">
@@ -101,12 +103,12 @@
                         <div class="row title">
                             <div class="bottom-line">
                                 <span class="pull-left">企业寄语</span>
-                                <span id="writeOrgHope" class="pull-right">
-                                    <i class="fa fa-edit"></i>
-                                </span>
+                                <a id="writeOrgHope" class="pull-right">
+                                    <i id="write" class="fa fa-edit"></i>
+                                </a>
                             </div>
                         </div>
-                        <p>事事顺心</p>
+                        <p id="orgHopeContent"></p>
                     </div>
                 </div>
             </div>
@@ -129,55 +131,71 @@
     </div>
 </div>
 <script>
-    $.get("@Url.Action("GetAllQuickMenu")",
-        function(res) {
-            for (var t in res) {
-                var menus = res[t].AllThirdLevelMenu;
-                for (var i in menus) {
-                    if (menus[i].IsSelected) {
-                        var content = '<li class="menu-item-container">' +
-                            '              <div class="menu-item" data-url='+menus[i].Url+'>' +
-                            '                   <img src="' +
-                            menus[i].QuickMenuIcon +
-                            '"/>' +
-                            '                   <p>' +
-                            menus[i].Name +
-                            '</p>' +
-                            '                   <i data-menuId='+menus[i].MenuId+' class="delete-item fa fa-trash fa-lg"></i>' +
-                            '              </div>' +
-                            '         </li>';
-                        $(content).insertBefore($("#addMenuContainer"));
-                    }
+    //获取企业寄语
+    $.get("@Url.Action("GetOrgHope")", function (res) {
+        $("#orgHopeContent").html(res.Data.orgHope);
+    });
+    //获取用户快捷菜单
+    $.get("@Url.Action("GetAllQuickMenu")",function(res) {
+        for (var t in res) {
+            var menus = res[t].AllThirdLevelMenu;
+            for (var i in menus) {
+                if (menus[i].IsSelected) {
+                    var content = '<li class="menu-item-container">' +
+                        '              <div class="menu-item" data-url='+menus[i].Url+'>' +
+                        '                   <img src="' +
+                        menus[i].QuickMenuIcon +
+                        '"/>' +
+                        '                   <p>' +
+                        menus[i].Name +
+                        '</p>' +
+                        '                   <i data-menuId='+menus[i].MenuId+' class="delete-item fa fa-trash fa-lg"></i>' +
+                        '              </div>' +
+                        '         </li>';
+                    $(content).insertBefore($("#addMenuContainer"));
                 }
             }
-            $("#home .menu-container").on("click", ".menu-item", function() {
-                var url = $(this).attr("data-url");
-                if (!url) {
-                    return;
-                }
-                window.location.href = url;
-            });
-            $("#home .menu-container").on("click", ".delete-item", function(e) {
-                var menuId = $(this).attr("data-menuId");
-                e.stopPropagation();
-                var _this = this;
-                $.ajax({
-                    url: "@Url.Action("DeleteUserQuickMenu")",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        menuId:menuId
-                    },
-                    success: function(res) {
-                        if (res.Success) {
-                            $(_this).parent().parent().animateCss('zoomOut', function () {
+        }
+        //跳转快捷菜单
+        $("#home .menu-container").on("click", ".menu-item", function() {
+            var url = $(this).attr("data-url");
+            if (!url) {
+                return;
+            }
+            window.location.href = url;
+        });
+        //删除用户快捷菜单
+        $("#home .menu-container").on("click", ".delete-item", function(e) {
+            var menuId = $(this).attr("data-menuId");
+            e.stopPropagation();
+            var _this = this;
+            $.ajax({
+                url: "@Url.Action("DeleteUserQuickMenu")",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    menuId:menuId
+                },
+                success: function(res) {
+                    if (res.Success) {
+                        $(_this).parent().parent().animateCss('bounceOut',
+                            function() {
                                 $(_this).parent().parent().remove();
                             });
-                        }
+                    } else {
+                        swal({
+                            position: 'center',
+                            type: 'error',
+                            title: '删除失败',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     }
-                });
+                }
             });
         });
+    });
+    //添加快捷菜单
     $("#addMenu").click(function() {
         $('body').append("<div id='addWindow'></div>");
         var addWindow = $("#addWindow").kendoWindow({
@@ -198,5 +216,61 @@
             }
         });
         addWindow.data("kendoWindow").center().open();
+    });
+    //企业寄语
+    $("#writeOrgHope").click(function () {
+        var orgHopeContent = $("#orgHopeContent").html();
+        var orgHopeWindowContent = "<div id='orgHopeWindow'>" +
+            "<textarea id='orgHopeContainer'>"+orgHopeContent+"</textarea>" +
+            "<div class='row'>" +
+            "<button id='btn_orgHopeCancel' type='button' class='btn btn-xs btn-light pull-right'>" +
+            "<i class='ace-icon fa fa-reply'></i>&nbsp;返回" +
+            "</button>" +
+            "<button id='btn_orgHopeSave' type='button' class='btn btn-xs btn-primary pull-right'>" +
+            "<i class='ace-icon fa fa-save'></i>&nbsp;保存" +
+            "</button>&nbsp;"+
+            "</div>" +
+            "</div>";
+        $('body').append(orgHopeWindowContent);
+        var orgHopeWindow = $("#orgHopeWindow").kendoWindow({
+            width: "500px",
+            height: "200px",
+            title: "企业寄语",
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            visible: false,
+            modal: true,
+            resizable: false,
+            close: function(e) {
+                this.destroy();
+            }
+        });
+        orgHopeWindow.data("kendoWindow").center().open();
+        //保存
+        $("#btn_orgHopeSave").click(function() {
+            var orgHopeContent = $("#orgHopeContainer").val().trim();
+            console.log(orgHopeContent);
+            $.ajax({
+                url: "@Url.Action("UpdateOrgHope")",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    orgHopeContent:orgHopeContent
+                },
+                success: function(res) {
+                    if (res.Success) {
+                        $("#orgHopeContent").html(orgHopeContent);
+                        $("#orgHopeWindow").data("kendoWindow").destroy();
+                    }
+                }
+            });
+        });
+        //返回
+        $("#btn_orgHopeCancel").click(function() {
+            $("#orgHopeWindow").data("kendoWindow").destroy();
+        });
     });
 </script>

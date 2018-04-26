@@ -19,7 +19,8 @@ namespace AMS.Model.Repositories.Implements
                     Account = i.Account,
                     Password = i.Password,
                     OrgId = i.Org.Id,
-                    OrgName = i.Org.Name
+                    OrgName = i.Org.Name,
+                    OrgHope = i.Org.OrgHope
                 }).FirstOrDefault();
                 return user;
             };

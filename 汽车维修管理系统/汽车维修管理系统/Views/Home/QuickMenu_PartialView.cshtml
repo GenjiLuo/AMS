@@ -83,8 +83,11 @@
                             type: 'success',
                             title: '添加成功',
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1000
                         });
+                        setTimeout(function() {
+                            window.location.reload();
+                        },1100);
                     } else {
                         alert(res.Msg);
                     }
