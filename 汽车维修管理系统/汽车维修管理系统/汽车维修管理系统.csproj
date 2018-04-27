@@ -333,6 +333,7 @@
     <Content Include="Content\img\login\help_normal.png" />
     <Content Include="Content\img\login\logo.jpg" />
     <Content Include="Content\img\login\washcar.png" />
+    <Content Include="Content\img\orgManage\org.png" />
     <Content Include="Content\kendo\fonts\glyphs\KendoUIGlyphs.svg" />
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.svg" />
     <Content Include="Content\kendo\images\back.png" />
@@ -431,6 +432,7 @@
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.woff" />
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
+    <Content Include="Areas\BaseInfo\Views\OrganizationManagement\AddOrg_PartialView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -450,6 +452,8 @@
     <Content Include="Style\home\quickMenu.css" />
     <Content Include="Style\login\login.css" />
     <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Style\orgManage\orgAdd.css" />
+    <Content Include="Style\orgManage\orgManage.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

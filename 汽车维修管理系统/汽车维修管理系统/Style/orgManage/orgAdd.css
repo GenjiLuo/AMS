@@ -1,0 +1,19 @@
+﻿.option {
+    position: absolute;
+    width: 100%;
+    bottom: 8px;
+    left: 4px;
+}
+.inputlabel {
+        width: 70px;
+    text-align: right;
+    margin-right: 15px;
+}
+.form-group input {
+    width: 240px;
+}
+.menu-tree-container {
+    width: 100%;
+    height: 250px;
+    border: 1px solid #e3e3e3;
+ }

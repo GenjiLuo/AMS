@@ -1,5 +1,5 @@
 ﻿var getMenuUrl = "/Home/GetAllMenu";
-//顶部菜单的点击事件
+//侧边菜单的点击事件
 var vm = new Vue({
     el: "#sidebar",
     data: {
@@ -46,6 +46,7 @@ var vm = new Vue({
         }
     }
 });
+//顶部菜单点击事件
 var vm1 = new Vue({
     el: "#navbarMenu",
     data: {

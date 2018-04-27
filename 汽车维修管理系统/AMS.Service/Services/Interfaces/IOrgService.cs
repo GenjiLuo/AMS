@@ -12,5 +12,9 @@ namespace AMS.Service.Services.Interfaces
     {
         ResModel UpdateOrgHope(OrgDto orgDto, UserDto userDto);
         ResModel GetOrgHope(OrgDto orgDto);
+        List<OrgDto> GetOrganization();
+        ResModel AddOrganization(OrgDto orgDto, UserDto userDto);
+        ResModel UpdateOranization(OrgDto orgDto, UserDto userDto);
+        ResModel DeleteOranization(OrgDto orgDto, UserDto userDto);
     }
 }

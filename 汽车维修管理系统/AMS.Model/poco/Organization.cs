@@ -18,6 +18,7 @@ namespace AMS.Model.poco
 
         public virtual ICollection<User> User { get; set; }
         public string OrgHope { get; set; }
+        public int State { get; set; }
 
         public Guid? ParentId { get; set; }
         [ForeignKey("ParentId")]
