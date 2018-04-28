@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using AMS.Model.dto;
@@ -25,6 +26,23 @@ namespace AMS.Model.Repositories.Implements
                 return user;
             };
 
+        }
+
+        public List<UserDto> GetAllUser()
+        {
+            using (var db=new ModelContext())
+            {
+                var users = db.User.Select(i => new UserDto()
+                {
+                    Id=i.Id,
+                    Name = i.Name,
+                    State = i.State,
+                    Account = i.Account,
+                    OrgId = i.Org.Id,
+                    OrgName = i.Org.Name
+                }).ToList();
+                return users;
+            }
         }
     }
 }

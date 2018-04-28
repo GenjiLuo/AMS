@@ -9,7 +9,6 @@ namespace AMS.Model.Enum
     enum OrgStateEnum
     {
         激活,
-        禁用,
-        删除
+        禁用
     } 
 }

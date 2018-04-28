@@ -57,17 +57,9 @@
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201804251340172_InitDatabase.cs" />
-    <Compile Include="Migrations\201804251340172_InitDatabase.Designer.cs">
-      <DependentUpon>201804251340172_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804260500309_AddColumnOrganizationOrgHope.cs" />
-    <Compile Include="Migrations\201804260500309_AddColumnOrganizationOrgHope.Designer.cs">
-      <DependentUpon>201804260500309_AddColumnOrganizationOrgHope.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804271350485_AddColumnOrganizationState.cs" />
-    <Compile Include="Migrations\201804271350485_AddColumnOrganizationState.Designer.cs">
-      <DependentUpon>201804271350485_AddColumnOrganizationState.cs</DependentUpon>
+    <Compile Include="Migrations\201804281058291_InitDatabase.cs" />
+    <Compile Include="Migrations\201804281058291_InitDatabase.Designer.cs">
+      <DependentUpon>201804281058291_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -92,16 +84,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804251340172_InitDatabase.resx">
-      <DependentUpon>201804251340172_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804260500309_AddColumnOrganizationOrgHope.resx">
-      <DependentUpon>201804260500309_AddColumnOrganizationOrgHope.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804271350485_AddColumnOrganizationState.resx">
-      <DependentUpon>201804271350485_AddColumnOrganizationState.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804281058291_InitDatabase.resx">
+      <DependentUpon>201804281058291_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

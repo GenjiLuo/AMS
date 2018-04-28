@@ -159,6 +159,7 @@
     <Compile Include="Areas\AutoRepair\Controllers\BookingManagementController.cs" />
     <Compile Include="Areas\AutoRepair\Controllers\RepairManagementController.cs" />
     <Compile Include="Areas\BaseInfo\BaseInfoAreaRegistration.cs" />
+    <Compile Include="Areas\BaseInfo\Controllers\EmployeeManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\OrganizationManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\RepairDictionaryController.cs" />
     <Compile Include="Areas\CustomerRelation\Controllers\BusinessController.cs" />
@@ -433,6 +434,8 @@
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
     <Content Include="Areas\BaseInfo\Views\OrganizationManagement\AddOrg_PartialView.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\OrganizationManagement\UpdateOrg_PartialView.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\EmployeeManagement\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -452,6 +455,8 @@
     <Content Include="Style\home\quickMenu.css" />
     <Content Include="Style\login\login.css" />
     <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Style\userManage\orgAdd.css" />
+    <Content Include="Style\userManage\userManage.css" />
     <Content Include="Style\orgManage\orgAdd.css" />
     <Content Include="Style\orgManage\orgManage.css" />
     <Content Include="Web.config" />

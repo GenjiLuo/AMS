@@ -39,7 +39,7 @@ namespace AMS.Model.Static
         #region 基础资料
         public static string OrgSchemaUrl = "/BaseInfo/OrganizationManagement/Index";
         public static string JobManagement = "/BaseInfo/OrganizationManagement/JobManagement";
-        public static string EmployeeManagement = "/BaseInfo/OrganizationManagement/EmployeeManagement";
+        public static string EmployeeManagement = "/BaseInfo/EmployeeManagement/Index";
 
         public static string RepairItemType = "/BaseInfo/RepairDictionary/RepairItemType";
         public static string RepairItem = "/BaseInfo/RepairDictionary/RepairItem";

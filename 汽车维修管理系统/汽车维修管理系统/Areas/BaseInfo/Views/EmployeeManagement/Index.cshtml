@@ -1,14 +1,14 @@
 ﻿
 
 @{
-    ViewBag.Title = "汽修系统 | 组织结构";
+    ViewBag.Title = "汽修系统 | 员工管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Style/orgManage/orgManage.css" rel="stylesheet" />
+<link href="~/Style/userManage/userManage.css" rel="stylesheet" />
 <div class="container-fluid">
     <div class="row">
         <div class="form-group pull-left" style="margin-right: 20px">
-            <button id="btn_addOrg" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增</button>&nbsp;
+            <button id="btn_add" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增</button>&nbsp;
             <button id="btn_edit" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-edit"></i>&nbsp;编辑</button>&nbsp;
             <button id="btn_delete" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-trash"></i>&nbsp;删除</button>
         </div>
@@ -16,16 +16,14 @@
             <button id="btn_active" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-plus"></i>&nbsp;激活</button>&nbsp;
             <button id="btn_disable" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-edit"></i>&nbsp;禁用</button>
         </div>
+        <div class="form-group pull-left">
+            <button id="btn_ajust" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-user"></i>&nbsp;员工调配</button>&nbsp;
+        </div>
     </div>
     <div class="row">
-        <div id="orgTreeList"></div>
+        <div id="userGrid"></div>
     </div>
 </div>
-<script id="NameTemp" type="text/x-kendo-template">
-    <span>
-        <img class="orgicon marginRight5px" src="../../Content/img/orgManage/org.png" /> #: Name #
-    </span>
-</script>
 <script id="StateTemp" type="text/x-kendo-template">
     # if(State == 0){ #
         <label class="label label-sm label-success paddingBottom0">激活</label>
@@ -34,102 +32,56 @@
     # } # 
 </script>
 <script>
-    var parentOrg = {
-        Id: null,
-        Name:""
-    };
-    var selectedOrg = {};
+    var selectedUser = {};
     $(document).ready(function () {
+        $("#btn_add").kendoButton();
         $("#btn_edit").kendoButton();
         $("#btn_delete").kendoButton();
         $("#btn_active").kendoButton();
         $("#btn_disable").kendoButton();
-        $("#orgTreeList").kendoTreeList({
+        $("#btn_adjust").kendoButton();
+        $("#userGrid").kendoGrid({
             dataSource: {
                 transport: {
-                    read: {
-                        url: "@Url.Action("TreeList_OrgDatasource")"
-                    }
+                    read:"@Url.Action("Grid_UserDataSource")"
                 },
                 schema: {
                     model: {
-                        id: "Id",
-                        parentId: "ParentId",
-                        fields: {
-                            ParentId: { field: "ParentId", nullable: true }
-                        }
+                        id:"Id"
                     }
-                }
+                },
+                pageSize: 20
             },
-            height: 540,
-            selectable: "multiple",
-            persistSelection: true,
-            change: onChange,
-            columns: [
+            height: 550,
+            pageable: true,
+            sortable: true,
+            filterable: true,
+            colums: [
                 {
+                    field: "OrgName",
+                    title: "部门"
+                }, {
                     field: "Name",
-                    title: "名称",
-                    template: $("#NameTemp").html(),
-                    width: 300,
-                    headerAttributes: {
-                        style: "text-align:center;vertical-align: middle"
-                    }
+                    title: "名称"
                 },
                 {
-                    field: "Name",
-                    title: "状态",
-                    template: $("#StateTemp").html(),
-                    width: 100,
-                    attributes: {
-                        "class": "text-center"
-                    },
-                    headerAttributes: {
-                        style: "text-align:center;vertical-align: middle"
-                    }
+                    field: "Account",
+                    title: "账号"
                 },
                 {
-                    field: "Description",
-                    title: "描述",
-                    headerAttributes: {
-                        style: "text-align:center;vertical-align: middle"
-                    }
+                    field: "State",
+                    title: "状态"
                 }
             ]
         });
     });
     //添加
-    $("#btn_addOrg").click(function() {
-        $("body").append("<div id='addOrgWindow'></div>");
-        var addWindow = $("#addOrgWindow").kendoWindow({
-            width: "800px",
-            height: "400px",
-            title: "新建部门",
-            content:"@Url.Action("AddOrgPartialView")"+"?parentOrgId="+parentOrg.Id+"&parentOrgName="+parentOrg.Name,
-            visible: false,
-            modal: true,
-            resizable: false,
-            close: function() {
-                this.destroy();
-            }
-        });
-        addWindow.data("kendoWindow").center().open();
+    $("#btn_add").click(function() {
+        
     });
     //更新
     $("#btn_edit").click(function() {
-        $("body").append("<div id='updateOrgWindow'></div>");
-        var updateOrgWindow = $("#updateOrgWindow").kendoWindow({
-            width: "800px",
-            height: "400px",
-            title: "更新部门",
-            content:"@Url.Action("UpdateOrgPartialView")"+"?selectedOrgId="+selectedOrg.Id,
-            visible: false,
-            modal: true,
-            resizable: false,
-            close: function() {
-                this.destroy();
-            }
-        });
-        updateOrgWindow.data("kendoWindow").center().open();
+        
     });
     //删除
     $("#btn_delete").click(function() {
@@ -152,7 +104,7 @@
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        Id: selectedOrg.Id
+                        Id: selectedUser.Id
                     }),
                     success: function(res) {
                         if (res.Success) {
@@ -186,7 +138,7 @@
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                Id: selectedOrg.Id
+                Id: selectedUser.Id
             }),
             success: function(res) {
                 if (res.Success) {
@@ -218,7 +170,7 @@
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                Id: selectedOrg.Id
+                Id: selectedUser.Id
             }),
             success: function(res) {
                 if (res.Success) {
@@ -247,12 +199,10 @@
     function onChange() {
         var selectedRow = this.dataItem(this.select()[0]);
         console.log(selectedRow);
-        parentOrg.Id = selectedRow.Id;
-        parentOrg.Name = selectedRow.Name;
-        selectedOrg= selectedRow;
 
         $("#btn_edit").data("kendoButton").enable(true);
         $("#btn_delete").data("kendoButton").enable(true);
+        $("#btn_adjust").data("kendoButton").enable(true);
         $("#btn_active").data("kendoButton").enable(selectedRow.State === 1 ? true : false);
         $("#btn_disable").data("kendoButton").enable(selectedRow.State === 0 ? true : false);
     }

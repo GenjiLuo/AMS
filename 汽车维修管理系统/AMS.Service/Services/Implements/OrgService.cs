@@ -30,19 +30,34 @@ namespace AMS.Service.Services.Implements
             return _orgRepository.GetOrganization();
         }
 
+        public ResModel GetOneOrganization(OrgDto orgDto)
+        {
+            return _orgRepository.GetOneOrganization(orgDto);
+        }
+
         public ResModel AddOrganization(OrgDto orgDto, UserDto userDto)
         {
             return _orgRepository.AddOrganization(orgDto, userDto);
         }
 
-        public ResModel UpdateOranization(OrgDto orgDto, UserDto userDto)
+        public ResModel UpdateOrganization(OrgDto orgDto, UserDto userDto)
         {
-            return _orgRepository.UpdateOranization(orgDto, userDto);
+            return _orgRepository.UpdateOrganization(orgDto, userDto);
         }
 
-        public ResModel DeleteOranization(OrgDto orgDto, UserDto userDto)
+        public ResModel DeleteOrganization(OrgDto orgDto)
         {
-            return _orgRepository.DeleteOranization(orgDto, userDto);
+            return _orgRepository.DeleteOrganization(orgDto);
+        }
+
+        public ResModel DisableOrganization(OrgDto orgDto, UserDto userDto)
+        {
+            return _orgRepository.DisableOrganization(orgDto, userDto);
+        }
+
+        public ResModel AcitveOrganization(OrgDto orgDto, UserDto userDto)
+        {
+            return _orgRepository.AcitveOrganization(orgDto, userDto);
         }
     }
 }

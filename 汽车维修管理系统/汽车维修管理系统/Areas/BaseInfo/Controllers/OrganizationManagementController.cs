@@ -47,6 +47,10 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
             TempData["parentOrgName"] = string.IsNullOrEmpty(parentOrgName) ? "总部" : parentOrgName;
             return PartialView("AddOrg_PartialView");
         }
+        public ActionResult UpdateOrgPartialView(Guid selectedOrgId)
+        {
+            return PartialView("UpdateOrg_PartialView");
+        }
 
         [HttpPost]
         public ActionResult AddNewOrganization(OrgDto orgDto)
@@ -62,13 +66,26 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
         public ActionResult UpdateOrganization(OrgDto orgDto)
         {
             var currentUser = Session["LogUser"] as UserDto;
-            return Json(_orgService.UpdateOranization(orgDto, currentUser));
+            return Json(_orgService.UpdateOrganization(orgDto, currentUser));
         }
         [HttpPost]
         public ActionResult DeleteOrganization(OrgDto orgDto)
         {
-            var currentUser = Session["LogUser"] as UserDto;
-            return Json(_orgService.DeleteOranization(orgDto, currentUser));
+            return Json(_orgService.DeleteOrganization(orgDto));
         }
+
+        [HttpPost]
+        public ActionResult DisableOrganization(OrgDto orgDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_orgService.DisableOrganization(orgDto, currentUser));
+        }
+        [HttpPost]
+        public ActionResult ActiveOrganization(OrgDto orgDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_orgService.AcitveOrganization(orgDto, currentUser));
+        }
+
     }
 }

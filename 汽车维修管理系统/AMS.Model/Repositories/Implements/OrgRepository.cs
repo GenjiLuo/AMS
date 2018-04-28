@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AMS.Model.dto;
 using AMS.Model.Enum;
@@ -52,16 +53,38 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db=new ModelContext())
             {
-                var orgs = db.Organization.Where(i=>i.State != (int)OrgStateEnum.删除).Select(i => new OrgDto()
+                var orgs = db.Organization.Select(i => new OrgDto()
                 {
                     Id=i.Id,
                     Name = i.Name,
                     OrderNum = i.OrderNum,
                     State = i.State,
                     ParentId = i.ParentId,
+                    ParentOrgName = i.ParentOrg.Name,
                     Description = i.Description
                 });
                 return orgs.ToList();
+            }
+        }
+
+        public ResModel GetOneOrganization(OrgDto orgDto)
+        {
+            using (var db=new ModelContext())
+            {
+                var organization = db.Organization.Where(i => i.Id == orgDto.Id).Select(i=>new OrgDto()
+                {
+                    Id=i.Id,
+                    Name = i.Name,
+                    ParentId = i.ParentId,
+                    ParentOrgName = i.ParentOrg.Name,
+                    Description = i.Description,
+                    State = i.State,
+                }).FirstOrDefault();
+                if (organization == null)
+                {
+                    return new ResModel(){Msg = "没有找到该部门",Success = false};
+                }
+                return new ResModel() { Msg = "", Success = true,Data = organization};
             }
         }
 
@@ -93,7 +116,7 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
-        public ResModel UpdateOranization(OrgDto orgDto, UserDto userDto)
+        public ResModel UpdateOrganization(OrgDto orgDto, UserDto userDto)
         {
             using (var db = new ModelContext())
             {
@@ -106,8 +129,7 @@ namespace AMS.Model.Repositories.Implements
                 try
                 {
                     organization.Name = orgDto.Name;
-                    organization.State = orgDto.State;
-                    organization.ParentId = orgDto.ParentId;
+                    //organization.ParentId = orgDto.ParentId;
                     organization.Description = orgDto.Description;
                     organization.UpdateBy = userDto.Id;
                     organization.UpdateTime=DateTime.Now;
@@ -121,7 +143,7 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
-        public ResModel DeleteOranization(OrgDto orgDto, UserDto userDto)
+        public ResModel DeleteOrganization(OrgDto orgDto)
         {
             using (var db = new ModelContext())
             {
@@ -133,16 +155,64 @@ namespace AMS.Model.Repositories.Implements
 
                 try
                 {
-                    organization.State = (int)OrgStateEnum.删除;
-                    organization.UpdateBy = userDto.Id;
-                    organization.UpdateTime=DateTime.Now;
+                    db.Organization.Remove(organization);
                     db.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    return new ResModel() { Msg = "删除失败", Success = false };
+                    return new ResModel() { Msg = "删除失败,该部门含下属部门或员工", Success = false };
                 }
                 return new ResModel() { Msg = "删除成功", Success = true };
+            }
+        }
+
+        public ResModel DisableOrganization(OrgDto orgDto, UserDto userDto)
+        {
+            using (var db=new ModelContext())
+            {
+                var organization = db.Organization.FirstOrDefault(i => i.Id == orgDto.Id && i.State == (int) OrgStateEnum.激活);
+                if (organization == null)
+                {
+                    return new ResModel() { Msg = "禁用失败，没有找到该部门或已被禁用", Success = false };
+                }
+
+                try
+                {
+                    organization.State = (int)OrgStateEnum.禁用;
+                    organization.UpdateTime=DateTime.Now;
+                    organization.UpdateBy = userDto.Id;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "禁用失败", Success = false };
+                }
+                return new ResModel() { Msg = "禁用成功", Success = true };
+            }
+        }
+
+        public ResModel AcitveOrganization(OrgDto orgDto, UserDto userDto)
+        {
+            using (var db = new ModelContext())
+            {
+                var organization = db.Organization.FirstOrDefault(i => i.Id == orgDto.Id && i.State == (int)OrgStateEnum.禁用);
+                if (organization == null)
+                {
+                    return new ResModel() { Msg = "激活失败，没有找到该部门或已被激活", Success = false };
+                }
+
+                try
+                {
+                    organization.State = (int)OrgStateEnum.激活;
+                    organization.UpdateTime = DateTime.Now;
+                    organization.UpdateBy = userDto.Id;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "激活失败", Success = false };
+                }
+                return new ResModel() { Msg = "激活成功", Success = true };
             }
         }
     }

@@ -13,8 +13,11 @@ namespace AMS.Service.Services.Interfaces
         ResModel UpdateOrgHope(OrgDto orgDto, UserDto userDto);
         ResModel GetOrgHope(OrgDto orgDto);
         List<OrgDto> GetOrganization();
+        ResModel GetOneOrganization(OrgDto orgDto);
         ResModel AddOrganization(OrgDto orgDto, UserDto userDto);
-        ResModel UpdateOranization(OrgDto orgDto, UserDto userDto);
-        ResModel DeleteOranization(OrgDto orgDto, UserDto userDto);
+        ResModel UpdateOrganization(OrgDto orgDto, UserDto userDto);
+        ResModel DeleteOrganization(OrgDto orgDto);
+        ResModel DisableOrganization(OrgDto orgDto, UserDto userDto);
+        ResModel AcitveOrganization(OrgDto orgDto, UserDto userDto);
     }
 }
