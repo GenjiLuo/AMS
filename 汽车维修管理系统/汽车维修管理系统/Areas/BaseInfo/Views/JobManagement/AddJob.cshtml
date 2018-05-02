@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "新增一个岗位";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/jobManage/jobAdd.css" rel="stylesheet" />
+<div id="addJobApp" class="form">
+    
+    <div class="baseinfo container-fluid">
+        <h4 class="marginBottom30px">岗位信息</h4>
+        <div class="form-group row">
+            <label class="required col-xs-1 text-left">岗位名称</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="name"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-1 text-left">部门</label>
+            <div class="col-xs-3">
+                <div id="organization"></div>
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">分配权限</h4>
+        <div class="form-group">
+            <button class="btn btn-minier btn-purple">全选</button>
+            <button class="btn btn-minier btn-purple">全不选</button>
+            &nbsp;||&nbsp;
+            <button class="btn btn-minier">全展开</button>
+            <button class="btn btn-minier">全折叠</button>
+        </div>
+        <div class="form-group menu-tree-container"></div>
+    </div>
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script>
+    var addJobApp = new Vue({
+        el: "#addJobApp",
+        data: {
+            name: "",
+            orgId:""
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            saveUser: function () {
+                var _this = this;
+                _this.orgId=$("#organization").data("kendoDropDownList").value();
+                var user = {
+                    Name: _this.name,
+                    OrgId: _this.orgId
+                };
+                $.ajax({
+                    url: "@Url.Action("AddJob")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(user),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1050);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: "添加失败"
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#organization").kendoDropDownList({
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("DropDownList_OrgDataSource")"
+                    }
+                }
+            }
+        });
+    });
+</script>

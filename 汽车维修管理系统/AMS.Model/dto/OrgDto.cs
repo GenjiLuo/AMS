@@ -3,7 +3,7 @@ using AMS.Model.poco;
 
 namespace AMS.Model.dto
 {
-    public class OrgDto:BaseModel
+    public class OrgDto:BaseDto
     {
         public string OrgHope { get; set; }
         public Guid? ParentId { get; set; }

@@ -14,3 +14,6 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CopyComplete
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.InitDatabase.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.GenerateResource.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Newtonsoft.Json.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Newtonsoft.Json.xml
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableRepairItemAndType.resources

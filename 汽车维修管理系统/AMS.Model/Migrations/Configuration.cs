@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using AMS.Model.dto;
+using AMS.Model.Enum;
 using AMS.Model.poco;
 using AMS.Model.Static;
 
@@ -26,6 +28,7 @@ namespace AMS.Model.Migrations
                     Id = Guid.NewGuid(),
                     Name = "默认部门",
                     OrderNum = 0,
+                    OperationType = (int)OperationTypeEnum.系统预置,
                     Description = "系统默认数据",
                     CreateTime = DateTime.Now
                 };
@@ -35,14 +38,28 @@ namespace AMS.Model.Migrations
                     var defaultUser = new User()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "默认管理员",
+                        Name = "系统管理员",
                         Account = "admin",
                         Password = "admin",
                         Description = "系统默认数据",
+                        OperationType = (int)OperationTypeEnum.系统预置,
                         Org = defaultDepartment,
                         CreateTime = DateTime.Now
                     };
                     context.User.Add(defaultUser);
+                }
+                if (!context.Job.Any())
+                {
+                    var defaultJob = new Job()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "仓库管理员",
+                        Description = "系统默认数据",
+                        OperationType = (int)OperationTypeEnum.系统预置,
+                        Org = defaultDepartment,
+                        CreateTime = DateTime.Now
+                    };
+                    context.Job.Add(defaultJob);
                 }
             }
             //预填菜单数据

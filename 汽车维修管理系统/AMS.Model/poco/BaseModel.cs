@@ -18,6 +18,7 @@ namespace AMS.Model.poco
 
         public Guid? CreateBy { get; set; }
         public int State { get; set; }
+        public int OperationType { get; set; }
         public DateTime? CreateTime { get; set; }
         public Guid? UpdateBy { get; set; }
         public DateTime? UpdateTime { get; set; }

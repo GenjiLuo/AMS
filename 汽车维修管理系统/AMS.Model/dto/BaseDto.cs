@@ -14,6 +14,7 @@ namespace AMS.Model.dto
         public string Description { get; set; }
 
         public int State { get; set; }
+        public int OperationType { get; set; }
         public Guid? CreateBy { get; set; }
         public DateTime? CreateTime { get; set; }
         public Guid? UpdateBy { get; set; }

@@ -38,11 +38,12 @@ namespace AMS.Model.Static
         #endregion
         #region 基础资料
         public static string OrgSchemaUrl = "/BaseInfo/OrganizationManagement/Index";
-        public static string JobManagement = "/BaseInfo/OrganizationManagement/JobManagement";
+        public static string JobManagement = "/BaseInfo/JobManagement/Index";
         public static string EmployeeManagement = "/BaseInfo/EmployeeManagement/Index";
 
-        public static string RepairItemType = "/BaseInfo/RepairDictionary/RepairItemType";
-        public static string RepairItem = "/BaseInfo/RepairDictionary/RepairItem";
+        public static string RepairType = "/BaseInfo/RepairType/Index";
+        public static string RepairItemType = "/BaseInfo/RepairItemType/Index";
+        public static string RepairItem = "/BaseInfo/RepairItem/Index";
         #endregion
         #region 系统设置
         public static string OperationLog = "/SystemSetting/SystemLog/OperationLog";

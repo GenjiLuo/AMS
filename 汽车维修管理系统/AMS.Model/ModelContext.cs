@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity.ModelConfiguration.Conventions;
+using AMS.Model.dto;
 using AMS.Model.poco;
 
 namespace AMS.Model
@@ -23,5 +24,10 @@ namespace AMS.Model
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<QuickMenu> QuickMenu { get; set; }
+        public virtual DbSet<OperationLog> OperationLog { get; set; }
+        public virtual DbSet<Job> Job { get; set; }
+        public virtual DbSet<RepairType> RepairType { get; set; }
+        public virtual DbSet<RepairItemType> RepairItemType { get; set; }
+        public virtual DbSet<RepairItem> RepairItem { get; set; }
     }
 }

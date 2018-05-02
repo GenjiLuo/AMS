@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "添加一个新员工";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/userManage/userAdd.css" rel="stylesheet" />
+<div id="addUserApp" class="form">
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+    <div class="baseinfo container-fluid">
+        <h4>基础信息</h4>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">工号</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="account"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">姓名</label>
+            <div class="col-xs-4">
+                <input class="k-textbox  full-width" v-model.trim="name"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">密码</label>
+            <div class="col-xs-4">
+                <input type="password" class="k-textbox  full-width" v-model.trim="password"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">确认密码</label>
+            <div class="col-xs-4">
+                <input type="password" class="k-textbox  full-width" v-model.trim.lazy="confirmPassword"/><span style="display: none" class="k-invalid-msg" id="errorPassword"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">邮箱</label>
+            <div class="col-xs-4">
+                <input class="k-textbox  full-width" v-model.trim="email"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">电话</label>
+            <div class="col-xs-4">
+                <input class="k-textbox  full-width" v-model.trim="tel"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">部门</label>
+            <div class="col-xs-4">
+                <input id="organization" class="k-textbox  full-width" v-model="orgId"/>
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4>权限控制</h4>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">岗位权限</label>
+            <div class="col-xs-4">
+                <ul class="role-container">
+                    <li class="role-item">
+                        <input type="checkbox" id="eq1" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq1">财务</label>
+                    </li>
+                    <li class="role-item">
+                        <input type="checkbox" id="eq2" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq2">总部管理</label>
+                    </li>
+                    <li class="role-item">
+                        <input type="checkbox" id="eq3" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq3">通用</label>
+                    </li>
+                    <li class="role-item">
+                        <input type="checkbox" id="eq4" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq4">财务</label>
+                    </li>
+                    <li class="role-item">
+                        <input type="checkbox" id="eq5" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq5">总部管理</label>
+                    </li>
+                    <li class="role-item">
+                        <input type="checkbox" id="eq6" class="k-checkbox">
+                        <label class="k-checkbox-label" for="eq6">通用</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script>
+    var addUserApp = new Vue({
+        el: "#addUserApp",
+        data: {
+            account: "",
+            name: "",
+            password: "",
+            confirmPassword: "",
+            email: "",
+            tel: "",
+            orgId:""
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            saveUser: function () {
+                var _this = this;
+                _this.orgId=$("#organization").data("kendoDropDownList").value();
+                var user = {
+                    Account: _this.account,
+                    Name: _this.name,
+                    Password: _this.password,
+                    Email: _this.email,
+                    Tel:_this.tel,
+                    OrgId: _this.orgId
+                };
+                $.ajax({
+                    url: "@Url.Action("AddUser")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(user),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1050);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: "添加失败"
+                            });
+                        }
+                    }
+                });
+            }
+        },
+        watch: {
+            confirmPassword: function(newVal) {
+                if (newVal !== this.password) {
+                    $("#errorPassword").html("密码与确认密码不一致").css({"color":"red"}).show();
+                } else {
+                    $("#errorPassword").hide();
+                }
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#organization").kendoDropDownList({
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("DropDownList_OrgDataSource")"
+                    }
+                }
+            }
+        });
+    });
+</script>

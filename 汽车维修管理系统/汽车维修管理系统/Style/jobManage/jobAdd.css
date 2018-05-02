@@ -1,0 +1,42 @@
+﻿.full-width {
+    width: 100%;
+}
+.options {
+    margin-top: 10px;
+    margin-bottom: 20px
+}
+.form label.required:before {
+    content: "*";
+    color: #f00;
+    margin-right: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+ul.role-container {
+    margin: 0;
+}
+li.role-item{
+    list-style: none;
+    display: inline-block;
+    width: 24%;
+    padding-bottom: 10px;
+}
+.marginRight5px {
+    margin-right: 5px;
+}
+input[type="password"] {
+    border-radius: 4px !important;
+}
+.k-dropdown {
+    border: none;
+    width: 100%;
+}
+.menu-tree-container {
+    width: 100%;
+    width: 400px;
+    height: 300px;
+    border: 1px solid #e3e3e3;
+ }
+.marginBottom30px {
+    margin-bottom: 30px;
+}
