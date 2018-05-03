@@ -453,6 +453,7 @@
     <Content Include="Areas\BaseInfo\Views\RepairItemType\Update.cshtml" />
     <Content Include="Areas\BaseInfo\Views\RepairItem\Add.cshtml" />
     <Content Include="Areas\BaseInfo\Views\RepairItem\Update.cshtml" />
+    <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
