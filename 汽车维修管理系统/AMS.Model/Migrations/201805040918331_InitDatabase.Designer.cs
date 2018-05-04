@@ -7,13 +7,13 @@ namespace AMS.Model.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddTabelCar_Customer_CustomerCar : IMigrationMetadata
+    public sealed partial class InitDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTabelCar_Customer_CustomerCar));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805031324520_AddTabelCar_Customer_CustomerCar"; }
+            get { return "201805040918331_InitDatabase"; }
         }
         
         string IMigrationMetadata.Source

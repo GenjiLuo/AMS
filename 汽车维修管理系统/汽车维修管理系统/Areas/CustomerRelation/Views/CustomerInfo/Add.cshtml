@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = "新增一个维修项目";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/customerManage/customerAdd.css" rel="stylesheet" />
+<div id="addRepairItemApp" class="form">
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+    <div class="baseinfo container-fluid">
+        <h4 class="marginBottom30px">基础信息</h4>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">客户类型</label>
+            <div class="col-xs-3">
+                <div id="customerType">
+                    <span>
+                        个人
+                    </span>
+                    <span>
+                        单位
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">客户名称</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">手机</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="mobile" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">服务密码</label>
+            <div class="col-xs-3">
+                <input type="password" class="k-textbox full-width" v-model.trim="servicePassword" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">确认服务密码</label>
+            <div class="col-xs-3">
+                <input type="password" class="k-textbox full-width" v-model.trim="confirmServicePassword" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">联系人</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="contact" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">身份证号</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="IDNum" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">座机</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="fixPhone" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-xs-2 text-right">联系地址</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="address" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">微信</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="wechat" />
+            </div>
+        </div>
+
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">其它信息</h4>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">性别</label>
+            <div class="col-xs-3">
+                <div id="gender">
+                    <span>
+                        男
+                    </span>
+                    <span>
+                        女
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">生日</label>
+            <div class="col-xs-3">
+                <input id="birthday" class="k-textbox full-width" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">QQ</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="qq" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">爱好</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="hobby" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">备注</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="description" />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script>
+    var addRepairItemApp = new Vue({
+        el: "#addRepairItemApp",
+        data: {
+            customerType:"",
+            name: "",
+            mobile: "",
+            servicePassword:"",
+            confirmServicePassword: "",
+            contact: "",
+            IDNum: "",
+            fixPhone: "",
+            address: "",
+            wechat: "",
+            qq: "",
+            gender:"",
+            birthday:"",
+            hobby: "",
+            description: ""
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            saveUser: function () {
+                var _this = this;
+                _this.customerType = $("#customerType").data("kendoButtonGroup").current().index();
+                _this.gender = $("#gender").data("kendoButtonGroup").current().index();
+                _this.birthday = $("#birthday").data("kendoDatePicker").value();
+                var customer = {
+                    CustomerType: _this.customerType,
+                    Name: _this.name,
+                    MobilePhone: _this.mobile,
+                    ServicePassword: _this.servicePassword,
+                    ContactName: _this.contact,
+                    IDCard: _this.IDNum,
+                    FixPhone: _this.fixPhone,
+                    Address: _this.address,
+                    Wechat: _this.wechat,
+                    QQ: _this.qq,
+                    Gender: _this.gender,
+                    Birthday: _this.birthday,
+                    Hobby: _this.hobby,
+                    Description: _this.description
+                };
+                $.ajax({
+                    url: "@Url.Action("Add")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(customer),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: "添加失败"
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#customerType").kendoButtonGroup({
+            index: 0
+        });
+        $("#gender").kendoButtonGroup({
+            index: 0
+        });
+        $("#birthday").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+    });
+</script>

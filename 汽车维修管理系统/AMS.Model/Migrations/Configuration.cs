@@ -362,7 +362,7 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "维修类型",
                                         OrderNum = 0,
-                                        Url = CommonUrl.RepairItem,
+                                        Url = CommonUrl.RepairType,
                                         QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     },
                                     new Menu()
@@ -371,6 +371,14 @@ namespace AMS.Model.Migrations
                                         Name = "维修项目类型",
                                         OrderNum = 1,
                                         Url = CommonUrl.RepairItemType,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
+                                    },
+                                    new Menu()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "维修项目",
+                                        OrderNum = 1,
+                                        Url = CommonUrl.RepairItem,
                                         QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }

@@ -23,6 +23,6 @@ namespace AMS.Model.dto
         public string QQ { get; set; }
         public string Hobby { get; set; }
 
-        public virtual ICollection<CustomerCar> CustomerCars { get; set; }
+        public  List<Car> Cars { get; set; }
     }
 }

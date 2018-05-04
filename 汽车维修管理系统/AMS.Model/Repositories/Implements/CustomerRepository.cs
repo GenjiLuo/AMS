@@ -30,7 +30,8 @@ namespace AMS.Model.Repositories.Implements
                     Gender = i.Gender,
                     Birthday = i.Birthday,
                     QQ = i.QQ,
-                    Hobby = i.Hobby
+                    Hobby = i.Hobby,
+                    Description = i.Description
                 }).ToList();
                 return customers;
             }
@@ -56,7 +57,8 @@ namespace AMS.Model.Repositories.Implements
                     Gender = i.Gender,
                     Birthday = i.Birthday,
                     QQ = i.QQ,
-                    Hobby = i.Hobby
+                    Hobby = i.Hobby,
+                    Description = i.Description
                 }).FirstOrDefault();
                 return customer;
             }
@@ -82,7 +84,8 @@ namespace AMS.Model.Repositories.Implements
                     Gender = customerDto.Gender,
                     Birthday = customerDto.Birthday,
                     QQ = customerDto.QQ,
-                    Hobby = customerDto.Hobby
+                    Hobby = customerDto.Hobby,
+                    Description = customerDto.Description
                 };
                 try
                 {
@@ -123,6 +126,7 @@ namespace AMS.Model.Repositories.Implements
                     customer.Birthday = customerDto.Birthday;
                     customer.QQ = customerDto.QQ;
                     customer.Hobby = customerDto.Hobby;
+                    customer.Description = customerDto.Description;
                     db.SaveChanges();
                 }
                 catch (Exception e)

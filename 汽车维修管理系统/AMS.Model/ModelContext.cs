@@ -29,8 +29,10 @@ namespace AMS.Model
         public virtual DbSet<RepairType> RepairType { get; set; }
         public virtual DbSet<RepairItemType> RepairItemType { get; set; }
         public virtual DbSet<RepairItem> RepairItem { get; set; }
+        public virtual DbSet<CarBrand> CarBrand { get; set; }
+        public virtual DbSet<CarSeries> CarSeries { get; set; }
+        public virtual DbSet<CarModel> CarModel { get; set; }
         public virtual DbSet<Car> Car { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<CustomerCar> CustomerCar { get; set; }
     }
 }

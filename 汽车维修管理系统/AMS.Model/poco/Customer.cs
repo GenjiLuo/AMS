@@ -13,7 +13,7 @@ namespace AMS.Model.poco
     {
         public Customer()
         {
-            CustomerCars=new HashSet<CustomerCar>();
+            Cars = new HashSet<Car>();
         }
         public int CustomerType { get; set; }
         public int Level { get; set; }
@@ -29,6 +29,6 @@ namespace AMS.Model.poco
         public string QQ { get; set; }
         public string Hobby { get; set; }
 
-        public virtual ICollection<CustomerCar> CustomerCars { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
     }
 }

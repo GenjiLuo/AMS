@@ -159,6 +159,7 @@
     <Compile Include="Areas\AutoRepair\Controllers\BookingManagementController.cs" />
     <Compile Include="Areas\AutoRepair\Controllers\RepairManagementController.cs" />
     <Compile Include="Areas\BaseInfo\BaseInfoAreaRegistration.cs" />
+    <Compile Include="Areas\BaseInfo\Controllers\CarModelController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\EmployeeManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\JobManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\OrganizationManagementController.cs" />
@@ -454,6 +455,11 @@
     <Content Include="Areas\BaseInfo\Views\RepairItem\Add.cshtml" />
     <Content Include="Areas\BaseInfo\Views\RepairItem\Update.cshtml" />
     <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Index.cshtml" />
+    <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Add.cshtml" />
+    <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Update.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\CarModel\Index.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\CarModel\Add.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\CarModel\Update.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -471,10 +477,14 @@
     <Content Include="Style\common\common.css" />
     <Content Include="Style\home\home.css" />
     <Content Include="Style\home\quickMenu.css" />
+    <Content Include="Style\carModel\carModelAdd.css" />
+    <Content Include="Style\carModel\carModelManage.css" />
     <Content Include="Style\login\login.css" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Style\jobManage\jobAdd.css" />
     <Content Include="Style\jobManage\jobManage.css" />
+    <Content Include="Style\customerManage\customerAdd.css" />
+    <Content Include="Style\customerManage\customerManage.css" />
     <Content Include="Style\userManage\userAdd.css" />
     <Content Include="Style\userManage\userManage.css" />
     <Content Include="Style\orgManage\orgAdd.css" />

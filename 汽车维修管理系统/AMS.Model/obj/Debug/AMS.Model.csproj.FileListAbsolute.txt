@@ -10,11 +10,9 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\zh-
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CoreCompileInputs.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.pdb
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.CopyComplete
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.InitDatabase.resources
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.GenerateResource.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Newtonsoft.Json.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Newtonsoft.Json.xml
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableRepairItemAndType.resources
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTabelCar_Customer_CustomerCar.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.InitDatabase.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.GenerateResource.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache

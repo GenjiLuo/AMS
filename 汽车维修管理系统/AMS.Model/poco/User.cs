@@ -16,6 +16,8 @@ namespace AMS.Model.poco
             OperationLogs = new HashSet<OperationLog>();
     }
         [Required]
+        [Index(IsUnique = true)]
+        [MaxLength(50)]
         public string Account { get; set; }
         [Required]
         public string Password { get; set; }

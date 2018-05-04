@@ -45,6 +45,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,7 +58,7 @@
     <Compile Include="dto\BaseDto.cs" />
     <Compile Include="dto\CarDto.cs" />
     <Compile Include="dto\CustomerDto.cs" />
-    <Compile Include="dto\CustomerCarDto.cs" />
+    <Compile Include="dto\CarModelDto.cs" />
     <Compile Include="dto\RepairItemDto.cs" />
     <Compile Include="dto\RepairItemTypeDto.cs" />
     <Compile Include="dto\RepairTypeDto.cs" />
@@ -70,22 +71,16 @@
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201804301021205_InitDatabase.cs" />
-    <Compile Include="Migrations\201804301021205_InitDatabase.Designer.cs">
-      <DependentUpon>201804301021205_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805020608356_AddTableRepairItemAndType.cs" />
-    <Compile Include="Migrations\201805020608356_AddTableRepairItemAndType.Designer.cs">
-      <DependentUpon>201805020608356_AddTableRepairItemAndType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805031324520_AddTabelCar_Customer_CustomerCar.cs" />
-    <Compile Include="Migrations\201805031324520_AddTabelCar_Customer_CustomerCar.Designer.cs">
-      <DependentUpon>201805031324520_AddTabelCar_Customer_CustomerCar.cs</DependentUpon>
+    <Compile Include="Migrations\201805040918331_InitDatabase.cs" />
+    <Compile Include="Migrations\201805040918331_InitDatabase.Designer.cs">
+      <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
-    <Compile Include="poco\CustomerCar.cs" />
+    <Compile Include="poco\CarModel.cs" />
+    <Compile Include="poco\CarSeries.cs" />
+    <Compile Include="poco\CarBrand.cs" />
     <Compile Include="poco\RepairItemType.cs" />
     <Compile Include="poco\RepairItem.cs" />
     <Compile Include="poco\RepairType.cs" />
@@ -100,7 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Implements\CarRepository.cs" />
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
-    <Compile Include="Repositories\Implements\CustomerCarRepository.cs" />
+    <Compile Include="Repositories\Implements\CarModelRepository.cs" />
     <Compile Include="Repositories\Implements\RepairItemRepository.cs" />
     <Compile Include="Repositories\Implements\RepairItemTypeRepository.cs" />
     <Compile Include="Repositories\Implements\RepairTypeRepository.cs" />
@@ -109,6 +104,7 @@
     <Compile Include="Repositories\Implements\MenuRepository.cs" />
     <Compile Include="Repositories\Implements\JobRepository.cs" />
     <Compile Include="Repositories\Implements\UserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICarModelRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepairItemRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepairItemTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepairTypeRepository.cs" />
@@ -116,7 +112,6 @@
     <Compile Include="Repositories\Interfaces\IQuickMenuRepository.cs" />
     <Compile Include="Repositories\Interfaces\IOrgRepository.cs" />
     <Compile Include="Repositories\Interfaces\IJobRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ICustomerCarRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICustomerRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICarRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
@@ -128,14 +123,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804301021205_InitDatabase.resx">
-      <DependentUpon>201804301021205_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805020608356_AddTableRepairItemAndType.resx">
-      <DependentUpon>201805020608356_AddTableRepairItemAndType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805031324520_AddTabelCar_Customer_CustomerCar.resx">
-      <DependentUpon>201805031324520_AddTabelCar_Customer_CustomerCar.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805040918331_InitDatabase.resx">
+      <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
