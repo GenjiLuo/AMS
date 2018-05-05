@@ -110,7 +110,7 @@
 <script>
     $(document).ready(function () {
         $("#brandName").kendoAutoComplete({
-            placeholder: "--请选择或输入车辆品牌--",
+            placeholder: "---请选择或输入车辆品牌---",
             delay: 600,
             highlightFirst: true,
             dataSource: {
@@ -129,7 +129,7 @@
             noDataTemplate: "系统暂无该品牌，本次添加车型会同时添加该品牌"
         });
         $("#seriesName").kendoAutoComplete({
-            placeholder: "--请选择或输入车系--",
+            placeholder: "---请选择或输入车系---",
             delay: 600,
             highlightFirst: true,
             dataSource: {
@@ -146,10 +146,10 @@
                     }
                 }
             },
-            noDataTemplate: "该品牌暂无该车系，本次添加车型会同时添加该车系"
+            noDataTemplate: "系统暂无该品牌车系，本次添加车型会同时添加该车系"
         });
         $("#modelName").kendoAutoComplete({
-            placeholder: "--请选择或输入车型--",
+            placeholder: "---请选择或输入车型---",
             delay: 600,
             highlightFirst: true,
             dataSource: {
@@ -166,7 +166,7 @@
                     }
                 }
             },
-            noDataTemplate: "该车系暂无该型号"
+            noDataTemplate: "系统暂无该型号，可添加"
         });
         $("#price").kendoNumericTextBox({
             format:"#.00万元"

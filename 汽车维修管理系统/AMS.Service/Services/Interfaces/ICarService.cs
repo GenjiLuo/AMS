@@ -14,5 +14,6 @@ namespace AMS.Service.Services.Interfaces
         ResModel UpdateCar(CarDto carDto, UserDto operationUser);
         ResModel DeleteCar(Guid carId);
         List<CarDto> QueryCar(string keyWord);
+        List<CarDto> AdvancedQueryCar(string keyWord);
     }
 }

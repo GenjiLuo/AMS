@@ -55,9 +55,10 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_carModelService.AddCarModel(carModelDto, currentUser));
         }
-        public ActionResult Update(Guid carId)
+        public ActionResult Update(Guid carModelId)
         {
-            return View();
+            var carModel = _carModelService.GetOneCarModel(carModelId);
+            return View(carModel);
         }
 
         [HttpPost]
@@ -70,6 +71,11 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
         public ActionResult Delete(Guid carModelId)
         {
             return Json(_carModelService.DeleteCarModel(carModelId));
+        }
+
+        public ActionResult Query(string keyword)
+        {
+            return Json(_carModelService.QueryCarModel(keyword), JsonRequestBehavior.AllowGet);
         }
     }
 }

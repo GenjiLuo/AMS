@@ -38,5 +38,8 @@ namespace AMS.Model.dto
         public DateTime? InsuranceExpireTime { get; set; }
         public string InsuranceOrg { get; set; }
         public string InsuranceNo { get; set; }
+
+        public DateTime? FirstServiceTime { get; set; }
+        public DateTime? LastServiceTime { get; set; }
     }
 }

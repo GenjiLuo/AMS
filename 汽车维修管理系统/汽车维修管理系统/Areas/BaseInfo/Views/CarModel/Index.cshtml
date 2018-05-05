@@ -13,7 +13,7 @@
             <button id="btn_delete" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-trash"></i>&nbsp;删除</button>
         </div>
         <div class="form-group pull-left option-group">
-            <button id="btn_print" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
+            <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
         </div>
         <div class="form-group pull-right">
             <div id="simpleSearchContainer"> 
@@ -32,7 +32,6 @@
         $("#btn_add").kendoButton();
         $("#btn_edit").kendoButton();
         $("#btn_delete").kendoButton();
-        $("#btn_print").kendoButton();
         $("#carModelGrid").kendoGrid({
             dataSource: {
                 transport: {
@@ -42,11 +41,17 @@
                     model: {
                         id: "Id" 
                     }
-                },
-                pageSize: 20
+                }
+            },
+            excel: {
+                fileName: "车型信息.xlsx",
+                allPages: true
             },
             height: 550,
-            pageable: true,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
             sortable: true,
             filterable: false,
             selectable: "multiple",
@@ -75,7 +80,7 @@
                 },
                 {
                     field: "Price",
-                    title: "参考单价"
+                    title: "参考单价(万元)"
                 }
             ]
         });
@@ -86,14 +91,14 @@
     });
     //更新
     $("#btn_edit").click(function() {
-        window.location.href = "@Url.Action("Update")"+"?carModelId="+selectedRow.Id;
+        window.location.href = "@Url.Action("Update")" + "?carModelId=" + selectedRow.Id;
     });
     //删除
     $("#btn_delete").click(function() {
         swal({
             position: "center",
             type: "warning",
-            title: selectedRow.Name,
+            title: selectedRow.FullName,
             text: "确定删除该车型吗？删除后不可逆",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -107,7 +112,7 @@
                     url: "@Url.Action("Delete")",
                     type: "POST",
                     dataType: "json",
-                    data:{
+                    data: {
                         carModelId: selectedRow.Id
                     },
                     success: function(res) {
@@ -131,6 +136,28 @@
                         }
                     }
                 });
+            }
+        });
+    });
+    $("#btn_export").click(function() {
+        var grid = $("#carModelGrid").data("kendoGrid");
+        grid.saveAsExcel();
+    });
+    //简单搜索
+    $("#btn_simpleSearch").click(function() {
+        var keyword = $("#simpleSearchContent").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            dataType: "json",
+            data: {
+                keyword:keyword
+            },
+            success: function(data) {
+                var dataSource = new kendo.data.DataSource({
+                    data: data
+                });
+                var grid = $("#carModelGrid").data("kendoGrid");
+                grid.setDataSource(dataSource);
             }
         });
     });

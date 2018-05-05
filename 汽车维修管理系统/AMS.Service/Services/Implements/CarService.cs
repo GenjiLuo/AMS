@@ -51,5 +51,10 @@ namespace AMS.Service.Services.Implements
         {
             return _carRepository.QueryCar(keyWord);
         }
+
+        public List<CarDto> AdvancedQueryCar(string keyWord)
+        {
+            return null;
+        }
     }
 }
