@@ -1,0 +1,53 @@
+﻿.orgicon {
+    height: 14px;
+}
+#orgTreeList tr {
+    height: 45px;
+}
+.marginRight5px {
+    margin-right: 5px;
+}
+.paddingBottom0 {
+    padding-bottom: 0;
+}
+#btn_simpleSearch {
+    padding: 6px 7px;
+}
+#btn_switchSearchType {
+    margin-left: 20px;
+}
+#simpleSearchContainer {
+    display: inline-block;
+}
+#advancedSearchContainer {
+    margin-bottom: 10px;
+    display: flex;
+    border-top: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
+}
+.info-input-box {
+    list-style: none;
+    display: flex;
+    border-right: 1px solid #d7d7d7;
+    padding-top: 10px;
+    margin: 0;
+    flex: 1;
+    flex-wrap: wrap;
+}
+.info-input-box li {
+    width: 240px;
+    margin-bottom: 15px;
+}
+.info-search-box {
+    padding-top: 10px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.marginRight5px {
+    margin-right: 5px;
+}
+.option-group {
+     margin-right: 20px;
+ }

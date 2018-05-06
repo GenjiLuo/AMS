@@ -56,7 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dto\BaseDto.cs" />
+    <Compile Include="dto\CarBrandDto.cs" />
     <Compile Include="dto\CarDto.cs" />
+    <Compile Include="dto\CarSeriesDto.cs" />
     <Compile Include="dto\CustomerDto.cs" />
     <Compile Include="dto\CarModelDto.cs" />
     <Compile Include="dto\RepairItemDto.cs" />
@@ -74,6 +76,10 @@
     <Compile Include="Migrations\201805040918331_InitDatabase.cs" />
     <Compile Include="Migrations\201805040918331_InitDatabase.Designer.cs">
       <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805061607007_Migration1.cs" />
+    <Compile Include="Migrations\201805061607007_Migration1.Designer.cs">
+      <DependentUpon>201805061607007_Migration1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -125,6 +131,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805040918331_InitDatabase.resx">
       <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805061607007_Migration1.resx">
+      <DependentUpon>201805061607007_Migration1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

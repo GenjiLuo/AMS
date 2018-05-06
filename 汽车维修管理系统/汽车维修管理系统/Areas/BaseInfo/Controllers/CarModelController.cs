@@ -35,17 +35,17 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
 
         public ActionResult Brand_AutoComplateDataSource(string brandKeyWord)
         {
-            return Json(_carModelService.GetBrandNameByKeyWord(brandKeyWord), JsonRequestBehavior.AllowGet);
+            return Json(_carModelService.GetBrandByKeyWord(brandKeyWord), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Series_AutoComplateDataSource(string brandName,string seriesKeyWord)
         {
-            return Json(_carModelService.GetSeriesNameByBrandAndKeyWord(brandName, seriesKeyWord),
+            return Json(_carModelService.GetSeriesByBrandAndKeyWord(brandName, seriesKeyWord),
                 JsonRequestBehavior.AllowGet);
         }
         public ActionResult Model_AutoComplateDataSource(string seriesName,string modelKeyWord)
         {
-            return Json(_carModelService.GetModelNameBySeriesAndKeyWord(seriesName, modelKeyWord),
+            return Json(_carModelService.GetModelBySeriesAndKeyWord(seriesName, modelKeyWord),
                 JsonRequestBehavior.AllowGet);
         }
 

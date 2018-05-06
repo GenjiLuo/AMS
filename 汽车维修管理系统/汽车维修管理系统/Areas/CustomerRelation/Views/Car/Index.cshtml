@@ -4,7 +4,7 @@
     ViewBag.Title = "汽修系统 | 车辆管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Style/customerManage/customerManage.css" rel="stylesheet" />
+<link href="~/Style/car/carManage.css" rel="stylesheet" />
 <div class="container-fluid">
     <div class="row">
         <div class="form-group pull-left option-group">
@@ -88,7 +88,7 @@
     </div>
 </div>
 <script id="carImgTemp" type="text/x-kendo-template">
-    <img src=""/>
+    <i class="fa fa-camera"></i>
 </script>
 <script>
     var searchVm = new Vue({
@@ -123,17 +123,24 @@
                 },
                 schema: {
                     model: {
-                        id: "Id"
+                        id: "Id",
+                        fields: {
+                            InsuranceExpireTime: { type: "date" },
+                            YearlyCheckTime: { type: "date" },
+                            MaintainExpireTime: { type: "date" }
+                        }
                     }
-                },
-                pageSize: 20
+                }
             },
             excel: {
                 fileName: "车辆信息.xlsx",
                 allPages:true
             },
             height: 550,
-            pageable: true,
+            pageable: {
+                pageSize: 20,
+                refresh:true
+            },
             sortable: true,
             filterable: false,
             selectable: "multiple",
@@ -185,16 +192,19 @@
                     
                 },{
                     field: "InsuranceExpireTime",
-                    title: "保险到期"
+                    title: "保险到期",
+                    format: "{0: yyyy-MM-dd}"
                     
                 },
                 {
-                    field: "YealyCheckTime",
-                    title: "年审到期"
+                    field: "YearlyCheckTime",
+                    title: "年审到期",
+                    format: "{0: yyyy-MM-dd}"
                     
                 },{
                     field: "MaintainExpireTime",
-                    title: "保养到期"
+                    title: "保养到期",
+                    format: "{0: yyyy-MM-dd}"
                     
                 },{
                     field: "FirstServiceTime",
@@ -230,7 +240,7 @@
         swal({
             position: "center",
             type: "warning",
-            title: selectedRow.Name,
+            title: selectedRow.PlateNum+" "+selectedRow.FullName,
             text: "确定删除该车辆吗？删除后不可逆",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

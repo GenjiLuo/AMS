@@ -46,19 +46,19 @@ namespace AMS.Service.Services.Implements
             return _carModelRepository.QueryCarModel(keyWord);
         }
 
-        public List<string> GetBrandNameByKeyWord(string brandKeyWord)
+        public List<CarBrandDto> GetBrandByKeyWord(string brandKeyWord)
         {
-            return _carModelRepository.GetBrandNameByKeyWord(brandKeyWord);
+            return _carModelRepository.GetBrandByKeyWord(brandKeyWord);
         }
 
-        public List<string> GetSeriesNameByBrandAndKeyWord(string brandName, string seriesKeyWord)
+        public List<CarSeriesDto> GetSeriesByBrandAndKeyWord(string brandName, string seriesKeyWord)
         {
-            return _carModelRepository.GetSeriesNameByBrandAndKeyWord(brandName,seriesKeyWord);
+            return _carModelRepository.GetSeriesByBrandAndKeyWord(brandName,seriesKeyWord);
         }
 
-        public List<string> GetModelNameBySeriesAndKeyWord(string seriesName, string modelKeyWord)
+        public List<CarModelDto> GetModelBySeriesAndKeyWord(string seriesName, string modelKeyWord)
         {
-            return _carModelRepository.GetModelNameBySeriesAndKeyWord(seriesName,modelKeyWord);
+            return _carModelRepository.GetModelBySeriesAndKeyWord(seriesName,modelKeyWord);
         }
     }
 }

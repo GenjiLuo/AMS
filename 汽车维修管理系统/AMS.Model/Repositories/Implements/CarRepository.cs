@@ -20,6 +20,10 @@ namespace AMS.Model.Repositories.Implements
                     CustomerId = i.CustomerId,
                     CustomerName = i.Customer.Name,
                     CustomerPhone = i.Customer.MobilePhone ?? i.Customer.FixPhone,
+
+                    CarOwnerName = i.CarOwnerName,
+                    CarOwnerPhone = i.CarOwnerPhone,
+
                     VIN = i.VIN,
                     PlateNum = i.PlateNum,
                     ModelId = i.ModelId,
@@ -27,14 +31,15 @@ namespace AMS.Model.Repositories.Implements
                     SeriesName = i.Model.Series.Name,
                     ModelName = i.Model.Name,
                     Price = i.Model.Price,
-                    FullName = i.CarFullName,
-                    Color = i.Model.Color,
+                    FullName = i.Model.FullName,
+                    Color = i.Color,
                     EngineModelNo = i.EngineModelNo,
                     EngineNo = i.EngineNo,
                     CarLabel = i.CarLabel,
                     CarImg = i.CarImg,
                     CarRegisterTime = i.CarRegisterTime,
                     MaintainExpireTime = i.MaintainExpireTime,
+                    CurrentMileage = i.CurrentMileage,
                     NextMaintainMileage = i.NextMaintainMileage,
                     YearlyCheckTime = i.YearlyCheckTime,
                     SecondLevelMaintainTime = i.SecondLevelMaintainTime,
@@ -42,7 +47,11 @@ namespace AMS.Model.Repositories.Implements
                     TailCheckTime = i.TailCheckTime,
                     InsuranceExpireTime = i.InsuranceExpireTime,
                     InsuranceOrg = i.InsuranceOrg,
-                    InsuranceNo = i.InsuranceNo
+                    InsuranceNo = i.InsuranceNo,
+                    Description = i.Description,
+
+                    FirstServiceTime = i.FirstServiceTime,
+                    LastServiceTime = i.LastServiceTime
                 }).ToList();
                 return cars;
             }
@@ -58,6 +67,10 @@ namespace AMS.Model.Repositories.Implements
                     CustomerId = i.CustomerId,
                     CustomerName = i.Customer.Name,
                     CustomerPhone = i.Customer.MobilePhone ?? i.Customer.FixPhone,
+
+                    CarOwnerName = i.CarOwnerName,
+                    CarOwnerPhone = i.CarOwnerPhone,
+
                     VIN = i.VIN,
                     PlateNum = i.PlateNum,
                     ModelId = i.ModelId,
@@ -65,14 +78,15 @@ namespace AMS.Model.Repositories.Implements
                     SeriesName = i.Model.Series.Name,
                     ModelName = i.Model.Name,
                     Price = i.Model.Price,
-                    FullName = i.CarFullName,
-                    Color = i.Model.Color,
+                    FullName = i.Model.FullName,
+                    Color = i.Color,
                     EngineModelNo = i.EngineModelNo,
                     EngineNo = i.EngineNo,
                     CarLabel = i.CarLabel,
                     CarImg = i.CarImg,
                     CarRegisterTime = i.CarRegisterTime,
                     MaintainExpireTime = i.MaintainExpireTime,
+                    CurrentMileage = i.CurrentMileage,
                     NextMaintainMileage = i.NextMaintainMileage,
                     YearlyCheckTime = i.YearlyCheckTime,
                     SecondLevelMaintainTime = i.SecondLevelMaintainTime,
@@ -80,7 +94,11 @@ namespace AMS.Model.Repositories.Implements
                     TailCheckTime = i.TailCheckTime,
                     InsuranceExpireTime = i.InsuranceExpireTime,
                     InsuranceOrg = i.InsuranceOrg,
-                    InsuranceNo = i.InsuranceNo
+                    InsuranceNo = i.InsuranceNo,
+                    Description = i.Description,
+
+                    FirstServiceTime = i.FirstServiceTime,
+                    LastServiceTime = i.LastServiceTime
                 }).ToList();
                 return customerCars;
             }
@@ -96,6 +114,10 @@ namespace AMS.Model.Repositories.Implements
                     CustomerId = i.CustomerId,
                     CustomerName = i.Customer.Name,
                     CustomerPhone = i.Customer.MobilePhone ?? i.Customer.FixPhone,
+
+                    CarOwnerName = i.CarOwnerName,
+                    CarOwnerPhone = i.CarOwnerPhone,
+
                     VIN = i.VIN,
                     PlateNum = i.PlateNum,
                     ModelId = i.ModelId,
@@ -103,14 +125,15 @@ namespace AMS.Model.Repositories.Implements
                     SeriesName = i.Model.Series.Name,
                     ModelName = i.Model.Name,
                     Price = i.Model.Price,
-                    FullName = i.CarFullName,
-                    Color = i.Model.Color,
+                    FullName = i.Model.FullName,
+                    Color = i.Color,
                     EngineModelNo = i.EngineModelNo,
                     EngineNo = i.EngineNo,
                     CarLabel = i.CarLabel,
                     CarImg = i.CarImg,
                     CarRegisterTime = i.CarRegisterTime,
                     MaintainExpireTime = i.MaintainExpireTime,
+                    CurrentMileage = i.CurrentMileage,
                     NextMaintainMileage = i.NextMaintainMileage,
                     YearlyCheckTime = i.YearlyCheckTime,
                     SecondLevelMaintainTime = i.SecondLevelMaintainTime,
@@ -118,7 +141,11 @@ namespace AMS.Model.Repositories.Implements
                     TailCheckTime = i.TailCheckTime,
                     InsuranceExpireTime = i.InsuranceExpireTime,
                     InsuranceOrg = i.InsuranceOrg,
-                    InsuranceNo = i.InsuranceNo
+                    InsuranceNo = i.InsuranceNo,
+                    Description = i.Description,
+
+                    FirstServiceTime = i.FirstServiceTime,
+                    LastServiceTime = i.LastServiceTime
                 }).FirstOrDefault();
                 return customerCar;
             }
@@ -132,6 +159,9 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = Guid.NewGuid(),
                     CustomerId = carDto.CustomerId,
+                    CarOwnerName = carDto.CarOwnerName,
+                    CarOwnerPhone = carDto.CarOwnerPhone,
+                    Color = carDto.Color,
                     VIN = carDto.VIN,
                     PlateNum = carDto.PlateNum,
                     ModelId = carDto.ModelId,
@@ -141,6 +171,7 @@ namespace AMS.Model.Repositories.Implements
                     CarImg = carDto.CarImg,
                     CarRegisterTime = carDto.CarRegisterTime,
                     MaintainExpireTime = carDto.MaintainExpireTime,
+                    CurrentMileage = carDto.CurrentMileage,
                     NextMaintainMileage = carDto.NextMaintainMileage,
                     YearlyCheckTime = carDto.YearlyCheckTime,
                     SecondLevelMaintainTime = carDto.SecondLevelMaintainTime,
@@ -148,7 +179,8 @@ namespace AMS.Model.Repositories.Implements
                     TailCheckTime = carDto.TailCheckTime,
                     InsuranceExpireTime = carDto.InsuranceExpireTime,
                     InsuranceOrg = carDto.InsuranceOrg,
-                    InsuranceNo = carDto.InsuranceNo
+                    InsuranceNo = carDto.InsuranceNo,
+                    Description = carDto.Description
                 };
                 try
                 {
@@ -176,6 +208,8 @@ namespace AMS.Model.Repositories.Implements
                 try
                 {
                     car.CustomerId = carDto.CustomerId;
+                    car.CarOwnerName = carDto.CarOwnerName;
+                    car.CarOwnerPhone = carDto.CarOwnerPhone;
                     car.VIN = carDto.VIN;
                     car.PlateNum = carDto.PlateNum;
                     car.ModelId = carDto.ModelId;
@@ -185,6 +219,7 @@ namespace AMS.Model.Repositories.Implements
                     car.CarImg = carDto.CarImg;
                     car.CarRegisterTime = carDto.CarRegisterTime;
                     car.MaintainExpireTime = carDto.MaintainExpireTime;
+                    car.CurrentMileage = carDto.CurrentMileage;
                     car.NextMaintainMileage = carDto.NextMaintainMileage;
                     car.YearlyCheckTime = carDto.YearlyCheckTime;
                     car.SecondLevelMaintainTime = carDto.SecondLevelMaintainTime;
@@ -193,6 +228,7 @@ namespace AMS.Model.Repositories.Implements
                     car.InsuranceExpireTime = carDto.InsuranceExpireTime;
                     car.InsuranceOrg = carDto.InsuranceOrg;
                     car.InsuranceNo = carDto.InsuranceNo;
+                    car.Description = carDto.Description;
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -236,6 +272,10 @@ namespace AMS.Model.Repositories.Implements
                     CustomerId = i.CustomerId,
                     CustomerName = i.Customer.Name,
                     CustomerPhone = i.Customer.MobilePhone ?? i.Customer.FixPhone,
+
+                    CarOwnerName = i.CarOwnerName,
+                    CarOwnerPhone = i.CarOwnerPhone,
+
                     VIN = i.VIN,
                     PlateNum = i.PlateNum,
                     ModelId = i.ModelId,
@@ -243,14 +283,15 @@ namespace AMS.Model.Repositories.Implements
                     SeriesName = i.Model.Series.Name,
                     ModelName = i.Model.Name,
                     Price = i.Model.Price,
-                    FullName = i.CarFullName,
-                    Color = i.Model.Color,
+                    FullName = i.Model.FullName,
+                    Color = i.Color,
                     EngineModelNo = i.EngineModelNo,
                     EngineNo = i.EngineNo,
                     CarLabel = i.CarLabel,
                     CarImg = i.CarImg,
                     CarRegisterTime = i.CarRegisterTime,
                     MaintainExpireTime = i.MaintainExpireTime,
+                    CurrentMileage = i.CurrentMileage,
                     NextMaintainMileage = i.NextMaintainMileage,
                     YearlyCheckTime = i.YearlyCheckTime,
                     SecondLevelMaintainTime = i.SecondLevelMaintainTime,
@@ -258,7 +299,11 @@ namespace AMS.Model.Repositories.Implements
                     TailCheckTime = i.TailCheckTime,
                     InsuranceExpireTime = i.InsuranceExpireTime,
                     InsuranceOrg = i.InsuranceOrg,
-                    InsuranceNo = i.InsuranceNo
+                    InsuranceNo = i.InsuranceNo,
+                    Description = i.Description,
+
+                    FirstServiceTime = i.FirstServiceTime,
+                    LastServiceTime = i.LastServiceTime
                 }).ToList();
                 return cars;
             }

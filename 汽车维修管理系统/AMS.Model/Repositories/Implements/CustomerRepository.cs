@@ -159,5 +159,68 @@ namespace AMS.Model.Repositories.Implements
                 return new ResModel() { Msg = "删除用户成功", Success = true };
             }
         }
+
+        public List<CustomerDto> QueryCustomer(string customerName, string tel,string contact,string plateNum)
+        {
+            using (var db = new ModelContext())
+            {
+                var query = db.Customer.Select(i => new CustomerDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    CustomerType = i.CustomerType,
+                    Level = i.Level,
+                    MobilePhone = i.MobilePhone,
+                    ServicePassword = i.ServicePassword,
+                    ContactName = i.ContactName,
+                    IDCard = i.IDCard,
+                    FixPhone = i.FixPhone,
+                    Address = i.Address,
+                    WeChat = i.WeChat,
+                    Gender = i.Gender,
+                    Birthday = i.Birthday,
+                    QQ = i.QQ,
+                    Hobby = i.Hobby,
+                    Description = i.Description
+                });
+                if (!string.IsNullOrEmpty(customerName))
+                {
+                    query = query.Where(i => i.Name.Contains(customerName));
+                }
+                if (!string.IsNullOrEmpty(tel))
+                {
+                    query = query.Where(i => i.MobilePhone.Contains(tel) || i.FixPhone.Contains(tel));
+                }
+                if (!string.IsNullOrEmpty(contact))
+                {
+                    query = query.Where(i=>i.ContactName.Contains(contact));
+                }
+
+                if (!string.IsNullOrEmpty(plateNum))
+                {
+                    var plateNumQuery = db.Car.Where(i => i.PlateNum.Contains(plateNum)).Select(i=>i.Customer).Select(i=>new CustomerDto()
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        CustomerType = i.CustomerType,
+                        Level = i.Level,
+                        MobilePhone = i.MobilePhone,
+                        ServicePassword = i.ServicePassword,
+                        ContactName = i.ContactName,
+                        IDCard = i.IDCard,
+                        FixPhone = i.FixPhone,
+                        Address = i.Address,
+                        WeChat = i.WeChat,
+                        Gender = i.Gender,
+                        Birthday = i.Birthday,
+                        QQ = i.QQ,
+                        Hobby = i.Hobby,
+                        Description = i.Description
+                    });
+                    query = query.Union(plateNumQuery);
+                }
+                return query.ToList();
+            }
+        }
     }
 }

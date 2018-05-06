@@ -95,6 +95,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -192,6 +193,7 @@
     <Compile Include="Areas\CustomerRelation\Controllers\BusinessController.cs" />
     <Compile Include="Areas\CustomerRelation\Controllers\CarController.cs" />
     <Compile Include="Areas\CustomerRelation\Controllers\CustomerInfoController.cs" />
+    <Compile Include="Areas\CustomerRelation\Controllers\UploadController.cs" />
     <Compile Include="Areas\CustomerRelation\CustomerRelationAreaRegistration.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\BaseInfoController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\RepairItemController.cs" />
@@ -502,6 +504,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
+    <Content Include="Style\car\carAdd.css" />
+    <Content Include="Style\car\carManage.css" />
     <Content Include="Style\common\common.css" />
     <Content Include="Style\home\home.css" />
     <Content Include="Style\home\quickMenu.css" />
@@ -535,13 +539,14 @@
     <Content Include="Views\Home\QuickMenu_PartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\CarImgs\" />
     <Folder Include="Areas\AutoRepair\Models\" />
     <Folder Include="Areas\AutoRepair\Views\Shared\" />
     <Folder Include="Areas\BaseInfo\Models\" />
     <Folder Include="Areas\BaseInfo\Views\Shared\" />
     <Folder Include="Areas\CustomerRelation\Models\" />
     <Folder Include="Areas\CustomerRelation\Views\Shared\" />
+    <Folder Include="Areas\CustomerRelation\Views\Upload\" />
     <Folder Include="Areas\PartDictionary\Models\" />
     <Folder Include="Areas\PartDictionary\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />

@@ -14,6 +14,9 @@ namespace AMS.Model.poco
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
 
+        public string CarOwnerName { get; set; }
+        public string CarOwnerPhone { get; set; }
+
         public Guid ModelId { get; set; }
         [ForeignKey("ModelId")]
         public virtual CarModel Model { get; set; }
@@ -21,6 +24,7 @@ namespace AMS.Model.poco
 
         public string VIN { get; set; }
         public string PlateNum { get; set; }
+        public string Color { get; set; }
 
         public string EngineModelNo { get; set; }
         public string EngineNo { get; set; }
@@ -28,6 +32,7 @@ namespace AMS.Model.poco
         public string CarImg { get; set; }
         public DateTime? CarRegisterTime { get; set; }
         public DateTime? MaintainExpireTime { get; set; }
+        public int? CurrentMileage { get; set; }
         public int? NextMaintainMileage { get; set; }
         public DateTime? YearlyCheckTime { get; set; }
         public DateTime? SecondLevelMaintainTime { get; set; }
@@ -36,5 +41,8 @@ namespace AMS.Model.poco
         public DateTime? InsuranceExpireTime { get; set; }
         public string InsuranceOrg { get; set; }
         public string InsuranceNo { get; set; }
+
+        public DateTime? FirstServiceTime { get; set; }
+        public DateTime? LastServiceTime { get; set; }
     }
 }

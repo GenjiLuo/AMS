@@ -1,0 +1,88 @@
+﻿.full-width {
+    width: 100%;
+}
+.options {
+    margin-top: 10px;
+    margin-bottom: 20px
+}
+.form label.required:before {
+    content: "*";
+    color: #f00;
+    margin-right: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+ul.role-container {
+    margin: 0;
+}
+li.role-item{
+    list-style: none;
+    display: inline-block;
+    width: 24%;
+    padding-bottom: 10px;
+}
+.marginRight5px {
+    margin-right: 5px;
+}
+input[type="password"] ,
+textarea{
+    border-radius: 4px !important;
+}
+.k-dropdown,
+.k-combobox,
+.k-numerictextbox,
+.k-datepicker{
+    border: none;
+    width: 100%;
+}
+.k-combobox .k-i-close {
+    top: 21px!important;
+}
+.menu-tree-container {
+    width: 100%;
+    width: 400px;
+    height: 300px;
+    border: 1px solid #e3e3e3;
+ }
+.marginBottom30px {
+    margin-bottom: 30px;
+}
+#brandName,
+#seriesName,
+#modelName {
+    border-radius: 3px !important;
+}
+.k-datepicker input,
+.k-numerictextbox input,
+.k-combobox input{
+    border-top-left-radius: 3px !important;
+    border-bottom-left-radius: 3px !important;
+}
+.k-i-arrow-60-down{
+    left: 5px;
+}
+.k-numerictextbox .k-i-arrow-60-up {
+    left: 5px;
+    bottom: 9px;
+}
+.k-i-calendar {
+    left: 5px;
+}
+#carModelChooseContainer {
+    display: flex;
+}
+#carModelChooseContainer>div {
+    flex: 1;
+}
+#addCarOwner {
+    margin-bottom: 6px;
+    margin-top: -7px;
+    font-size: 10px;
+}
+#carOwner label,
+#carOwnerPhone label{
+    color: #067CFE;
+}
+#description {
+    height: 90px;
+}

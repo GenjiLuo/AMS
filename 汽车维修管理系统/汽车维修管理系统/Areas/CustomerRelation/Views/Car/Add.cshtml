@@ -1,174 +1,274 @@
 ﻿
 @{
-    ViewBag.Title = "新增一个维修项目";
+    ViewBag.Title = "新增一个车辆信息";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Style/customerManage/customerAdd.css" rel="stylesheet" />
-<div id="addRepairItemApp" class="form">
+<link href="~/Style/car/carAdd.css" rel="stylesheet" />
+<div id="addCarApp" class="form">
     <div class="options container-fluid">
         <div class="row">
-            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="saveCar" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
             <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
     </div>
     <div class="baseinfo container-fluid">
         <h4 class="marginBottom30px">基础信息</h4>
+        <hr />
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">客户类型</label>
-            <div class="col-xs-3">
-                <div id="customerType">
-                    <span>
-                        个人
-                    </span>
-                    <span>
-                        单位
-                    </span>
+            <label class="required col-xs-2 text-right">客户</label>
+            <div class="col-xs-4">
+                <input id="customer" placeholder="客户名称/电话" class="k-textbox full-width" v-model.lazy.trim="customerName" />
+            </div>
+        </div>
+        <div id="addCarOwner" class="form-group row">
+            <label class="col-xs-2 text-right"></label>
+            <div class="col-xs-4">
+                <span>客户不是车主？<a href="javascript:void(0)" onclick="addCarOwner(this);">点击此处添加车主</a></span>
+                <span style="display: none;"><a id="cancelAddOwner" href="javascript:void(0)" onclick="cancelAddCarOwner(this);">点击取消添加车主</a></span>
+            </div>
+        </div>
+        <div style="display: none;" id="carOwner" class="form-group row">
+            <label class="col-xs-2 text-right">车主</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="carOwnerName" />
+            </div>
+        </div>
+        <div style="display: none;" id="carOwnerPhone" class="form-group row">
+            <label class="col-xs-2 text-right">车主电话</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="carOwnerPhone" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">VIN号</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="VIN" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">车牌号</label>
+            <div class="col-xs-4">
+                <input  class="k-textbox full-width" v-model.lazy.trim="plateNum" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">车型</label>
+            <div class="col-xs-4" id="carModelChooseContainer">
+                <div>
+                    <input id="carBrand" class="k-textbox" v-model.lazy.trim="carBrandName" />
+                </div>
+                <div>
+                    <input id="carSeries" class="k-textbox" v-model.lazy.trim="carSeriesName" />
+                </div>
+                <div>
+                    <input id="carModel" class="k-textbox" v-model.lazy.trim="carModelName" />
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">客户名称</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="name" />
+            <label class="col-xs-2 text-right">颜色</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="color" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">手机</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="mobile" />
+            <label class="col-xs-2 text-right">品牌</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="carBrandName" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">服务密码</label>
-            <div class="col-xs-3">
-                <input type="password" class="k-textbox full-width" v-model.trim="servicePassword" />
+            <label class=" col-xs-2 text-right">发动机号</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="engineNo" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">确认服务密码</label>
-            <div class="col-xs-3">
-                <input type="password" class="k-textbox full-width" v-model.trim="confirmServicePassword" />
+            <label class="col-xs-2 text-right">发动机型号</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="engineModelNo" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">联系人</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="contact" />
+            <label class="col-xs-2 text-right">车辆标签</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.lazy.trim="carLabelNames" />
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">证件上传</h4>
+        <hr />
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">图片</label>
+            <div class="col-xs-4">
+                <input name="files" id="files" type="file" aria-label="files" />
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">保养/保险/年审信息</h4>
+        <hr />
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">车辆登记时间</label>
+            <div class="col-xs-4">
+                <input id="carRegisterTime" class="k-textbox full-width" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">身份证号</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="IDNum" />
+            <label class="col-xs-2 text-right">保养到期</label>
+            <div class="col-xs-4">
+                <input id="maintainExpireTime" class="k-textbox full-width" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">座机</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="fixPhone" />
+            <label class="col-xs-2 text-right">当前里程</label>
+            <div class="col-xs-4">
+                <input id="currentMiles" class="k-textbox full-width" v-model.lazy.trim="currentMiles" />
             </div>
         </div>
         <div class="form-group row">
-            <label class=" col-xs-2 text-right">联系地址</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="address" />
+            <label class="col-xs-2 text-right">下次保养里程</label>
+            <div class="col-xs-4">
+                <input id="nextMaintainMiles" class="k-textbox full-width" v-model.lazy.trim="nextMaintainMiles" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">微信</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="wechat" />
+            <label class="col-xs-2 text-right">年审到期</label>
+            <div class="col-xs-4">
+                <input id="yearlyCheckTime" class="k-textbox full-width" />
             </div>
         </div>
-
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">二级维护到期</label>
+            <div class="col-xs-4">
+                <input id="secondLevelMaintainTime" class="k-textbox full-width" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">等级评定到期</label>
+            <div class="col-xs-4">
+                <input id="levelCheckTime" class="k-textbox full-width" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">车辆尾检到期</label>
+            <div class="col-xs-4">
+                <input id="tailCheckTime" class="k-textbox full-width"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">保险到期</label>
+            <div class="col-xs-4">
+                <input id="insuranceExpireTime" class="k-textbox full-width"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">保险公司</label>
+            <div class="col-xs-4">
+                <input id="insuranceOrg" class="k-textbox full-width" v-model.lazy.trim="insuranceOrg" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">保险号</label>
+            <div class="col-xs-4">
+                <input id="insuranceNo" class="k-textbox full-width" v-model.lazy.trim="insuranceNo" />
+            </div>
+        </div>
     </div>
     <div class="advancedinfo container-fluid">
         <h4 class="marginBottom30px">其它信息</h4>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">性别</label>
-            <div class="col-xs-3">
-                <div id="gender">
-                    <span>
-                        男
-                    </span>
-                    <span>
-                        女
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">生日</label>
-            <div class="col-xs-3">
-                <input id="birthday" class="k-textbox full-width" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">QQ</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="qq" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">爱好</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="hobby" />
-            </div>
-        </div>
+        <hr />
         <div class="form-group row">
             <label class="col-xs-2 text-right">备注</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="description" />
+            <div class="col-xs-4">
+                <textarea id="description" class="k-textbox full-width" v-model.lazy.trim="description"></textarea>
             </div>
+        </div>
+    </div>
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="saveCar" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
     </div>
 </div>
 <script>
-
-</script>
-<script>
-    var addRepairItemApp = new Vue({
-        el: "#addRepairItemApp",
+    var addCarVm = new Vue({
+        el: "#addCarApp",
         data: {
-            customerType:"",
-            name: "",
-            mobile: "",
-            servicePassword:"",
-            confirmServicePassword: "",
-            contact: "",
-            IDNum: "",
-            fixPhone: "",
-            address: "",
-            wechat: "",
-            qq: "",
-            gender:"",
-            birthday:"",
-            hobby: "",
+            customerName: "",
+            customerPhone:"",
+            customerId: "",
+            carOwnerName: "",
+            carOwnerPhone:"",
+            VIN: "",
+            plateNum: "",
+            carBrandName: "",
+            carSeriesName: "",
+            carModelName: "",
+            carModelId: "",
+            color: "",
+            carImgUrl:"",
+            engineNo: "",
+            engineModelNo: "",
+            carLabelNames: "",
+            carRegisterTime: "",
+            maintainExpireTime: "",
+            currentMiles: "",
+            nextMaintainMiles: "",
+            yearlyCheckTime: "",
+            secondLevelMaintainTime: "",
+            levelCheckTime: "",
+            tailCheckTime: "",
+            insuranceExpireTime: "",
+            insuranceOrg: "",
+            insuranceNo: "",
             description: ""
         },
         methods: {
             goBack: function() {
                 window.history.back();
             },
-            saveUser: function () {
+            saveCar: function () {
                 var _this = this;
-                _this.customerType = $("#customerType").data("kendoButtonGroup").current().index();
-                _this.gender = $("#gender").data("kendoButtonGroup").current().index();
-                _this.birthday = $("#birthday").data("kendoDatePicker").value();
-                var customer = {
-                    CustomerType: _this.customerType,
-                    Name: _this.name,
-                    MobilePhone: _this.mobile,
-                    ServicePassword: _this.servicePassword,
-                    ContactName: _this.contact,
-                    IDCard: _this.IDNum,
-                    FixPhone: _this.fixPhone,
-                    Address: _this.address,
-                    Wechat: _this.wechat,
-                    QQ: _this.qq,
-                    Gender: _this.gender,
-                    Birthday: _this.birthday,
-                    Hobby: _this.hobby,
+                var customer = $("#customer").data("kendoComboBox").dataItem();
+                _this.customerId = customer.Id;
+                _this.customerPhone = customer.MobilePhone || customer.FixPhone;
+                _this.customerName = customer.Name;
+                _this.carModelId = $("#carModel").data("kendoDropDownList").value();
+                _this.carRegisterTime = $("#carRegisterTime").data("kendoDatePicker").value();
+                _this.maintainExpireTime = $("#maintainExpireTime").data("kendoDatePicker").value();
+                _this.currentMiles = $("#currentMiles").data("kendoNumericTextBox").value();
+                _this.nextMaintainMiles = $("#nextMaintainMiles").data("kendoNumericTextBox").value();
+                _this.yearlyCheckTime = $("#yearlyCheckTime").data("kendoDatePicker").value();
+                _this.secondLevelMaintainTime = $("#secondLevelMaintainTime").data("kendoDatePicker").value();
+                _this.levelCheckTime = $("#levelCheckTime").data("kendoDatePicker").value();
+                _this.tailCheckTime = $("#tailCheckTime").data("kendoDatePicker").value();
+                _this.insuranceExpireTime = $("#insuranceExpireTime").data("kendoDatePicker").value();
+                var car = {
+                    CustomerId: _this.customerId,
+                    CarOwnerName: _this.carOwnerName || _this.customerName,
+                    CarOwnerPhone: _this.carOwnerPhone || _this.customerPhone,
+                    VIN: _this.VIN,
+                    PlateNum: _this.plateNum,
+                    ModelId: _this.carModelId,
+                    Color: _this.color,
+                    CarImg: _this.carImgUrl,
+                    EngineNo: _this.engineNo,
+                    EngineModelNo: _this.engineModelNo,
+                    CarLabel: _this.carLabelNames,
+                    CarRegisterTime: _this.carRegisterTime,
+                    MaintainExpireTime: _this.maintainExpireTime,
+                    CurrentMileage: _this.currentMiles,
+                    NextMaintainMileage: _this.nextMaintainMiles,
+                    YearlyCheckTime: _this.yearlyCheckTime,
+                    SecondLevelMaintainTime: _this.secondLevelMaintainTime,
+                    LevelCheckTime: _this.levelCheckTime,
+                    TailCheckTime: _this.tailCheckTime,
+                    InsuranceExpireTime: _this.insuranceExpireTime,
+                    InsuranceOrg: _this.insuranceOrg,
+                    InsuranceNo: _this.insuranceNo,
                     Description: _this.description
                 };
                 $.ajax({
@@ -176,7 +276,7 @@
                     type: "POST",
                     dataType: "json",
                     contentType: "application/json",
-                    data: JSON.stringify(customer),
+                    data: JSON.stringify(car),
                     success: function(res) {
                         if (res.Success) {
                             swal({
@@ -192,7 +292,7 @@
                         } else {
                             swal({
                                 type: "error",
-                                text: "添加失败"
+                                text: res.Msg
                             });
                         }
                     }
@@ -203,14 +303,181 @@
 </script>
 <script>
     $(document).ready(function () {
-        $("#customerType").kendoButtonGroup({
-            index: 0
+        //客户
+        $("#customer").kendoComboBox({
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Customer_ComboboxDataSource")",
+                        data: function() {
+                            return {
+                                keyword: ""
+                            };
+                        }
+                    }
+                }
+            }
         });
-        $("#gender").kendoButtonGroup({
-            index: 0
+        //车辆图片上传
+        $("#files").kendoUpload({
+            async: {
+                saveUrl: "@Url.Action("Save","Upload")",
+                removeUrl: "@Url.Action("Remove","Upload")",
+                autoUpload: true
+            },
+            validation: {
+                allowedExtensions: [".jpg", ".png", ".gif"],
+                invalidFileExtension: "格式不对，仅支持.gif .jpg .png"
+            },
+            localization: {
+                select: "选择图片"
+            },
+            multiple: false,
+            upload: function (e) {
+                var uid = e.files[0].uid;
+                e.sender.options.async.saveUrl = "@Url.Action("Save","Upload")"+"?uid="+uid;
+            },
+            remove: function(e) {
+                var uid = e.files[0].uid;
+                e.sender.options.async.removeUrl = "@Url.Action("Remove","Upload")"+"?uid="+uid;
+            },
+            success: function (e) {
+                var uid = e.files[0].uid;
+                var fileName = e.files[0].name;
+                addCarVm.carImgUrl = "../../App_Data/CarImgs/" + uid + fileName;
+            }
         });
-        $("#birthday").kendoDatePicker({
+        //车辆型号
+        $("#carBrand").kendoDropDownList({
+            optionLabel: "选择品牌",
+            dataTextField: "Name",
+            dataValueField: "Name",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("CarBrand_DropDownListDataSource")"
+                    }
+                }
+            },
+            change: onBrandChange
+        }).data("kendoDropDownList");
+        $("#carSeries").kendoDropDownList({
+            enable:false,
+            optionLabel: "选择车系",
+            dataTextField: "Name",
+            dataValueField: "Name",
+            dataSource: [],
+            change: onSeriesChange
+        }).data("kendoDropDownList");
+        $("#carModel").kendoDropDownList({
+            enable:false,
+            optionLabel: "选择车型",
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: []
+        }).data("kendoDropDownList");
+        //车辆登记时间
+        $("#carRegisterTime").kendoDatePicker({
             format: "yyyy/MM/dd"
         });
+        //保养到期
+        $("#maintainExpireTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //年审到期
+        $("#yearlyCheckTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //二级维护到期
+        $("#secondLevelMaintainTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //等级评定到期
+        $("#levelCheckTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //车辆尾检到期
+        $("#tailCheckTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //保险到期
+        $("#insuranceExpireTime").kendoDatePicker({
+            format: "yyyy/MM/dd"
+        });
+        //当前里程
+        $("#currentMiles").kendoNumericTextBox();
+        //下次保养里程
+        $("#nextMaintainMiles").kendoNumericTextBox();
     });
+</script>
+<script>
+    function onBrandChange() {
+        var selectedItem = this.dataItem();
+        var carSeries = $("#carSeries").data("kendoDropDownList");
+        var carModel = $("#carModel").data("kendoDropDownList");
+        if (!selectedItem.Name) {
+            carSeries.select(0);
+            carSeries.enable(false);
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carSeries.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                    read: {
+                        url: "@Url.Action("CarSeries_DropDownListDataSource")",
+                        dataType: "json",
+                        data: function() {
+                            return {
+                                brandName:selectedItem.Name
+                            };
+                        }
+                    }
+                }
+        });
+        carSeries.setDataSource(dataSource);
+    }
+    function onSeriesChange() {
+        var selectedItem = this.dataItem();
+        var carModel = $("#carModel").data("kendoDropDownList");
+        if (!selectedItem.Name) {
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carModel.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                    read: {
+                        url: "@Url.Action("CarModel_DropDownListDataSource")",
+                        dataType: "json",
+                        data: function() {
+                            return {
+                                seriesName:selectedItem.Name
+                            };
+                        }
+                    }
+                }
+        });
+        carModel.setDataSource(dataSource);
+    }
+    function addCarOwner(_this) {
+        $(_this).parent().hide();
+        $(_this).parent().next().show();
+
+        $("#carOwner").show();
+        $("#carOwnerPhone").show();
+    }
+    function cancelAddCarOwner(_this) {
+        $(_this).parent().hide();
+        $(_this).parent().prev().show();
+
+        $("#carOwner").hide();
+        $("#carOwnerPhone").hide();
+        addCarVm.carOwnerName = "";
+        addCarVm.carOwnerPhone = "";
+    }
 </script>

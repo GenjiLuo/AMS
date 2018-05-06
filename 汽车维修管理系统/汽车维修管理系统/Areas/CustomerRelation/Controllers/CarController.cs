@@ -13,10 +13,14 @@ namespace 汽车维修管理系统.Areas.CustomerRelation.Controllers
     public class CarController : Controller
     {
         private readonly ICarService _carService;
+        private readonly ICustomerService _customerService;
+        private readonly ICarModelService _carModelService;
 
         public CarController()
         {
             _carService=new CarService();
+            _customerService=new CustomerService();
+            _carModelService=new CarModelService();
         }
         public ActionResult Index()
         {
@@ -37,6 +41,24 @@ namespace 汽车维修管理系统.Areas.CustomerRelation.Controllers
         {
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_carService.AddCar(carDto,currentUser));
+        }
+
+        public ActionResult Customer_ComboboxDataSource(string keyword)
+        {
+            return Json(_customerService.QueryCustomer(keyword, keyword, null, null), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CarBrand_DropDownListDataSource()
+        {
+            return Json(_carModelService.GetBrandByKeyWord(""),JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult CarSeries_DropDownListDataSource(string brandName)
+        {
+            return Json(_carModelService.GetSeriesByBrandAndKeyWord(brandName,""), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult CarModel_DropDownListDataSource(string seriesName)
+        {
+            return Json(_carModelService.GetModelBySeriesAndKeyWord(seriesName,""), JsonRequestBehavior.AllowGet);
         }
         public ActionResult Update(Guid carId)
         {

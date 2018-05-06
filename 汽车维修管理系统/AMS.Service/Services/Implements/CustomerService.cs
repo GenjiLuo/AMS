@@ -40,5 +40,10 @@ namespace AMS.Service.Services.Implements
         {
             return _customerRepository.DeleteCustomer(customerDtoId);
         }
+
+        public List<CustomerDto> QueryCustomer(string customerName, string tel, string contact, string plateNum)
+        {
+            return _customerRepository.QueryCustomer(customerName,tel,contact,plateNum);
+        }
     }
 }

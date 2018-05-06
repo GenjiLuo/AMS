@@ -13,6 +13,9 @@ namespace AMS.Model.dto
         public string CustomerName { get; set; }
         public string CustomerPhone { get; set; }
 
+        public string CarOwnerName { get; set; }
+        public string CarOwnerPhone { get; set; }
+
         public string VIN { get; set; }
         public string PlateNum { get; set; }
 
@@ -30,6 +33,7 @@ namespace AMS.Model.dto
         public string CarImg { get; set; }
         public DateTime? CarRegisterTime { get; set; }
         public DateTime? MaintainExpireTime { get; set; }
+        public int? CurrentMileage { get; set; }
         public int? NextMaintainMileage { get; set; }
         public DateTime? YearlyCheckTime { get; set; }
         public DateTime? SecondLevelMaintainTime { get; set; }

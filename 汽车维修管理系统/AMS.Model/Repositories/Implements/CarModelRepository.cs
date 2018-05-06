@@ -193,32 +193,51 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
-        public List<string> GetBrandNameByKeyWord(string brandKeyWord)
+        public List<CarBrandDto> GetBrandByKeyWord(string brandKeyWord)
         {
             using (var db=new ModelContext())
             {
-                var brandNames = db.CarBrand.Where(i => i.Name.Contains(brandKeyWord)).Select(i => i.Name).ToList();
-                return brandNames;
+                var brands = db.CarBrand.Where(i => i.Name.Contains(brandKeyWord))
+                    .Select(i => new CarBrandDto()
+                    {
+                        Id = i.Id,
+                        Name = i.Name
+                    }).ToList();
+                return brands;
             }
         }
 
-        public List<string> GetSeriesNameByBrandAndKeyWord(string brandName, string seriesKeyWord)
+        public List<CarSeriesDto> GetSeriesByBrandAndKeyWord(string brandName, string seriesKeyWord)
         {
             using (var db=new ModelContext())
             {
-                var seriesNames = db.CarSeries.Where(i => i.Brand.Name == brandName && i.Name.Contains(seriesKeyWord))
-                    .Select(i => i.Name).ToList();
-                return seriesNames;
+                var series = db.CarSeries.Where(i => i.Brand.Name == brandName && i.Name.Contains(seriesKeyWord))
+                    .Select(i => new CarSeriesDto()
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        BrandId = i.BrandId,
+                        BrandName = i.Brand.Name
+                    }).ToList();
+                return series;
             }
         }
 
-        public List<string> GetModelNameBySeriesAndKeyWord(string seriesName, string modelKeyWord)
+        public List<CarModelDto> GetModelBySeriesAndKeyWord(string seriesName, string modelKeyWord)
         {
             using (var db = new ModelContext())
             {
-                var modelNames = db.CarModel.Where(i => i.Series.Name == seriesName && i.Name.Contains(modelKeyWord))
-                    .Select(i => i.Name).ToList();
-                return modelNames;
+                var models = db.CarModel.Where(i => i.Series.Name == seriesName && i.Name.Contains(modelKeyWord))
+                    .Select(i => new CarModelDto()
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        SeriesId = i.SeriesId,
+                        SeriesName = i.Series.Name,
+                        BrandId = i.Series.BrandId,
+                        BrandName = i.Series.Brand.Name
+                    }).ToList();
+                return models;
             }
         }
     }

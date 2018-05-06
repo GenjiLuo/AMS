@@ -13,8 +13,8 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel UpdateCarModel(CarModelDto carModelDto, UserDto operationUser);
         ResModel DeleteCarModel(Guid carModelId);
         List<CarModelDto> QueryCarModel(string keyWord);
-        List<string> GetBrandNameByKeyWord(string brandKeyWord);
-        List<string> GetSeriesNameByBrandAndKeyWord(string brandName, string seriesKeyWord);
-        List<string> GetModelNameBySeriesAndKeyWord(string seriesName, string modelKeyWord);
+        List<CarBrandDto> GetBrandByKeyWord(string brandKeyWord);
+        List<CarSeriesDto> GetSeriesByBrandAndKeyWord(string brandName, string seriesKeyWord);
+        List<CarModelDto> GetModelBySeriesAndKeyWord(string seriesName, string modelKeyWord);
     }
 }
