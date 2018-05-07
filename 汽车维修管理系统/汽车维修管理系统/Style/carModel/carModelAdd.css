@@ -46,6 +46,7 @@ input[type="password"] {
 #modelName {
     border-radius: 3px !important;
 }
+.k-datepicker input,
 .k-numerictextbox input {
     border-top-left-radius: 3px !important;
     border-bottom-left-radius: 3px !important;

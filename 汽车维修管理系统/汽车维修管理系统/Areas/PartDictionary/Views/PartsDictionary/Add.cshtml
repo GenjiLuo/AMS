@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "新增一个维修项目";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/customerManage/customerAdd.css" rel="stylesheet" />
+<div id="addApp" class="form">
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+    <div class="baseinfo container-fluid">
+        <h4 class="marginBottom30px">基础信息</h4>
+        <hr/>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">配件编码</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="code" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">配件名称</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">配件类型</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">计量单位</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="measurementUnit" />
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">适用车型</h4>
+        <hr/>
+        <div v-for="(item,index) in suitedCarModel" class="form-group row">
+            <label class="col-xs-2 text-right">适用车型{{index+1}}</label>
+            <div  class="col-xs-4">
+                <div>
+                    <input :id="item.carBrandUiId" class="k-textbox"/>
+                </div>
+                <div>
+                    <input :id="item.carSeriesUiId" class="k-textbox"/>
+                </div>
+                <div>
+                    <input :id="item.carModelUiId" class="k-textbox"/>
+                </div>
+            </div>
+        </div>
+        <div id="addCarBox" class="form-group row">
+            <label class="col-xs-2 text-right"></label>
+            <div class="col-xs-4">
+                <button @@click="addCarDropDownList" class="k-button k-primary marginRight5px"><i class="fa fa-plus"></i>&nbsp;增加</button>
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">价格</h4>
+        <hr/>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">供应商价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="supplierPrice" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">零售价</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="retailPrice" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">批发价</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="tradePrice" />
+            </div>
+        </div><div class="form-group row">
+            <label class="required col-xs-2 text-right">调货价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="adjustPrice" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">索赔价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="claimPrice" />
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">其它信息</h4>
+        <hr/>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">品牌</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="brandName" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">规格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="specifications" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">生产地</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="producedAddress" />
+            </div>
+        </div><div class="form-group row">
+            <label class="required col-xs-2 text-right">标签</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="label" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">备注</label>
+            <div class="col-xs-4">
+                <textarea class="k-textbox full-width" v-model.trim="description"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+</div>
+<script>
+    var brandDropDownListConfig = {
+        optionLabel: "选择品牌",
+        dataTextField: "Name",
+        dataValueField: "Id",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "@Url.Action("CarBrand_DropDownListDataSource")"
+                }
+            }
+        },
+        change: onBrandChange
+    };
+    var seriesDropDownListConfig = {
+        enable: false,
+        optionLabel: "选择车系",
+        dataTextField: "Name",
+        dataValueField: "Id",
+        dataSource: [],
+        change: onSeriesChange
+    };
+    var modelDropDownListConfig = {
+        enable: false,
+        optionLabel: "选择车型",
+        dataTextField: "Name",
+        dataValueField: "Id",
+        dataSource: []
+    };
+</script>
+<script>
+    var addVm = new Vue({
+        el: "#addApp",
+        data: {
+            code: "",
+            name: "",
+            partsTypeId: "",
+            measurementUnit: "",
+            suitedCarModel: [
+                {
+                    carBrandUiId: "brand1",
+                    carSeriesUiId: "series1",
+                    carModelUiId:"model1",
+                    brandId: "",
+                    seriesId: "",
+                    modelId: ""
+                }],
+            supplierPrice: "",
+            retailPrice: "",
+            tradePrice: "",
+            adjustPrice: "",
+            claimPrice: "",
+            brandName: "",
+            specifications: "",
+            producedAddress: "",
+            label: "",
+            description:""
+        },
+        watch: {
+            "suitedCarModel": function() {
+
+            }
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            addCarDropDownList: function () {
+                var count = this.suitedCarModel.length();
+                var tempCarModel = {
+                    carBrandUiId: "brand"+count,
+                    carSeriesUiId: "series"+count,
+                    carModelUiId: "model"+count,
+                    brandId: "",
+                    seriesId: "",
+                    modelId: ""
+                };
+                this.suitedCarModel.push(tempCarModel);
+            },
+            save: function () {
+                var _this = this;
+                var partsDictionary = {
+                    
+                };
+                $.ajax({
+                    url: "@Url.Action("Add")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(partsDictionary),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: res.Msg
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        //车辆型号
+        $("#carBrand1").kendoDropDownList({
+            optionLabel: "选择品牌",
+            dataTextField: "Name",
+            dataValueField: "Name",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("CarBrand_DropDownListDataSource")"
+                    }
+                }
+            },
+            change: onBrandChange
+        }).data("kendoDropDownList");
+        $("#carSeries1").kendoDropDownList({
+            enable:false,
+            optionLabel: "选择车系",
+            dataTextField: "Name",
+            dataValueField: "Name",
+            dataSource: [],
+            change: onSeriesChange
+        }).data("kendoDropDownList");
+        $("#carModel1").kendoDropDownList({
+            enable:false,
+            optionLabel: "选择车型",
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: []
+        }).data("kendoDropDownList");
+        $("#addCar").click(function() {
+
+        });
+    });
+</script>
+<script>
+    function onBrandChange() {
+        var selectedItem = this.dataItem();
+        var carSeries = $("#carSeries").data("kendoDropDownList");
+        var carModel = $("#carModel").data("kendoDropDownList");
+        if (!selectedItem.Name) {
+            carSeries.select(0);
+            carSeries.enable(false);
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carSeries.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("CarSeries_DropDownListDataSource")",
+                    dataType: "json",
+                    data: function() {
+                        return {
+                            brandName:selectedItem.Name
+                        };
+                    }
+                }
+            }
+        });
+        carSeries.setDataSource(dataSource);
+    }
+    function onSeriesChange() {
+        var selectedItem = this.dataItem();
+        var carModel = $("#carModel").data("kendoDropDownList");
+        if (!selectedItem.Name) {
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carModel.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("CarModel_DropDownListDataSource")",
+                    dataType: "json",
+                    data: function() {
+                        return {
+                            seriesName:selectedItem.Name
+                        };
+                    }
+                }
+            }
+        });
+        carModel.setDataSource(dataSource);
+    }
+</script>

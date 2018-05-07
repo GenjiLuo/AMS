@@ -9,6 +9,7 @@ namespace AMS.Model.poco
         public CarModel()
         {
             Cars=new HashSet<Car>();
+            PartsDictionarySuitedCarModel=new HashSet<PartsDictionarySuitedCarModel>();
         }
         public Guid SeriesId { get; set; }
         [ForeignKey("SeriesId")]
@@ -19,5 +20,7 @@ namespace AMS.Model.poco
         public string FullName { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<PartsDictionarySuitedCarModel> PartsDictionarySuitedCarModel { get; set; }
+
     }
 }

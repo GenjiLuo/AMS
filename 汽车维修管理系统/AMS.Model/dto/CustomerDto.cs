@@ -4,7 +4,7 @@ using AMS.Model.poco;
 
 namespace AMS.Model.dto
 {
-    public class CustomerDto : BaseModel
+    public class CustomerDto : BaseDto
     {
         public CustomerDto()
         {

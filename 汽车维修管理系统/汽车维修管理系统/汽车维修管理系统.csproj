@@ -186,6 +186,7 @@
     <Compile Include="Areas\BaseInfo\Controllers\EmployeeManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\JobManagementController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\OrganizationManagementController.cs" />
+    <Compile Include="Areas\BaseInfo\Controllers\PartsTypeController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\RepairDictionaryController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\RepairItemController.cs" />
     <Compile Include="Areas\BaseInfo\Controllers\RepairItemTypeController.cs" />
@@ -197,6 +198,8 @@
     <Compile Include="Areas\CustomerRelation\CustomerRelationAreaRegistration.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\BaseInfoController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\RepairItemController.cs" />
+    <Compile Include="Areas\PartDictionary\Controllers\PartsDictionaryController.cs" />
+    <Compile Include="Areas\PartDictionary\Controllers\SupplierController.cs" />
     <Compile Include="Areas\PartDictionary\PartDictionaryAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\BusinessReportController.cs" />
     <Compile Include="Areas\Report\Controllers\FinanceReportController.cs" />
@@ -490,6 +493,16 @@
     <Content Include="Areas\CustomerRelation\Views\Car\Index.cshtml" />
     <Content Include="Areas\CustomerRelation\Views\Car\Add.cshtml" />
     <Content Include="Areas\CustomerRelation\Views\Car\Update.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\PartsType\Index.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\PartsType\Add_PartialView.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\PartsType\Update_PartialView.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Supplier\Index.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Supplier\Add.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Supplier\Update.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsDictionary\Index.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsDictionary\Add.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsDictionary\Update.cshtml" />
+    <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Add - 复制.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -517,6 +530,8 @@
     <Content Include="Style\jobManage\jobManage.css" />
     <Content Include="Style\customerManage\customerAdd.css" />
     <Content Include="Style\customerManage\customerManage.css" />
+    <Content Include="Style\partsType\add.css" />
+    <Content Include="Style\partsType\index.css" />
     <Content Include="Style\userManage\userAdd.css" />
     <Content Include="Style\userManage\userManage.css" />
     <Content Include="Style\orgManage\orgAdd.css" />

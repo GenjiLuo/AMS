@@ -1,0 +1,82 @@
+﻿@model AMS.Model.dto.PartsTypeDto
+<link href="~/Style/partsType/add.css" rel="stylesheet" />
+<div id="addApp" class="container-fluid">
+    <div class="row">
+        <div>
+            <h4>基础信息</h4>
+            <hr/>
+            <div class="form-group">
+                <label class="inputlabel">归属类型</label>
+                <input class="k-textbox" disabled="disabled" v-model="parentName"/>
+                <input type="hidden" v-model="parentId"/>
+            </div>
+            <div class="form-group">
+                <label class="inputlabel">类型名称</label>
+                <input class="k-textbox" v-model="name"/>
+            </div>
+            <div class="form-group">
+                <label class="inputlabel">备注</label>
+                <input class="k-textbox" v-model="description"/>
+            </div>
+        </div>
+    </div>
+    <div class="row option">
+        <button type="button" @@click="cancelAdd" class="k-button pull-right"><i class="fa fa-reply"></i>返回&nbsp;</button>
+        <button type="button" @@click="saveAdd" class="k-button k-primary pull-right marginRight5px"><i class="fa fa-save"></i>保存&nbsp;</button>&nbsp;
+    </div>
+</div>
+<script>
+    var addVm = new Vue({
+        el: "#addApp",
+        data: {
+            id:"@Model.Id",
+            parentId: "@Model.ParentId",
+            parentName:"@Model.ParentName",
+            name: "@Model.Name",
+            description:"@Model.Description"
+        },
+        methods: {
+            cancelAdd: function() {
+                $("#addPartsTypeWindow").data("kendoWindow").destroy();
+            },
+            saveAdd: function () {
+                var _this = this;
+                $.ajax({
+                    url: "@Url.Action("Update")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        Id:_this.id,
+                        ParentId: _this.parentId,
+                        Name: _this.name,
+                        Description:_this.description
+                    }),
+                    success: function(res) {
+                        if (res.Success) {
+                            $("#addPartsTypeWindow").data("kendoWindow").destroy();
+                            swal({
+                                position: "center",
+                                type: "success",
+                                title: "修改成功",
+                                showConfirmButton: false,
+                                timer:1000
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1100);
+                        } else {
+                            swal({
+                                position: "center",
+                                type: "error",
+                                title: res.Msg,
+                                showConfirmButton: false,
+                                timer:1000
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
