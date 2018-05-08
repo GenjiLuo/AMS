@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class RepairItem : BaseDto
+    public class RepairItem : BaseModel
     {
         public string SerNum { get; set; }
         public float WorkHour { get; set; }

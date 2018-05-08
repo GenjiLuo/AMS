@@ -44,6 +44,7 @@
     <Compile Include="Services\Implements\CarService.cs" />
     <Compile Include="Services\Implements\CustomerService.cs" />
     <Compile Include="Services\Implements\CarModelService.cs" />
+    <Compile Include="Services\Implements\WarehouseService.cs" />
     <Compile Include="Services\Implements\PartsDictionaryService.cs" />
     <Compile Include="Services\Implements\SupplierService.cs" />
     <Compile Include="Services\Implements\PartsTypeService.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Services\Interfaces\IRepairTypeService.cs" />
     <Compile Include="Services\Interfaces\ISupplierService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
+    <Compile Include="Services\Interfaces\IWarehouseService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

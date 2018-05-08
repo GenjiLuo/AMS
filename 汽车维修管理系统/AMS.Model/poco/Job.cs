@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class JobDto : BaseDto
+    public class JobDto : BaseModel
     {
         public Guid OrgId { get; set; }
         public string OrgName { get; set; }

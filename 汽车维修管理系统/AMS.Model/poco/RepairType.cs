@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class RepairType : BaseDto
+    public class RepairType : BaseModel
     {
     }
 }

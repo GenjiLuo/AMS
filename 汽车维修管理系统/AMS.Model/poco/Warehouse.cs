@@ -10,12 +10,11 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class RepairItemType : BaseModel
+    public class Warehouse : BaseModel
     {
-        public RepairItemType()
-        {
-            RepairItem=new HashSet<RepairItem>();
-        }
-        public virtual ICollection<RepairItem> RepairItem { get; set; }
+        public bool IsDefault { get; set; }
+        public string ContactName { get; set; }
+        public string ContactPhone { get; set; }
+        public string Address { get; set; }
     }
 }

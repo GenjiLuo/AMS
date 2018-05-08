@@ -77,6 +77,7 @@
     <Compile Include="dto\QuickMenuDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
+    <Compile Include="dto\WarehouseDto.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
@@ -101,6 +102,10 @@
     <Compile Include="Migrations\201805070605442_AddTablePartsDictonary.Designer.cs">
       <DependentUpon>201805070605442_AddTablePartsDictonary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805081533151_AddTableWarehouse.cs" />
+    <Compile Include="Migrations\201805081533151_AddTableWarehouse.Designer.cs">
+      <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="poco\PartsDictionarySuitedCarModel.cs" />
     <Compile Include="poco\PartsDictionary.cs" />
     <Compile Include="poco\PartsType.cs" />
+    <Compile Include="poco\Warehouse.cs" />
     <Compile Include="poco\Supplier.cs" />
     <Compile Include="poco\RepairItemType.cs" />
     <Compile Include="poco\RepairItem.cs" />
@@ -127,6 +133,7 @@
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
     <Compile Include="Repositories\Implements\PartsDictionaryRepository.cs" />
+    <Compile Include="Repositories\Implements\WarehouseRepository.cs" />
     <Compile Include="Repositories\Implements\SupplierRepository.cs" />
     <Compile Include="Repositories\Implements\PartsTypeRepository.cs" />
     <Compile Include="Repositories\Implements\RepairItemRepository.cs" />
@@ -139,6 +146,7 @@
     <Compile Include="Repositories\Implements\UserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICarModelRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsDictionaryRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepairItemRepository.cs" />
@@ -173,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805070605442_AddTablePartsDictonary.resx">
       <DependentUpon>201805070605442_AddTablePartsDictonary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805081533151_AddTableWarehouse.resx">
+      <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

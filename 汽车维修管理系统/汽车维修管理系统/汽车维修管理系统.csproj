@@ -200,6 +200,7 @@
     <Compile Include="Areas\PartDictionary\Controllers\RepairItemController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\PartsDictionaryController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\SupplierController.cs" />
+    <Compile Include="Areas\PartDictionary\Controllers\WarehouseController.cs" />
     <Compile Include="Areas\PartDictionary\PartDictionaryAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\BusinessReportController.cs" />
     <Compile Include="Areas\Report\Controllers\FinanceReportController.cs" />
@@ -504,6 +505,9 @@
     <Content Include="Areas\PartDictionary\Views\PartsDictionary\Add.cshtml" />
     <Content Include="Areas\PartDictionary\Views\PartsDictionary\Update.cshtml" />
     <Content Include="Areas\CustomerRelation\Views\CustomerInfo\Add - 复制.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Warehouse\Index.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Warehouse\Add.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\Warehouse\Update.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

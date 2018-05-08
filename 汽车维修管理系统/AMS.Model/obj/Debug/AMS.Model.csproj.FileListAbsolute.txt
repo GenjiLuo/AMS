@@ -15,10 +15,11 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\New
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\Newtonsoft.Json.xml
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.InitDatabase.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csproj.GenerateResource.cache
-D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojResolveAssemblyReference.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.Migration1.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableSupplier.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTablePartsType.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTablePartsDictonary.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\AutoMapper.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\bin\Debug\AutoMapper.xml
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableWarehouse.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojAssemblyReference.cache
