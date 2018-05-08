@@ -4,7 +4,7 @@ using AMS.Model.poco;
 
 namespace AMS.Model.dto
 {
-    public class PartsDictionarySuitedCarModelDto : BaseModel
+    public class PartsDictionarySuitedCarModelDto : BaseDto
     {
         public PartsDictionarySuitedCarModelDto()
         {

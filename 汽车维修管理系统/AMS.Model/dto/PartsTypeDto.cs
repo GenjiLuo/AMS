@@ -9,11 +9,11 @@ namespace AMS.Model.dto
     {
         public PartsTypeDto()
         {
-            SubPartsType = new List<PartsType>();
+            SubPartsType = new List<PartsTypeDto>();
         }
 
         public Guid? ParentId { get; set; }
         public string ParentName { get; set; }
-        public List<PartsType> SubPartsType { get; set; }
+        public List<PartsTypeDto> SubPartsType { get; set; }
     }
 }

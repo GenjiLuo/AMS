@@ -7,6 +7,7 @@ namespace AMS.Service.Services.Interfaces
 {
     public interface IPartsTypeService
     {
+        List<PartsTypeDto> GetHierarchcalPartsType(List<PartsTypeDto> items, List<PartsTypeDto> allItems);
         List<PartsTypeDto> GetAllPartsType();
         PartsTypeDto GetOnePartsType(Guid partsTypeId);
         ResModel AddPartsType(PartsTypeDto partsTypeDto, UserDto operationUser);

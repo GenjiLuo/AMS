@@ -1,170 +1,438 @@
-﻿@model AMS.Model.dto.SupplierDto
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@model AMS.Model.dto.PartsDictionaryDto
 @{
-    ViewBag.Title = "修改一个供应商";
+    ViewBag.Title = "修改一个维修项目";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Style/carModel/carModelAdd.css" rel="stylesheet" />
+<link href="~/Style/partsDictionary/add.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/kendo.web.ext.js"></script>
 <div id="addApp" class="form">
     <div class="options container-fluid">
         <div class="row">
-            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
             <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
     </div>
     <div class="baseinfo container-fluid">
         <h4 class="marginBottom30px">基础信息</h4>
-        <hr/>
+        <hr />
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">供应商名称</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="name"/>
+            <label class="required col-xs-2 text-right">配件编码</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="code" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="required col-xs-2 text-right">供应商代码</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.lazy.trim="code"/>
+            <label class="required col-xs-2 text-right">配件名称</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="name" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">联系人</label>
-            <div class="col-xs-3">
-                <input id="contactName" class="k-textbox full-width" v-model.lazy.trim="contactName"/>
+            <label class="col-xs-2 text-right">配件类型</label>
+            <div class="col-xs-4">
+                <div id="dropDownTreeView" class="full-width"></div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">手机</label>
-            <div class="col-xs-3">
-                <input id="mobilePhone" class="k-textbox full-width" v-model.trim="mobilePhone"/>
+            <label class="col-xs-2 text-right">计量单位</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="measurementUnit" />
             </div>
         </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">座机</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="fixPhone"/>
+    </div>
+    <div id="carModelChooseBox" class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">适用车型</h4>
+        <hr />
+        <div v-for="(item,index) in suitedCarModel" class="form-group row carmodel-item">
+            <label class="col-xs-2 text-right">适用车型{{index+1}}</label>
+            <div class="col-xs-4 carModelChooseContainer">
+                <div class="brandBox">
+                    <input :id="item.carBrandUiId" class="k-textbox" />
+                </div>
+                <div class="seriesBox">
+                    <input :id="item.carSeriesUiId" class="k-textbox" />
+                </div>
+                <div class="modelBox">
+                    <input :id="item.carModelUiId" class="k-textbox" />
+                </div>
+            </div>
+            <div class="pull-left delete-item">
+                <i v-if="index>0" @@click="deleteCurrenCarModel(index)" class="fa fa-times-circle-o"></i>
             </div>
         </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">传真</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="fax"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">主营范畴</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.lazy.trim="majorOrigin"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">开户银行</label>
-            <div class="col-xs-3">
-                <input id="bankName" class="k-textbox full-width" v-model.lazy.trim="bankName"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">汇款账户</label>
-            <div class="col-xs-3">
-                <input id="bankAccount" class="k-textbox full-width" v-model.trim="bankAccount"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">联系地址</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="address"/>·
+        <div id="addCarBox" class="form-group row">
+            <label class="col-xs-2 text-right"></label>
+            <div class="col-xs-4">
+                <button @@click="addCarDropDownList" class="k-button k-primary marginRight5px"><i class="fa fa-plus"></i>&nbsp;增加</button>
             </div>
         </div>
     </div>
     <div class="advancedinfo container-fluid">
-        <h4 class="marginBottom30px">基础信息</h4>
-        <hr/>
+        <h4 class="marginBottom30px">价格</h4>
+        <hr />
         <div class="form-group row">
-            <label class="col-xs-2 text-right">性别</label>
-            <div class="col-xs-3">
-                <div id="gender">
-                    <span>
-                        男
-                    </span>
-                    <span>
-                        女
-                    </span>
-                </div>
+            <label class="required col-xs-2 text-right">供应商价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="supplierPrice" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">生日</label>
-            <div class="col-xs-3">
-                <input id="birthday" class="full-width" />
+            <label class="required col-xs-2 text-right">零售价</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="retailPrice" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">微信</label>
-            <div class="col-xs-3">
-                <input id="wechat" class="k-textbox full-width" v-model.lazy.trim="wechat"/>
+            <label class="required col-xs-2 text-right">批发价</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="tradePrice" />
+            </div>
+        </div><div class="form-group row">
+            <label class="required col-xs-2 text-right">调货价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="adjustPrice" />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">QQ</label>
-            <div class="col-xs-3">
-                <input id="QQ" class="k-textbox full-width" v-model.trim="QQ"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-xs-2 text-right">备注</label>
-            <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="description"/>·
+            <label class="required col-xs-2 text-right">索赔价格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="claimPrice" />
             </div>
         </div>
     </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom30px">其它信息</h4>
+        <hr />
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">品牌</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="brandName" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">规格</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="specifications" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">生产地</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="producedAddress" />
+            </div>
+        </div><div class="form-group row">
+            <label class="required col-xs-2 text-right">标签</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="label" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">备注</label>
+            <div class="col-xs-4">
+                <textarea class="full-width" v-model.trim="description"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
 </div>
+<script id="treeview-template" type="text/kendo-ui-template">
+    <span data-partsTypyId="#: item.Id #">#: item.Name #</span>
+</script>
 <script>
-
+    $(document).ready(function () {
+        var dropDownTreeView = $("#dropDownTreeView").kendoExtDropDownTreeView({
+            treeview: {
+                dataSource: new kendo.data.HierarchicalDataSource({
+                    transport: {
+                        read: {
+                            url:"@Url.Action("PartsType_DropDownTreeViewDataSource")"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            children:"SubPartsType"
+                        }
+                    }
+                }),
+                dataTextField: "Name",
+                dataValueField: "Id",
+                template: kendo.template($("#treeview-template").html())
+            }
+        }).data("kendoExtDropDownTreeView");
+        dropDownTreeView.bind("select", function (e) {
+            var partsTypeId = $(e.node).children("div").children("span").children("span").attr("data-partsTypyId");
+            addVm.partsTypeId = partsTypeId;
+            console.log(addVm.partsTypeId);
+        });
+        $("#dropDownTreeView>span>span").first().children().first().text("@Model.PartsTypeName");
+    });
+</script>
+<script>
+    function onBrandChange() {
+        debugger;
+        var selectedItem = this.dataItem();
+        var uiId = $(this.element)[0].id;
+        var index = uiId.substring(uiId.length - 1);
+        var carSeries = $("#series"+index).data("kendoDropDownList");
+        var carModel = $("#model"+index).data("kendoDropDownList");
+        if (!selectedItem.Id) {
+            carSeries.select(0);
+            carSeries.enable(false);
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carSeries.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("CarSeries_DropDownListDataSource")",
+                    dataType: "json",
+                    data: function() {
+                        return {
+                            brandName:selectedItem.Name
+                        };
+                    }
+                }
+            }
+        });
+        carSeries.setDataSource(dataSource);
+    }
+    function onSeriesChange() {
+        debugger;
+        var selectedItem = this.dataItem();
+        var uiId = $(this.element)[0].id;
+        var index = uiId.substring(uiId.length - 1);
+        var carModel = $("#model"+index).data("kendoDropDownList");
+        if (!selectedItem.Id) {
+            carModel.select(0);
+            carModel.enable(false);
+            return;
+        }
+        carModel.enable(true);
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("CarModel_DropDownListDataSource")",
+                    dataType: "json",
+                    data: function() {
+                        return {
+                            seriesName:selectedItem.Name
+                        };
+                    }
+                }
+            }
+        });
+        carModel.setDataSource(dataSource);
+    }
+</script>
+<script>
+    var brandDropDownListConfig = function (cofig) {
+        var brandConfig={
+            optionLabel: "选择品牌",
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("CarBrand_DropDownListDataSource")"
+                    }
+                }
+            },
+            change: onBrandChange
+        };
+        if (cofig && cofig.brandId) {
+            brandConfig.value = cofig.brandId;
+        }
+        return brandConfig;
+    };
+    var seriesDropDownListConfig = function(cofig) {
+        var seriesConfig = {
+            enable: false,
+            optionLabel: "选择车系",
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: [],
+            change: onSeriesChange
+        };
+        if (cofig && cofig.seriesId) {
+            seriesConfig.enable = true;
+            seriesConfig.value = cofig.seriesId;
+            seriesConfig.dataSource = {
+                transport: {
+                    read: {
+                        url: "@Url.Action("CarSeries_DropDownListDataSource")",
+                        dataType: "json",
+                        data: function() {
+                            return {
+                                brandName: cofig.brandName
+                            };
+                        }
+                    }
+                }
+            };
+        }
+        return seriesConfig;
+    };
+    var modelDropDownListConfig = function(cofig) {
+        var modelConfig = {
+            enable: false,
+            optionLabel: "选择车型",
+            dataTextField: "Name",
+            dataValueField: "Id",
+            dataSource: []
+        };
+        if (cofig) {
+            if (cofig.seriesId) {
+                modelConfig.enable = true;
+                modelConfig.dataSource = {
+                    transport: {
+                        read: {
+                            url: "@Url.Action("CarModel_DropDownListDataSource")",
+                            dataType: "json",
+                            data: function() {
+                                return {
+                                    seriesName: cofig.seriesName
+                                };
+                            }
+                        }
+                    }
+                };
+            }
+            if (cofig.modelId) {
+                modelConfig.value = cofig.modelId;
+            }
+        }
+        return modelConfig;
+    };
 </script>
 <script>
     var addVm = new Vue({
         el: "#addApp",
         data: {
             id:"@Model.Id",
-            name: "@Model.Name",
             code: "@Model.Code",
-            contactName: "@Model.ContactName",
-            mobilePhone: "@Model.MobilePhone",
-            fixPhone: "@Model.FixPhone",
-            fax: "@Model.Fax",
-            majorOrigin: "@Model.MajorOrigin",
-            bankName: "@Model.BankName",
-            bankAccount: "@Model.BankAccount",
-            address: "@Model.Address",
-            gender: @Model.Gender,
-            birthday: "@Model.Birthday",
-            wechat: "@Model.Wechat",
-            QQ: "@Model.QQ",
-            description:"@Model.Description"
+            name: "@Model.Name",
+            partsTypeId: "@Model.PartsTypeId",
+            measurementUnit: "@Model.MeasurementUnit",
+            suitedCarModel: [],
+            partsDictionarySuitedCarModels: @Html.Raw(JsonConvert.SerializeObject(Model.PartsDictionarySuitedCarModelDtos)),
+            supplierPrice: "@Model.SupplierPrice",
+            retailPrice: "@Model.RetailPrice",
+            tradePrice: "@Model.TradePrice",
+            adjustPrice: "@Model.AdjustPrice",
+            claimPrice: "@Model.ClaimPrice",
+            brandName: "@Model.BrandName",
+            specifications: "@Model.Specifications",
+            producedAddress: "@Model.ProducedAddress",
+            label: "@Model.Label",
+            description: "@Model.Description",
+            initComponentLength:0
+        },
+        created: function () {
+            var items = this.partsDictionarySuitedCarModels;
+            if (items.length == 0) {
+                this.suitedCarModel.push({
+                    carBrandUiId: "brand" + 0,
+                    carSeriesUiId: "series" + 0,
+                    carModelUiId: "model" + 0
+                });
+            }
+            for (var i=0;i<items.length;i++) {
+                var tempCarModel = {
+                    carBrandUiId: "brand" + i,
+                    carSeriesUiId: "series" + i,
+                    carModelUiId: "model" + i,
+
+                    brandId: items[i].BrandId,
+                    brandName:items[i].CarBrandName,
+                    seriesId: items[i].SeriesId,
+                    seriesName:items[i].CarSeriesName,
+                    modelId: items[i].ModelId,
+                    modelName:items[i].CarModelName
+                };
+                this.suitedCarModel.push(tempCarModel);
+            }
+            this.partsDictionarySuitedCarModels = [];
+        },
+        mounted: function () {
+            var newVal = this.suitedCarModel;
+            for (var i = 0; i < newVal.length; i++) {
+                $("#" + newVal[i].carBrandUiId).kendoDropDownList(brandDropDownListConfig(newVal[i]));
+                $("#" + newVal[i].carSeriesUiId).kendoDropDownList(seriesDropDownListConfig(newVal[i]));
+                $("#" + newVal[i].carModelUiId).kendoDropDownList(modelDropDownListConfig(newVal[i]));
+                this.initComponentLength++;
+            }
+        },
+        updated: function () {
+            console.log("触发更新");
+            if (this.suitedCarModel.length < this.initComponentLength) {
+                this.initComponentLength--;
+                return;
+            }
+            else if (this.suitedCarModel.length > this.initComponentLength) {
+                var newVal = this.suitedCarModel;
+                var i = newVal.length - 1;
+                $("#" + newVal[i].carBrandUiId).kendoDropDownList(brandDropDownListConfig());
+                $("#" + newVal[i].carSeriesUiId).kendoDropDownList(seriesDropDownListConfig());
+                $("#" + newVal[i].carModelUiId).kendoDropDownList(modelDropDownListConfig());
+                this.initComponentLength++;
+            }
         },
         methods: {
             goBack: function() {
                 window.history.back();
             },
-            saveUser: function () {
+            addCarDropDownList: function () {
+                var count = this.suitedCarModel.length;
+                var tempCarModel = {
+                    carBrandUiId: "brand"+count,
+                    carSeriesUiId: "series"+count,
+                    carModelUiId: "model"+count
+                };
+                this.suitedCarModel.push(tempCarModel);
+            },
+            deleteCurrenCarModel: function(index) {
+                this.suitedCarModel.splice(index,1);
+            },
+            save: function () {
                 var _this = this;
-                _this.gender = $("#gender").data("kendoButtonGroup").current().index();
-                _this.birthday = $("#birthday").data("kendoDatePicker").value();
-                var supplier = {
+                for (var i = 0; i < _this.suitedCarModel.length; i++) {
+                    var item = _this.suitedCarModel[i];
+                    var brandItem = $("#" + item.carBrandUiId).data("kendoDropDownList").dataItem();
+                    var seriesItem = $("#" + item.carSeriesUiId).data("kendoDropDownList").dataItem();
+                    var modelItem = $("#" + item.carModelUiId).data("kendoDropDownList").dataItem();
+                    if (brandItem.Id || seriesItem.Id || modelItem.Id) {
+                        _this.partsDictionarySuitedCarModels.push({
+                            BrandId: brandItem.Id,
+                            SeriesId: seriesItem.Id,
+                            ModelId: modelItem.Id
+                        });
+                    }
+                }
+                var partsDictionary = {
                     Id:_this.id,
-                    Name: _this.name,
                     Code: _this.code,
-                    ContactName: _this.contactName,
-                    MobilePhone: _this.mobilePhone,
-                    FixPhone: _this.fixPhone,
-                    Fax: _this.fax,
-                    MajorOrigin: _this.majorOrigin,
-                    BankName: _this.bankName,
-                    BankAccount: _this.bankAccount,
-                    Address: _this.address,
-                    Gender: _this.gender,
-                    Birthday: _this.birthday,
-                    Wechat: _this.wechat,
-                    QQ: _this.QQ,
+                    Name: _this.name,
+                    PartsTypeId: _this.partsTypeId,
+                    MeasurementUnit: _this.measurementUnit,
+                    PartsDictionarySuitedCarModelDtos: _this.partsDictionarySuitedCarModels,
+                    SupplierPrice: _this.supplierPrice,
+                    RetailPrice: _this.retailPrice,
+                    TradePrice: _this.tradePrice,
+                    AdjustPrice: _this.adjustPrice,
+                    ClaimPrice: _this.claimPrice,
+                    BrandName: _this.brandName,
+                    Specifications: _this.specifications,
+                    ProducedAddress: _this.producedAddress,
+                    Label: _this.label,
                     Description: _this.description
                 };
                 $.ajax({
@@ -172,12 +440,12 @@
                     type: "POST",
                     dataType: "json",
                     contentType: "application/json",
-                    data: JSON.stringify(supplier),
+                    data: JSON.stringify(partsDictionary),
                     success: function(res) {
                         if (res.Success) {
                             swal({
                                 type: "success",
-                                text: "更新成功",
+                                text: "修改成功",
                                 showConfirmButton: false,
                                 timer: "1000"
                             });
@@ -197,14 +465,4 @@
         }
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $("#gender").kendoButtonGroup({
-            index:@Model.Gender
-    });
-        $("#birthday").kendoDatePicker({
-            format: "yyyy/MM/dd",
-            value:"@Model.Birthday"
-        });
-    });
-</script>
+

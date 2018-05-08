@@ -13,10 +13,12 @@ namespace 汽车维修管理系统.Areas.PartDictionary.Controllers
     {
         private readonly IPartsDictionaryService _partsDictionaryService;
         private readonly ICarModelService _carModelService;
+        private readonly IPartsTypeService _partsTypeService;
         public PartsDictionaryController()
         {
             _partsDictionaryService = new PartsDictionaryService();
             _carModelService=new CarModelService();
+            _partsTypeService=new PartsTypeService();
         }
 
         public ActionResult Index()
@@ -32,6 +34,14 @@ namespace 汽车维修管理系统.Areas.PartDictionary.Controllers
         public ActionResult Add()
         {
             return View();
+        }
+
+        public ActionResult PartsType_DropDownTreeViewDataSource()
+        {
+            var allItems = _partsTypeService.GetAllPartsType();
+            var topItems = allItems.Where(i => !i.ParentId.HasValue).ToList();
+            var hierarchicalPartsTypes = _partsTypeService.GetHierarchcalPartsType(topItems, allItems);
+            return Json(hierarchicalPartsTypes, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CarBrand_DropDownListDataSource()

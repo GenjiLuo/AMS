@@ -32,8 +32,9 @@ namespace AMS.Model.Repositories.Implements
                         SeriesId = j.SeriesId,
                         CarSeriesName = j.CarSeries.Name,
                         ModelId = j.ModelId,
-                        CarModelName = j.CarModel.Name
-                    }).ToList(),
+                        CarModelName = j.CarModel.Name,
+                        CreateTime = j.CreateTime
+                    }).ToList().OrderBy(k=>k.CreateTime).ToList(),
                     SupplierPrice = i.SupplierPrice,
                     RetailPrice = i.RetailPrice,
                     TradePrice = i.TradePrice,
@@ -65,13 +66,15 @@ namespace AMS.Model.Repositories.Implements
                     {
                         Id = j.Id,
                         PartsDictionaryId = j.PartsDictionaryId,
+                        PartsDictionaryName = j.PartsDictionary.Name,
                         BrandId = j.BrandId,
                         CarBrandName = j.CarBrand.Name,
                         SeriesId = j.SeriesId,
                         CarSeriesName = j.CarSeries.Name,
                         ModelId = j.ModelId,
-                        CarModelName = j.CarModel.Name
-                    }).ToList(),
+                        CarModelName = j.CarModel.Name,
+                        CreateTime = j.CreateTime
+                    }).ToList().OrderBy(k => k.CreateTime).ToList(),
                     SupplierPrice = i.SupplierPrice,
                     RetailPrice = i.RetailPrice,
                     TradePrice = i.TradePrice,
@@ -116,7 +119,8 @@ namespace AMS.Model.Repositories.Implements
                             PartsDictionaryId = partsDictionary.Id,
                             BrandId = i.BrandId,
                             SeriesId = i.SeriesId,
-                            ModelId = i.ModelId
+                            ModelId = i.ModelId,
+                            CreateTime = DateTime.Now
                         });
                 using (var scope=new TransactionScope())
                 {
@@ -153,7 +157,8 @@ namespace AMS.Model.Repositories.Implements
                             PartsDictionaryId = partsDictionary.Id,
                             BrandId = i.BrandId,
                             SeriesId = i.SeriesId,
-                            ModelId = i.ModelId
+                            ModelId = i.ModelId,
+                            CreateTime = DateTime.Now
                         });
                 using (var scope=new TransactionScope())
                 {
@@ -240,7 +245,7 @@ namespace AMS.Model.Repositories.Implements
                         CarSeriesName = j.CarSeries.Name,
                         ModelId = j.ModelId,
                         CarModelName = j.CarModel.Name
-                    }).ToList(),
+                    }).ToList().OrderBy(k => k.CreateTime).ToList(),
                     SupplierPrice = i.SupplierPrice,
                     RetailPrice = i.RetailPrice,
                     TradePrice = i.TradePrice,

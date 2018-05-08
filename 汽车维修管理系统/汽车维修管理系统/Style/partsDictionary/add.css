@@ -1,0 +1,79 @@
+﻿.full-width {
+    width: 100%;
+}
+.options {
+    margin-top: 10px;
+    margin-bottom: 20px
+}
+.form label.required:before {
+    content: "*";
+    color: #f00;
+    margin-right: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+ul.role-container {
+    margin: 0;
+}
+li.role-item{
+    list-style: none;
+    display: inline-block;
+    width: 24%;
+    padding-bottom: 10px;
+}
+.marginRight5px {
+    margin-right: 5px;
+}
+input[type="password"] {
+    border-radius: 4px !important;
+}
+.k-datepicker {
+    border: none;
+}
+.k-datepicker  .k-select {
+        display: flex;
+    justify-content: center;
+}
+#birthday {
+    border-top-left-radius: 3px !important;
+    border-bottom-left-radius: 3px !important;
+}
+.carModelChooseContainer {
+    display: flex;
+}
+.carModelChooseContainer>div {
+    flex: 1;
+}
+.k-dropdown {
+    border: none;
+}
+.k-i-arrow-60-down {
+    left: 5px;
+}
+.delete-item {
+    padding-left: 80px;
+    padding-top: 4px;
+    color: red;
+    font-size: 16px;
+}
+.delete-item>i {
+    cursor: pointer;
+}
+textarea {
+    border-radius: 3px !important;
+    height: 80px;
+}
+#dropDownTreeView {
+    position: relative;
+}
+#dropDownTreeView .k-dropdown,
+#dropDownTreeView .k-treeview{
+    width: 100%;
+}
+#dropDownTreeView .k-treeview{
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid lightgray !important;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}

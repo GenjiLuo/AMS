@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AMS.Model.dto;
 using AMS.Model.Repositories.Implements;
 using AMS.Model.Repositories.Interfaces;
@@ -16,6 +17,25 @@ namespace AMS.Service.Services.Implements
         {
             _partsTypeRepository=new PartsTypeRepository();
         }
+        public List<PartsTypeDto> GetHierarchcalPartsType(List<PartsTypeDto> items, List<PartsTypeDto> allItems)
+        {
+            foreach (var subItem in items)
+            {
+                foreach (var alItem in allItems)
+                {
+                    if (subItem.Id == alItem.ParentId)
+                    {
+                        subItem.SubPartsType.Add(alItem);
+                    }
+                }
+                if (subItem.SubPartsType.Count > 0)
+                {
+                    GetHierarchcalPartsType(subItem.SubPartsType, allItems);
+                }
+            }
+            return items;
+        }
+
         public List<PartsTypeDto> GetAllPartsType()
         {
             return _partsTypeRepository.GetAllPartsType();

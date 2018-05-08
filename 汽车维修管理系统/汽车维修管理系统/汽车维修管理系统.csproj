@@ -381,6 +381,7 @@
     <Content Include="Content\kendo\kendo.default.mobile.min.css" />
     <Content Include="Content\sweetAlert2\sweetalert2.all.js" />
     <Content Include="Scripts\common\jqueryExtend.js" />
+    <Content Include="Scripts\kendo\dropdowntreeview.js" />
     <Content Include="Scripts\kendo\kendo.all.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -512,6 +513,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo\kendo.web.ext.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -520,6 +522,8 @@
     <Content Include="Style\car\carAdd.css" />
     <Content Include="Style\car\carManage.css" />
     <Content Include="Style\common\common.css" />
+    <Content Include="Style\partsDictionary\add.css" />
+    <Content Include="Style\partsDictionary\index.css" />
     <Content Include="Style\home\home.css" />
     <Content Include="Style\home\quickMenu.css" />
     <Content Include="Style\carModel\carModelAdd.css" />
