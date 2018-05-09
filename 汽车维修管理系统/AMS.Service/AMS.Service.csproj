@@ -44,6 +44,9 @@
     <Compile Include="Services\Implements\CarService.cs" />
     <Compile Include="Services\Implements\CustomerService.cs" />
     <Compile Include="Services\Implements\CarModelService.cs" />
+    <Compile Include="Services\Implements\ServiceBookingService.cs" />
+    <Compile Include="Services\Implements\ServiceRepairService.cs" />
+    <Compile Include="Services\Implements\PartsBuyService.cs" />
     <Compile Include="Services\Implements\WarehouseService.cs" />
     <Compile Include="Services\Implements\PartsDictionaryService.cs" />
     <Compile Include="Services\Implements\SupplierService.cs" />
@@ -64,12 +67,15 @@
     <Compile Include="Services\Interfaces\ILoginService.cs" />
     <Compile Include="Services\Interfaces\IOrgService.cs" />
     <Compile Include="Services\Interfaces\IMenuService.cs" />
+    <Compile Include="Services\Interfaces\IPartsBuyService.cs" />
     <Compile Include="Services\Interfaces\IPartsDictionaryService.cs" />
     <Compile Include="Services\Interfaces\IPartsTypeService.cs" />
     <Compile Include="Services\Interfaces\IQuickMenuService.cs" />
     <Compile Include="Services\Interfaces\IRepairItemService.cs" />
     <Compile Include="Services\Interfaces\IRepairItemTypeService.cs" />
     <Compile Include="Services\Interfaces\IRepairTypeService.cs" />
+    <Compile Include="Services\Interfaces\IServiceBookingService.cs" />
+    <Compile Include="Services\Interfaces\IServiceRepairService.cs" />
     <Compile Include="Services\Interfaces\ISupplierService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />

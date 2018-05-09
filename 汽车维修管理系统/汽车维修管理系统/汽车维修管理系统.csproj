@@ -197,6 +197,7 @@
     <Compile Include="Areas\CustomerRelation\Controllers\UploadController.cs" />
     <Compile Include="Areas\CustomerRelation\CustomerRelationAreaRegistration.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\BaseInfoController.cs" />
+    <Compile Include="Areas\PartDictionary\Controllers\PartsBuyController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\RepairItemController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\PartsDictionaryController.cs" />
     <Compile Include="Areas\PartDictionary\Controllers\SupplierController.cs" />
@@ -508,6 +509,12 @@
     <Content Include="Areas\PartDictionary\Views\Warehouse\Index.cshtml" />
     <Content Include="Areas\PartDictionary\Views\Warehouse\Add.cshtml" />
     <Content Include="Areas\PartDictionary\Views\Warehouse\Update.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsBuy\Index.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsBuy\Add.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsBuy\Update.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsBuy\AddParts_PartialView.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsBuy\AdvancedAddParts_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\History.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -526,6 +533,8 @@
     <Content Include="Style\car\carAdd.css" />
     <Content Include="Style\car\carManage.css" />
     <Content Include="Style\common\common.css" />
+    <Content Include="Style\partsBuy\add.css" />
+    <Content Include="Style\partsBuy\index.css" />
     <Content Include="Style\partsDictionary\add.css" />
     <Content Include="Style\partsDictionary\index.css" />
     <Content Include="Style\home\home.css" />

@@ -244,7 +244,9 @@ namespace AMS.Model.Repositories.Implements
                         SeriesId = j.SeriesId,
                         CarSeriesName = j.CarSeries.Name,
                         ModelId = j.ModelId,
-                        CarModelName = j.CarModel.Name
+                        CarModelName = j.CarModel.Name,
+                        CreateTime = j.CreateTime
+                        
                     }).ToList().OrderBy(k => k.CreateTime).ToList(),
                     SupplierPrice = i.SupplierPrice,
                     RetailPrice = i.RetailPrice,

@@ -39,6 +39,12 @@ namespace AMS.Model
         public virtual DbSet<PartsDictionary> PartsDictionary { get; set; }
         public virtual DbSet<PartsDictionarySuitedCarModel> PartsDictionarySuitedCarModel { get; set; }
         public virtual DbSet<Warehouse> Warehouse { get; set; }
-
+        public virtual DbSet<Parts> Parts { get; set; }
+        public virtual DbSet<PartsBuy> PartsBuy { get; set; }
+        public virtual DbSet<EstimateRepairParts> EstimateRepairParts { get; set; }
+        public virtual DbSet<RepairParts> RepairParts { get; set; }
+        public virtual DbSet<ServiceRepairItem> ServiceRepairItem { get; set; }
+        public virtual DbSet<ServiceBooking> ServiceBooking { get; set; }
+        public virtual DbSet<ServiceRepair> ServiceRepair { get; set; }
     }
 }

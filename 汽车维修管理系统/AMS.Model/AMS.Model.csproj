@@ -64,22 +64,31 @@
     <Compile Include="dto\CarSeriesDto.cs" />
     <Compile Include="dto\CustomerDto.cs" />
     <Compile Include="dto\CarModelDto.cs" />
+    <Compile Include="dto\EstimateRepairPartsDto.cs" />
+    <Compile Include="dto\PartsDto.cs" />
+    <Compile Include="dto\PartsBuyDto.cs" />
     <Compile Include="dto\PartsDictionaryDto.cs" />
     <Compile Include="dto\PartsDictionarySuitedCarModelDto.cs" />
     <Compile Include="dto\PartsTypeDto.cs" />
     <Compile Include="dto\RepairItemDto.cs" />
     <Compile Include="dto\RepairItemTypeDto.cs" />
+    <Compile Include="dto\RepairPartsDto.cs" />
     <Compile Include="dto\RepairTypeDto.cs" />
     <Compile Include="dto\JobDto.cs" />
     <Compile Include="dto\OrgDto.cs" />
+    <Compile Include="dto\ServiceBookingDto.cs" />
+    <Compile Include="dto\ServiceRepairDto.cs" />
+    <Compile Include="dto\ServiceRepairItemDto.cs" />
     <Compile Include="dto\SupplierDto.cs" />
     <Compile Include="dto\UserQuickMenuDto.cs" />
     <Compile Include="dto\QuickMenuDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
     <Compile Include="dto\WarehouseDto.cs" />
+    <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
+    <Compile Include="Enum\ServiceRepairState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
     <Compile Include="Migrations\201805040918331_InitDatabase.cs" />
@@ -106,15 +115,30 @@
     <Compile Include="Migrations\201805081533151_AddTableWarehouse.Designer.cs">
       <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805090402247_AddTabelPartsBuy.cs" />
+    <Compile Include="Migrations\201805090402247_AddTabelPartsBuy.Designer.cs">
+      <DependentUpon>201805090402247_AddTabelPartsBuy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091544549_AddRepairMigration.cs" />
+    <Compile Include="Migrations\201805091544549_AddRepairMigration.Designer.cs">
+      <DependentUpon>201805091544549_AddRepairMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
     <Compile Include="poco\CarModel.cs" />
     <Compile Include="poco\CarSeries.cs" />
     <Compile Include="poco\CarBrand.cs" />
+    <Compile Include="poco\RepairParts.cs" />
+    <Compile Include="poco\Parts.cs" />
+    <Compile Include="poco\EstimateRepairParts.cs" />
     <Compile Include="poco\PartsDictionarySuitedCarModel.cs" />
     <Compile Include="poco\PartsDictionary.cs" />
     <Compile Include="poco\PartsType.cs" />
+    <Compile Include="poco\PartsBuy.cs" />
+    <Compile Include="poco\ServiceRepairItem.cs" />
+    <Compile Include="poco\ServiceRepair.cs" />
+    <Compile Include="poco\ServiceBooking.cs" />
     <Compile Include="poco\Warehouse.cs" />
     <Compile Include="poco\Supplier.cs" />
     <Compile Include="poco\RepairItemType.cs" />
@@ -132,6 +156,9 @@
     <Compile Include="Repositories\Implements\CarRepository.cs" />
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
+    <Compile Include="Repositories\Implements\ServiceBookingRepository.cs" />
+    <Compile Include="Repositories\Implements\ServiceRepairRepository.cs" />
+    <Compile Include="Repositories\Implements\PartsBuyRepository.cs" />
     <Compile Include="Repositories\Implements\PartsDictionaryRepository.cs" />
     <Compile Include="Repositories\Implements\WarehouseRepository.cs" />
     <Compile Include="Repositories\Implements\SupplierRepository.cs" />
@@ -146,6 +173,9 @@
     <Compile Include="Repositories\Implements\UserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICarModelRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsDictionaryRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPartsBuyRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IServiceBookingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IServiceRepairRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
@@ -184,6 +214,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805081533151_AddTableWarehouse.resx">
       <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805090402247_AddTabelPartsBuy.resx">
+      <DependentUpon>201805090402247_AddTabelPartsBuy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091544549_AddRepairMigration.resx">
+      <DependentUpon>201805091544549_AddRepairMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

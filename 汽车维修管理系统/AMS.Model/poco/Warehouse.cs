@@ -12,9 +12,15 @@ namespace AMS.Model.poco
 {
     public class Warehouse : BaseModel
     {
+        public Warehouse()
+        {
+            PartsBuy=new HashSet<PartsBuy>();
+        }
         public bool IsDefault { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string Address { get; set; }
+
+        public virtual ICollection<PartsBuy> PartsBuy { get; set; }
     }
 }

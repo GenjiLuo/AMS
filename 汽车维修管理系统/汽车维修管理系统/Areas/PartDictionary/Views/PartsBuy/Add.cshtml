@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "新建采购入库";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/partsBuy/add.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/kendo.web.ext.js"></script>
+<div id="addApp" class="form">
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+    <div class="baseinfo container-fluid">
+        <h4>供应商、库房</h4>
+        <hr/>
+        <div class="form-group row">
+            <label class="required col-xs-1 text-right">供应商</label>
+            <div class="col-xs-4">
+                <input id="supplier" class="k-textbox full-width"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-1 text-right">仓库</label>
+            <div class="col-xs-4">
+                <input id="warehouse" class="k-textbox full-width"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-1 text-right">备注</label>
+            <div class="col-xs-4">
+                <input class="k-textbox full-width" v-model.trim="description"/>
+            </div>
+        </div>
+    </div>
+    <div class="advancedinfo container-fluid">
+        <h4 class="marginBottom25px">配件列表</h4>
+        <div class="form-group row">
+            <div class="paddingLeft13px">
+                <div id="grid"></div>
+            </div>
+        </div>
+        @* <div class="form-group row"> *@
+        @*     <label class="col-xs-1">制单人</label> *@
+        @*     <div class="col-xs-4"> *@
+        @*         员工007 *@
+        @*     </div> *@
+        @* </div> *@
+        @* <div class="form-group row"> *@
+        @*     <label class="col-xs-1">时间</label> *@
+        @*     <div class="col-xs-4"> *@
+        @*         2018/05/09 14:16 *@
+        @*     </div> *@
+        @* </div> *@
+    </div>
+</div>
+<script id="gridToolbarTemp" type="text/x-kendo-template">
+    <button onclick="addParts();" id="addParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;增加</button>
+    <button onclick="advancedAddParts()" id="advancedAddParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;高级模式</button>
+</script>
+<script>
+    var parts = [];
+</script>
+<script>
+    var addParts=function() {
+        $("body").append("<div id='simpleAddWindow'></div>");
+        var simpleAddWindow = $("#simpleAddWindow").kendoWindow({
+            title: "选购配件",
+            width: "500px",
+            height: "200px",
+            content: "@Url.Action("AddParts_PartialView")",
+            visible: false,
+            modal: true,
+            resizable: false,
+            close: function() {
+                this.destroy();
+            }
+        });
+        simpleAddWindow.data("kendoWindow").center().open();
+    }
+    var advancedAddParts=function() {
+        $("body").append("<div id='advancedAddWindow'></div>");
+        var advancedAddWindow = $("#advancedAddWindow").kendoWindow({
+            title: "选购配件",
+            width: "1200px",
+            height: "600px",
+            content: "@Url.Action("AdvancedAddParts_PartialView")",
+            visible: false,
+            modal: true,
+            resizable: false,
+            close: function() {
+                this.destroy();
+            }
+        });
+        advancedAddWindow.data("kendoWindow").center().open();
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#supplier").kendoComboBox({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Supplier_ComboBoxDataSource")",
+                        data: function() {
+                            return {
+                                keyword:$("#supplier").data("kendoComboBox").text().trim()
+                            }
+                        }
+                    }
+                }
+            },
+            dataTextField:"Name",
+            dataValueField: "Id"
+        });
+        $("#warehouse").kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Warehouse_DropDownListDataSource")"
+                    }
+                }
+            },
+            dataTextField:"Name",
+            dataValueField: "Id"
+        });
+        var partsGrid=$("#grid").kendoGrid({
+            dataSource: {
+                data: parts,
+                schema: {
+                    id:"serNo",
+                    fields: {
+                        serNo: { type: "string" },
+                        partsCode: { type: "string" },
+                        partsName: { type: "string" },
+                        brandName: { type: "string" },
+                        price: { type: "number" },
+                        count: {
+                            type: "number", validation: {
+                                min: 0
+                            }
+                        },
+                        subTotalMoney: { type: "number" },
+                        warehouseName: { type: "string" }
+                    }
+                },
+                batch:true
+            },
+            toolbar: [
+                { template: kendo.template($("#gridToolbarTemp").html()) }
+            ],
+            editable: true,
+            navigatable: true,
+            pageable: {
+                pageSize: 20
+            },
+            height: 400,
+            save: function (e) {
+                if (e.values.count) {
+                    if (!e.container[0].previousSibling.className) {
+                        e.container[0].nextSibling.innerHTML =
+                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.innerHTML);
+                    } else {
+                        e.container[0].nextSibling.innerHTML =
+                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.lastChild.nodeValue);
+                    }
+                } else {
+                    if (!e.container[0].nextSibling.className) {
+                        e.container[0].nextSibling.nextSibling.innerHTML =
+                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.innerHTML);
+                    } else {
+                        e.container[0].nextSibling.nextSibling.innerHTML =
+                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.lastChild.nodeValue);
+                    }
+                }
+            },
+            columns: [
+                {
+                    field: "serNo",
+                    title: "序号"
+                },
+                {
+                    field: "partsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "partsName",
+                    title: "配件名称"
+                },
+                {
+                    field: "brandName",
+                    title: "品牌"
+                },
+                {
+                    field: "price",
+                    title: "单价",
+                    headerTemplate: "<span>单价<i class='fa fa-edit green' title='可编辑,点击下面的行即可编辑'></i></span>",
+                },
+                {
+                    field: "count",
+                    title: "数量",
+                    headerTemplate: "<span>数量<i class='fa fa-edit green' title='可编辑,点击下面的行即可编辑'></i></span>"
+                },
+                {
+                    field: "subTotalMoney",
+                    title: "小计",
+                    template: function(dataItem) {
+                        return dataItem.price * dataItem.count;
+                    }
+                },
+                {
+                    field: "warehouseName",
+                    title: "库房"
+                }
+            ]
+        });
+    });
+</script>
+<script>
+    var addVm = new Vue({
+        el: "#addApp",
+        data: {
+            supplierId: "",
+            warehouseId:"",
+            description: "",
+            parts:[]
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            save: function () {
+                var _this = this;
+                _this.supplierId = $("#supplier").data("kendoComboBox").value();
+                _this.warehouseId = $("#warehouse").data("kendoDropDownList").value();
+                var grid = $("#grid").data("kendoGrid");
+                var items = grid.items();
+                for (var i = 0; i < items.length; i++) {
+                    var item = grid.dataItem(items[i]);
+                    _this.parts.push({
+                        PartsDictionaryId: item.id,
+                        Price: item.price,
+                        Count:item.count
+                    });
+                } 
+                var partsBuy = {
+                    SupplierId: _this.supplierId,
+                    WarehouseId: _this.warehouId,
+                    Description: _this.description,
+                    Parts:_this.parts
+                };
+                $.ajax({
+                    url: "@Url.Action("Add")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(partsBuy),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: res.Msg
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+

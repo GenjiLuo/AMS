@@ -1,0 +1,79 @@
+﻿<div id="partsSelectBox" class="form-group text-center">
+    <input id="partsSelect" placeholder="输入配件编码和名称用于检索" class="parts-select full-width"/>
+</div>
+<div class="form-group text-right window-options">
+    <button id="btn_addAndContinue" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增</button>&nbsp;
+    <button id="btn_addAndBack" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增并返回</button>&nbsp;
+    <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>&nbsp;
+</div>
+<script id="partsComboxHeaderTemp" type="text/x-kendo-template">
+    <div id="comboxHeaderBox">
+        <span>编号</span>
+        <span>名称</span>
+        <span>供应商价格</span>
+        <span>适用车型</span>
+    </div>
+</script>
+<script id="partsComboxTemp" type="text/x-kendo-template">
+    <div class="comboxItem">
+        <span>#: Code #</span>
+        <span>#: Name #</span>
+        <span>#: SupplierPrice #</span>
+        <span title="#: SuitedCarModelsStr #">#: SuitedCarModelsStr #</span>
+    </div>
+</script>
+<script>
+    $("#partsSelect").kendoComboBox({
+        dataSource: {
+            transport: {
+                read: {
+                    url: "@Url.Action("PartsDictionary_ComboBoxDataSource")",
+                    data: function (){
+                        return {
+                            keyword:$("#partsSelect").data("kendoComboBox").text().trim()
+                        }
+                    }
+                }
+            }
+        },
+        dataTextField:"Name",
+        dataValueField: "Id",
+        headerTemplate:$("#partsComboxHeaderTemp").html(),
+        template: $("#partsComboxTemp").html(),
+        noDataTemplate:"配件档案没有该查询的配件，请前去添加"
+    });
+    $("#btn_addAndContinue").click(function() {
+        addItem();
+    });
+    $("#btn_addAndBack").click(function () {
+        addItem();
+        $("#simpleAddWindow").data("kendoWindow").destroy();
+    });
+    $("#btn_back").click(function() {
+        $("#simpleAddWindow").data("kendoWindow").destroy();
+    });
+</script>
+<script>
+    function addItem() {
+        var dataItem = $("#partsSelect").data("kendoComboBox").dataItem();
+        var grid = $("#grid").data("kendoGrid");
+        for (var i = 0; i < parts.length; i++) {
+            if (parts[i].id == dataItem.Id) {
+                return;
+            }
+        }
+        var item = {
+            id:dataItem.Id,
+            serNo: parts.length+1,
+            partsCode: dataItem.Code,
+            partsName:dataItem.Name,
+            brandName: dataItem.BrandName,
+            price: dataItem.SupplierPrice,
+            count: 1,
+            subTotalMoney: 1 * dataItem.SupplierPrice,
+            warehouseName:$("#warehouse").data("kendoDropDownList").text()
+        }
+        grid.dataSource.add(item);
+        parts.push(item);
+    }
+</script>
