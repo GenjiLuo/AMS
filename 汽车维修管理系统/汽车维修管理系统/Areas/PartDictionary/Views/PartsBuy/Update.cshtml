@@ -142,11 +142,11 @@
             dataValueField: "Id",
             value:"@Model.WarehouseId"
         });
-        var partsGrid=$("#grid").kendoGrid({
+        var partsGrid = $("#grid").kendoGrid({
             dataSource: {
                 data: parts,
                 schema: {
-                    id:"serNo",
+                    id: "serNo",
                     fields: {
                         serNo: { type: "string" },
                         partsCode: { type: "string" },
@@ -154,61 +154,65 @@
                         brandName: { type: "string" },
                         price: { type: "number" },
                         count: {
-                            type: "number", validation: {
-                                min: 0
-                            }
+                            type: "number",
+                            validation: { min: 0, required: true }
                         },
                         subTotalMoney: { type: "number" },
                         warehouseName: { type: "string" }
                     }
-                },
-                batch:true
+                }
             },
             toolbar: [
                 { template: kendo.template($("#gridToolbarTemp").html()) }
             ],
             editable: true,
+            cellClose: function(e) {
+                if (e.model.count < 1) {
+                    e.model.count = 1;
+                }
+                if (e.model.price < 0) {
+                    e.model.price = 0;
+                }
+                if (e.container[0].cellIndex == 4) {
+                    e.container[0].nextSibling.nextSibling.innerHTML = e.model.price * e.model.count;
+                } else {
+                    e.container[0].nextSibling.innerHTML = e.model.price * e.model.count;
+                }
+            },
             navigatable: true,
             pageable: {
                 pageSize: 20
             },
             height: 400,
-            save: function (e) {
-                if (e.values.count) {
-                    if (!e.container[0].previousSibling.className) {
-                        e.container[0].nextSibling.innerHTML =
-                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.innerHTML);
-                    } else {
-                        e.container[0].nextSibling.innerHTML =
-                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.lastChild.nodeValue);
-                    }
-                } else {
-                    if (!e.container[0].nextSibling.className) {
-                        e.container[0].nextSibling.nextSibling.innerHTML =
-                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.innerHTML);
-                    } else {
-                        e.container[0].nextSibling.nextSibling.innerHTML =
-                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.lastChild.nodeValue);
-                    }
-                }
-            },
+            
             columns: [
                 {
                     field: "serNo",
                     title: "序号",
-                    editable:false
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "partsCode",
-                    title: "配件编码"
+                    title: "配件编码",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "partsName",
-                    title: "配件名称"
+                    title: "配件名称",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "brandName",
-                    title: "品牌"
+                    title: "品牌",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "price",
@@ -225,11 +229,17 @@
                     title: "小计",
                     template: function(dataItem) {
                         return dataItem.price * dataItem.count;
+                    },
+                    editable: function() {
+                        return false;
                     }
                 },
                 {
                     field: "warehouseName",
-                    title: "库房"
+                    title: "库房",
+                    editable: function() {
+                        return false;
+                    }
                 }
             ]
         });
