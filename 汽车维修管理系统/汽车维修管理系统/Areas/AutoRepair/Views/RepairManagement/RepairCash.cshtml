@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "维修结算";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/repaircar/cash.css" rel="stylesheet" />
+<div id="repairCash" class="container-fluid">
+    <div class="option-area row">
+        <div class="pull-left option-group">
+            <button type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
+            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-right">
+            <div class="navigation">
+                <span class="finished"><span>√</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>维修</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>竣工</span></span>
+                <span class="interval-line"></span>
+                <span class="current"><span>5</span><span>结算收银</span></span>
+                <span class="interval-line"></span>
+                <span><span>6</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="title">
+            收银信息
+        </div>
+        <div class="form-group">
+            <span class="info-icon">
+                <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D; padding-left: 12px"></i>
+            </span>
+            <span>
+                LA1180551005
+            </span>
+            <span id="payMoney" class="pull-right">
+                <label>应付金额：</label>
+                <span>￥93.5</span>
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="info-icon">
+                <i class="fa fa-user fa-2x blue" style="padding-left: 12px"></i>
+            </span>
+            <span>
+                任海泉 &nbsp; 189343454 &nbsp; 渝BG4321
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="title">
+            付款方式
+        </div>
+        <ul id="payWayBox">
+            <li>
+                <span class="checkbox-item">
+                    <input type="checkbox" id="eq1" class="k-checkbox">
+                    <label class="k-checkbox-label" for="eq1"></label>
+                </span>
+                <label class="name-item">
+                    预收款抵扣
+                </label>
+                <input class="k-textbox"/>
+                <span class="pull-right">
+                    余额：￥<span>0.00</span>
+                </span>
+            </li>
+            <li>
+                <span class="checkbox-item">
+                    <input type="checkbox" id="eq2" class="k-checkbox">
+                    <label class="k-checkbox-label" for="eq2"></label>
+                </span>
+                <label class="name-item">
+                    会员余额
+                </label>
+                <input class="k-textbox"/>
+                <span class="pull-right">
+                    余额：￥<span>0.00</span>
+                </span>
+            </li>
+            <li>
+                <span class="checkbox-item">
+                    <input type="checkbox" id="eq2" class="k-checkbox">
+                    <label class="k-checkbox-label" for="eq2"></label>
+                </span>
+                <label class="name-item">
+                    现金
+                </label>
+                <input class="k-textbox"/>
+            </li>
+            <li>
+                <span class="checkbox-item">
+                    <input type="checkbox" id="eq2" class="k-checkbox">
+                    <label class="k-checkbox-label" for="eq2"></label>
+                </span>
+                <label class="name-item">
+                    银行卡
+                </label>
+                <input class="k-textbox"/>
+            </li>
+            <li>
+                <span class="checkbox-item">
+                    <input type="checkbox" id="eq2" class="k-checkbox">
+                    <label class="k-checkbox-label" for="eq2"></label>
+                </span>
+                <label class="name-item">
+                    微信支付
+                </label>
+                <input class="k-textbox"/>
+            </li>
+        </ul>
+        <div class="money-check-item">
+            <label class="pull-left">
+                实付：
+            </label>
+            <span class="pull-right">
+                ￥<span>93.00</span>
+            </span>
+        </div>
+        <div class="money-check-item">
+            <label class="pull-left">
+                应付：
+            </label>
+            <span class="pull-right">
+                -￥<span>93.00</span>
+            </span>
+        </div>
+        <div class="money-check-item">
+            <label class="pull-left">
+                找零：
+            </label>
+            <span class="pull-right">
+                ￥<span>0.00</span>
+            </span>
+        </div>
+    </div>
+    <div id="taxBox" class="row">
+        <div class="title">
+            发票
+        </div>
+        <div>
+            <div id="tax">
+                <span>
+                    收据
+                </span>
+                <span>
+                    普通发票
+                </span>
+                <span>
+                    专用发票
+                </span>
+            </div>
+            <label>票据号：</label>
+            <input class="k-textbox"/>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#chooseCar").kendoComboBox();
+        $("#chooseBooking").kendoDropDownList();
+        $("#serviceTime").kendoDateTimePicker();
+        $("#estimateLeaveTime").kendoDateTimePicker();
+        $("#filter").kendoButtonGroup();
+        $("#tax").kendoButtonGroup({
+            index: 0
+        });
+        $("#grid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 250,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                }
+            ]
+        });
+    });
+</script>
+

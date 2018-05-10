@@ -30,6 +30,9 @@ input[type="password"] {
 .k-datepicker {
     border: none;
 }
+.baseinfo .k-combobox span.k-i-close {
+    top: 21px !important;
+}
 .k-datepicker  .k-select {
         display: flex;
     justify-content: center;

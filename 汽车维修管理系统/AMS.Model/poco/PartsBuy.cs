@@ -17,8 +17,9 @@ namespace AMS.Model.poco
         {
             Parts=new HashSet<Parts>();
         }
-        public string SupplierName { get; set; }
         public Guid SupplierId { get; set; }
+        [ForeignKey("SupplierId")]
+        public virtual Supplier Supplier { get; set; }
         public string OrderNo { get; set; }
         public string BillNo { get; set; } 
         public new PartsBuyState State { get; set; }

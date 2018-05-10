@@ -1,0 +1,169 @@
+﻿li {
+    list-style: none;
+}
+.option-group button {
+    margin-right: 5px;
+}
+.option-area::after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+.option-area {
+    margin-bottom: 10px;
+}
+/*导航条*/
+.navigation {
+    display: inline-block;
+}
+.navigation span>span:first-child {
+    color: white;
+    background: lightgrey;
+    border-radius: 50%;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    margin-right: 3px;
+}
+.navigation  .interval-line{
+        width: 30px;
+    background-color: lightgray;
+    height: 1px;
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    margin: 0 3px;
+}
+.navigation .current>span:first-child {
+        background: #4967fc;
+}
+.navigation .current>span:last-child {
+    font-weight: bold;
+}
+.navigation  .finished>span:first-child{
+    background-color: white;
+    border: 1px solid #4967fc;
+    color: #4967fc;
+}
+/* 选择车辆 */
+#carChooseArea {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #f0f2fa;
+    padding: 12px 0px;
+    padding-bottom: 0px;
+}
+.form-item {
+    display: inline-block;
+}
+.form-item label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.k-combobox
+{
+    width:220px;
+}
+.k-combobox input,
+.k-dropdown input,
+.k-datetimepicker input{
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+}
+.marginBottom25px {
+    margin-bottom: 25px;
+}
+.marginRight20px {
+    margin-right: 20px;
+}
+.title {
+     background-color: #F5F5F5;
+    padding: 5px 25px;
+    color: #067CFE !important;
+    margin-bottom: 10px;
+}
+.info-icon {
+    margin-right: 20px;
+ }
+#payMoney {
+        position: relative;
+    top: 20px;
+    right: 20px;
+}
+#payMoney span {
+    color: red;
+    font-size: 20px;
+}
+#payWayBox li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+.checkbox-item {
+    width: 80px;
+    display: inline-block;
+}
+.name-item {
+    width: 200px;
+    font-size: 13px;
+    display: inline-block;
+ }
+#payWayBox .k-textbox {
+    width: 300px;
+    margin-right: 100px;
+    position: relative;
+    bottom: 4px;
+    text-align: center;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-radius: 0;
+}
+#payWayBox .k-textbox:focus {
+    border-radius: 4px;
+    border-color: #c5c5c5;
+}
+.money-check-item {
+    overflow: hidden;
+    width: 500px;
+    margin-left: 106px;
+    height: 26px;
+    line-height: 26px;
+}
+    .money-check-item:nth-last-of-type(2) {
+        border-bottom: 1px solid #eee;
+    }
+.money-check-item:nth-last-of-type(2) span{
+    color: red;
+    }
+    .money-check-item label {
+        font-size: 13px;
+    }
+#taxBox input {
+    width: 300px;
+    text-align: center;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-radius: 0;
+}
+#taxBox input:focus {
+    border-radius: 4px;
+    border-color: #c5c5c5;
+}
+#taxBox>div:last-child {
+    padding-left: 40px;
+}
+#taxBox>div label {
+    font-size: 13px;
+}
+#taxBox>div:nth-child(2){
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#tax {
+    margin-right: 30px;
+}

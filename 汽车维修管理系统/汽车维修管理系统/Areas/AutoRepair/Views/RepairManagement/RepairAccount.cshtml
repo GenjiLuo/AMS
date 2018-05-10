@@ -1,0 +1,308 @@
+﻿
+@{
+    ViewBag.Title = "维修结算";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/repaircar/account.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="option-area row">
+        <div class="pull-left option-group">
+            <button type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
+            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-right">
+            <div class="navigation">
+                <span class="finished"><span>√</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>维修</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>竣工</span></span>
+                <span class="interval-line"></span>
+                <span class="current"><span>5</span><span>结算收银</span></span>
+                <span class="interval-line"></span>
+                <span><span>6</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#home">
+                        <i class="green ace-icon fa fa-book bigger-120"></i>
+                        基本信息
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#messages">
+                        <i class="green ace-icon fa fa-minus-circle bigger-120"></i>
+                        会员优惠
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#dropdown">
+                        <i class="green ace-icon fa fa-list bigger-120"></i>
+                        结算明细
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <div class="form-group row">
+                        <div class="pull-left">
+                            <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D;"></i>
+                        </div>
+                        <div id="orderNo" class="pull-left">
+                            LA118051004
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="pull-left">
+                            <i class="fa fa-car fa-2x"></i>
+                        </div>
+                        <div class="pull-left">
+                            <span class="marginRight15px">
+                                <span>渝BG9832</span>
+                            </span>
+                            <span class="marginRight15px">
+                                <label><strong>维修类型：</strong></label>
+                                <span>保养</span>
+                            </span>
+                            <span>
+                                <label><strong>维修顾问：</strong></label>
+                                <span>员工007</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="pull-left">
+                            <i class="fa fa-user fa-2x" style="color: #12B6F1;"></i>
+                        </div>
+                        <div class="pull-left">
+                            <div class="form-group">
+                                <span class="marginRight15px compnay">重庆诺怀软件公司&nbsp;陈军</span>
+                                <span>18944345443</span>
+                                <ul class="info-box">
+                                    <li>
+                                        <div>
+                                            <label>会员卡号：</label>
+                                            <span>894343434343434</span>
+                                        </div>
+                                        <div>
+                                            <label>会员等级：</label>
+                                            <span>普通会员</span>
+                                        </div>
+                                        <div>
+                                            <label>会员余额：</label>
+                                            <span>0.00</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <label>工时折扣：</label>
+                                            <span>无</span>
+                                        </div>
+                                        <div>
+                                            <label>材料折扣：</label>
+                                            <span>无</span>
+                                        </div>
+                                        <div>
+                                            <label>管理费折扣：</label>
+                                            <span>无</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages" class="tab-pane fade">
+                    <h2>
+                        待开发...
+                    </h2>
+                </div>
+
+                <div id="dropdown" class="tab-pane fade">
+                    <div class="form-group">
+                        <div id="filter">
+                            <span>
+                                全部
+                            </span>
+                            <span>
+                                维修项目
+                            </span>
+                            <span>
+                                配件
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ul id="checkItemBox">
+            <li>
+                <div class="item-header text-center">应结金额</div>
+                <ul>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                </ul>
+                <div class="item-footer">
+                    <span class="pull-left">小计</span>
+                    <span class="pull-right">110.00</span>
+                </div>
+            </li>
+            <li>
+                <div class="item-header text-center">优惠金额</div>
+                <ul>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                </ul>
+                <div class="item-footer">
+                    <span class="pull-left">小计</span>
+                    <span class="pull-right">110.00</span>
+                </div>
+            </li>
+            <li>
+                <div class="item-header text-center">实结金额</div>
+                <ul>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                    <li>
+                        <span class="pull-left">工时费</span>
+                        <span class="pull-right">110.00</span>
+                    </li>
+                </ul>
+                <div class="item-footer">
+                    <span class="pull-left">小计</span>
+                    <span class="pull-right">110.00</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#chooseCar").kendoComboBox();
+        $("#chooseBooking").kendoDropDownList();
+        $("#serviceTime").kendoDateTimePicker();
+
+        $("#estimateLeaveTime").kendoDateTimePicker();
+        $("#filter").kendoButtonGroup({
+            index: 0
+        });
+        $("#grid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 250,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                }
+            ]
+        });
+    });
+</script>
+

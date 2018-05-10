@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AMS.Model.dto;
+using AMS.Model.Enum;
 using AMS.Service.Services.Implements;
 using AMS.Service.Services.Interfaces;
 
@@ -33,9 +34,15 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             return null;
         }
-        public ActionResult Update(Guid serviceRepairId)
+        public ActionResult Edit()
         {
-            return View();
+//            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
+//            if (serviceRepair.ServiceType == ServiceType.洗车)
+//            {
+//                return View("EditWashCar",serviceRepair);
+//            }
+//            return View("EditCarRepair",serviceRepair);
+            return View("RepairCash");
         }
         [HttpPost]
         public ActionResult Update(ServiceRepairDto serviceRepair)

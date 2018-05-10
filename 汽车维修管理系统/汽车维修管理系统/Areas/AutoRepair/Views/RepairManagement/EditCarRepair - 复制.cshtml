@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = "编辑洗车单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/washcar/edit.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="pull-left option-group">
+            <button type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;收银</button>
+            <button type="button" class="k-button"><i class="fa fa-yen"></i>&nbsp;挂账</button>
+            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-left option-group">
+            <button type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
+        </div>
+        <div class="pull-right">
+            <div class="navigation">
+                <span class="finished"><span>√</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span class="current"><span>3</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="carChooseArea" class="row">
+        <div class="form-group marginBottom25px">
+            <div class="form-item">
+                <label>车辆：</label>
+                <input id="chooseCar"/>
+            </div>
+            <div class="form-item">
+                重庆诺怀软件 陈军 18734343443
+            </div>
+            <div class="form-item">
+                <label>预约单：</label>
+                <input id="chooseBooking" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>进厂时间：</label>
+                <input id="serviceTime" />
+            </div>
+            <div class="form-item">
+                <label>预计出厂时间：</label>
+                <input id="estimateLeaveTime" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>洗车工：</label>
+                <input id="mainOperator" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>维修顾问：</label>
+                <input id="repairAdvisor" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>当前里程：</label>
+                <input id="currentMiles" />
+            </div>
+            <div class="form-item">
+                <label>下次保养里程：</label>
+                <input id="nextMaintainMiles" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>下次保养日期：</label>
+                <input id="nextMaintainDate" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>保险到期：</label>
+                <input id="insuranceExpireTime" />
+            </div>
+            <div class="form-item ">
+                <label>年审到期：</label>
+                <input id="yearlyCheckTime" />
+            </div>
+        </div>
+    </div>
+    <div id="washCarItem" class="row">
+        <div>
+            <i class="fa fa-info-circle blue"></i>&nbsp;洗车项目
+        </div>
+        <ul>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+            <li><span class="pull-left">内饰清洁</span><span class="pull-right">30元</span></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>项目备注：</label>
+            <input class="k-textbox" style="width: 400px;"/>
+        </div>
+    </div>
+    <div id="checkMoney" class="row">
+        <div class="form-group">
+            <label>应结金额：</label>
+            <strong>&yen;&nbsp;<span>0.00</span></strong>
+        </div>
+        <div class="form-group red">
+            <label>优惠金额：</label>
+            <strong>-&yen;&nbsp;<span>0.00</span></strong>
+        </div>
+        <div class="form-group red">
+            <label>抹零：</label>
+            <strong>-&yen;&nbsp;<input id="removeLittle"/></strong>
+        </div>
+    </div>
+    <div id="payWay">
+        <div>付款方式</div>
+        <ul>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+            <li>
+                <img src="~/Content/img/payWay/balance_red.png" />
+                <p>会员余额</p>
+            </li>
+        </ul>
+    </div>
+    <div id="finalMoney" class="row">
+        <hr/>
+        <div class="form-group">
+            <label>应收金额：</label>
+            <span><span class="moneyNumber">0.00</span>元</span>
+        </div>
+        <div class="form-group">
+            <label>挂账金额：</label>
+            <span><span class="moneyNumber">0.00</span>元</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#chooseCar").kendoComboBox({
+            text: "渝BF1234"
+        }).data("kendoComboBox").enable(false);
+        $("#chooseBooking").kendoDropDownList().data("kendoDropDownList").enable(false);
+        $("#serviceTime").kendoDateTimePicker({
+            value:"@DateTime.Now"
+        });
+        $("#estimateLeaveTime").kendoDateTimePicker({
+            value:"@DateTime.Now"
+        });
+        $("#mainOperator").kendoDropDownList({
+            text:"张山"
+        });
+        $("#repairAdvisor").kendoDropDownList({
+            text:"李四"
+        });
+        $("#currentMiles").kendoNumericTextBox({
+            value:19800
+        });
+        $("#nextMaintainMiles").kendoNumericTextBox({
+            value:22800
+        });
+        $("#nextMaintainDate").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#insuranceExpireTime").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#yearlyCheckTime").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#removeLittle").kendoNumericTextBox();
+    });
+</script>
+

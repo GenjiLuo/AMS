@@ -16,7 +16,7 @@ namespace AMS.Model.Repositories.Implements
             using (var db = new ModelContext())
             {
                 var menus = db.Menu;
-                var firstLevelMenus = menus.Where(i => i.ParentId == null);
+                var firstLevelMenus = menus.Where(i => i.ParentId == null).OrderBy(i=>i.OrderNum);
                 foreach (var firstLevelItem in firstLevelMenus)
                 {
                     var menuDto = new MenuDto()
@@ -27,7 +27,8 @@ namespace AMS.Model.Repositories.Implements
                         OrderNum = firstLevelItem.OrderNum,
                         Description = firstLevelItem.Description
                     };
-                    foreach (var secondLevelItem in firstLevelItem.SubMenu)
+                    var subMenus = firstLevelItem.SubMenu.OrderBy(i => i.OrderNum);
+                    foreach (var secondLevelItem in subMenus)
                     {
                         var subMenuDto = new MenuDto()
                         {
@@ -38,7 +39,8 @@ namespace AMS.Model.Repositories.Implements
                             OrderNum = secondLevelItem.OrderNum,
                             Description = secondLevelItem.Description
                         };
-                        foreach (var thirdLevelItem in secondLevelItem.SubMenu)
+                        var subSubMenus = secondLevelItem.SubMenu.OrderBy(i => i.OrderNum);
+                        foreach (var thirdLevelItem in subSubMenus)
                         {
                             var subSubMenuDto = new MenuDto()
                             {

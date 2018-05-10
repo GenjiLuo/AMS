@@ -88,40 +88,18 @@
     <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
+    <Compile Include="Enum\ServiceWashState.cs" />
+    <Compile Include="Enum\ServiceType.cs" />
     <Compile Include="Enum\ServiceRepairState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201805040918331_InitDatabase.cs" />
-    <Compile Include="Migrations\201805040918331_InitDatabase.Designer.cs">
-      <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201805101423180_InitDatabase.cs" />
+    <Compile Include="Migrations\201805101423180_InitDatabase.Designer.cs">
+      <DependentUpon>201805101423180_InitDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805061607007_Migration1.cs" />
-    <Compile Include="Migrations\201805061607007_Migration1.Designer.cs">
-      <DependentUpon>201805061607007_Migration1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805070507457_AddTableSupplier.cs" />
-    <Compile Include="Migrations\201805070507457_AddTableSupplier.Designer.cs">
-      <DependentUpon>201805070507457_AddTableSupplier.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805070527063_AddTablePartsType.cs" />
-    <Compile Include="Migrations\201805070527063_AddTablePartsType.Designer.cs">
-      <DependentUpon>201805070527063_AddTablePartsType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805070605442_AddTablePartsDictonary.cs" />
-    <Compile Include="Migrations\201805070605442_AddTablePartsDictonary.Designer.cs">
-      <DependentUpon>201805070605442_AddTablePartsDictonary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805081533151_AddTableWarehouse.cs" />
-    <Compile Include="Migrations\201805081533151_AddTableWarehouse.Designer.cs">
-      <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805090402247_AddTabelPartsBuy.cs" />
-    <Compile Include="Migrations\201805090402247_AddTabelPartsBuy.Designer.cs">
-      <DependentUpon>201805090402247_AddTabelPartsBuy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805091544549_AddRepairMigration.cs" />
-    <Compile Include="Migrations\201805091544549_AddRepairMigration.Designer.cs">
-      <DependentUpon>201805091544549_AddRepairMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201805101554317_UpdateTablePartsBuy.cs" />
+    <Compile Include="Migrations\201805101554317_UpdateTablePartsBuy.Designer.cs">
+      <DependentUpon>201805101554317_UpdateTablePartsBuy.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -197,29 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805040918331_InitDatabase.resx">
-      <DependentUpon>201805040918331_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805101423180_InitDatabase.resx">
+      <DependentUpon>201805101423180_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805061607007_Migration1.resx">
-      <DependentUpon>201805061607007_Migration1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805070507457_AddTableSupplier.resx">
-      <DependentUpon>201805070507457_AddTableSupplier.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805070527063_AddTablePartsType.resx">
-      <DependentUpon>201805070527063_AddTablePartsType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805070605442_AddTablePartsDictonary.resx">
-      <DependentUpon>201805070605442_AddTablePartsDictonary.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805081533151_AddTableWarehouse.resx">
-      <DependentUpon>201805081533151_AddTableWarehouse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805090402247_AddTabelPartsBuy.resx">
-      <DependentUpon>201805090402247_AddTabelPartsBuy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805091544549_AddRepairMigration.resx">
-      <DependentUpon>201805091544549_AddRepairMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805101554317_UpdateTablePartsBuy.resx">
+      <DependentUpon>201805101554317_UpdateTablePartsBuy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

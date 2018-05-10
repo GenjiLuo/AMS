@@ -31,12 +31,11 @@ namespace 汽车维修管理系统.Controllers
 
         public ActionResult GetAllMenu()
         {
-            return Json(_menuService.GetAllMenu().OrderBy(i=>i.OrderNum),JsonRequestBehavior.AllowGet);
+            return Json(_menuService.GetAllMenu(),JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Help()
         {
-            ViewBag.Message = "Your application description page.";
             return View();
         }
         public ActionResult GetAllMenuAndUserQuickMenu()

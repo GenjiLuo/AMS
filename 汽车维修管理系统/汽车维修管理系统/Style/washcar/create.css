@@ -1,0 +1,82 @@
+﻿.option-group button {
+    margin-right: 5px;
+}
+/*导航条*/
+.navigation {
+    display: inline-block;
+}
+.navigation span>span:first-child {
+    color: white;
+    background: lightgrey;
+    border-radius: 50%;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    margin-right: 3px;
+}
+.navigation  .interval-line{
+        width: 30px;
+    background-color: lightgray;
+    height: 1px;
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    margin: 0 3px;
+}
+.navigation .current>span:first-child {
+        background: #4967fc;
+}
+.navigation .current>span:last-child {
+    font-weight: bold;
+}
+/* 选择车辆 */
+#carChooseArea {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #f0f2fa;
+    padding: 12px 0px;
+    padding-bottom: 0px;
+}
+.form-item {
+    display: inline-block;
+}
+.form-item label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.k-combobox
+{
+    width:220px;
+}
+.k-combobox input,
+.k-dropdown input,
+.k-datetimepicker input{
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+}
+.marginBottom25px {
+    margin-bottom: 25px;
+}
+.marginRight20px {
+    margin-right: 20px;
+}
+/* 客户信息 */
+#customerInfo ul li {
+    display: flex;
+    margin-bottom: 15px;
+}
+#customerInfo ul li label {
+    font-size: 13px;
+    display: inline-block;
+    width: 65px;
+    text-align: right;
+    margin-right: 8px;
+}
+#customerInfo ul li span {
+    font-weight: 300;
+}
+#customerInfo ul li div:first-child {
+    width: 320px;
+}

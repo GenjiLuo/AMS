@@ -19,9 +19,22 @@ namespace AMS.Model.dto
         public string ApplyUser { get; set; }
         public string CheckUser { get; set; }
         public DateTime? OperationTime { get; set; }
-        public int? CategoryCount { get; set; }
 
-        public int TotalPartsCount => Parts.Count;
+        public int? CategoryCount => Parts.Count;
+
+        public int TotalPartsCount
+        {
+            get
+            {
+                var totalPartsCount = 0;
+                foreach (var item in Parts)
+                {
+                    totalPartsCount += item.Count;
+                }
+
+                return totalPartsCount;
+            }
+        }
 
         public decimal TotalMoney
         {

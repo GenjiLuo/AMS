@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 
 @{
     ViewBag.Title = "汽修系统 | 配件档案";
@@ -70,6 +71,15 @@
         <div id="grid"></div>
     </div>
 </div>
+<script id="StateTemp" type="text/x-kendo-template">
+    # if(State == @((int)PartsBuyState.未审核)){ #
+        <label class="label label-sm label-info paddingBottom0">未审核</label>
+    # }else if(State == @((int)PartsBuyState.未付款)){ #
+        <label class="label label-sm label-danger paddingBottom0">未付款</label>
+    # }else{ #
+        <label class="label label-sm label-success paddingBottom0">已付款</label>
+    # } # 
+</script>
 <script>
     var selectedRow = {};
     $(document).ready(function () {
@@ -120,7 +130,8 @@
                 },
                 {
                     field: "State",
-                    title: "状态"
+                    title: "状态",
+                    template:$("#StateTemp").html()
                 },
                 {
                     field: "CategoryCount",
@@ -262,8 +273,6 @@
 
         $("#btn_edit").data("kendoButton").enable(true);
         $("#btn_delete").data("kendoButton").enable(true);
-        $("#btn_priceControll").data("kendoButton").enable(true);
-        $("#btn_countAlert").data("kendoButton").enable(true);
     }
 </script>
 

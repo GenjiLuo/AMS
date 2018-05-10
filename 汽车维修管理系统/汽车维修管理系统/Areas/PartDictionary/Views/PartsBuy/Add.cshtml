@@ -131,18 +131,16 @@
                 schema: {
                     id:"serNo",
                     fields: {
-                        serNo: { type: "string" },
-                        partsCode: { type: "string" },
-                        partsName: { type: "string" },
-                        brandName: { type: "string" },
+                        serNo: { type: "string",editable:false },
+                        partsCode: { type: "string",editable:false },
+                        partsName: { type: "string",editable:false },
+                        brandName: { type: "string",editable:false },
                         price: { type: "number" },
                         count: {
-                            type: "number", validation: {
-                                min: 0
-                            }
+                            type: "number", validation: { min: 0 }
                         },
-                        subTotalMoney: { type: "number" },
-                        warehouseName: { type: "string" }
+                        subTotalMoney: { type: "number",editable:false },
+                        warehouseName: { type: "string",editable:false }
                     }
                 },
                 batch:true
@@ -222,7 +220,9 @@
         el: "#addApp",
         data: {
             supplierId: "",
-            warehouseId:"",
+            supplierName:"",
+            warehouseId: "",
+            warehouseName:"",
             description: "",
             parts:[]
         },
@@ -233,7 +233,9 @@
             save: function () {
                 var _this = this;
                 _this.supplierId = $("#supplier").data("kendoComboBox").value();
+                _this.supplierName = $("#supplier").data("kendoComboBox").dataItem().Name;
                 _this.warehouseId = $("#warehouse").data("kendoDropDownList").value();
+                _this.warehouseName = $("#warehouse").data("kendoDropDownList").dataItem().Name;
                 var grid = $("#grid").data("kendoGrid");
                 var items = grid.items();
                 for (var i = 0; i < items.length; i++) {
@@ -246,7 +248,9 @@
                 } 
                 var partsBuy = {
                     SupplierId: _this.supplierId,
-                    WarehouseId: _this.warehouId,
+                    SupplierName:_this.supplierName,
+                    WarehouseId: _this.warehouseId,
+                    WarehouseName: _this.warehouseName,
                     Description: _this.description,
                     Parts:_this.parts
                 };

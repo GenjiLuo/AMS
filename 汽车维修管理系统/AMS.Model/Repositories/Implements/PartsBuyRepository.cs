@@ -20,21 +20,24 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     SupplierId = i.SupplierId,
-                    SupplierName = i.SupplierName,
+                    SupplierName = i.Supplier.Name,
                     OrderNo = i.OrderNo,
                     BillNo = i.BillNo,
                     State = i.State,
                     ApplyUser = i.ApplyUser,
                     CheckUser = i.CheckUser,
                     OperationTime = i.OperationTime,
-                    CategoryCount = i.CategoryCount,
                     ReadyToPay = i.ReadyToPay,
                     WarehouseId = i.WarehouseId,
                     WarehouseName = i.Warehouse.Name,
+                    Description = i.Description,
                     Parts = i.Parts.Select(j=>new PartsDto()
                     {
                         Id = j.Id,
                         PartsDictionaryId = j.PartsDictionaryId,
+                        PartsCode = j.PartsDictionary.Code,
+                        BrandName = j.PartsDictionary.BrandName,
+                        Name = j.PartsDictionary.Name,
                         Price = j.Price,
                         Count = j.Count,
                         PartsBuyId = j.PartsBuyId
@@ -52,7 +55,6 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = Guid.NewGuid(),
                     SupplierId = partsBuyDto.SupplierId,
-                    SupplierName = partsBuyDto.SupplierName,
                     OrderNo = "",
                     BillNo = "",
                     State = PartsBuyState.未审核,
@@ -61,6 +63,7 @@ namespace AMS.Model.Repositories.Implements
                     TotalMoney = partsBuyDto.TotalMoney,
                     ReadyToPay = partsBuyDto.TotalMoney,
                     WarehouseId = partsBuyDto.WarehouseId,
+                    Description = partsBuyDto.Description
                 };
                 var parts = partsBuyDto.Parts.Select(i => new Parts()
                 {
@@ -97,21 +100,24 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     SupplierId = i.SupplierId,
-                    SupplierName = i.SupplierName,
+                    SupplierName = i.Supplier.Name,
                     OrderNo = i.OrderNo,
                     BillNo = i.BillNo,
                     State = i.State,
                     ApplyUser = i.ApplyUser,
                     CheckUser = i.CheckUser,
                     OperationTime = i.OperationTime,
-                    CategoryCount = i.CategoryCount,
                     ReadyToPay = i.ReadyToPay,
                     WarehouseId = i.WarehouseId,
                     WarehouseName = i.Warehouse.Name,
+                    Description = i.Description,
                     Parts = i.Parts.Select(j => new PartsDto()
                     {
                         Id = j.Id,
                         PartsDictionaryId = j.PartsDictionaryId,
+                        PartsCode = j.PartsDictionary.Code,
+                        BrandName = j.PartsDictionary.BrandName,
+                        Name = j.PartsDictionary.Name,
                         Price = j.Price,
                         Count = j.Count,
                         PartsBuyId = j.PartsBuyId
@@ -132,12 +138,12 @@ namespace AMS.Model.Repositories.Implements
                 }
 
                 partsBuy.SupplierId = partsBuyDto.SupplierId;
-                partsBuy.SupplierName = partsBuyDto.SupplierName;
                 partsBuy.WarehouseId = partsBuyDto.WarehouseId;
                 partsBuy.ApplyUser = operationUser.Name;
                 partsBuy.OperationTime = DateTime.Now;
                 partsBuy.TotalMoney = partsBuyDto.TotalMoney;
                 partsBuy.ReadyToPay = partsBuyDto.TotalMoney;
+                partsBuy.Description = partsBuyDto.Description;
                 var parts = partsBuyDto.Parts.Select(i => new Parts()
                 {
                     Id = Guid.NewGuid(),
@@ -154,6 +160,7 @@ namespace AMS.Model.Repositories.Implements
                         db.Parts.RemoveRange(partsBuy.Parts);
                         db.SaveChanges();
                         db.Parts.AddRange(parts);
+                        db.SaveChanges();
                         scope.Complete();
                     }
                     catch (Exception e)
@@ -199,25 +206,28 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db = new ModelContext())
             {
-                var partsBuys = db.PartsBuy.Where(i=>i.SupplierName.Contains(keyword)).Select(i => new PartsBuyDto()
+                var partsBuys = db.PartsBuy.Where(i=>i.Supplier.Name.Contains(keyword)).Select(i => new PartsBuyDto()
                 {
                     Id = i.Id,
                     SupplierId = i.SupplierId,
-                    SupplierName = i.SupplierName,
+                    SupplierName = i.Supplier.Name,
                     OrderNo = i.OrderNo,
                     BillNo = i.BillNo,
                     State = i.State,
                     ApplyUser = i.ApplyUser,
                     CheckUser = i.CheckUser,
                     OperationTime = i.OperationTime,
-                    CategoryCount = i.CategoryCount,
                     ReadyToPay = i.ReadyToPay,
                     WarehouseId = i.WarehouseId,
                     WarehouseName = i.Warehouse.Name,
+                    Description = i.Description,
                     Parts = i.Parts.Select(j => new PartsDto()
                     {
                         Id = j.Id,
                         PartsDictionaryId = j.PartsDictionaryId,
+                        PartsCode = j.PartsDictionary.Code,
+                        BrandName = j.PartsDictionary.BrandName,
+                        Name = j.PartsDictionary.Name,
                         Price = j.Price,
                         Count = j.Count,
                         PartsBuyId = j.PartsBuyId

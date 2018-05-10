@@ -20,9 +20,12 @@ namespace AMS.Model.dto
         public Guid? ServiceBookingId { get; set; }
 
         public ServiceRepairState ServiceRepairState { get; set; }
+        public ServiceWashState ServiceWashState { get; set; }
         public DateTime? ServiceDateTime { get; set; }
         public DateTime? EstimateLeaveTime { get; set; }
         public DateTime? LeaveTime { get; set; }
+
+        public ServiceType ServiceType { get; set; }
 
         public Guid ServiceAdvisorId { get; set; }
         public string ServiceAdvisorName { get; set; }

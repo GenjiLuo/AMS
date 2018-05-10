@@ -1,0 +1,426 @@
+﻿
+@{
+    ViewBag.Title = "编辑洗车单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/repaircar/edit.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="pull-left option-group">
+            <button type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
+            <button type="button" class="k-button"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-left option-group">
+            <button type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
+        </div>
+        <div class="pull-right">
+            <div class="navigation">
+                <span class="finished"><span>√</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span class="current"><span>3</span><span>维修</span></span>
+                <span class="interval-line"></span>
+                <span><span>4</span><span>竣工</span></span>
+                <span class="interval-line"></span>
+                <span><span>5</span><span>结算收银</span></span>
+                <span class="interval-line"></span>
+                <span><span>6</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="carChooseArea" class="row">
+        <div class="form-group marginBottom25px">
+            <div class="form-item">
+                <label>车辆：</label>
+                <input id="chooseCar"/>
+            </div>
+            <div class="form-item">
+                重庆诺怀软件 陈军 18734343443
+            </div>
+            <div class="form-item">
+                <label>预约单：</label>
+                <input id="chooseBooking" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>进厂时间：</label>
+                <input id="serviceTime" />
+            </div>
+            <div class="form-item">
+                <label>预计出厂时间：</label>
+                <input id="estimateLeaveTime" />
+            </div>
+        </div>
+        
+    </div>
+    <div id="carInfoItem" class="row">
+        <div id="simpleInfo">
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>维修顾问：</label>
+                    <input id="repairAdvisor" />
+                </div>
+                <div class="form-item marginRight20px">
+                    <label>当前里程：</label>
+                    <input id="currentMiles" />
+                </div>
+                <div class="form-item">
+                    <label>下次保养里程：</label>
+                    <input id="nextMaintainMiles" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>维修类型：</label>
+                    <input id="repairType" />
+                </div>
+                <div class="form-item marginRight20px">
+                    <label>送修人：</label>
+                    <input id="" class="k-textbox"/>
+                </div>
+                <div class="form-item ">
+                    <label>联系方式：</label>
+                    <input class="k-textbox" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>下次保养日期：</label>
+                    <input id="nextMaintainDate" />
+                </div>
+                <div class="form-item marginRight20px">
+                    <label>保险到期：</label>
+                    <input id="insuranceExpireTime" />
+                </div>
+                <div class="form-item ">
+                    <label>年审到期：</label>
+                    <input id="yearlyCheckTime" />
+                </div>
+            </div>
+        </div>
+        <div id="advancedInfo" style="display: none;">
+            <div class="bgLightGreen">
+                <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>发动机型号：</label>
+                    <input id="carEngineModelNo" class="k-textbox"/>
+                </div>
+                <div class="form-item marginRight20px">
+                    <label>发动机号：</label>
+                    <input id="carEngineNo" class="k-textbox"/>
+                </div>
+                <div class="form-item">
+                    <label>车辆登记时间：</label>
+                    <input id="carRegisterTime" class="k-textbox"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>保险公司：</label>
+                    <input id="insuranceOrg" class="k-textbox"/>
+                </div>
+                <div class="form-item marginRight20px">
+                    <label>保险到期：</label>
+                    <input id="insuranceExpireTime" />
+                </div>
+                <div class="form-item ">
+                    <label>年审到期：</label>
+                    <input id="yearlyCheckTime" />
+                </div>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>维修说明：</label>
+                    <input id="repairDescription" class="k-textbox"/>
+                </div>
+                <div class="form-item ">
+                    <label>备注：</label>
+                    <input id="Description"  class="k-textbox"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>客户委修说明：</label>
+                    <input id="customerDescription" class="k-textbox"/>
+                </div>
+            </div>
+            
+        </div>
+        <button id="switchSimpleAndAdvanced">
+                <i class="fa fa-angle-double-down"></i>
+                <span>更多信息</span>
+        </button>
+    </div>
+    <div id="chooseItem" class="row">
+        <div id="tabStrip">
+            <ul>
+                <li class="k-state-active">
+                    <span>维修项目&nbsp;<span class="badge badge-success">￥0.00&nbsp;(0项)</span></span>
+                </li>
+                <li>
+                    <span>预估用料&nbsp;</span>
+                </li>
+                <li>
+                    <span>维修用料&nbsp;<span class="badge badge-info">￥0.00</span></span>
+                </li>
+            </ul>
+            <div>
+                <div id="repairItemGrid"></div>
+            </div>
+            <div>
+                <div id="estimatePartsGrid"></div>
+            </div>
+            <div>
+                <div id="repairPartsGrid"></div>
+            </div>
+        </div>
+    </div>
+    <div class="info-fix-bottom k-primary">
+        <label>费用合计：</label>
+        <span>0.00</span>
+    </div>
+</div>
+<script id="repairItemGridToolBarTemp" type="text/x-kendo-template">
+    <div>
+        <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+    </div>
+</script>
+<script id="estimatePartsGridToolBarTemp" type="text/x-kendo-template">
+    <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+</script>
+<script id="repairPartsGridToolBarTemp" type="text/x-kendo-template">
+    <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+</script>
+<script>
+    $(document).ready(function() {
+        $("#chooseCar").kendoComboBox({
+            text: "渝BF1234"
+        }).data("kendoComboBox").enable(false);
+        $("#chooseBooking").kendoDropDownList().data("kendoDropDownList").enable(false);
+        $("#serviceTime").kendoDateTimePicker({
+            value:"@DateTime.Now"
+        });
+        $("#estimateLeaveTime").kendoDateTimePicker({
+            value:"@DateTime.Now"
+        });
+        $("#mainOperator").kendoDropDownList({
+            text:"张山"
+        });
+        $("#repairAdvisor").kendoDropDownList({
+            text:"李四"
+        });
+        $("#currentMiles").kendoNumericTextBox({
+            value:19800
+        });
+        $("#nextMaintainMiles").kendoNumericTextBox({
+            value:22800
+        });
+        $("#nextMaintainDate").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#insuranceExpireTime").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#yearlyCheckTime").kendoDatePicker({
+            value:"@DateTime.Now"
+        });
+        $("#tabStrip").kendoTabStrip();
+        $("#repairItemGrid").kendoGrid({
+            dataSource: {
+                data: []
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            toolbar: $("#repairPartsGridToolBarTemp").html(),
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                },
+                {
+                    field: "FixPhone",
+                    title: "状态"
+                },
+                {
+                    field: "Fax",
+                    title: "工时费"
+                },
+                {
+                    field: "MajorOrigin",
+                    title: "材料费"
+                },
+                {
+                    field: "Address",
+                    title: "管理费"
+                },
+                {
+                    field: "FixPhone",
+                    title: "其它费用"
+                }
+            ]
+        });
+        $("#estimatePartsGrid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            toolbar: $("#estimatePartsGridToolBarTemp").html(),
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                },
+                {
+                    field: "FixPhone",
+                    title: "状态"
+                },
+                {
+                    field: "Fax",
+                    title: "工时费"
+                },
+                {
+                    field: "MajorOrigin",
+                    title: "材料费"
+                },
+                {
+                    field: "Address",
+                    title: "管理费"
+                },
+                {
+                    field: "FixPhone",
+                    title: "其它费用"
+                }
+            ]
+        });
+        $("#repairPartsGrid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            toolbar: $("#repairPartsGridToolBarTemp").html(),
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                },
+                {
+                    field: "FixPhone",
+                    title: "状态"
+                },
+                {
+                    field: "Fax",
+                    title: "工时费"
+                },
+                {
+                    field: "MajorOrigin",
+                    title: "材料费"
+                },
+                {
+                    field: "Address",
+                    title: "管理费"
+                },
+                {
+                    field: "FixPhone",
+                    title: "其它费用"
+                }
+            ]
+        });
+    });
+    $("#switchSimpleAndAdvanced").click(function () {
+        if ($("#advancedInfo").is(":hidden")) {
+            $("#advancedInfo").slideDown();
+            $(this).html("<i class='fa fa-angle-double-up'></i><span>&nbsp;收起</span>");
+        } else {
+            $("#advancedInfo").slideUp();
+            $(this).html("<i class='fa fa-angle-double-down'></i><span>&nbsp;更多信息</span>");
+        }
+    });
+</script>
+

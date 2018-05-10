@@ -1,0 +1,172 @@
+﻿.option-group {
+    margin-right: 30px;
+}
+.option-group button {
+    margin-right: 5px;
+}
+/*导航条*/
+.navigation {
+    display: inline-block;
+}
+.navigation span>span:first-child {
+    color: white;
+    background: lightgrey;
+    border-radius: 50%;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    margin-right: 3px;
+}
+.navigation  .interval-line{
+        width: 30px;
+    background-color: lightgray;
+    height: 1px;
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    margin: 0 3px;
+}
+
+.navigation .current>span:first-child {
+        background: #4967fc;
+}
+.navigation .current>span:last-child {
+    font-weight: bold;
+}
+.navigation  .finished>span:first-child{
+    background-color: white;
+    border: 1px solid #4967fc;
+    color: #4967fc;
+}
+/* 选择车辆 */
+#carChooseArea {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #f0f2fa;
+    padding: 12px 0px;
+    padding-bottom: 0px;
+}
+.form-item {
+    display: inline-block;
+}
+.form-item label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.k-combobox
+{
+    width:220px;
+}
+.k-combobox input,
+.k-dropdown input,
+.k-datepicker input,
+.k-numerictextbox input,
+.k-datetimepicker input{
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+}
+.marginBottom25px {
+    margin-bottom: 25px;
+}
+.marginRight20px {
+    margin-right: 20px;
+}
+/* 客户信息 */
+#customerInfo ul li {
+    display: flex;
+    margin-bottom: 15px;
+}
+#customerInfo ul li label {
+    font-size: 13px;
+    display: inline-block;
+    width: 65px;
+    text-align: right;
+    margin-right: 8px;
+}
+#customerInfo ul li span {
+    font-weight: 300;
+}
+#customerInfo ul li div:first-child {
+    width: 320px;
+}
+/* 洗车项目 */
+#washCarItem {
+    border: 2px solid #E6E9F2;
+    padding-top: 18px;
+    display: flex;
+    padding-bottom: 0;
+    margin-bottom: 15px;
+}
+#washCarItem>div {
+    width: 110px;
+    text-align: center;
+}
+#washCarItem>ul {
+    flex: 1;
+}
+#washCarItem>ul li {
+    display: inline-block;
+    border: 1px solid #E6E9F2;
+    border-radius: 5px;
+    background-color: #F3F3F3;
+    color: #666666;
+    padding: 4px 15px;
+    width: 144px;
+    height: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+#checkMoney {
+    background-color: #FFF7F1;
+    border-left: 2px solid #FFF7F1;
+    padding-top: 21px;
+    padding-bottom: 8px;
+}
+#checkMoney label {
+    display: inline-block;
+    width: 110px;
+    text-align: right;
+}
+#payWay {
+    display: flex;
+    margin-top: 15px;
+}
+#payWay>div {
+    width: 110px;
+    text-align: center;
+}
+#payWay>ul {
+    flex: 1;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+#payWay>ul li:hover {
+    cursor: pointer;
+}
+#payWay>ul li{
+    list-style: none;
+    margin-right: 8px;
+    width: 168px;
+    height: 58px;
+    border-radius: 4px;
+    background-color: #EFF3F6;
+    border: 1px solid #DFE3E6;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+#finalMoney label{
+        color: #666666;
+    font-size: 14px;
+}
+#finalMoney .moneyNumber{
+    color: #FF5500;
+    font-size: 20px;
+}

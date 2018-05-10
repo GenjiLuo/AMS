@@ -10,6 +10,10 @@ namespace AMS.Model.poco
 {
     public class Supplier : BaseModel
     {
+        public Supplier()
+        {
+            PartsBuys=new HashSet<PartsBuy>();
+        }
         [Required]
         public string Code { get; set; }
         public string ContactName { get; set; }
@@ -24,6 +28,8 @@ namespace AMS.Model.poco
         public DateTime? Birthday { get; set; }
         public string Wechat { get; set; }
         public string QQ { get; set; }
+
+        public ICollection<PartsBuy> PartsBuys { get; set; }
     }
 
 }

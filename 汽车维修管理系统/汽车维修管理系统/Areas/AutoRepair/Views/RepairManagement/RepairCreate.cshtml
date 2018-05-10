@@ -1,9 +1,209 @@
 ﻿
 @{
-    ViewBag.Title = "RepairCreate";
+    ViewBag.Title = "维修开单";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Style/washcar/create.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="pull-left option-group">
+            <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;开单</button>
+            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-right">
+            <div class="navigation">
+                <span class="current"><span>1</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span><span>2</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span><span>3</span><span>维修</span></span>
+                <span class="interval-line"></span>
+                <span><span>4</span><span>竣工</span></span>
+                <span class="interval-line"></span>
+                <span><span>5</span><span>结算收银</span></span>
+                <span class="interval-line"></span>
+                <span><span>6</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="carChooseArea" class="row">
+        <div class="form-group marginBottom25px">
+            <div class="form-item">
+                <label>选择车辆：</label>
+                <input id="chooseCar" />
+            </div>
+            <div class="form-item"></div>
+            <div class="form-item">
+                <label>预约单：</label>
+                <input id="chooseBooking" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>进厂时间：</label>
+                <input id="serviceTime" />
+            </div>
+            <div class="form-item">
+                <label>预计出厂时间：</label>
+                <input id="estimateLeaveTime" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="tabStrip">
+            <ul>
+                <li class="k-state-active">
+                    维修历史
+                </li>
+                <li>
+                    客户信息
+                </li>
+            </ul>
+            <div>
+                <div id="grid"></div>
+            </div>
+            <div>
+                <div id="customerInfo">
+                    <ul>
+                        <li>
+                            <div>
+                                <label>客户名称：</label>
+                                <span>张山</span>
+                            </div>
+                            <div>
+                                <label>微信：</label>
+                                <span>小贤1234跟你走</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>客户等级：</label>
+                                <span>3</span>
+                            </div>
+                            <div>
+                                <label>性别：</label>
+                                <span>男</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>手机：</label>
+                                <span>15223525254</span>
+                            </div>
+                            <div>
+                                <label>生日：</label>
+                                <span>1991-08-28</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>联系人：</label>
+                                <span>李四</span>
+                            </div>
+                            <div>
+                                <label>QQ：</label>
+                                <span>837607072</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>身份证号</label>
+                                <span>500235199508282214</span>
+                            </div>
+                            <div>
+                                <label>爱好：</label>
+                                <span>钓鱼、打球、打游戏</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>座机：</label>
+                                <span>023-98978767</span>
+                            </div>
+                            <div>
+                                <label>备注：</label>
+                                <span>一个傻逼</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>联系地址：</label>
+                                <span>马栏山马兰村1组</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#chooseCar").kendoComboBox();
+        $("#chooseBooking").kendoDropDownList();
+        $("#serviceTime").kendoDateTimePicker();
+        $("#estimateLeaveTime").kendoDateTimePicker();
+        $("#tabStrip").kendoTabStrip();
+        $("#grid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "客户"
+                },
+                {
+                    field: "Code",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "ContactName",
+                    title: "车架号"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "里程数"
+                },
+                {
+                    field: "Wechat",
+                    title: "维修顾问"
+                },
+                {
+                    field: "QQ",
+                    title: "进厂时间"
+                },
+                {
+                    field: "FixPhone",
+                    title: "状态"
+                },
+                {
+                    field: "Fax",
+                    title: "工时费"
+                },
+                {
+                    field: "MajorOrigin",
+                    title: "材料费"
+                },
+                {
+                    field: "Address",
+                    title: "管理费"
+                },
+                {
+                    field: "FixPhone",
+                    title: "其它费用"
+                }
+            ]
+        });
+    });
+</script>
 
-<h2>维修开单</h2>
-
-<img src="~/Areas/AutoRepair/Content/img/common/baseinfo.png" />

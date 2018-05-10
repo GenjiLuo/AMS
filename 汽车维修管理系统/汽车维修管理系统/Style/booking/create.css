@@ -1,0 +1,90 @@
+﻿li {
+    list-style: none;
+}
+label.required:before {
+    content: "*";
+    color: #f00;
+    margin-right: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.option-group button {
+    margin-right: 5px;
+}
+.option-area::after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+.option-area {
+    margin-bottom: 10px;
+}
+
+.title {
+     background-color: #F5F5F5;
+    padding: 5px 25px;
+    padding-bottom: 4px;
+    color: #067CFE !important;
+    margin-bottom: 10px;
+}
+.title  span:first-child {
+    font-size: 14px;
+    margin-right: 70px;
+}
+#booking .k-textbox {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-radius: 0;
+    text-align: center;
+}
+#booTimeInfo .k-textbox{
+    background-color: #F5F5F5;
+}
+#booking  .k-textbox:focus {
+    border-color: #c5c5c5;
+    border-radius: 4px;
+}
+.input-label {
+    margin-right: 40px;
+    color: #333;
+}
+.input-item {
+    display: inline-block;
+}
+#contactName {
+    margin-left: 73px;
+    margin-right: 50px;
+}
+#contactPhone,
+#repairType {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#repairAdvisor {
+    margin-left: 59px;
+    margin-right: 50px;
+}
+#address,
+
+#customerDescription{
+    margin-left: 59px;
+    width: 514px;
+    margin-right: 50px;
+}
+#description{
+    margin-left: 88px;
+    width: 514px;
+}
+.verticalAlignTop {
+    vertical-align: top;
+}
+#repairDescription {
+    margin-left: 50px;
+    width: 400px;
+}
+#org {
+    margin-left: 50px;
+}

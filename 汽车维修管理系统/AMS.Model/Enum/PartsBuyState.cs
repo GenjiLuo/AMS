@@ -8,8 +8,8 @@ namespace AMS.Model.Enum
 {
     public enum PartsBuyState
     {
+        未审核,
         未付款,
-        已付款,
-        未审核
+        已付款
     } 
 }

@@ -61,7 +61,21 @@
     <button onclick="advancedAddParts()" id="advancedAddParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;高级模式</button>
 </script>
 <script>
-    var parts = @Html.Raw(JsonConvert.SerializeObject(Model.Parts));
+    var parts = [];
+    var tempParts= @Html.Raw(JsonConvert.SerializeObject(Model.Parts));
+    for (var i = 0; i < tempParts.length; i++) {
+        parts.push({
+            id: tempParts[i].PartsDictionaryId,
+            serNo: i + 1,
+            partsCode: tempParts[i].PartsCode,
+            partsName:tempParts[i].Name,
+            brandName: tempParts[i].BrandName,
+            price: tempParts[i].Price,
+            count: tempParts[i].Count,
+            subTotalMoney: tempParts[i].Price * tempParts[i].Count,
+            warehouseName:"@Model.WarehouseName"
+        });
+    }
 </script>
 <script>
     var addParts=function() {
@@ -181,7 +195,8 @@
             columns: [
                 {
                     field: "serNo",
-                    title: "序号"
+                    title: "序号",
+                    editable:false
                 },
                 {
                     field: "partsCode",
@@ -224,6 +239,7 @@
     var addVm = new Vue({
         el: "#addApp",
         data: {
+            id:"@Model.Id",
             supplierId: "@Model.SupplierId",
             warehouseId:"@Model.WarehouseId",
             description: "@Model.Description",
@@ -248,8 +264,9 @@
                     });
                 } 
                 var partsBuy = {
+                    Id:_this.id,
                     SupplierId: _this.supplierId,
-                    WarehouseId: _this.warehouId,
+                    WarehouseId: _this.warehouseId,
                     Description: _this.description,
                     Parts:_this.parts
                 };
