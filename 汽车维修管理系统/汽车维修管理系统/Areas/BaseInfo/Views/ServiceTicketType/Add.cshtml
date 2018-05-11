@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "新增一个发票类型";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/jobManage/jobAdd.css" rel="stylesheet" />
+<div id="addApp" class="form">
+    <div class="options container-fluid">
+        <div class="row">
+            <button @@click="saveUser" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button @@click="goBack" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+    </div>
+    <div class="baseinfo container-fluid">
+        <h4 class="marginBottom30px">基础信息</h4>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">类型名称</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="name"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="required col-xs-2 text-right">费率</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="rate"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 text-right">备注</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" v-model.trim="description"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script>
+    var addAppVm = new Vue({
+        el: "#addApp",
+        data: {
+            name: "",
+            rate:"",
+            description:""
+        },
+        methods: {
+            goBack: function() {
+                window.history.back();
+            },
+            saveUser: function () {
+                var _this = this;
+                var serviceTicketType = {
+                    Name: _this.name,
+                    Rate:_this.rate,
+                    Description: _this.description
+                };
+                $.ajax({
+                    url: "@Url.Action("Add")",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(serviceTicketType),
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "添加成功",
+                                showConfirmButton: false,
+                                timer: "1000"
+                            });
+                            setTimeout(function() {
+                                    window.location.href = "@Url.Action("Index")";
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: "添加失败"
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>

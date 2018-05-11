@@ -566,6 +566,12 @@
     <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Index.cshtml" />
     <Content Include="Areas\BaseInfo\Views\ServiceAccountType\Index.cshtml" />
     <Content Include="Areas\BaseInfo\Views\PaymentType\Index.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\ServiceAccountType\Add.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\ServiceAccountType\Update.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\PaymentType\Update.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\PaymentType\Add.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Add.cshtml" />
+    <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Update.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

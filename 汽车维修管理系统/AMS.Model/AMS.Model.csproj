@@ -70,15 +70,18 @@
     <Compile Include="dto\PartsDictionaryDto.cs" />
     <Compile Include="dto\PartsDictionarySuitedCarModelDto.cs" />
     <Compile Include="dto\PartsTypeDto.cs" />
+    <Compile Include="dto\PaymentTypeDto.cs" />
     <Compile Include="dto\RepairItemDto.cs" />
     <Compile Include="dto\RepairItemTypeDto.cs" />
     <Compile Include="dto\RepairPartsDto.cs" />
     <Compile Include="dto\RepairTypeDto.cs" />
     <Compile Include="dto\JobDto.cs" />
     <Compile Include="dto\OrgDto.cs" />
+    <Compile Include="dto\ServiceAccountTypeDto.cs" />
     <Compile Include="dto\ServiceBookingDto.cs" />
     <Compile Include="dto\ServiceRepairDto.cs" />
     <Compile Include="dto\ServiceRepairItemDto.cs" />
+    <Compile Include="dto\ServiceTicketTypeDto.cs" />
     <Compile Include="dto\SupplierDto.cs" />
     <Compile Include="dto\UserQuickMenuDto.cs" />
     <Compile Include="dto\QuickMenuDto.cs" />
@@ -93,13 +96,9 @@
     <Compile Include="Enum\ServiceRepairState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201805101423180_InitDatabase.cs" />
-    <Compile Include="Migrations\201805101423180_InitDatabase.Designer.cs">
-      <DependentUpon>201805101423180_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805101554317_UpdateTablePartsBuy.cs" />
-    <Compile Include="Migrations\201805101554317_UpdateTablePartsBuy.Designer.cs">
-      <DependentUpon>201805101554317_UpdateTablePartsBuy.cs</DependentUpon>
+    <Compile Include="Migrations\201805111321255_InitDatabase.cs" />
+    <Compile Include="Migrations\201805111321255_InitDatabase.Designer.cs">
+      <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -117,6 +116,9 @@
     <Compile Include="poco\ServiceRepairItem.cs" />
     <Compile Include="poco\ServiceRepair.cs" />
     <Compile Include="poco\ServiceBooking.cs" />
+    <Compile Include="poco\ServiceAccountType.cs" />
+    <Compile Include="poco\ServiceTicketType.cs" />
+    <Compile Include="poco\PaymentType.cs" />
     <Compile Include="poco\Warehouse.cs" />
     <Compile Include="poco\Supplier.cs" />
     <Compile Include="poco\RepairItemType.cs" />
@@ -134,6 +136,9 @@
     <Compile Include="Repositories\Implements\CarRepository.cs" />
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
+    <Compile Include="Repositories\Implements\PaymentTypeRepository.cs" />
+    <Compile Include="Repositories\Implements\ServiceAccountTypeRepository.cs" />
+    <Compile Include="Repositories\Implements\ServiceTicketTypeRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceBookingRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceRepairRepository.cs" />
     <Compile Include="Repositories\Implements\PartsBuyRepository.cs" />
@@ -154,6 +159,9 @@
     <Compile Include="Repositories\Interfaces\IPartsBuyRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceBookingRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceRepairRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IServiceAccountTypeRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IServiceTicketTypeRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPaymentTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
@@ -175,11 +183,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805101423180_InitDatabase.resx">
-      <DependentUpon>201805101423180_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805101554317_UpdateTablePartsBuy.resx">
-      <DependentUpon>201805101554317_UpdateTablePartsBuy.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805111321255_InitDatabase.resx">
+      <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

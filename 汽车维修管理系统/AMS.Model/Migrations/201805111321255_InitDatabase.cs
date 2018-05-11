@@ -282,7 +282,6 @@ namespace AMS.Model.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        SupplierName = c.String(),
                         SupplierId = c.Guid(nullable: false),
                         OrderNo = c.String(),
                         BillNo = c.String(),
@@ -304,8 +303,40 @@ namespace AMS.Model.Migrations
                         UpdateTime = c.DateTime(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Supplier", t => t.SupplierId, cascadeDelete: true)
                 .ForeignKey("dbo.Warehouse", t => t.WarehouseId, cascadeDelete: true)
+                .Index(t => t.SupplierId)
                 .Index(t => t.WarehouseId);
+            
+            CreateTable(
+                "dbo.Supplier",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        ContactName = c.String(),
+                        MobilePhone = c.String(),
+                        FixPhone = c.String(),
+                        Fax = c.String(),
+                        MajorOrigin = c.String(),
+                        BankName = c.String(),
+                        BankAccount = c.String(),
+                        Address = c.String(),
+                        Gender = c.Int(),
+                        Birthday = c.DateTime(),
+                        Wechat = c.String(),
+                        QQ = c.String(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Warehouse",
@@ -644,23 +675,45 @@ namespace AMS.Model.Migrations
                 .Index(t => t.MenuId);
             
             CreateTable(
-                "dbo.Supplier",
+                "dbo.PaymentType",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
-                        ContactName = c.String(),
-                        MobilePhone = c.String(),
-                        FixPhone = c.String(),
-                        Fax = c.String(),
-                        MajorOrigin = c.String(),
-                        BankName = c.String(),
-                        BankAccount = c.String(),
-                        Address = c.String(),
-                        Gender = c.Int(),
-                        Birthday = c.DateTime(),
-                        Wechat = c.String(),
-                        QQ = c.String(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.ServiceAccountType",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.ServiceTicketType",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Rate = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Name = c.String(),
                         OrderNum = c.Int(),
                         Description = c.String(),
@@ -701,6 +754,7 @@ namespace AMS.Model.Migrations
             DropForeignKey("dbo.EstimateRepairParts", "PartsId", "dbo.Parts");
             DropForeignKey("dbo.Parts", "PartsDictionaryId", "dbo.PartsDictionary");
             DropForeignKey("dbo.PartsBuy", "WarehouseId", "dbo.Warehouse");
+            DropForeignKey("dbo.PartsBuy", "SupplierId", "dbo.Supplier");
             DropForeignKey("dbo.Parts", "PartsBuyId", "dbo.PartsBuy");
             DropForeignKey("dbo.PartsDictionary", "PartsTypeId", "dbo.PartsType");
             DropForeignKey("dbo.PartsType", "ParentId", "dbo.PartsType");
@@ -733,6 +787,7 @@ namespace AMS.Model.Migrations
             DropIndex("dbo.ServiceBooking", new[] { "ServiceAdvisorId" });
             DropIndex("dbo.ServiceBooking", new[] { "CarId" });
             DropIndex("dbo.PartsBuy", new[] { "WarehouseId" });
+            DropIndex("dbo.PartsBuy", new[] { "SupplierId" });
             DropIndex("dbo.Parts", new[] { "PartsBuyId" });
             DropIndex("dbo.Parts", new[] { "PartsDictionaryId" });
             DropIndex("dbo.EstimateRepairParts", new[] { "ServiceRepairId" });
@@ -748,7 +803,9 @@ namespace AMS.Model.Migrations
             DropIndex("dbo.CarModel", new[] { "SeriesId" });
             DropIndex("dbo.Car", new[] { "ModelId" });
             DropIndex("dbo.Car", new[] { "CustomerId" });
-            DropTable("dbo.Supplier");
+            DropTable("dbo.ServiceTicketType");
+            DropTable("dbo.ServiceAccountType");
+            DropTable("dbo.PaymentType");
             DropTable("dbo.QuickMenu");
             DropTable("dbo.Menu");
             DropTable("dbo.RepairParts");
@@ -763,6 +820,7 @@ namespace AMS.Model.Migrations
             DropTable("dbo.RepairType");
             DropTable("dbo.ServiceBooking");
             DropTable("dbo.Warehouse");
+            DropTable("dbo.Supplier");
             DropTable("dbo.PartsBuy");
             DropTable("dbo.Parts");
             DropTable("dbo.EstimateRepairParts");
