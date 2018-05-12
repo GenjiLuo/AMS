@@ -56,15 +56,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.14.26.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.14.26\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dto\BaseDto.cs" />
+    <Compile Include="dto\BillNoSettingDto.cs" />
     <Compile Include="dto\CarBrandDto.cs" />
     <Compile Include="dto\CarDto.cs" />
     <Compile Include="dto\CarSeriesDto.cs" />
     <Compile Include="dto\CustomerDto.cs" />
     <Compile Include="dto\CarModelDto.cs" />
     <Compile Include="dto\EstimateRepairPartsDto.cs" />
+    <Compile Include="dto\OperationLogDto.cs" />
+    <Compile Include="dto\ParameterControllDto.cs" />
     <Compile Include="dto\PartsDto.cs" />
     <Compile Include="dto\PartsBuyDto.cs" />
     <Compile Include="dto\PartsDictionaryDto.cs" />
@@ -88,17 +94,24 @@
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
     <Compile Include="dto\WarehouseDto.cs" />
+    <Compile Include="Enum\BillSerNoLength.cs" />
     <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
     <Compile Include="Enum\ServiceWashState.cs" />
     <Compile Include="Enum\ServiceType.cs" />
     <Compile Include="Enum\ServiceRepairState.cs" />
+    <Compile Include="Enum\BillDateFormat.cs" />
+    <Compile Include="Enum\ParameterValueType.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
     <Compile Include="Migrations\201805111321255_InitDatabase.cs" />
     <Compile Include="Migrations\201805111321255_InitDatabase.Designer.cs">
       <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805121009436_AddTableParameterAndBill.cs" />
+    <Compile Include="Migrations\201805121009436_AddTableParameterAndBill.Designer.cs">
+      <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -119,6 +132,8 @@
     <Compile Include="poco\ServiceAccountType.cs" />
     <Compile Include="poco\ServiceTicketType.cs" />
     <Compile Include="poco\PaymentType.cs" />
+    <Compile Include="poco\ParameterControll.cs" />
+    <Compile Include="poco\BillNoSetting.cs" />
     <Compile Include="poco\Warehouse.cs" />
     <Compile Include="poco\Supplier.cs" />
     <Compile Include="poco\RepairItemType.cs" />
@@ -136,6 +151,7 @@
     <Compile Include="Repositories\Implements\CarRepository.cs" />
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
+    <Compile Include="Repositories\Implements\BillNoSettingRepository.cs" />
     <Compile Include="Repositories\Implements\PaymentTypeRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceAccountTypeRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceTicketTypeRepository.cs" />
@@ -162,6 +178,7 @@
     <Compile Include="Repositories\Interfaces\IServiceAccountTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceTicketTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPaymentTypeRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IBillNoSettingRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
@@ -185,6 +202,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805111321255_InitDatabase.resx">
       <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805121009436_AddTableParameterAndBill.resx">
+      <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

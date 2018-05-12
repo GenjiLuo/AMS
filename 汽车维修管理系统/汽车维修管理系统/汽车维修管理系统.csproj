@@ -227,6 +227,7 @@
     <Compile Include="Models\LoginVM.cs" />
     <Compile Include="Models\UserQuickMenuVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Warehouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animateCss\animate.min.css" />
@@ -592,6 +593,8 @@
     <Content Include="Style\car\carAdd.css" />
     <Content Include="Style\car\carManage.css" />
     <Content Include="Style\common\common.css" />
+    <Content Include="Style\OrderNoSetting\add.css" />
+    <Content Include="Style\OrderNoSetting\index.css" />
     <Content Include="Style\partsBuy\add.css" />
     <Content Include="Style\partsBuy\index.css" />
     <Content Include="Style\partsDictionary\add.css" />
@@ -606,6 +609,8 @@
     <Content Include="Style\jobManage\jobManage.css" />
     <Content Include="Style\customerManage\customerAdd.css" />
     <Content Include="Style\customerManage\customerManage.css" />
+    <Content Include="Style\parameterControll\add.css" />
+    <Content Include="Style\parameterControll\index.css" />
     <Content Include="Style\partsType\add.css" />
     <Content Include="Style\partsType\index.css" />
     <Content Include="Style\repaircar\cash.css" />

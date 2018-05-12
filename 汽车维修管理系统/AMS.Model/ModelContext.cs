@@ -49,5 +49,7 @@ namespace AMS.Model
         public virtual DbSet<ServiceAccountType> ServiceAccountType { get; set; }
         public virtual DbSet<PaymentType> PaymentType { get; set; }
         public virtual DbSet<ServiceTicketType> ServiceTicketType { get; set; }
+        public virtual DbSet<ParameterControll> ParameterControll { get; set; }
+        public virtual DbSet<BillNoSetting> BillNoSetting { get; set; }
     }
 }

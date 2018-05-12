@@ -11,3 +11,5 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\E
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\zh-Hans\EntityFramework.resources.dll
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.csproj.CopyComplete
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\obj\Debug\AMS.Service.csprojAssemblyReference.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\Z.EntityFramework.Extensions.dll
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Service\bin\Debug\Z.EntityFramework.Extensions.xml

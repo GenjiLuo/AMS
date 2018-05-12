@@ -609,6 +609,64 @@ namespace AMS.Model.Migrations
                 };
                 context.Menu.AddRange(defaultMenus);
             }
+            //单据号默认数据
+            if (!context.BillNoSetting.Any())
+            {
+                var billNoSettings=new List<BillNoSetting>()
+                {
+                    new BillNoSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "采购入库",
+                        Prefix = "CR",
+                        DateFormat = BillDateFormat.简洁年月日,
+                        SerNoLength = BillSerNoLength.四位,
+                        DailyReset = true,
+                        BillNoPreview = "CR1805120001"
+                    },
+                    new BillNoSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "配件出库",
+                        Prefix = "QC",
+                        DateFormat = BillDateFormat.简洁年月日,
+                        SerNoLength = BillSerNoLength.四位,
+                        DailyReset = true,
+                        BillNoPreview = "QC1805120001"
+                    },
+                    new BillNoSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "预约单号",
+                        Prefix = "YY",
+                        DateFormat = BillDateFormat.简洁年月日,
+                        SerNoLength = BillSerNoLength.四位,
+                        DailyReset = true,
+                        BillNoPreview = "YY1805120001"
+                    },
+                    new BillNoSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "接车单号",
+                        Prefix = "JC",
+                        DateFormat = BillDateFormat.简洁年月日,
+                        SerNoLength = BillSerNoLength.四位,
+                        DailyReset = true,
+                        BillNoPreview = "JC1805120001"
+                    },
+                    new BillNoSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "会员充值",
+                        Prefix = "MC",
+                        DateFormat = BillDateFormat.简洁年月日,
+                        SerNoLength = BillSerNoLength.四位,
+                        DailyReset = true,
+                        BillNoPreview = "MC1805120001"
+                    }
+                };
+                context.BillNoSetting.AddRange(billNoSettings);
+            }
         }
     }
 }

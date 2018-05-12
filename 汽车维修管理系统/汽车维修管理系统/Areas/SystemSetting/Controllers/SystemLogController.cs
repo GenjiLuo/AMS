@@ -17,9 +17,15 @@ namespace 汽车维修管理系统.Areas.SystemSetting.Controllers
         {
             return View();
         }
-        public ActionResult DataLog()
+
+        public ActionResult OperationLog_GridDataSource()
         {
-            return View();
+            return null;
+        }
+
+        public ActionResult Delete()
+        {
+            return null;
         }
     }
 }

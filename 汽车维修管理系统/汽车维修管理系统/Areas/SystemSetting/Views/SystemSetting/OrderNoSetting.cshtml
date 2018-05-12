@@ -1,8 +1,293 @@
-﻿
+﻿@using AMS.Model.Enum
+@using Newtonsoft.Json
+@model List<AMS.Model.dto.BillNoSettingDto>
 @{
-    ViewBag.Title = "OrderNoSetting";
+    ViewBag.Title = "汽修系统 | 单据号配置";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Style/OrderNoSetting/index.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <button id="btn_save" type="button" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;保存</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="alert alert-info">
+            <h4>说明：</h4>
+            <div>
+                <ol>
+                    <li class="text-primary">修改单号格式后仅影响系统新生成的单据号，已经生成的历史单据号不变；</li>
+                    <li class="text-primary">更改通用设定时，会统一更新 单据号设定 下所有节点对应的规则应用；</li>
 
-<h2>单据号配置</h2>
+                    <li class="text-primary">勾选<strong>每日重置单号</strong>，则单据号每日从0001开始，否则单据号会沿用之前的序列号；</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4>单据号设定</h4>
+        <div id="grid"></div>
+    </div>
+</div>
+<script id="settingRowTemp" type="text/x-kendo-template">
+    <tr id="#: Id #" data-uid="#: uid #">
+        <td class="text-center">#: Name #</td>
+        <td class="text-center">
+            <input value="#: Prefix #" class="k-textbox prefix-input" />
+        </td>
+        <td class="text-center">
+            <input class="dateformat-dropdownlist" data-value="#: DateFormat #" />
+        </td>
+        <td class="text-center">
+            <input class="sernolength-dropdownlist" data-value="#: SerNoLength #" />
+        </td>
+        <td class="text-center">
+            <input id="chk#: uid #" type="checkbox" class="k-checkbox dailyreset-checkbox" checked="#: DailyReset #" />
+            <label class="k-checkbox-label" for="chk#: uid #"></label>
+        </td>
+        <td style="color: red;font-style: italic;font-size:15px;padding-left:20px;">#: BillNoPreview #</td>
+    </tr>
+</script>
+<script id="settingAltRowTemp" type="text/x-kendo-template">
+    <tr id="#: Id #" class="k-alt" data-uid="#: uid #">
+        <td class="text-center">#: Name #</td>
+        <td class="text-center">
+            <input value="#: Prefix #" class="k-textbox prefix-input" />
+        </td>
+        <td class="text-center">
+            <input class="dateformat-dropdownlist" data-value="#: DateFormat #" />
+        </td>
+        <td class="text-center">
+            <input class="sernolength-dropdownlist" data-value="#: SerNoLength #" />
+        </td>
+        <td class="text-center">
+            <input id="chk#: uid #" type="checkbox" class="k-checkbox dailyreset-checkbox" checked="#: DailyReset #" />
+            <label class="k-checkbox-label" for="chk#: uid #"></label>
+        </td>
+        <td style="color: red;font-style: italic;font-size:15px;padding-left:20px;">#: BillNoPreview #</td>
+    </tr>
+</script>
+<script>
+    var billNoSettings = [];
+    billNoSettings=@Html.Raw(JsonConvert.SerializeObject(Model));
+    var dataFormats = [];
+    dataFormats.push({
+        Id: @((int)BillDateFormat.简洁年月日),
+        Name: "@BillDateFormat.简洁年月日.ToString()"
+    });
+    dataFormats.push({
+        Id:@((int)BillDateFormat.完整年月日),
+        Name:"@BillDateFormat.完整年月日.ToString()"
+    });
+    dataFormats.push({
+        Id:@((int)BillDateFormat.无),
+        Name:"@BillDateFormat.无.ToString()"
+    });
+    var serNolengtArray = [];
+    serNolengtArray.push({
+        Id:@((int)BillSerNoLength.两位),
+        Name:"@BillSerNoLength.两位.ToString()"
+    });
+    serNolengtArray.push({
+        Id:@((int)BillSerNoLength.三位),
+        Name:"@BillSerNoLength.三位.ToString()"
+    });
+    serNolengtArray.push({
+        Id:@((int)BillSerNoLength.四位),
+        Name:"@BillSerNoLength.四位.ToString()"
+    });
+    serNolengtArray.push({
+        Id:@((int)BillSerNoLength.五位),
+        Name:"@BillSerNoLength.五位.ToString()"
+    });
+    serNolengtArray.push({
+        Id:@((int)BillSerNoLength.六位),
+        Name:"@BillSerNoLength.六位.ToString()"
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#grid").kendoGrid({
+            dataSource: {
+                data: billNoSettings
+            },
+            height: 400,
+            scrollable: false,
+            rowTemplate: $("#settingRowTemp").html(),
+            altRowTemplate: $("#settingAltRowTemp").html(),
+            columns: [
+                {
+                    field: "Name",
+                    title: "单据号类型",
+                    width: "150px",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                },
+                {
+                    field: "Prefix",
+                    title: "单据号前缀",
+                    width: "180px",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                },
+                {
+                    field: "DateFormat",
+                    title: "日期格式",
+                    width: "180px",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                },
+                {
+                    field: "SerNoLength",
+                    title: "序号位数",
+                    width: "180px",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                },
+                {
+                    field: "DailyReset",
+                    title: "每日重置单号",
+                    width: "100px",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                },
+                {
+                    field: "BillNoPreview",
+                    title: "单据号预览",
+                    headerAttributes: {
+                        style: "text-align:center;"
+                    }
+                }
+            ]
+        });
+        $(".prefix-input").each(function() {
+            $(this).keyup(function(e) {
+                var row = $('#grid').data('kendoGrid').dataItem($(e.currentTarget).parent().parent());
+                row.Prefix = $(this).val();
+                generatePreview(this,row, 4);
+            });
+        });
+        $(".dateformat-dropdownlist").each(function () {
+            $(this).kendoDropDownList({
+                dataSource: {
+                    data: dataFormats
+                },
+                dataTextField: "Name",
+                dataValueField: "Id",
+                value: parseInt($(this).attr("data-value"))
+            });
+            $(this).change(function(e) {
+                var row = $('#grid').data('kendoGrid').dataItem($(e.currentTarget).parent().parent().parent());
+                row.DateFormat = parseInt($(this).val());
+                generatePreview(this,row, 3);
+            });
+        });
+        $(".sernolength-dropdownlist").each(function () {
+            $(this).kendoDropDownList({
+                dataSource: {
+                    data: serNolengtArray
+                },
+                dataTextField: "Name",
+                dataValueField: "Id",
+                value: parseInt($(this).attr("data-value"))
+            });
+            $(this).change(function (e) {
+                var row = $('#grid').data('kendoGrid').dataItem($(e.currentTarget).parent().parent().parent());
+                row.SerNoLength = parseInt($(this).val());
+                generatePreview(this,row, 2);
+            });
+        });
+        $(".dailyreset-checkbox").each(function() {
+            $(this).change(function(e) {
+                var row = $('#grid').data('kendoGrid').dataItem($(e.currentTarget).parent().parent());
+                row.DailyReset = $(this).is(":checked");
+            });
+        });
+    });
+    //保存
+    $("#btn_save").click(function () {
+        var billNoSettings = [];
+        var grid = $("#grid").data("kendoGrid");
+        var items = grid.items();
+        for (var i = 0; i < items.length; i++) {
+            var item = grid.dataItem(items[i]);
+            billNoSettings.push({
+                Id: item.Id,
+                Name: item.Name,
+                Prefix: item.Prefix,
+                DateFormat: item.DateFormat,
+                SerNoLength: item.SerNoLength,
+                BillNoPreview:item.BillNoPreview
+            });
+        }
+        $.ajax({
+            url: "@Url.Action("Update")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(billNoSettings),
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "修改成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+</script>
+<script>
+    function generatePreview(_this, row, offset) {
+        console.log(row);
+        var billDate = "";
+        var serNo = "";
+        if (row.DateFormat == @((int) BillDateFormat.简洁年月日)) {
+            billDate = "@DateTime.Now.ToString("yyMMdd")";
+        } else if (row.DateFormat == @((int) BillDateFormat.完整年月日)) {
+            billDate = "@DateTime.Now.ToString("yyyyMMdd")";
+        } else {
+            billDate = "";
+        }
+        debugger;
+        if (row.SerNoLength == @((int) BillSerNoLength.两位)) {
+            serNo = "01";
+        }
+        if (row.SerNoLength == @((int) BillSerNoLength.三位)) {
+            serNo = "001";
+        }
+        if (row.SerNoLength == @((int) BillSerNoLength.四位)) {
+            serNo = "0001";
+        }
+        if (row.SerNoLength == @((int) BillSerNoLength.五位)) {
+            serNo = "00001";
+        }
+        if (row.SerNoLength == @((int) BillSerNoLength.六位)) {
+            serNo = "000001";
+        }
+        row.BillNoPreview = row.Prefix + billDate + serNo;
+        if (offset == 2) {
+            $(_this).parent().parent().next().next().html(row.BillNoPreview);
+        } else if (offset == 3) {
+            $(_this).parent().parent().next().next().next().html(row.BillNoPreview);
+        }
+        else if (offset == 4) {
+            $(_this).parent().next().next().next().next().html(row.BillNoPreview);
+        }
+        console.log($(_this));
+    }
+</script>
 

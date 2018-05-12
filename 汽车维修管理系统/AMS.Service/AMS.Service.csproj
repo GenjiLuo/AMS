@@ -44,6 +44,7 @@
     <Compile Include="Services\Implements\CarService.cs" />
     <Compile Include="Services\Implements\CustomerService.cs" />
     <Compile Include="Services\Implements\CarModelService.cs" />
+    <Compile Include="Services\Implements\BillNoSettingService.cs" />
     <Compile Include="Services\Implements\PaymentTypeService.cs" />
     <Compile Include="Services\Implements\ServiceAccountTypeService.cs" />
     <Compile Include="Services\Implements\ServiceTicketTypeService.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Services\Implements\QuickMenuService.cs" />
     <Compile Include="Services\Implements\LoginService.cs" />
     <Compile Include="Services\Implements\MenuService.cs" />
+    <Compile Include="Services\Interfaces\IBillNoSettingService.cs" />
     <Compile Include="Services\Interfaces\ICarModelService.cs" />
     <Compile Include="Services\Interfaces\ICarService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
