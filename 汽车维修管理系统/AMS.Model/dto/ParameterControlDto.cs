@@ -4,7 +4,7 @@ using AMS.Model.poco;
 
 namespace AMS.Model.dto
 {
-    public class ParameterControllDto : BaseDto
+    public class ParameterControlDto : BaseDto
     {
         public string ParameterName { get; set; }
         public string Value1 { get; set; }

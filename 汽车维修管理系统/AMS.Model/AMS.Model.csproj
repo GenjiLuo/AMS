@@ -70,7 +70,7 @@
     <Compile Include="dto\CarModelDto.cs" />
     <Compile Include="dto\EstimateRepairPartsDto.cs" />
     <Compile Include="dto\OperationLogDto.cs" />
-    <Compile Include="dto\ParameterControllDto.cs" />
+    <Compile Include="dto\ParameterControlDto.cs" />
     <Compile Include="dto\PartsDto.cs" />
     <Compile Include="dto\PartsBuyDto.cs" />
     <Compile Include="dto\PartsDictionaryDto.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="poco\ServiceAccountType.cs" />
     <Compile Include="poco\ServiceTicketType.cs" />
     <Compile Include="poco\PaymentType.cs" />
-    <Compile Include="poco\ParameterControll.cs" />
+    <Compile Include="poco\ParameterControl.cs" />
     <Compile Include="poco\BillNoSetting.cs" />
     <Compile Include="poco\Warehouse.cs" />
     <Compile Include="poco\Supplier.cs" />
@@ -152,6 +152,8 @@
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
     <Compile Include="Repositories\Implements\BillNoSettingRepository.cs" />
+    <Compile Include="Repositories\Implements\ParameterControlRepository.cs" />
+    <Compile Include="Repositories\Implements\OperationLogRepository.cs" />
     <Compile Include="Repositories\Implements\PaymentTypeRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceAccountTypeRepository.cs" />
     <Compile Include="Repositories\Implements\ServiceTicketTypeRepository.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="Repositories\Implements\JobRepository.cs" />
     <Compile Include="Repositories\Implements\UserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICarModelRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IParameterControlRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsDictionaryRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsBuyRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceBookingRepository.cs" />
@@ -179,6 +182,7 @@
     <Compile Include="Repositories\Interfaces\IServiceTicketTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPaymentTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBillNoSettingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IOperationLogRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />

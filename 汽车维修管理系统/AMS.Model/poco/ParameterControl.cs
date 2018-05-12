@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class ParameterControll : BaseModel
+    public class ParameterControl : BaseModel
     {
         [Index(IsUnique = true)]
         [StringLength(100)]

@@ -12,15 +12,18 @@ namespace 汽车维修管理系统.Areas.SystemSetting.Controllers
     public class SystemSettingController : Controller
     {
         private readonly IBillNoSettingService _billNoSettingService;
+        private readonly IParameterControlService _parameterControlService;
 
         public SystemSettingController()
         {
             _billNoSettingService=new BillNoSettingService();
+            _parameterControlService=new ParameterControlService();
         }
 
         public ActionResult ParameterControll()
         {
-            return View();
+            var parameterControls = _parameterControlService.GetAllParameterControls();
+            return View(parameterControls);
         }
         public ActionResult OrderNoSetting()
         {
