@@ -573,7 +573,7 @@ namespace AMS.Model.Migrations
                                         Id = Guid.NewGuid(),
                                         Name = "参数控制",
                                         OrderNum = 0,
-                                        Url = CommonUrl.ParameterControll,
+                                        Url = CommonUrl.ParameterControl,
                                         QuickMenuIcon = "../../Content/img/home/System.ParametricControl.SystemSettings.png"
                                     },
                                     new Menu()
@@ -666,6 +666,143 @@ namespace AMS.Model.Migrations
                     }
                 };
                 context.BillNoSetting.AddRange(billNoSettings);
+            }
+            //参数控制默认数据
+            if (!context.ParameterControl.Any())
+            {
+                var parameterControls=new List<ParameterControl>()
+                {
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RepeatBooking",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RepeatRepair",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredVin",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredMobile",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredInsuranceExpireTime",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredYearlyCheckTime",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredServiceMileage",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "RequiredNextMaintainMileage",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "PartsBuyPriceControl",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "ServiceTicketRate",
+                        Value1 = "17.00",
+                        Value1Type1 = ParameterValueType.浮点数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "MaintainInterval",
+                        Value1 = "5000",
+                        Value1Type1 = ParameterValueType.整数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "PartsCountAlert",
+                        Value1 = "false",
+                        Value1Type1 = ParameterValueType.布尔
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "BirthdayAlert",
+                        Value1 = "true",
+                        Value1Type1 = ParameterValueType.布尔,
+                        Value2 = "3",
+                        Value1Type2 = ParameterValueType.整数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "InsuranceExpireTimeAlert",
+                        Value1 = "true",
+                        Value1Type1 = ParameterValueType.布尔,
+                        Value2 = "7",
+                        Value1Type2 = ParameterValueType.整数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "MaintainMileageAlert",
+                        Value1 = "true",
+                        Value1Type1 = ParameterValueType.布尔,
+                        Value2 = "7",
+                        Value1Type2 = ParameterValueType.整数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "MaintainDateAlert",
+                        Value1 = "true",
+                        Value1Type1 = ParameterValueType.布尔,
+                        Value2 = "7",
+                        Value1Type2 = ParameterValueType.整数
+                    },
+                    new ParameterControl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParameterName = "YearlyCheckTimeAlert",
+                        Value1 = "true",
+                        Value1Type1 = ParameterValueType.布尔,
+                        Value2 = "7",
+                        Value1Type2 = ParameterValueType.整数
+                    }
+                };
+                context.ParameterControl.AddRange(parameterControls);
             }
         }
     }

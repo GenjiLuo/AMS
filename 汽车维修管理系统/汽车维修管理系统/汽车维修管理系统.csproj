@@ -495,7 +495,7 @@
     <Content Include="Areas\SystemSetting\Views\web.config" />
     <Content Include="Areas\SystemSetting\Views\SystemLog\OperationLog.cshtml" />
     <Content Include="Areas\SystemSetting\Views\SystemLog\DataLog.cshtml" />
-    <Content Include="Areas\SystemSetting\Views\SystemSetting\ParameterControll.cshtml" />
+    <Content Include="Areas\SystemSetting\Views\SystemSetting\ParameterControl.cshtml" />
     <Content Include="Areas\SystemSetting\Views\SystemSetting\OrderNoSetting.cshtml" />
     <Content Include="Content\kendo\fonts\glyphs\KendoUIGlyphs.eot" />
     <Content Include="Content\kendo\fonts\glyphs\KendoUIGlyphs.ttf" />

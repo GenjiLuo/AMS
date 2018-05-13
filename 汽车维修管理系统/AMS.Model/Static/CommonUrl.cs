@@ -64,7 +64,7 @@ namespace AMS.Model.Static
         #region 系统设置
         public static string OperationLog = "/SystemSetting/SystemLog/OperationLog";
 
-        public static string ParameterControll = "/SystemSetting/SystemSetting/ParameterControll";
+        public static string ParameterControl = "/SystemSetting/SystemSetting/ParameterControl";
         public static string OrderNoSetting = "/SystemSetting/SystemSetting/OrderNoSetting";
         #endregion
     }

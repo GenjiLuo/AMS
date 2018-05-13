@@ -1,0 +1,317 @@
+﻿@using Newtonsoft.Json
+@model List<AMS.Model.dto.ParameterControlDto>
+@{
+    ViewBag.Title = "汽修系统 | 参数控制";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/parameterControll/index.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <button id="btn_save" type="button" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;保存</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#repair">
+                        <i class="green ace-icon fa fa-gavel bigger-120"></i>
+                        维修配置
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#warehouse">
+                        <i class="green ace-icon fa fa-home bigger-120"></i>
+                        库房配置
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#alert">
+                        <i class="green ace-icon fa fa-bell bigger-120"></i>
+                        提醒配置
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="repair" class="tab-pane fade in active">
+                    <ul>
+                        <li class="form-group">
+                            <input id="repeatBooking" type="checkbox" /><label class="switch-label">重复预约</label><em class="switch-info">勾选后可以在预约列表重复预约</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="repeatRepair" type="checkbox" /><label class="switch-label">重复接车</label><em class="switch-info">勾选后可以在接车列表重复接车</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredVin" type="checkbox" /><label class="switch-label">新增车辆车架号必填</label><em class="switch-info">勾选后在新增车辆时，必须填写车架号</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredMobile" type="checkbox" /><label class="switch-label">新增客户手机号必填</label><em class="switch-info">勾选后在新增客户时，必须填写手机号</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredInsuranceExpireTime" type="checkbox" /><label class="switch-label">保险到期必填</label><em class="switch-info">勾选后在接车时，必须填写保险到期</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredYearlyCheckTime" type="checkbox" /><label class="switch-label">年检到期必填 </label><em class="switch-info">勾选后在接车时，必须填写年检到期</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredServiceMileage" type="checkbox" /><label class="switch-label">进厂里程必填</label><em class="switch-info">勾选后在接车时，必须填写进厂里程</em>
+                        </li>
+                        <li class="form-group">
+                            <input id="requiredNextMaintainMileage" type="checkbox" /><label class="switch-label">下次保养必填</label><em class="switch-info">勾选后在接车时，必须填写下次保养里程</em>
+                        </li>
+                    </ul>
+                    <div class="form-group" id="nextMaintainMileageBox">
+                        <label class="pull-left">保养间隔：</label>
+                        <div class="input-group pull-left" style="width: 150px;">
+                            <input id="maintainInterval" type="number" class="form-control">
+                            <span class="input-group-addon">
+                                公里
+                            </span>
+                        </div>
+                        <span class="switch-info">下次保养里程 = 当前里程 + 保养间隔</span>
+                    </div>
+                </div>
+                <div id="warehouse" class="tab-pane fade">
+                    <ul>
+                        <li class="form-group">
+                            <input id="partsBuyPriceControl" type="checkbox" /><label class="switch-label">启用采购进价范围控制</label><em class="switch-info">勾选后可以在采购入库时对其进价进行范围判断</em>
+                        </li>
+                    </ul>
+                    <div class="form-group" id="nextMaintainMileageBox">
+                        <label class="pull-left">开票税率：</label>
+                        <div class="input-group pull-left" style="width: 150px;">
+                            <input id="serviceTicketRate" type="number" class="form-control">
+                            <span class="input-group-addon">
+                                %
+                            </span>
+                        </div>
+                        <span class="switch-info">税费 = 单价 * 开票税率</span>
+                    </div>
+                </div>
+
+                <div id="alert" class="tab-pane fade">
+                    <ul>
+                        <li class="form-group">
+                            <input id="partsCountAlert" type="checkbox" /><label class="switch-label">库存预警</label>
+                        </li>
+                        <li class="form-group">
+                            <input id="birthdayAlert" type="checkbox" /><label class="switch-label">客户生日</label>
+                            <div class="days-input">
+                                <label class="input-label">提前</label>
+                                <input id="birthdayAlertDays" min="0"/>
+                                <span class="input-span">天提醒</span>
+                            </div>
+                        </li>
+                        <li class="form-group">
+                            <input id="insuranceExpireTimeAlert" type="checkbox" /><label class="switch-label">保险到期</label>
+                            <div class="days-input">
+                                <label class="input-label">提前</label>
+                                <input id="insuranceExpireTimeAlertDays" min="0"/>
+                                <span class="input-span">天提醒</span>
+                            </div>
+                        </li>
+                        <li class="form-group">
+                            <input id="maintainMileageAlert" type="checkbox" /><label class="switch-label">保养里程</label>
+                            <div class="days-input">
+                                <label class="input-label">提前</label>
+                                <input id="maintainMileageAlertDays" min="0"/>
+                                <span class="input-span">里提醒</span>
+                            </div>
+                        </li>
+                        <li class="form-group">
+                            <input id="maintainDateAlert" type="checkbox" /><label class="switch-label">保养日期</label>
+                            <div class="days-input">
+                                <label class="input-label">提前</label>
+                                <input id="maintainDateAlertDays" min="0"/>
+                                <span class="input-span">天提醒</span>
+                            </div>
+                        </li>
+                        <li class="form-group">
+                            <input id="yearlyCheckTimeAlert" type="checkbox" /><label class="switch-label">年审到期</label>
+                            <div class="days-input">
+                                <label class="input-label">提前</label>
+                                <input id="yearlyCheckTimeAlertDays" min="0"/>
+                                <span class="input-span">天提醒</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var repeatBooking =@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RepeatBooking")));
+    var repeatRepair =@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RepeatRepair")));
+    var requiredVin=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredVin")));
+    var requiredMobile =@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredMobile")));
+    var requiredInsuranceExpireTime=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredInsuranceExpireTime")));
+    var requiredYearlyCheckTime =@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredYearlyCheckTime")));
+    var requiredServiceMileage=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredServiceMileage")));
+    var requiredNextMaintainMileage=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "RequiredNextMaintainMileage")));
+    var partsBuyPriceControl=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "PartsBuyPriceControl")));
+    var partsCountAlert=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "PartsCountAlert")));
+    var birthdayAlert=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "BirthdayAlert")));
+    var insuranceExpireTimeAlert=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "InsuranceExpireTimeAlert")));
+    var maintainMileageAlert=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "MaintainMileageAlert")));
+    var maintainDateAlert=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "MaintainDateAlert")));
+    var yearlyCheckTimeAlert =@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "YearlyCheckTimeAlert")));
+    var serviceTicketRate=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "ServiceTicketRate")));
+    var maintainInterval=@Html.Raw(JsonConvert.SerializeObject(Model.FirstOrDefault(i=>i.ParameterName == "MaintainInterval")));
+</script>
+<script>
+    $(document).ready(function () { 
+        $("#repeatBooking").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:repeatBooking.Value1 == "true"?true:false
+        });
+        $("#repeatRepair").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:repeatRepair.Value1 == "true"?true:false
+        });
+        $("#requiredVin").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredVin.Value1 == "true"?true:false
+        });
+        $("#requiredMobile").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredMobile.Value1 == "true"?true:false
+        });
+        $("#requiredInsuranceExpireTime").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredInsuranceExpireTime.Value1 == "true"?true:false
+        });
+        $("#requiredYearlyCheckTime").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredYearlyCheckTime.Value1 == "true"?true:false
+        });
+        $("#requiredServiceMileage").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredServiceMileage.Value1 == "true"?true:false
+        });
+        $("#requiredNextMaintainMileage").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:requiredNextMaintainMileage.Value1 == "true"?true:false
+        }); 
+        $("#partsBuyPriceControl").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:partsBuyPriceControl.Value1 == "true"?true:false
+        }); 
+        $("#partsCountAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:partsCountAlert.Value1 == "true"?true:false
+        }); 
+        $("#birthdayAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:birthdayAlert.Value1 == "true"?true:false
+        });
+        $("#birthdayAlertDays").kendoNumericTextBox({
+            value: birthdayAlert.Value2,
+            format:"n0"
+        });
+        $("#insuranceExpireTimeAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:insuranceExpireTimeAlert.Value1 == "true"?true:false
+        }); 
+        $("#insuranceExpireTimeAlertDays").kendoNumericTextBox({
+            value: insuranceExpireTimeAlert.Value2,
+            format:"n0"
+        });
+        $("#maintainMileageAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:maintainMileageAlert.Value1 == "true"?true:false
+        }); 
+        $("#maintainMileageAlertDays").kendoNumericTextBox({
+            value: maintainMileageAlert.Value2,
+            format:"n0"
+        });
+        $("#maintainDateAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:maintainDateAlert.Value1 == "true"?true:false
+        }); 
+        $("#maintainDateAlertDays").kendoNumericTextBox({
+            value: maintainDateAlert.Value2,
+            format:"n0"
+        });
+        $("#yearlyCheckTimeAlert").kendoMobileSwitch({
+            onLabel: "开", offLabel: "关",
+            checked:yearlyCheckTimeAlert.Value1 == "true"?true:false
+        }); 
+        $("#yearlyCheckTimeAlertDays").kendoNumericTextBox({
+            value: yearlyCheckTimeAlert.Value2,
+            format:"n0"
+        });
+        $("#maintainInterval").val(maintainInterval.Value1);
+        $("#serviceTicketRate").val(serviceTicketRate.Value1);
+    });
+    //保存
+    $("#btn_save").click(function() {
+        var parameterControls = [];
+        repeatBooking.Value1 = $("#repeatBooking").data("kendoMobileSwitch").value().toString();
+        repeatRepair.Value1 = $("#repeatRepair").data("kendoMobileSwitch").value().toString();
+        requiredVin.Value1 = $("#requiredVin").data("kendoMobileSwitch").value().toString();
+        requiredMobile.Value1 = $("#requiredMobile").data("kendoMobileSwitch").value().toString();
+        requiredInsuranceExpireTime.Value1 = $("#requiredInsuranceExpireTime").data("kendoMobileSwitch").value().toString();
+        requiredYearlyCheckTime.Value1 = $("#requiredYearlyCheckTime").data("kendoMobileSwitch").value().toString();
+        requiredServiceMileage.Value1 = $("#requiredServiceMileage").data("kendoMobileSwitch").value().toString();
+        requiredNextMaintainMileage.Value1 = $("#requiredNextMaintainMileage").data("kendoMobileSwitch").value().toString();
+        partsBuyPriceControl.Value1 = $("#partsBuyPriceControl").data("kendoMobileSwitch").value().toString();
+        partsCountAlert.Value1 = $("#partsCountAlert").data("kendoMobileSwitch").value().toString();
+        birthdayAlert.Value1 = $("#birthdayAlert").data("kendoMobileSwitch").value().toString();
+        birthdayAlert.Value2 = $("#birthdayAlertDays").data("kendoNumericTextBox").value().toString();
+        insuranceExpireTimeAlert.Value1 = $("#insuranceExpireTimeAlert").data("kendoMobileSwitch").value().toString();
+        insuranceExpireTimeAlert.Value2 = $("#insuranceExpireTimeAlertDays").data("kendoNumericTextBox").value().toString();
+        maintainMileageAlert.Value1 = $("#maintainMileageAlert").data("kendoMobileSwitch").value().toString();
+        maintainMileageAlert.Value2 = $("#maintainMileageAlertDays").data("kendoNumericTextBox").value().toString();
+        maintainDateAlert.Value1 = $("#maintainDateAlert").data("kendoMobileSwitch").value().toString();
+        maintainDateAlert.Value2 = $("#maintainDateAlertDays").data("kendoNumericTextBox").value().toString();
+        yearlyCheckTimeAlert.Value1 = $("#yearlyCheckTimeAlert").data("kendoMobileSwitch").value().toString();
+        yearlyCheckTimeAlert.Value2 = $("#yearlyCheckTimeAlertDays").data("kendoNumericTextBox").value().toString();
+        serviceTicketRate.Value1 = $("#serviceTicketRate").val().toString();
+        maintainInterval.Value1 = $("#maintainInterval").val().toString();
+        parameterControls.push(repeatBooking);
+        parameterControls.push(repeatRepair);
+        parameterControls.push(requiredVin);
+        parameterControls.push(requiredMobile);
+        parameterControls.push(requiredInsuranceExpireTime);
+        parameterControls.push(requiredYearlyCheckTime);
+        parameterControls.push(requiredServiceMileage);
+        parameterControls.push(requiredNextMaintainMileage);
+        parameterControls.push(partsBuyPriceControl);
+        parameterControls.push(partsCountAlert);
+        parameterControls.push(birthdayAlert);
+        parameterControls.push(insuranceExpireTimeAlert);
+        parameterControls.push(maintainMileageAlert);
+        parameterControls.push(maintainDateAlert);
+        parameterControls.push(yearlyCheckTimeAlert);
+        parameterControls.push(serviceTicketRate);
+        parameterControls.push(maintainInterval);
+        console.log(parameterControls);
+        $.ajax({
+            url: "@Url.Action("UpdateParameterControl")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(parameterControls),
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "修改成功",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+</script>
+<script>
+</script>
+

@@ -58,11 +58,10 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db=new ModelContext())
             {
-                var operationLogs = db.OperationLog.Select(i => new OperationLog());
                 try
                 {
-                    db.BulkDelete(operationLogs);
-                    db.SaveChanges();
+                    db.BulkDelete(db.OperationLog);
+                    db.BulkSaveChanges();
                 }
                 catch (Exception e)
                 {

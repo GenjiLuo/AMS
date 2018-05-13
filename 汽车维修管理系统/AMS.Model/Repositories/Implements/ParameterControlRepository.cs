@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using AMS.Model.dto;
 using AMS.Model.poco;
 using AMS.Model.Repositories.Interfaces;
@@ -27,6 +28,16 @@ namespace AMS.Model.Repositories.Implements
                 {
                     db.BulkUpdate(parameterControls);
                     db.BulkSaveChanges();
+                    db.OperationLog.Add(new OperationLog()
+                    {
+                        Id = Guid.NewGuid(),
+                        OperationUserId = operationUser.Id,
+                        ModuleName = "系统设置-参数控制",
+                        OperationDesc = $"操作人：【{operationUser.Name}】，功能：【系统参数控制】，操作时间：【{DateTime.Now:yyyy-MM-dd HH:mm:ss}】",
+                        OperationTime = DateTime.Now,
+                        IpAddress = ""
+                    });
+                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {

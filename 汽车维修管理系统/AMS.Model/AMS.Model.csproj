@@ -113,6 +113,10 @@
     <Compile Include="Migrations\201805121009436_AddTableParameterAndBill.Designer.cs">
       <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805130538498_UpdateTableParameterControl.cs" />
+    <Compile Include="Migrations\201805130538498_UpdateTableParameterControl.Designer.cs">
+      <DependentUpon>201805130538498_UpdateTableParameterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
@@ -209,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805121009436_AddTableParameterAndBill.resx">
       <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805130538498_UpdateTableParameterControl.resx">
+      <DependentUpon>201805130538498_UpdateTableParameterControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

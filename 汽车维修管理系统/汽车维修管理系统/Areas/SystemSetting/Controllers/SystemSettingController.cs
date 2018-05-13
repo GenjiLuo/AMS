@@ -20,10 +20,16 @@ namespace 汽车维修管理系统.Areas.SystemSetting.Controllers
             _parameterControlService=new ParameterControlService();
         }
 
-        public ActionResult ParameterControll()
+        public ActionResult ParameterControl()
         {
             var parameterControls = _parameterControlService.GetAllParameterControls();
             return View(parameterControls);
+        }
+        [HttpPost]
+        public ActionResult UpdateParameterControl(List<ParameterControlDto> parameterControlDtos)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_parameterControlService.UpdateParameterControl(parameterControlDtos, currentUser));
         }
         public ActionResult OrderNoSetting()
         {
