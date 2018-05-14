@@ -11,6 +11,11 @@ namespace AMS.Model.poco
 {
     public class Parts : BaseModel
     {
+        public Parts()
+        {
+            PartsIns=new HashSet<PartsIn>();
+            PartsOuts =new HashSet<PartsOut>();
+        }
         public Guid PartsDictionaryId { get; set; }
         [ForeignKey("PartsDictionaryId")]
         public virtual PartsDictionary PartsDictionary { get; set; }
@@ -18,9 +23,11 @@ namespace AMS.Model.poco
         public decimal Price { get; set; }
         public int Count { get; set; }
 
-        public Guid PartsBuyId { get; set; }
-        [ForeignKey("PartsBuyId")]
-        public virtual PartsBuy PartsBuy { get; set; }
         public Guid? WarehouseId { get; set; }
+        [ForeignKey("WarehouseId")]
+        public virtual Warehouse Warehouse { get; set; }
+
+        public virtual ICollection<PartsIn> PartsIns { get; set; }
+        public virtual ICollection<PartsOut> PartsOuts { get; set; }
     }
 }

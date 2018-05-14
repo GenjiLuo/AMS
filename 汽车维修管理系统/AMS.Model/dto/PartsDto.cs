@@ -16,5 +16,6 @@ namespace AMS.Model.dto
 
         public Guid PartsBuyId { get; set; }
         public Guid? WarehouseId { get; set; }
+        public string WarehouseName { get; set; }
     }
 }

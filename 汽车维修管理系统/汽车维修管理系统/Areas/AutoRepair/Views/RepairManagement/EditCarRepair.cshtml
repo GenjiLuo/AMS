@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="pull-left option-group">
-            <button type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
+            <button id="btn_finish" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
             <button type="button" class="k-button"><i class="fa fa-save"></i>&nbsp;保存</button>
             <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
@@ -421,6 +421,9 @@
             $("#advancedInfo").slideUp();
             $(this).html("<i class='fa fa-angle-double-down'></i><span>&nbsp;更多信息</span>");
         }
+    });
+    $("#btn_finish").click(function() {
+        window.location.href = "@Url.Action("RepairAccount")";
     });
 </script>
 

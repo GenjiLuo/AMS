@@ -14,5 +14,8 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel UpdatePartsBuy(PartsBuyDto partsBuyDto, UserDto operationUser);
         ResModel DeletePartsBuy(Guid partsBuyId);
         List<PartsBuyDto> QueryPartsBuy(string keyword);
+        ResModel CheckPartsBuy(Guid partsBuyId, UserDto operationUser);
+        ResModel UnCheckPartsBuy(Guid partsBuyId);
+        ResModel Pay(Guid partsBuyId, decimal money);
     }
 }

@@ -88,5 +88,21 @@ namespace 汽车维修管理系统.Areas.PartDictionary.Controllers
         {
             return Json(_partsBuyService.QueryPartsBuy(keyword), JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public ActionResult Check(Guid partsBuyId)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_partsBuyService.CheckPartsBuy(partsBuyId, currentUser));
+        }
+        [HttpPost]
+        public ActionResult UnCheck(Guid partsBuyId)
+        {
+            return Json(_partsBuyService.UnCheckPartsBuy(partsBuyId));
+        }
+        [HttpPost]
+        public ActionResult Pay(Guid partsBuyId,decimal money)
+        {
+            return Json(_partsBuyService.Pay(partsBuyId,money));
+        }
     }
 }

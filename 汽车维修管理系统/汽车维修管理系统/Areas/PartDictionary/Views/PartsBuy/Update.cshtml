@@ -60,19 +60,22 @@
     <button onclick="addParts();" id="addParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;增加</button>
     <button onclick="advancedAddParts()" id="advancedAddParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;高级模式</button>
 </script>
+<script id="optionTemp" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removePartsBuy(this);"><i class="fa fa-times red"></i></button></span>
+</script>
 <script>
     var parts = [];
-    var tempParts= @Html.Raw(JsonConvert.SerializeObject(Model.Parts));
+    var tempParts= @Html.Raw(JsonConvert.SerializeObject(Model.PartsIns));
     for (var i = 0; i < tempParts.length; i++) {
         parts.push({
             id: tempParts[i].PartsDictionaryId,
             serNo: i + 1,
             partsCode: tempParts[i].PartsCode,
-            partsName:tempParts[i].Name,
+            partsName:tempParts[i].PartsName,
             brandName: tempParts[i].BrandName,
-            price: tempParts[i].Price,
+            price: tempParts[i].SupplierPrice,
             count: tempParts[i].Count,
-            subTotalMoney: tempParts[i].Price * tempParts[i].Count,
+            subTotalMoney: tempParts[i].SupplierPrice * tempParts[i].Count,
             warehouseName:"@Model.WarehouseName"
         });
     }
@@ -187,6 +190,11 @@
             
             columns: [
                 {
+                    title: "操作",
+                    template: $("#optionTemp").html(),
+                    width:"80px"
+                },
+                {
                     field: "serNo",
                     title: "序号",
                     editable: function() {
@@ -253,7 +261,7 @@
             supplierId: "@Model.SupplierId",
             warehouseId:"@Model.WarehouseId",
             description: "@Model.Description",
-            parts:[]
+            partsIns:[]
         },
         methods: {
             goBack: function() {
@@ -267,9 +275,9 @@
                 var items = grid.items();
                 for (var i = 0; i < items.length; i++) {
                     var item = grid.dataItem(items[i]);
-                    _this.parts.push({
+                    _this.partsIns.push({
                         PartsDictionaryId: item.id,
-                        Price: item.price,
+                        SupplierPrice: item.price,
                         Count:item.count
                     });
                 } 
@@ -278,7 +286,7 @@
                     SupplierId: _this.supplierId,
                     WarehouseId: _this.warehouseId,
                     Description: _this.description,
-                    Parts:_this.parts
+                    PartsIns:_this.partsIns
                 };
                 $.ajax({
                     url: "@Url.Action("Update")",
@@ -309,5 +317,18 @@
             }
         }
     });
+</script>
+<script>
+    function removePartsBuy(_this) {
+        var grid = $("#grid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < parts.length; i++) {
+            if (item.partsCode == parts[i].partsCode) {
+                parts.splice(i, 1);
+                grid.dataSource.remove(item);
+                return;
+            }
+        }
+    }
 </script>
 

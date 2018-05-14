@@ -8,6 +8,28 @@ namespace AMS.Model.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.BillNoSetting",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Prefix = c.String(),
+                        DateFormat = c.Int(nullable: false),
+                        SerNoLength = c.Int(nullable: false),
+                        DailyReset = c.Boolean(nullable: false),
+                        BillNoPreview = c.String(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Car",
                 c => new
                     {
@@ -177,7 +199,7 @@ namespace AMS.Model.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
+                        Code = c.String(nullable: false, maxLength: 100),
                         PartsTypeId = c.Guid(nullable: false),
                         MeasurementUnit = c.String(),
                         SupplierPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -201,7 +223,192 @@ namespace AMS.Model.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.PartsType", t => t.PartsTypeId, cascadeDelete: true)
+                .Index(t => t.Code, unique: true)
                 .Index(t => t.PartsTypeId);
+            
+            CreateTable(
+                "dbo.PartsIn",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        PartsBuyId = c.Guid(nullable: false),
+                        PartsDictionaryId = c.Guid(nullable: false),
+                        PartsId = c.Guid(),
+                        Count = c.Int(nullable: false),
+                        SupplierPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Parts", t => t.PartsId)
+                .ForeignKey("dbo.PartsBuy", t => t.PartsBuyId, cascadeDelete: true)
+                .ForeignKey("dbo.PartsDictionary", t => t.PartsDictionaryId, cascadeDelete: true)
+                .Index(t => t.PartsBuyId)
+                .Index(t => t.PartsDictionaryId)
+                .Index(t => t.PartsId);
+            
+            CreateTable(
+                "dbo.Parts",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        PartsDictionaryId = c.Guid(nullable: false),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Count = c.Int(nullable: false),
+                        WarehouseId = c.Guid(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.PartsDictionary", t => t.PartsDictionaryId, cascadeDelete: true)
+                .ForeignKey("dbo.Warehouse", t => t.WarehouseId)
+                .Index(t => t.PartsDictionaryId)
+                .Index(t => t.WarehouseId);
+            
+            CreateTable(
+                "dbo.PartsOut",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        PartsReturnId = c.Guid(nullable: false),
+                        PartsId = c.Guid(nullable: false),
+                        Count = c.Int(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Parts", t => t.PartsId, cascadeDelete: true)
+                .ForeignKey("dbo.PartsReturn", t => t.PartsReturnId, cascadeDelete: true)
+                .Index(t => t.PartsReturnId)
+                .Index(t => t.PartsId);
+            
+            CreateTable(
+                "dbo.PartsReturn",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        SupplierId = c.Guid(nullable: false),
+                        BillNo = c.String(),
+                        BillNoIndex = c.Int(nullable: false),
+                        State = c.Int(nullable: false),
+                        ApplyUser = c.String(),
+                        CheckUser = c.String(),
+                        OperationTime = c.DateTime(),
+                        TotalMoney = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Supplier", t => t.SupplierId, cascadeDelete: true)
+                .Index(t => t.SupplierId);
+            
+            CreateTable(
+                "dbo.Supplier",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        ContactName = c.String(),
+                        MobilePhone = c.String(),
+                        FixPhone = c.String(),
+                        Fax = c.String(),
+                        MajorOrigin = c.String(),
+                        BankName = c.String(),
+                        BankAccount = c.String(),
+                        Address = c.String(),
+                        Gender = c.Int(),
+                        Birthday = c.DateTime(),
+                        Wechat = c.String(),
+                        QQ = c.String(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.PartsBuy",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        SupplierId = c.Guid(nullable: false),
+                        BillNo = c.String(),
+                        BillNoIndex = c.Int(nullable: false),
+                        State = c.Int(nullable: false),
+                        ApplyUser = c.String(),
+                        CheckUser = c.String(),
+                        OperationTime = c.DateTime(),
+                        TotalMoney = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReadyToPay = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        WarehouseId = c.Guid(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Supplier", t => t.SupplierId, cascadeDelete: true)
+                .ForeignKey("dbo.Warehouse", t => t.WarehouseId, cascadeDelete: true)
+                .Index(t => t.SupplierId)
+                .Index(t => t.WarehouseId);
+            
+            CreateTable(
+                "dbo.Warehouse",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        IsDefault = c.Boolean(nullable: false),
+                        ContactName = c.String(),
+                        ContactPhone = c.String(),
+                        Address = c.String(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.PartsType",
@@ -250,114 +457,6 @@ namespace AMS.Model.Migrations
                 .Index(t => t.PartsId)
                 .Index(t => t.ServiceBookingId)
                 .Index(t => t.ServiceRepairId);
-            
-            CreateTable(
-                "dbo.Parts",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        PartsDictionaryId = c.Guid(nullable: false),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Count = c.Int(nullable: false),
-                        PartsBuyId = c.Guid(nullable: false),
-                        WarehouseId = c.Guid(),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        State = c.Int(nullable: false),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PartsBuy", t => t.PartsBuyId, cascadeDelete: true)
-                .ForeignKey("dbo.PartsDictionary", t => t.PartsDictionaryId, cascadeDelete: true)
-                .Index(t => t.PartsDictionaryId)
-                .Index(t => t.PartsBuyId);
-            
-            CreateTable(
-                "dbo.PartsBuy",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        SupplierId = c.Guid(nullable: false),
-                        OrderNo = c.String(),
-                        BillNo = c.String(),
-                        State = c.Int(nullable: false),
-                        ApplyUser = c.String(),
-                        CheckUser = c.String(),
-                        OperationTime = c.DateTime(),
-                        CategoryCount = c.Int(),
-                        TotalMoney = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        ReadyToPay = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        WarehouseId = c.Guid(nullable: false),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Supplier", t => t.SupplierId, cascadeDelete: true)
-                .ForeignKey("dbo.Warehouse", t => t.WarehouseId, cascadeDelete: true)
-                .Index(t => t.SupplierId)
-                .Index(t => t.WarehouseId);
-            
-            CreateTable(
-                "dbo.Supplier",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
-                        ContactName = c.String(),
-                        MobilePhone = c.String(),
-                        FixPhone = c.String(),
-                        Fax = c.String(),
-                        MajorOrigin = c.String(),
-                        BankName = c.String(),
-                        BankAccount = c.String(),
-                        Address = c.String(),
-                        Gender = c.Int(),
-                        Birthday = c.DateTime(),
-                        Wechat = c.String(),
-                        QQ = c.String(),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        State = c.Int(nullable: false),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Warehouse",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        IsDefault = c.Boolean(nullable: false),
-                        ContactName = c.String(),
-                        ContactPhone = c.String(),
-                        Address = c.String(),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        State = c.Int(nullable: false),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.ServiceBooking",
@@ -675,6 +774,29 @@ namespace AMS.Model.Migrations
                 .Index(t => t.MenuId);
             
             CreateTable(
+                "dbo.ParameterControl",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        ParameterName = c.String(maxLength: 100),
+                        Value1 = c.String(),
+                        Value2 = c.String(),
+                        Value1Type1 = c.Int(nullable: false),
+                        Value1Type2 = c.Int(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.ParameterName, unique: true);
+            
+            CreateTable(
                 "dbo.PaymentType",
                 c => new
                     {
@@ -752,12 +874,18 @@ namespace AMS.Model.Migrations
             DropForeignKey("dbo.EstimateRepairParts", "ServiceBookingId", "dbo.ServiceBooking");
             DropForeignKey("dbo.ServiceBooking", "CarId", "dbo.Car");
             DropForeignKey("dbo.EstimateRepairParts", "PartsId", "dbo.Parts");
-            DropForeignKey("dbo.Parts", "PartsDictionaryId", "dbo.PartsDictionary");
-            DropForeignKey("dbo.PartsBuy", "WarehouseId", "dbo.Warehouse");
-            DropForeignKey("dbo.PartsBuy", "SupplierId", "dbo.Supplier");
-            DropForeignKey("dbo.Parts", "PartsBuyId", "dbo.PartsBuy");
             DropForeignKey("dbo.PartsDictionary", "PartsTypeId", "dbo.PartsType");
             DropForeignKey("dbo.PartsType", "ParentId", "dbo.PartsType");
+            DropForeignKey("dbo.PartsIn", "PartsDictionaryId", "dbo.PartsDictionary");
+            DropForeignKey("dbo.PartsReturn", "SupplierId", "dbo.Supplier");
+            DropForeignKey("dbo.PartsBuy", "WarehouseId", "dbo.Warehouse");
+            DropForeignKey("dbo.Parts", "WarehouseId", "dbo.Warehouse");
+            DropForeignKey("dbo.PartsBuy", "SupplierId", "dbo.Supplier");
+            DropForeignKey("dbo.PartsIn", "PartsBuyId", "dbo.PartsBuy");
+            DropForeignKey("dbo.PartsOut", "PartsReturnId", "dbo.PartsReturn");
+            DropForeignKey("dbo.PartsOut", "PartsId", "dbo.Parts");
+            DropForeignKey("dbo.PartsIn", "PartsId", "dbo.Parts");
+            DropForeignKey("dbo.Parts", "PartsDictionaryId", "dbo.PartsDictionary");
             DropForeignKey("dbo.PartsDictionarySuitedCarModel", "PartsDictionaryId", "dbo.PartsDictionary");
             DropForeignKey("dbo.PartsDictionarySuitedCarModel", "ModelId", "dbo.CarModel");
             DropForeignKey("dbo.PartsDictionarySuitedCarModel", "SeriesId", "dbo.CarSeries");
@@ -766,6 +894,7 @@ namespace AMS.Model.Migrations
             DropForeignKey("dbo.PartsDictionarySuitedCarModel", "BrandId", "dbo.CarBrand");
             DropForeignKey("dbo.Car", "ModelId", "dbo.CarModel");
             DropForeignKey("dbo.Car", "CustomerId", "dbo.Customer");
+            DropIndex("dbo.ParameterControl", new[] { "ParameterName" });
             DropIndex("dbo.QuickMenu", new[] { "MenuId" });
             DropIndex("dbo.Menu", new[] { "ParentId" });
             DropIndex("dbo.RepairParts", new[] { "ServiceRepairId" });
@@ -786,15 +915,22 @@ namespace AMS.Model.Migrations
             DropIndex("dbo.ServiceBooking", new[] { "RepairTypeId" });
             DropIndex("dbo.ServiceBooking", new[] { "ServiceAdvisorId" });
             DropIndex("dbo.ServiceBooking", new[] { "CarId" });
-            DropIndex("dbo.PartsBuy", new[] { "WarehouseId" });
-            DropIndex("dbo.PartsBuy", new[] { "SupplierId" });
-            DropIndex("dbo.Parts", new[] { "PartsBuyId" });
-            DropIndex("dbo.Parts", new[] { "PartsDictionaryId" });
             DropIndex("dbo.EstimateRepairParts", new[] { "ServiceRepairId" });
             DropIndex("dbo.EstimateRepairParts", new[] { "ServiceBookingId" });
             DropIndex("dbo.EstimateRepairParts", new[] { "PartsId" });
             DropIndex("dbo.PartsType", new[] { "ParentId" });
+            DropIndex("dbo.PartsBuy", new[] { "WarehouseId" });
+            DropIndex("dbo.PartsBuy", new[] { "SupplierId" });
+            DropIndex("dbo.PartsReturn", new[] { "SupplierId" });
+            DropIndex("dbo.PartsOut", new[] { "PartsId" });
+            DropIndex("dbo.PartsOut", new[] { "PartsReturnId" });
+            DropIndex("dbo.Parts", new[] { "WarehouseId" });
+            DropIndex("dbo.Parts", new[] { "PartsDictionaryId" });
+            DropIndex("dbo.PartsIn", new[] { "PartsId" });
+            DropIndex("dbo.PartsIn", new[] { "PartsDictionaryId" });
+            DropIndex("dbo.PartsIn", new[] { "PartsBuyId" });
             DropIndex("dbo.PartsDictionary", new[] { "PartsTypeId" });
+            DropIndex("dbo.PartsDictionary", new[] { "Code" });
             DropIndex("dbo.CarSeries", new[] { "BrandId" });
             DropIndex("dbo.PartsDictionarySuitedCarModel", new[] { "ModelId" });
             DropIndex("dbo.PartsDictionarySuitedCarModel", new[] { "SeriesId" });
@@ -806,6 +942,7 @@ namespace AMS.Model.Migrations
             DropTable("dbo.ServiceTicketType");
             DropTable("dbo.ServiceAccountType");
             DropTable("dbo.PaymentType");
+            DropTable("dbo.ParameterControl");
             DropTable("dbo.QuickMenu");
             DropTable("dbo.Menu");
             DropTable("dbo.RepairParts");
@@ -819,12 +956,15 @@ namespace AMS.Model.Migrations
             DropTable("dbo.User");
             DropTable("dbo.RepairType");
             DropTable("dbo.ServiceBooking");
-            DropTable("dbo.Warehouse");
-            DropTable("dbo.Supplier");
-            DropTable("dbo.PartsBuy");
-            DropTable("dbo.Parts");
             DropTable("dbo.EstimateRepairParts");
             DropTable("dbo.PartsType");
+            DropTable("dbo.Warehouse");
+            DropTable("dbo.PartsBuy");
+            DropTable("dbo.Supplier");
+            DropTable("dbo.PartsReturn");
+            DropTable("dbo.PartsOut");
+            DropTable("dbo.Parts");
+            DropTable("dbo.PartsIn");
             DropTable("dbo.PartsDictionary");
             DropTable("dbo.CarSeries");
             DropTable("dbo.CarBrand");
@@ -832,6 +972,7 @@ namespace AMS.Model.Migrations
             DropTable("dbo.CarModel");
             DropTable("dbo.Customer");
             DropTable("dbo.Car");
+            DropTable("dbo.BillNoSetting");
         }
     }
 }

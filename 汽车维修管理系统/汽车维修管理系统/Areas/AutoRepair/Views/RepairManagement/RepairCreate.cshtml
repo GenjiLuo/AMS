@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="pull-left option-group">
-            <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;开单</button>
+            <button id="btn_create" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;开单</button>
             <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-right">
@@ -204,6 +204,9 @@
                 }
             ]
         });
+    });
+    $("#btn_create").click(function() {
+        window.location.href = "@Url.Action("Edit")";
     });
 </script>
 

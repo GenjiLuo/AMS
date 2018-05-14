@@ -1,8 +1,289 @@
-﻿
+﻿@using AMS.Model.Enum
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "汽修系统 | 配件出库";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Style/partsBuy/index.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <button id="btn_add" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增</button>&nbsp;
+            <button id="btn_edit" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-edit"></i>&nbsp;编辑</button>&nbsp;
+            <button id="btn_read" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-edit"></i>&nbsp;查看</button>&nbsp;
+            <button id="btn_delete" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-trash"></i>&nbsp;删除</button>
+        </div>
+        <div class="form-group pull-left option-group">
+            <button id="btn_check" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-check"></i>&nbsp;审核</button>&nbsp;
+        </div>
+        <div class="form-group pull-left option-group">
+            <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
+            <button id="btn_print" type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
+        </div>
+        <div class="form-group pull-right">
+            <div id="simpleSearchContainer">
+                <input id="simpleSearchContent" class="k-textbox" />
+                <button id="btn_simpleSearch" type="button" class="k-button k-primary"><i class="fa fa-search"></i></button>
+            </div>
+            <button id="btn_switchSearchType" type="button" class="k-button k-primary"><span>展开</span>&nbsp;<i class="fa fa-angle-double-down"></i></button>
+        </div>
+    </div>
+    <form style="display: none;" id="advancedSearchContainer" class="row">
+        <ul class="info-input-box">
+            <li>
+                <label>开始日期：</label>
+                <input id="startDate" class="k-textbox" />
+            </li>
+            <li>
+                <label>结束日期：</label>
+                <input id="endDate" class="k-textbox" />
+            </li>
+            <li>
+                <label>单据号：</label>
+                <input id="billNo" class="k-textbox" />
+            </li>
+            <li>
+                <label>操作人：</label>
+                <input id="applyUser"/>
+            </li>
+            <li>
+                <label>状态：</label>
+                <div id="state"></div>
+            </li>
+            <li>
+                <label>审核人：</label>
+                <input id="checkUser" class="k-textbox" />
+            </li>
+            <li>
+                <label>供应商：</label>
+                <input id="supplier" class="k-textbox" />
+            </li>
+        </ul>
+        <div class="info-search-box">
+            <button id="btn_advancedSearch" type="button" class="k-button k-primary marginRight5px"><i class="fa fa-search"></i>&nbsp;查找</button>
+            <button id="btn_reset" type="button" class="k-button"><i class="fa fa-undo"></i>&nbsp;重置</button>
+        </div>
+    </form>
+    <div class="row">
+        <div id="grid"></div>
+    </div>
+</div>
+<script id="StateTemp" type="text/x-kendo-template">
+    # if(PartsReturnState == @((int)PartsReturnState.未审核)){ #
+    <label class="label label-sm label-info paddingBottom0">未审核</label>
+    # }else{ #
+    <label class="label label-sm label-success paddingBottom0">已审核</label>
+    # } #
+</script>
+<script>
+    var selectedRow = {};
+    $(document).ready(function () {
+        $("#btn_add").kendoButton();
+        $("#btn_edit").kendoButton();
+        $("#btn_read").kendoButton();
+        $("#btn_delete").kendoButton();
+        $("#btn_check").kendoButton();
+        $("#btn_print").kendoButton();
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("PartsReturn_GridDataSource")"
+                },
+                schema: {
+                    model: {
+                        id: "Id" 
+                    }
+                }
+            },
+            excel: {
+                fileName: "配件出库.xlsx",
+                allPages: true
+            },
+            height: 550,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            change: onChange,
+            columns: [
+                {
+                    field: "BillNo",
+                    title: "单据号"
+                },
+                {
+                    field: "SupplierName",
+                    title: "供应商"
+                },
+                {
+                    field: "PartsReturnState",
+                    title: "状态",
+                    template:$("#StateTemp").html()
+                },
+                {
+                    field: "CategoryCount",
+                    title: "配件种类数"
+                },
+                {
+                    field: "TotalPartsCount",
+                    title: "配件总数量"
+                },
+                {
+                    field: "ApplyUser",
+                    title: "申请人"
+                },
+                {
+                    field: "CheckUser",
+                    title: "审核人"
+                },
+                {
+                    field: "Description",
+                    title: "备注"
+                }
+            ]
+        });
+    });
+    $("#startDate").kendoDatePicker();
+    $("#endDate").kendoDatePicker();
+    $("#state").kendoDropDownList();
+    //添加
+    $("#btn_add").click(function() {
+        window.location.href = "@Url.Action("Add")";
+    });
+    //更新
+    $("#btn_edit").click(function() {
+        window.location.href = "@Url.Action("Update")" + "?partsReturnId=" + selectedRow.Id;
+    });
+    //删除
+    $("#btn_delete").click(function() {
+        swal({
+            position: "center",
+            type: "warning",
+            title: selectedRow.FullName,
+            text: "确定删除该配件出库申请吗？",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '我确定',
+            cancelButtonText: "取消"
+        }).then(function(res) {
+            console.log(res);
+            if (res.value) {
+                $.ajax({
+                    url: "@Url.Action("Delete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        partsReturnId: selectedRow.Id
+                    },
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "该出库申请已被删除",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            setTimeout(function() {
+                                    window.location.reload();
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: res.Msg,
+                                confirmButtonText: '知道了'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+    $("#btn_export").click(function() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.saveAsExcel();
+    });
+    //简单搜索
+    $("#btn_simpleSearch").click(function() {
+        var keyword = $("#simpleSearchContent").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            dataType: "json",
+            data: {
+                keyword:keyword
+            },
+            success: function(data) {
+                var dataSource = new kendo.data.DataSource({
+                    data: data
+                });
+                var grid = $("#grid").data("kendoGrid");
+                grid.setDataSource(dataSource);
+            }
+        });
+    });
+    $("#btn_switchSearchType").click(function () {
+        if ($(this).find("i").hasClass("fa-angle-double-down")) {
+            $(this).find("i").removeClass("fa-angle-double-down");
+            $(this).find("i").addClass("fa-angle-double-up");
+            $(this).find("span").html("收起");
+            $("#simpleSearchContainer").hide();
+            $("#advancedSearchContainer").slideDown();
+        } else {
+            $(this).find("i").removeClass("fa-angle-double-up");
+            $(this).find("i").addClass("fa-angle-double-down");
+            $(this).find("span").html("展开");
+            $("#simpleSearchContainer").show();
+            $("#advancedSearchContainer").slideUp();
+        }
+    });
+    $("#btn_advancedSearch").click(function() {
+        
+        
+    });
+    $("#btn_reset").click(function() {
+        $("#advancedSearchContainer")[0].reset();
+    });
+    //审核
+    $("#btn_check").click(function() {
+        $.ajax({
+            url: "@Url.Action("Check")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                partsReturnId:selectedRow.Id
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "审核成功",
+                        showConfirmButton: false,
+                        timer:800
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },900);
+                }else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+</script>
+<script>
+    function onChange() {
+        selectedRow = this.dataItem(this.select()[0]);
+        console.log(selectedRow);
 
-<h2>Index</h2>
+        $("#btn_edit").data("kendoButton").enable(selectedRow.PartsReturnState == @((int)PartsReturnState.未审核));
+        $("#btn_delete").data("kendoButton").enable(selectedRow.PartsReturnState == @((int)PartsReturnState.未审核));
+        $("#btn_check").data("kendoButton").enable(selectedRow.PartsReturnState == @((int)PartsReturnState.未审核));
+    }
+</script>
 

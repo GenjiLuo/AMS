@@ -125,3 +125,13 @@ textarea {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.option-box {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+ }
+.option-box button {
+    min-width: 34px !important;
+    height: 26px;
+}

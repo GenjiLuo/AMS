@@ -9,25 +9,25 @@ namespace AMS.Model.dto
     {
         public PartsBuyDto()
         {
-            Parts=new List<PartsDto>();
+            PartsIns = new List<PartsInDto>();
         }
         public string SupplierName { get; set; }
         public Guid SupplierId { get; set; }
         public string OrderNo { get; set; }
         public string BillNo { get; set; } 
-        public new PartsBuyState State { get; set; }
+        public PartsBuyState PartsBuyState { get; set; }
         public string ApplyUser { get; set; }
         public string CheckUser { get; set; }
         public DateTime? OperationTime { get; set; }
 
-        public int? CategoryCount => Parts.Count;
+        public int? CategoryCount => PartsIns.Count;
 
         public int TotalPartsCount
         {
             get
             {
                 var totalPartsCount = 0;
-                foreach (var item in Parts)
+                foreach (var item in PartsIns)
                 {
                     totalPartsCount += item.Count;
                 }
@@ -38,13 +38,13 @@ namespace AMS.Model.dto
 
         public decimal TotalMoney
         {
-            get { return Parts.Sum(i => i.Price * i.Count); }
+            get { return PartsIns.Sum(i => i.SupplierPrice * i.Count); }
         }
 
         public decimal ReadyToPay { get; set; }
 
         public Guid WarehouseId { get; set; }
         public string WarehouseName { get; set; }
-        public List<PartsDto> Parts { get; set; }
+        public List<PartsInDto> PartsIns { get; set; }
     }
 }

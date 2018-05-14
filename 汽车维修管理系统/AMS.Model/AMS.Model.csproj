@@ -71,6 +71,9 @@
     <Compile Include="dto\EstimateRepairPartsDto.cs" />
     <Compile Include="dto\OperationLogDto.cs" />
     <Compile Include="dto\ParameterControlDto.cs" />
+    <Compile Include="dto\PartsInDto.cs" />
+    <Compile Include="dto\PartsOutDto.cs" />
+    <Compile Include="dto\PartsReturnDto.cs" />
     <Compile Include="dto\PartsDto.cs" />
     <Compile Include="dto\PartsBuyDto.cs" />
     <Compile Include="dto\PartsDictionaryDto.cs" />
@@ -95,6 +98,8 @@
     <Compile Include="dto\UserDto.cs" />
     <Compile Include="dto\WarehouseDto.cs" />
     <Compile Include="Enum\BillSerNoLength.cs" />
+    <Compile Include="Enum\BillTypeName.cs" />
+    <Compile Include="Enum\PartsReturnState.cs" />
     <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
@@ -105,17 +110,9 @@
     <Compile Include="Enum\ParameterValueType.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201805111321255_InitDatabase.cs" />
-    <Compile Include="Migrations\201805111321255_InitDatabase.Designer.cs">
-      <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805121009436_AddTableParameterAndBill.cs" />
-    <Compile Include="Migrations\201805121009436_AddTableParameterAndBill.Designer.cs">
-      <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805130538498_UpdateTableParameterControl.cs" />
-    <Compile Include="Migrations\201805130538498_UpdateTableParameterControl.Designer.cs">
-      <DependentUpon>201805130538498_UpdateTableParameterControl.cs</DependentUpon>
+    <Compile Include="Migrations\201805141416431_InitDatabase.cs" />
+    <Compile Include="Migrations\201805141416431_InitDatabase.Designer.cs">
+      <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -123,6 +120,9 @@
     <Compile Include="poco\CarModel.cs" />
     <Compile Include="poco\CarSeries.cs" />
     <Compile Include="poco\CarBrand.cs" />
+    <Compile Include="poco\PartsIn.cs" />
+    <Compile Include="poco\PartsOut.cs" />
+    <Compile Include="poco\PartsReturn.cs" />
     <Compile Include="poco\RepairParts.cs" />
     <Compile Include="poco\Parts.cs" />
     <Compile Include="poco\EstimateRepairParts.cs" />
@@ -156,6 +156,8 @@
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
     <Compile Include="Repositories\Implements\BillNoSettingRepository.cs" />
+    <Compile Include="Repositories\Implements\PartsRepository.cs" />
+    <Compile Include="Repositories\Implements\PartsReturnRepository.cs" />
     <Compile Include="Repositories\Implements\ParameterControlRepository.cs" />
     <Compile Include="Repositories\Implements\OperationLogRepository.cs" />
     <Compile Include="Repositories\Implements\PaymentTypeRepository.cs" />
@@ -187,6 +189,8 @@
     <Compile Include="Repositories\Interfaces\IPaymentTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBillNoSettingRepository.cs" />
     <Compile Include="Repositories\Interfaces\IOperationLogRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPartsReturnRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPartsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
@@ -201,6 +205,7 @@
     <Compile Include="Repositories\Interfaces\ICarRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="ResponseModel\ResModel.cs" />
+    <Compile Include="Static\BillNoManager.cs" />
     <Compile Include="Static\CommonUrl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,14 +213,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805111321255_InitDatabase.resx">
-      <DependentUpon>201805111321255_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805121009436_AddTableParameterAndBill.resx">
-      <DependentUpon>201805121009436_AddTableParameterAndBill.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805130538498_UpdateTableParameterControl.resx">
-      <DependentUpon>201805130538498_UpdateTableParameterControl.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805141416431_InitDatabase.resx">
+      <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -34,6 +34,11 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             return null;
         }
+
+        public ActionResult Create()
+        {
+            return View("RepairCreate");
+        }
         public ActionResult Edit()
         {
 //            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
@@ -42,6 +47,16 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
 //                return View("EditWashCar",serviceRepair);
 //            }
 //            return View("EditCarRepair",serviceRepair);
+            return View("EditCarRepair");
+        }
+
+        public ActionResult RepairAccount()
+        {
+            return View("RepairAccount");
+        }
+
+        public ActionResult RepairCash()
+        {
             return View("RepairCash");
         }
         [HttpPost]

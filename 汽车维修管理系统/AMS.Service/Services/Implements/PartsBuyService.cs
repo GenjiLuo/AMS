@@ -46,5 +46,20 @@ namespace AMS.Service.Services.Implements
         {
             return _partsBuyRepository.QueryPartsBuy(keyword);
         }
+
+        public ResModel CheckPartsBuy(Guid partsBuyId, UserDto operationUser)
+        {
+            return _partsBuyRepository.CheckPartsBuy(partsBuyId, operationUser);
+        }
+
+        public ResModel UnCheckPartsBuy(Guid partsBuyId)
+        {
+            return _partsBuyRepository.UnCheckPartsBuy(partsBuyId);
+        }
+
+        public ResModel Pay(Guid partsBuyId, decimal money)
+        {
+            return _partsBuyRepository.Pay(partsBuyId,money);
+        }
     }
 }

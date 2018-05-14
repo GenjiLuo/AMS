@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "汽修系统 | 配件档案";
+    ViewBag.Title = "汽修系统 | 采购入库";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Style/partsBuy/index.css" rel="stylesheet" />
@@ -72,9 +72,9 @@
     </div>
 </div>
 <script id="StateTemp" type="text/x-kendo-template">
-    # if(State == @((int)PartsBuyState.未审核)){ #
+    # if(PartsBuyState == @((int)PartsBuyState.未审核)){ #
         <label class="label label-sm label-info paddingBottom0">未审核</label>
-    # }else if(State == @((int)PartsBuyState.未付款)){ #
+    # }else if(PartsBuyState == @((int)PartsBuyState.未付款)){ #
         <label class="label label-sm label-danger paddingBottom0">未付款</label>
     # }else{ #
         <label class="label label-sm label-success paddingBottom0">已付款</label>
@@ -89,6 +89,7 @@
         $("#btn_delete").kendoButton();
         $("#btn_check").kendoButton();
         $("#btn_uncheck").kendoButton();
+        $("#btn_pay").kendoButton();
         $("#btn_print").kendoButton();
         $("#grid").kendoGrid({
             dataSource: {
@@ -117,10 +118,6 @@
             change: onChange,
             columns: [
                 {
-                    field: "OderNum",
-                    title: "订单号"
-                },
-                {
                     field: "BillNo",
                     title: "单据号"
                 },
@@ -129,7 +126,7 @@
                     title: "供应商"
                 },
                 {
-                    field: "State",
+                    field: "PartsBuyState",
                     title: "状态",
                     template:$("#StateTemp").html()
                 },
@@ -180,7 +177,6 @@
         swal({
             position: "center",
             type: "warning",
-            title: selectedRow.FullName,
             text: "确定删除该采购入库吗？，删除后不可逆",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -232,7 +228,7 @@
             url: "@Url.Action("Query")",
             dataType: "json",
             data: {
-                keyword:keyword
+                keyword: keyword
             },
             success: function(data) {
                 var dataSource = new kendo.data.DataSource({
@@ -265,14 +261,124 @@
     $("#btn_reset").click(function() {
         $("#advancedSearchContainer")[0].reset();
     });
+    //审核
+    $("#btn_check").click(function() {
+        $.ajax({
+            url: "@Url.Action("Check")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                partsBuyId:selectedRow.Id
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "审核成功",
+                        showConfirmButton: false,
+                        timer:800
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },900);
+                }else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+    //取消审核
+    $("#btn_uncheck").click(function() {
+        $.ajax({
+            url: "@Url.Action("UnCheck")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                partsBuyId:selectedRow.Id
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "取消审核成功",
+                        showConfirmButton: false,
+                        timer: 800
+                    });
+                    setTimeout(function() {
+                            window.location.reload();
+                        },
+                        900);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+    //付款
+    $("#btn_pay").click(function () {
+        swal({
+            title: '请输入付款金额',
+            text: "未付款为：" + selectedRow.ReadyToPay,
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText:"取消",
+            allowOutsideClick: () => false
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("Pay")",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        partsBuyId: selectedRow.Id,
+                        money:parseInt(result.value)
+                    },
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "付款成功",
+                                showConfirmButton: false,
+                                timer: 900
+                            });
+                            setTimeout(function() {
+                                    window.location.reload();
+                                },
+                                1000);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: res.Msg
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
 </script>
 <script>
     function onChange() {
         selectedRow = this.dataItem(this.select()[0]);
         console.log(selectedRow);
+        $("#btn_edit").data("kendoButton").enable(selectedRow.PartsBuyState === @((int)PartsBuyState.未审核));
+        $("#btn_delete").data("kendoButton").enable(selectedRow.PartsBuyState === @((int)PartsBuyState.未审核));
 
-        $("#btn_edit").data("kendoButton").enable(true);
-        $("#btn_delete").data("kendoButton").enable(true);
+        $("#btn_check").data("kendoButton").enable(selectedRow.PartsBuyState === @((int)PartsBuyState.未审核));
+        $("#btn_uncheck").data("kendoButton").enable(selectedRow.PartsBuyState === @((int)PartsBuyState.未付款));
+        $("#btn_pay").data("kendoButton").enable(selectedRow.PartsBuyState === @((int)PartsBuyState.未付款));
+    }
+</script>
+<script>
+    function refresh() {
+        
     }
 </script>
 

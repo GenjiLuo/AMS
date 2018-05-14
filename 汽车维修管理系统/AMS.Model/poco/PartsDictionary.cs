@@ -14,8 +14,11 @@ namespace AMS.Model.poco
         public PartsDictionary()
         {
             PartsDictionarySuitedCarModel=new HashSet<PartsDictionarySuitedCarModel>();
+            PartsIns=new HashSet<PartsIn>();
         }
         [Required]
+        [StringLength(100)]
+        [Index(IsUnique = true)]
         public string Code { get; set; }
         public Guid PartsTypeId { get; set; }
         [ForeignKey("PartsTypeId")]
@@ -35,5 +38,7 @@ namespace AMS.Model.poco
         public string Specifications { get; set; }
         public string ProducedAddress { get; set; }
         public string Label { get; set; }
+
+        public virtual ICollection<PartsIn> PartsIns { get; set; }
     }
 }

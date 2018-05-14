@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="option-area row">
         <div class="pull-left option-group">
-            <button type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
+            <button id="btn_cash" type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
             <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-right">
@@ -302,6 +302,9 @@
                     title: "进厂时间"
                 }
             ]
+        });
+        $("#btn_cash").click(function() {
+            window.location.href = "@Url.Action("RepairCash")";
         });
     });
 </script>

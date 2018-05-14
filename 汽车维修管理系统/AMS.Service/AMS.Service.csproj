@@ -45,6 +45,8 @@
     <Compile Include="Services\Implements\CustomerService.cs" />
     <Compile Include="Services\Implements\CarModelService.cs" />
     <Compile Include="Services\Implements\BillNoSettingService.cs" />
+    <Compile Include="Services\Implements\PartsService.cs" />
+    <Compile Include="Services\Implements\PartsReturnService.cs" />
     <Compile Include="Services\Implements\ParameterControlService.cs" />
     <Compile Include="Services\Implements\OperationLogSevice.cs" />
     <Compile Include="Services\Implements\PaymentTypeService.cs" />
@@ -77,6 +79,8 @@
     <Compile Include="Services\Interfaces\IMenuService.cs" />
     <Compile Include="Services\Interfaces\IPartsBuyService.cs" />
     <Compile Include="Services\Interfaces\IPartsDictionaryService.cs" />
+    <Compile Include="Services\Interfaces\IPartsService.cs" />
+    <Compile Include="Services\Interfaces\IPartsReturnService.cs" />
     <Compile Include="Services\Interfaces\IPartsTypeService.cs" />
     <Compile Include="Services\Interfaces\IPaymentTypeService.cs" />
     <Compile Include="Services\Interfaces\IQuickMenuService.cs" />

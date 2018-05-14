@@ -7,13 +7,13 @@ namespace AMS.Model.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpdateTableParameterControl : IMigrationMetadata
+    public sealed partial class InitDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateTableParameterControl));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805130538498_UpdateTableParameterControl"; }
+            get { return "201805141416431_InitDatabase"; }
         }
         
         string IMigrationMetadata.Source

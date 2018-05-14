@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewBag.Title = "汽修系统 | 配件出库";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/partsReturn/add.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <button id="btn_save" class="k-button k-primary marginRight5px"><i class="fa fa-save"></i>&nbsp;保存</button>
+        <button id="btn_back" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+    </div>
+    <div class="row baseinfo">
+        <hr/>
+        <div class="form-group">
+            <label class="required pull-left input-label">供应商</label>
+            <div class="col-xs-3">
+                <input id="supplier" class="k-textbox full-width"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="pull-left input-label ">备注</label>
+            <div class="col-xs-3">
+                <input class="k-textbox full-width" id="description"/>
+            </div>
+        </div>
+    </div>
+    <div id="horizontal" class="row">
+        <div>
+            <div id="warehousedPartsGrid"></div>
+        </div>
+        <div>
+            <div id="returnPartsGrid"></div>
+        </div>
+    </div>
+</div>
+<script id="operationTemp1" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="addReturnItem(this);" type="button"><i class="fa fa-arrow-circle-right green"></i></button></span>
+</script>
+<script id="operationTemp2" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removeReturnItem(this);" type="button"><i class="fa fa-arrow-circle-left red"></i></button></span>
+</script>
+<script>
+    var returnParts = [];
+</script>
+<script>
+    $(document).ready(function () {
+        $("#supplier").kendoComboBox({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Supplier_ComboBoxDataSource")",
+                        data: function() {
+                            return {
+                                keyword:$("#supplier").data("kendoComboBox").text().trim()
+                            }
+                        }
+                    }
+                }
+            },
+            dataTextField:"Name",
+            dataValueField: "Id"
+        });
+        $("#horizontal").kendoSplitter({
+            panes: [
+                { collapsible: true},
+                { collapsible: true }
+            ]
+        });
+        $("#warehousedPartsGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("WarehousedParts_GridDataSource")"
+                },
+                schema: {
+                    model: {
+                        id: "Id" 
+                    }
+                }
+            },
+            height: 500,
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "PartsDictionaryName",
+                    title: "配件名称"
+                },
+                {
+                    field: "Count",
+                    title: "库存"
+                },
+                {
+                    field: "Price",
+                    title: "销售价格"
+                },
+                {
+                    title:"操作",
+                    template:$("#operationTemp1").html()
+                }
+            ]
+        });
+        $("#returnPartsGrid").kendoGrid({
+            dataSource: {
+                data:[]
+            },
+            height: 500,
+            sortable: true,
+            filterable: false,
+            editable: true,
+            cellClose: function(e) {
+                if (e.model.Count > e.model.MaxCount) {
+                    e.model.Count = e.model.MaxCount;
+                }
+                if (e.model.Count < 1) {
+                    e.model.Count = 1;
+                }
+            },
+            columns: [
+                {
+                    title:"操作",
+                    template:$("#operationTemp2").html()
+                },
+                {
+                    field: "PartsCode",
+                    title: "配件编码",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "Count",
+                    headerTemplate:"<span title='点击行可编辑'>数量<i class='fa fa-edit green'></i><span>"
+                },
+                {
+                    field: "WarehouseName",
+                    title: "库房",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "Description",
+                    headerTemplate:"<span title='点击行可编辑'>备注<i class='fa fa-edit green'></i><span>"
+                }
+            ]
+        });
+        $("#btn_save").click(function () {
+            var grid = $("#returnPartsGrid").data("kendoGrid");
+            var returnItems = [];
+            var items = grid.items();
+            if (items.length==0) {
+                swal({
+                    type:"info",
+                    text: "请至少添加一项配件",
+                    showConfirmButton: false,
+                    timer:1000
+                });
+                return;
+            }
+            for (var i = 0; i < items.length; i++) {
+                var item = grid.dataItem(items[i]);
+                returnItems.push({
+                    PartsId: item.PartsId,
+                    Count: item.Count,
+                    Description:item.Description
+                });
+            }
+            var returnParts = {
+                SupplierId: $("#supplier").data("kendoComboBox").value(),
+                WarehouseId: $("#warehouse").data("kendoDropDownList").value(),
+                Description:$("#description").val().trim(),
+                PartsOuts:returnItems
+            }
+            $.ajax({
+                url: "@Url.Action("Add")",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(returnParts),
+                success: function(res) {
+                    if (res.Success) {
+                        swal({
+                            type: "success",
+                            text: "添加成功",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        setTimeout(function() {
+                                window.location.href = "@Url.Action("Index")";
+                            },
+                            1100);
+                    } else {
+                        swal({
+                            type: "error",
+                            text: res.Msg
+                        });
+                    }
+                }
+            });
+        });
+        $("#btn_back").click(function() {
+            window.history.back();
+        });
+    });
+</script>
+<script>
+    function addReturnItem(_this) {
+        var grid = $("#warehousedPartsGrid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        var returnItem = {
+            PartsCode: item.PartsCode,
+            PartsId: item.Id,
+            PartsName: item.PartsDictionaryName,
+            Count: 1,
+            MaxCount:item.Count,
+            WarehouseName: item.WarehouseName,
+            Description: ""
+        };
+        for (var i = 0; i < returnParts.length; i++) {
+            if (returnParts[i].PartsId === item.Id) {
+                return;
+            }
+        }
+        returnParts.push(returnItem);
+        $("#returnPartsGrid").data("kendoGrid").dataSource.add(returnItem);
+    }
+
+    function removeReturnItem(_this) {
+        var grid = $("#returnPartsGrid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < returnParts.length; i++) {
+            if (returnParts[i].PartsId === item.PartsId) {
+                returnParts.splice(i, 1);
+                grid.dataSource.remove(item);
+                return;
+            }
+        }
+    }
+</script>

@@ -15,24 +15,24 @@ namespace AMS.Model.poco
     {
         public PartsBuy()
         {
-            Parts=new HashSet<Parts>();
+            PartsIns = new HashSet<PartsIn>();
         }
         public Guid SupplierId { get; set; }
         [ForeignKey("SupplierId")]
         public virtual Supplier Supplier { get; set; }
-        public string OrderNo { get; set; }
         public string BillNo { get; set; } 
+        public int BillNoIndex { get; set; }
         public new PartsBuyState State { get; set; }
         public string ApplyUser { get; set; }
         public string CheckUser { get; set; }
         public DateTime? OperationTime { get; set; }
-        public int? CategoryCount { get; set; }
         public decimal TotalMoney { get; set; }
         public decimal ReadyToPay { get; set; }
 
         public Guid WarehouseId { get; set; }
         [ForeignKey("WarehouseId")]
         public virtual Warehouse Warehouse { get; set; }
-        public virtual ICollection<Parts> Parts { get; set; }
+        public virtual ICollection<PartsIn> PartsIns { get; set; }
     }
 }
+ 

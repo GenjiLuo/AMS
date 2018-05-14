@@ -13,6 +13,7 @@ namespace AMS.Model.poco
         public Supplier()
         {
             PartsBuys=new HashSet<PartsBuy>();
+            PartsReturns=new HashSet<PartsReturn>();
         }
         [Required]
         public string Code { get; set; }
@@ -29,7 +30,8 @@ namespace AMS.Model.poco
         public string Wechat { get; set; }
         public string QQ { get; set; }
 
-        public ICollection<PartsBuy> PartsBuys { get; set; }
+        public virtual ICollection<PartsBuy> PartsBuys { get; set; }
+        public virtual ICollection<PartsReturn> PartsReturns { get; set; }
     }
 
 }

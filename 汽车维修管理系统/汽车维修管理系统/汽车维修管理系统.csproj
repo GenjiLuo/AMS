@@ -573,6 +573,8 @@
     <Content Include="Areas\BaseInfo\Views\PaymentType\Add.cshtml" />
     <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Add.cshtml" />
     <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Update.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsReturn\Add.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsReturn\Update.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -595,6 +597,8 @@
     <Content Include="Style\common\common.css" />
     <Content Include="Style\OrderNoSetting\add.css" />
     <Content Include="Style\OrderNoSetting\index.css" />
+    <Content Include="Style\partsReturn\add.css" />
+    <Content Include="Style\partsReturn\index.css" />
     <Content Include="Style\partsBuy\add.css" />
     <Content Include="Style\partsBuy\index.css" />
     <Content Include="Style\partsDictionary\add.css" />

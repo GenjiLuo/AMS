@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using System.Data;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using AMS.Model.dto;
 using AMS.Model.poco;
 
@@ -41,6 +42,9 @@ namespace AMS.Model
         public virtual DbSet<Warehouse> Warehouse { get; set; }
         public virtual DbSet<Parts> Parts { get; set; }
         public virtual DbSet<PartsBuy> PartsBuy { get; set; }
+        public virtual DbSet<PartsIn> PartsIn { get; set; }
+        public virtual DbSet<PartsReturn> PartsReturn { get; set; }
+        public virtual DbSet<PartsOut> PartsOut { get; set; }
         public virtual DbSet<EstimateRepairParts> EstimateRepairParts { get; set; }
         public virtual DbSet<RepairParts> RepairParts { get; set; }
         public virtual DbSet<ServiceRepairItem> ServiceRepairItem { get; set; }

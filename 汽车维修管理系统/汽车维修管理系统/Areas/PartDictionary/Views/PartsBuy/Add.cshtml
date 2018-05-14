@@ -59,6 +59,9 @@
     <button onclick="addParts();" id="addParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;增加</button>
     <button onclick="advancedAddParts()" id="advancedAddParts" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;高级模式</button>
 </script>
+<script id="optionTemp" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removePartsBuy(this);"><i class="fa fa-times red"></i></button></span>
+</script>
 <script>
     var parts = [];
 </script>
@@ -149,46 +152,57 @@
                 { template: kendo.template($("#gridToolbarTemp").html()) }
             ],
             editable: true,
+            cellClose: function(e) {
+                if (e.model.count < 1) {
+                    e.model.count = 1;
+                }
+                if (e.model.price < 0) {
+                    e.model.price = 0;
+                }
+                if (e.container[0].cellIndex == 4) {
+                    e.container[0].nextSibling.nextSibling.innerHTML = e.model.price * e.model.count;
+                } else {
+                    e.container[0].nextSibling.innerHTML = e.model.price * e.model.count;
+                }
+            },
             navigatable: true,
             pageable: {
                 pageSize: 20
             },
             height: 400,
-            save: function (e) {
-                if (e.values.count) {
-                    if (!e.container[0].previousSibling.className) {
-                        e.container[0].nextSibling.innerHTML =
-                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.innerHTML);
-                    } else {
-                        e.container[0].nextSibling.innerHTML =
-                            parseInt(e.values.count) * parseInt(e.container[0].previousSibling.lastChild.nodeValue);
-                    }
-                } else {
-                    if (!e.container[0].nextSibling.className) {
-                        e.container[0].nextSibling.nextSibling.innerHTML =
-                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.innerHTML);
-                    } else {
-                        e.container[0].nextSibling.nextSibling.innerHTML =
-                            parseInt(e.values.price) * parseInt(e.container[0].nextSibling.lastChild.nodeValue);
-                    }
-                }
-            },
             columns: [
                 {
+                    title: "操作",
+                    template: $("#optionTemp").html(),
+                    width:"80px"
+                },
+                {
                     field: "serNo",
-                    title: "序号"
+                    title: "序号",
+                    editable: function () {
+                        return false;
+                    }
                 },
                 {
                     field: "partsCode",
-                    title: "配件编码"
+                    title: "配件编码",
+                    editable: function () {
+                        return false;
+                    }
                 },
                 {
                     field: "partsName",
-                    title: "配件名称"
+                    title: "配件名称",
+                    editable: function () {
+                        return false;
+                    }
                 },
                 {
                     field: "brandName",
-                    title: "品牌"
+                    title: "品牌",
+                    editable: function () {
+                        return false;
+                    }
                 },
                 {
                     field: "price",
@@ -205,11 +219,17 @@
                     title: "小计",
                     template: function(dataItem) {
                         return dataItem.price * dataItem.count;
+                    },
+                    editable: function () {
+                        return false;
                     }
                 },
                 {
                     field: "warehouseName",
-                    title: "库房"
+                    title: "库房",
+                    editable: function () {
+                        return false;
+                    }
                 }
             ]
         });
@@ -224,7 +244,7 @@
             warehouseId: "",
             warehouseName:"",
             description: "",
-            parts:[]
+            partsIns:[]
         },
         methods: {
             goBack: function() {
@@ -240,19 +260,17 @@
                 var items = grid.items();
                 for (var i = 0; i < items.length; i++) {
                     var item = grid.dataItem(items[i]);
-                    _this.parts.push({
+                    _this.partsIns.push({
                         PartsDictionaryId: item.id,
-                        Price: item.price,
+                        SupplierPrice: item.price,
                         Count:item.count
                     });
                 } 
                 var partsBuy = {
                     SupplierId: _this.supplierId,
-                    SupplierName:_this.supplierName,
                     WarehouseId: _this.warehouseId,
-                    WarehouseName: _this.warehouseName,
                     Description: _this.description,
-                    Parts:_this.parts
+                    PartsIns:_this.partsIns
                 };
                 $.ajax({
                     url: "@Url.Action("Add")",
@@ -284,4 +302,18 @@
         }
     });
 </script>
+<script>
+    function removePartsBuy(_this) {
+        var grid = $("#grid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < parts.length; i++) {
+            if (item.partsCode == parts[i].partsCode) {
+                parts.splice(i, 1);
+                grid.dataSource.remove(item);
+                return;
+            }
+        }
+    }
+</script>
+
 

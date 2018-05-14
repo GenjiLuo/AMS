@@ -15,6 +15,7 @@ namespace AMS.Model.poco
         public Warehouse()
         {
             PartsBuy=new HashSet<PartsBuy>();
+            Parts=new HashSet<Parts>();
         }
         public bool IsDefault { get; set; }
         public string ContactName { get; set; }
@@ -22,5 +23,6 @@ namespace AMS.Model.poco
         public string Address { get; set; }
 
         public virtual ICollection<PartsBuy> PartsBuy { get; set; }
+        public virtual ICollection<Parts> Parts { get; set; }
     }
 }

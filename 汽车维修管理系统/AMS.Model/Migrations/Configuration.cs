@@ -617,7 +617,7 @@ namespace AMS.Model.Migrations
                     new BillNoSetting()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "采购入库",
+                        Name = BillTypeName.采购入库.ToString(),
                         Prefix = "CR",
                         DateFormat = BillDateFormat.简洁年月日,
                         SerNoLength = BillSerNoLength.四位,
@@ -627,7 +627,7 @@ namespace AMS.Model.Migrations
                     new BillNoSetting()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "配件出库",
+                        Name = BillTypeName.配件出库.ToString(),
                         Prefix = "QC",
                         DateFormat = BillDateFormat.简洁年月日,
                         SerNoLength = BillSerNoLength.四位,
@@ -637,7 +637,7 @@ namespace AMS.Model.Migrations
                     new BillNoSetting()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "预约单号",
+                        Name = BillTypeName.预约单号.ToString(),
                         Prefix = "YY",
                         DateFormat = BillDateFormat.简洁年月日,
                         SerNoLength = BillSerNoLength.四位,
@@ -647,7 +647,7 @@ namespace AMS.Model.Migrations
                     new BillNoSetting()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "接车单号",
+                        Name = BillTypeName.接车单号.ToString(),
                         Prefix = "JC",
                         DateFormat = BillDateFormat.简洁年月日,
                         SerNoLength = BillSerNoLength.四位,
@@ -657,7 +657,7 @@ namespace AMS.Model.Migrations
                     new BillNoSetting()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "会员充值",
+                        Name = BillTypeName.会员充值.ToString(),
                         Prefix = "MC",
                         DateFormat = BillDateFormat.简洁年月日,
                         SerNoLength = BillSerNoLength.四位,
