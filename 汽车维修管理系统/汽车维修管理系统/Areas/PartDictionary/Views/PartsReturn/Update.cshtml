@@ -19,12 +19,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="required pull-left input-label">仓库</label>
-            <div class="col-xs-3">
-                <input id="warehouse" class="k-textbox full-width"/>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="pull-left input-label ">备注</label>
             <div class="col-xs-3">
                 <input class="k-textbox full-width" value="@Model.Description" id="description"/>
@@ -41,10 +35,10 @@
     </div>
 </div>
 <script id="operationTemp1" type="text/x-kendo-template">
-    <span class="option-box"><button onclick="addReturnItem(this);" type="button"><i class="fa fa-arrow-circle-right green"></i></button></span>
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="addReturnItem(this);" type="button"><i class="fa fa-arrow-circle-right green"></i></button></span>
 </script>
 <script id="operationTemp2" type="text/x-kendo-template">
-    <span class="option-box"><button onclick="removeReturnItem(this);" type="button"><i class="fa fa-arrow-circle-left red"></i></button></span>
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removeReturnItem(this);" type="button"><i class="fa fa-arrow-circle-left red"></i></button></span>
 </script>
 <script>
     var returnParts = @Html.Raw(JsonConvert.SerializeObject(Model.PartsOuts));
@@ -134,11 +128,17 @@
                 },
                 {
                     field: "PartsCode",
-                    title: "配件编码"
+                    title: "配件编码",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "PartsDictionaryName",
-                    title: "配件名称"
+                    field: "PartsName",
+                    title: "配件名称",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "Count",
@@ -146,7 +146,10 @@
                 },
                 {
                     field: "WarehouseName",
-                    title: "库房"
+                    title: "库房",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
                     field: "Description",
@@ -176,13 +179,13 @@
                 });
             }
             var returnParts = {
+                Id:"@Model.Id",
                 SupplierId: $("#supplier").data("kendoComboBox").value(),
-                WarehouseId: $("#warehouse").data("kendoDropDownList").value(),
                 Description:$("#description").val().trim(),
                 PartsOuts:returnItems
             }
             $.ajax({
-                url: "@Url.Action("Add")",
+                url: "@Url.Action("Update")",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json",

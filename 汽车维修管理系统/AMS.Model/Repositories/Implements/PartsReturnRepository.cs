@@ -35,6 +35,7 @@ namespace AMS.Model.Repositories.Implements
                         Count = j.Count,
                         PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
+                        WarehouseName = j.Parts.Warehouse.Name,
                         Description = j.Description
                     }).ToList()
                 }).ToList();
@@ -156,6 +157,8 @@ namespace AMS.Model.Repositories.Implements
                         Count = j.Count,
                         PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
+                        WarehouseName = j.Parts.Warehouse.Name,
+                        Description = j.Description
                     }).ToList()
                 }).FirstOrDefault();
                 return partsReturn;
@@ -171,10 +174,6 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return  new ResModel(){Msg = "更新配件出库失败，未找到该配件出库",Success = false};
                 }
-                partsReturn.SupplierId = partsReturnDto.SupplierId;
-                partsReturn.ApplyUser = operationUser.Name;
-                partsReturn.OperationTime = DateTime.Now;
-                partsReturn.Description = partsReturnDto.Description;
                 var partsOuts = partsReturnDto.PartsOuts.Select(i => new PartsOut()
                 {
                     Id = Guid.NewGuid(),
@@ -187,6 +186,11 @@ namespace AMS.Model.Repositories.Implements
                 {
                     try
                     {
+                        partsReturn.SupplierId = partsReturnDto.SupplierId;
+                        partsReturn.ApplyUser = operationUser.Name;
+                        partsReturn.OperationTime = DateTime.Now;
+                        partsReturn.Description = partsReturnDto.Description;
+
                         db.PartsOut.RemoveRange(partsReturn.PartsOuts);
                         db.SaveChanges();
                         db.PartsOut.AddRange(partsOuts);
@@ -212,9 +216,9 @@ namespace AMS.Model.Repositories.Implements
                     return new ResModel() { Msg = "删除配件出库失败，未找到该配件出库", Success = false };
                 }
 
-                if (partsReturn.State != PartsReturnState.已审核)
+                if (partsReturn.State != PartsReturnState.未审核)
                 {
-                    return new ResModel(){Msg = "删除配件出库失败，该配件出库已审核",Success = false};
+                    return new ResModel(){Msg = "删除配件出库失败，该配件出库已审核出库",Success = false};
                 }
                 using (var scope = new TransactionScope())
                 {
@@ -258,7 +262,7 @@ namespace AMS.Model.Repositories.Implements
                         Count = j.Count,
                         PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
-//                        WarehouseId = j.Parts.WarehouseId,
+                        WarehouseName = j.Parts.Warehouse.Name,
                         Description = j.Description
                     }).ToList()
                 }).ToList();
