@@ -139,6 +139,10 @@
     <Compile Include="Migrations\201805161141489_UpdateTableServiceBooking1.Designer.cs">
       <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805161613381_UpdateTableServiceRepair.cs" />
+    <Compile Include="Migrations\201805161613381_UpdateTableServiceRepair.Designer.cs">
+      <DependentUpon>201805161613381_UpdateTableServiceRepair.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
@@ -258,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805161141489_UpdateTableServiceBooking1.resx">
       <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161613381_UpdateTableServiceRepair.resx">
+      <DependentUpon>201805161613381_UpdateTableServiceRepair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

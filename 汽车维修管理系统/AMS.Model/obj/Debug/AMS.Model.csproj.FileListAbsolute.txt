@@ -26,3 +26,4 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateSomeTables.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceBooking1.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojAssemblyReference.cache
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceRepair.resources

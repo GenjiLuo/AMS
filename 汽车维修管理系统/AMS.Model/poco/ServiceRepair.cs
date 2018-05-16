@@ -19,6 +19,8 @@ namespace AMS.Model.poco
             EstimateRepairParts = new HashSet<EstimateRepairParts>();
             RepairParts=new HashSet<RepairParts>();
         }
+        public string BillNo { get; set; }
+        public int BillNoIndex { get; set; }
         public Guid CarId { get; set; }
         [ForeignKey("CarId")]
         public Car Car { get; set; }

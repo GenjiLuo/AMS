@@ -417,9 +417,65 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "转接车失败，未找到该预约单", Success = false };
                 }
+
+                if (serviceBooking.ServiceBookingState != ServiceBookingState.待接车)
+                {
+                    return new ResModel() { Msg = "转接车失败，该预约单已作废或已接车", Success = false };
+                }
+                var billNo = "";
+                var lastIndex = 0;
+                var dateFormat = "";
+                var index = 0;
+                var indexStr = "";
+                var repairBill = db.BillNoSetting.FirstOrDefault(i => i.Name == BillTypeName.接车单号.ToString());
+                if (repairBill.DailyReset)
+                {
+                    var lastRepair = db.ServiceRepair.Where(i => i.CreateTime.Value.Day == DateTime.Now.Day).OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastRepair?.BillNoIndex ?? 0;
+                }
+                else
+                {
+                    var lastRepair = db.ServiceRepair.OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastRepair?.BillNoIndex ?? 0;
+                }
+                index = lastIndex + 1;
+                indexStr = index.ToString();
+                switch (repairBill.SerNoLength)
+                {
+                    case BillSerNoLength.两位:
+                        indexStr = indexStr.PadLeft(2, '0');
+                        break;
+                    case BillSerNoLength.三位:
+                        indexStr = indexStr.PadLeft(3, '0');
+                        break;
+                    case BillSerNoLength.四位:
+                        indexStr = indexStr.PadLeft(4, '0');
+                        break;
+                    case BillSerNoLength.五位:
+                        indexStr = indexStr.PadLeft(5, '0');
+                        break;
+                    case BillSerNoLength.六位:
+                        indexStr = indexStr.PadLeft(6, '0');
+                        break;
+                }
+                switch (repairBill.DateFormat)
+                {
+                    case BillDateFormat.简洁年月日:
+                        dateFormat = DateTime.Now.ToString("yyMMdd");
+                        break;
+                    case BillDateFormat.完整年月日:
+                        dateFormat = DateTime.Now.ToString("yyyyMMdd");
+                        break;
+                    case BillDateFormat.无:
+                        dateFormat = "";
+                        break;
+                }
+                billNo = repairBill.Prefix + dateFormat + indexStr;
                 var serviceRepair=new ServiceRepair()
                 {
                     Id = Guid.NewGuid(),
+                    BillNo = billNo,
+                    BillNoIndex = index,
                     CarId = serviceBooking.CarId,
                     ServiceBookingId = serviceBooking.Id,
                     ServiceRepairState = ServiceRepairState.在修,
@@ -429,7 +485,8 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = serviceBooking.ContactName,
                     ContactPhone = serviceBooking.ContactPhone,
                     RepairDescription = serviceBooking.RepairDescription,
-                    CustomerDescription = serviceBooking.CustomerDescription
+                    CustomerDescription = serviceBooking.CustomerDescription,
+                    CreateTime = DateTime.Now
                 };
                 
                 using (var scope=new TransactionScope())
@@ -454,7 +511,7 @@ namespace AMS.Model.Repositories.Implements
                     {
                         return new ResModel() { Msg = "转接车失败", Success = false };
                     }
-                    return new ResModel() { Msg = "转接车成功", Success = true };
+                    return new ResModel() { Msg = "转接车成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
                 }
             }
         }
