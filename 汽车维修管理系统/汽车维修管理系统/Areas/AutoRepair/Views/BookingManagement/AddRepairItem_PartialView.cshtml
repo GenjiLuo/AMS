@@ -1,0 +1,111 @@
+﻿<div class="container-fluid">
+    <div class="row form-group">
+        <label class="col-xs-3 text-right required">保修项目</label>
+        <div class="col-xs-7">
+            <input id="repairItem" class="full-width"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3 text-right required">工时</label>
+        <div class="col-xs-7">
+            <input id="workHour" class="full-width k-textbox"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3 text-right required">单价</label>
+        <div class="col-xs-7">
+            <input id="price" class="full-width k-textbox"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3 text-right required">结算方式</label>
+        <div class="col-xs-7">
+            <input id="repairAccountType" class="full-width"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3 text-right">备注</label>
+        <div class="col-xs-7">
+            <input id="itemDescription" class="full-width k-textbox"/>
+        </div>
+    </div>
+    <div class="row option-group">
+        <button id="btn_saveItem" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;新增</button>
+        <button id="btn_cancelAdd" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+    </div>
+</div>
+<script id="repairItemTemp" type="text/x-kendo-template">
+    <span>
+        <span>#: SerNum #</span>&nbsp;&nbsp;<span>#: Name #</span>
+    </span>
+</script>
+<script>
+    $(document).ready(function() {
+        $("#repairItem").kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("RepairItem_DropDownListDataSource")"
+                    }
+                }
+            },
+            dataTextField: "Name",
+            dataValueField: "Id",
+            optionLabel: {
+                Name: "---下拉选择维修项目---",
+                SerNum:""
+            },
+            template: $("#repairItemTemp").html(),
+            valueTemplate: $("#repairItemTemp").html(),
+            change: function() {
+                var item = this.dataItem();
+                if (item.Id) {
+                    $("#workHour").val(item.WorkHour);
+                    $("#price").val(item.Price);
+                } else {
+                    $("#workHour").val("");
+                    $("#price").val("");
+                }
+            }
+        });
+        $("#repairAccountType").kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: {
+                        url:"@Url.Action("ServiceAccountType_DropDownListDataSource")"
+                    }
+                }
+            },
+            dataTextField: "Name",
+            dataValueField: "Id"
+        });
+    });
+    $("#btn_saveItem").click(function () {
+        var dataItem = $("#repairItem").data("kendoDropDownList").dataItem();
+        if (!dataItem.Id) {
+            return;
+        }
+        for (var i = 0; i < repairItems.length; i++) {
+            if (repairItems[i].SerNum === dataItem.SerNum) {
+                return;
+            }
+        }
+        var repairAccountType=$("#repairAccountType").data("kendoDropDownList");
+        var repairItem = {
+            RepairItemId: dataItem.Id,
+            SerNum: dataItem.SerNum,
+            Name: dataItem.Name,
+            WorkHour: parseFloat($("#workHour").val().trim()),
+            Price: parseFloat($("#price").val().trim()),
+            ServiceAccountId: repairAccountType.value(),
+            ServiceAccountName: repairAccountType.text(),
+            Description:$("#itemDescription").val().trim()
+        };
+        repairItems.push(repairItem);
+        $("#repairItemGrid").data("kendoGrid").dataSource.add(repairItem);
+        refreshLabelInfo();
+    });
+    $("#btn_cancelAdd").click(function() {
+        $("#addRepairItemWindow").data("kendoWindow").close();
+    });
+</script>

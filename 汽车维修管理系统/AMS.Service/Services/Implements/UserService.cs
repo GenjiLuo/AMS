@@ -50,5 +50,10 @@ namespace AMS.Service.Services.Implements
         {
             return _userRepository.DisableUser(userDto, operationUser);
         }
+
+        public List<UserDto> GetAllAdvisor()
+        {
+            return _userRepository.GetAllUser();
+        }
     }
 }

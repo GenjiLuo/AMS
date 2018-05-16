@@ -20,6 +20,14 @@ label.required:before {
 .option-area {
     margin-bottom: 10px;
 }
+.full-width {
+    width: 100%;
+ }
+.option-group {
+        position: absolute;
+    bottom: 10px;
+    right: 17px;
+}
 
 .title {
      background-color: #F5F5F5;
@@ -28,11 +36,11 @@ label.required:before {
     color: #067CFE !important;
     margin-bottom: 10px;
 }
-.title  span:first-child {
+.title>span:first-child {
     font-size: 14px;
     margin-right: 70px;
 }
-#booking .k-textbox {
+.info-input-item .k-textbox {
     border-top-color: transparent;
     border-right-color: transparent;
     border-left-color: transparent;
@@ -42,7 +50,7 @@ label.required:before {
 #booTimeInfo .k-textbox{
     background-color: #F5F5F5;
 }
-#booking  .k-textbox:focus {
+.info-input-item  .k-textbox:focus {
     border-color: #c5c5c5;
     border-radius: 4px;
 }
@@ -57,24 +65,23 @@ label.required:before {
     margin-left: 73px;
     margin-right: 50px;
 }
-#contactPhone,
-#repairType {
+#contactPhone {
+    margin-left: 50px;
+}
+#repairAdvisorLabel {
+    margin-right: 59px;
+}
+#repairTypeLabel {
     margin-left: 50px;
     margin-right: 50px;
 }
-
-#repairAdvisor {
-    margin-left: 59px;
-    margin-right: 50px;
-}
 #address,
-
-#customerDescription{
+#customerDescription {
     margin-left: 59px;
     width: 514px;
     margin-right: 50px;
 }
-#description{
+#remark{
     margin-left: 88px;
     width: 514px;
 }
@@ -85,6 +92,57 @@ label.required:before {
     margin-left: 50px;
     width: 400px;
 }
+#orgLabel {
+    margin-left: 50px;
+}
 #org {
     margin-left: 50px;
+}
+.k-combobox {
+    width: 230px;
+}
+/* 选择车辆的弹出comboBox */
+#comboxHeaderBox span {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 28%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    font-weight: bold;
+}
+.comboxItem span{
+    box-sizing: border-box;
+    display: inline-block;
+    width: 28%;
+    padding-top: 5px;
+    padding-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#comboxHeaderBox span:nth-child(3),
+.comboxItem span:nth-child(3) {
+    width: 40%;
+}
+#chooseCar-list{
+    width: 400px!important;
+}
+#carFullName {
+    margin-left: 60px;
+    color: #333;
+    font-weight: 200;
+}
+.option-box {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+ }
+.option-box button {
+    min-width: 34px !important;
+    height: 26px;
+}
+#horizontal {
+    height: 533px;
 }

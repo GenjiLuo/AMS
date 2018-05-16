@@ -108,11 +108,36 @@
     <Compile Include="Enum\ServiceRepairState.cs" />
     <Compile Include="Enum\BillDateFormat.cs" />
     <Compile Include="Enum\ParameterValueType.cs" />
+    <Compile Include="Enum\ServiceBookingState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
     <Compile Include="Migrations\201805141416431_InitDatabase.cs" />
     <Compile Include="Migrations\201805141416431_InitDatabase.Designer.cs">
       <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805150750541_UpdateTableServiceBooking.cs" />
+    <Compile Include="Migrations\201805150750541_UpdateTableServiceBooking.Designer.cs">
+      <DependentUpon>201805150750541_UpdateTableServiceBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805160156246_UpdateTable.cs" />
+    <Compile Include="Migrations\201805160156246_UpdateTable.Designer.cs">
+      <DependentUpon>201805160156246_UpdateTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805160443138_UpdateTableServiceAccountType.cs" />
+    <Compile Include="Migrations\201805160443138_UpdateTableServiceAccountType.Designer.cs">
+      <DependentUpon>201805160443138_UpdateTableServiceAccountType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161031439_UpdateTableServiceRepairItem.cs" />
+    <Compile Include="Migrations\201805161031439_UpdateTableServiceRepairItem.Designer.cs">
+      <DependentUpon>201805161031439_UpdateTableServiceRepairItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161114517_UpdateSomeTables.cs" />
+    <Compile Include="Migrations\201805161114517_UpdateSomeTables.Designer.cs">
+      <DependentUpon>201805161114517_UpdateSomeTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161141489_UpdateTableServiceBooking1.cs" />
+    <Compile Include="Migrations\201805161141489_UpdateTableServiceBooking1.Designer.cs">
+      <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -215,6 +240,24 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805141416431_InitDatabase.resx">
       <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805150750541_UpdateTableServiceBooking.resx">
+      <DependentUpon>201805150750541_UpdateTableServiceBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805160156246_UpdateTable.resx">
+      <DependentUpon>201805160156246_UpdateTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805160443138_UpdateTableServiceAccountType.resx">
+      <DependentUpon>201805160443138_UpdateTableServiceAccountType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161031439_UpdateTableServiceRepairItem.resx">
+      <DependentUpon>201805161031439_UpdateTableServiceRepairItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161114517_UpdateSomeTables.resx">
+      <DependentUpon>201805161114517_UpdateSomeTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161141489_UpdateTableServiceBooking1.resx">
+      <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

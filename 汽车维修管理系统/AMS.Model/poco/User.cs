@@ -14,6 +14,7 @@ namespace AMS.Model.poco
         public User()
         {
             OperationLogs = new HashSet<OperationLog>();
+            ServiceRepairItems=new HashSet<ServiceRepairItem>();
     }
         [Required]
         [Index(IsUnique = true)]
@@ -28,6 +29,6 @@ namespace AMS.Model.poco
         [ForeignKey("OrgId")]
         public virtual Organization Org { get; set; }
         public virtual ICollection<OperationLog> OperationLogs { get; set; }
-
+        public virtual ICollection<ServiceRepairItem> ServiceRepairItems { get; set; }
     }
 }

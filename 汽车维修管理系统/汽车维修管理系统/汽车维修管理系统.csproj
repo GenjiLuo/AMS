@@ -574,6 +574,9 @@
     <Content Include="Areas\BaseInfo\Views\ServiceTicketType\Update.cshtml" />
     <Content Include="Areas\PartDictionary\Views\PartsReturn\Add.cshtml" />
     <Content Include="Areas\PartDictionary\Views\PartsReturn\Update.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\BookingManagement\AddRepairItem_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\BookingManagement\AddEstimateParts_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\BookingManagement\Update.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

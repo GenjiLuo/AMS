@@ -12,6 +12,10 @@ namespace AMS.Model.poco
 {
     public class RepairItem : BaseModel
     {
+        public RepairItem()
+        {
+            ServiceRepairItem=new HashSet<ServiceRepairItem>();
+        }
         public string SerNum { get; set; }
         public float WorkHour { get; set; }
         public decimal Price { get; set; }
@@ -19,5 +23,6 @@ namespace AMS.Model.poco
         public Guid RepairItemTypeId { get; set; }
         [ForeignKey("RepairItemTypeId")]
         public virtual RepairItemType RepairItemType { get; set; }
+        public virtual ICollection<ServiceRepairItem> ServiceRepairItem { get; set; }
     }
 }

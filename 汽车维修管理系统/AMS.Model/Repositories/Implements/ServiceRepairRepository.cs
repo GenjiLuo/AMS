@@ -35,7 +35,7 @@ namespace AMS.Model.Repositories.Implements
                     Id = Guid.NewGuid(),
                     RepairItemId = i.RepairItemId,
                     ServiceRepairId = serviceRepair.Id,
-                    WordHour = i.WordHour,
+                    WorkHour = i.WorkHour,
                     Price = i.Price,
                     MainOperatorId = i.MainOperatorId
                 });
@@ -121,7 +121,7 @@ namespace AMS.Model.Repositories.Implements
                         ServiceRepairId = j.ServiceRepairId,
                         RepairItemId = j.RepairItemId,
                         RepairItemName = j.RepairItem.Name,
-                        WordHour = j.WordHour,
+                        WorkHour = j.WorkHour,
                         Price = j.Price,
                         MainOperatorId = j.MainOperatorId,
                         MainOperatorName = j.MainOperator.Name
@@ -176,7 +176,7 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         RepairItemId = j.RepairItemId,
                         RepairItemName = j.RepairItem.Name,
-                        WordHour = j.WordHour,
+                        WorkHour = j.WorkHour,
                         Price = j.Price,
                         MainOperatorId = j.MainOperatorId,
                         MainOperatorName = j.MainOperator.Name
@@ -231,7 +231,7 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         RepairItemId = j.RepairItemId,
                         RepairItemName = j.RepairItem.Name,
-                        WordHour = j.WordHour,
+                        WorkHour = j.WorkHour,
                         Price = j.Price,
                         MainOperatorId = j.MainOperatorId,
                         MainOperatorName = j.MainOperator.Name
@@ -282,7 +282,7 @@ namespace AMS.Model.Repositories.Implements
                     Id = Guid.NewGuid(),
                     RepairItemId = i.RepairItemId,
                     ServiceRepairId = serviceRepair.Id,
-                    WordHour = i.WordHour,
+                    WorkHour = i.WorkHour,
                     Price = i.Price,
                     MainOperatorId = i.MainOperatorId
                 });

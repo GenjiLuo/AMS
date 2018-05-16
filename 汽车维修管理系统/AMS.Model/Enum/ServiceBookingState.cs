@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.Enum
 {
-    public enum ServiceRepairState
+    public enum ServiceBookingState
     {
-        登记,
-        在修,
-        竣工,
-        结算,
-        收银,
-        出厂,
-        作废
-    }
+        待接车,
+        已接车,
+        已作废
+    } 
 }

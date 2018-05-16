@@ -13,5 +13,7 @@ namespace AMS.Service.Services.Interfaces
         ResModel UpdateServiceBooking(ServiceBookingDto serviceBookingDto, UserDto operationUser);
         ResModel DeleteServiceBooking(Guid serviceBookingId);
         List<ServiceBookingDto> QueryServiceBooking(string keyword);
+        ResModel TurnToInvalid(Guid serviceBookingId);
+        ResModel TurnToRepair(Guid serviceBookingId);
     }
 }

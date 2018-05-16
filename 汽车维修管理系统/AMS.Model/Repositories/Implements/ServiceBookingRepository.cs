@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using AMS.Model.dto;
+using AMS.Model.Enum;
 using AMS.Model.poco;
 using AMS.Model.Repositories.Interfaces;
 using AMS.Model.ResponseModel;
@@ -18,7 +19,10 @@ namespace AMS.Model.Repositories.Implements
                 var serviceBookings = db.ServiceBooking.Select(i => new ServiceBookingDto()
                 {
                     Id = i.Id,
-                    BookingTime = i.BookingTime,
+                    BookingCreateTime = i.BookingCreateTime,
+                    ServiceRepairTime = i.ServiceRepairTime,
+                    ServiceBookingState = i.ServiceBookingState,
+                    BillNo = i.BillNo,
                     CarId = i.CarId,
                     CarPlateNum = i.Car.PlateNum,
                     ContactName = i.ContactName,
@@ -34,21 +38,30 @@ namespace AMS.Model.Repositories.Implements
                     {
                         Id = j.Id,
                         PartsId = j.PartsId,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
                         ServiceBookingId = j.ServiceBookingId,
                         Count = j.Count,
-                        Price = j.Price
+                        MaxCount = j.Parts.Count,
+                        Price = j.Price,
+                        ServiceAccountTypeId = j.ServiceAccountTypeId,
+                        ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
                     }).ToList(),
                     ServiceRepairItem = i.ServiceRepairItem.Select(k => new ServiceRepairItemDto()
                     {
                         Id = k.Id,
+                        ServiceBookingId = k.ServiceBookingId,
                         RepairItemId = k.RepairItemId,
                         RepairItemName = k.RepairItem.Name,
-                        WordHour = k.WordHour,
+                        RepairItemSerNo = k.RepairItem.SerNum,
+                        WorkHour = k.WorkHour,
                         Price = k.Price,
                         MainOperatorId = k.MainOperatorId,
-                        MainOperatorName = k.MainOperator.Name
+                        MainOperatorName = k.MainOperator.Name,
+                        ServiceAccountTypeId = k.ServiceAccountTypeId,
+                        ServiceAccountTypeName = k.ServiceAccountType.Name,
+                        Description = k.Description
                     }).ToList()
                 }).ToList();
                 return serviceBookings;
@@ -59,10 +72,63 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db=new ModelContext())
             {
+                var billNo = "";
+                var lastIndex = 0;
+                var dateFormat = "";
+                var index = 0;
+                var indexStr = "";
+                var bookingBill = db.BillNoSetting.FirstOrDefault(i => i.Name == BillTypeName.预约单号.ToString());
+                if (bookingBill.DailyReset)
+                {
+                    var lastBooking = db.ServiceBooking.Where(i => i.CreateTime.Value.Day == DateTime.Now.Day).OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastBooking?.BillNoIndex ?? 0;
+                }
+                else
+                {
+                    var lastBooking = db.ServiceBooking.OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastBooking?.BillNoIndex ?? 0;
+                }
+                index = lastIndex + 1;
+                indexStr = index.ToString();
+                switch (bookingBill.SerNoLength)
+                {
+                    case BillSerNoLength.两位:
+                        indexStr = indexStr.PadLeft(2, '0');
+                        break;
+                    case BillSerNoLength.三位:
+                        indexStr = indexStr.PadLeft(3, '0');
+                        break;
+                    case BillSerNoLength.四位:
+                        indexStr = indexStr.PadLeft(4, '0');
+                        break;
+                    case BillSerNoLength.五位:
+                        indexStr = indexStr.PadLeft(5, '0');
+                        break;
+                    case BillSerNoLength.六位:
+                        indexStr = indexStr.PadLeft(6, '0');
+                        break;
+                }
+                switch (bookingBill.DateFormat)
+                {
+                    case BillDateFormat.简洁年月日:
+                        dateFormat = DateTime.Now.ToString("yyMMdd");
+                        break;
+                    case BillDateFormat.完整年月日:
+                        dateFormat = DateTime.Now.ToString("yyyyMMdd");
+                        break;
+                    case BillDateFormat.无:
+                        dateFormat = "";
+                        break;
+                }
+                billNo = bookingBill.Prefix + dateFormat + indexStr;
                 var serviceBooking = new ServiceBooking()
                 {
                     Id = Guid.NewGuid(),
-                    BookingTime = DateTime.Now,
+                    BillNo=billNo,
+                    BillNoIndex = index,
+                    BookingCreateTime = DateTime.Now,
+                    ServiceBookingState = ServiceBookingState.待接车,
+                    ServiceRepairTime = serviceBookingDto.ServiceRepairTime,
                     CarId = serviceBookingDto.CarId,
                     ContactName = serviceBookingDto.ContactName,
                     ContactPhone = serviceBookingDto.ContactPhone,
@@ -71,11 +137,14 @@ namespace AMS.Model.Repositories.Implements
                     RepairTypeId = serviceBookingDto.RepairTypeId,
                     CustomerDescription = serviceBookingDto.CustomerDescription,
                     RepairDescription = serviceBookingDto.RepairDescription,
+                    Remark = serviceBookingDto.Remark,
+                    CreateTime = DateTime.Now
                 };
                 var estimateRepairParts = serviceBookingDto.EstimateRepairParts.Select(i => new EstimateRepairParts()
                 {
                     Id = Guid.NewGuid(),
                     PartsId = i.PartsId,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
                     ServiceBookingId = serviceBooking.Id,
                     Count = i.Count,
                     Price = i.Price
@@ -84,10 +153,11 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = Guid.NewGuid(),
                     RepairItemId = i.RepairItemId,
-                    WordHour = i.WordHour,
+                    WorkHour = i.WorkHour,
                     Price = i.Price,
-                    MainOperatorId = i.MainOperatorId,
-                    ServiceBookingId = serviceBooking.Id
+                    ServiceBookingId = serviceBooking.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    Description = i.Description
                 });
                 using (var scope=new TransactionScope())
                 {
@@ -116,7 +186,10 @@ namespace AMS.Model.Repositories.Implements
                 var serviceBooking = db.ServiceBooking.Where(i => i.Id == serviceBookingId).Select(i => new ServiceBookingDto()
                 {
                     Id = i.Id,
-                    BookingTime = i.BookingTime,
+                    BookingCreateTime = i.BookingCreateTime,
+                    ServiceRepairTime = i.ServiceRepairTime,
+                    ServiceBookingState = i.ServiceBookingState,
+                    BillNo = i.BillNo,
                     CarId = i.CarId,
                     CarPlateNum = i.Car.PlateNum,
                     ContactName = i.ContactName,
@@ -128,25 +201,35 @@ namespace AMS.Model.Repositories.Implements
                     RepairTypeName = i.RepairType.Name,
                     CustomerDescription = i.CustomerDescription,
                     RepairDescription = i.RepairDescription,
+                    Remark = i.Remark,
                     EstimateRepairParts = i.EstimateRepairParts.Select(j => new EstimateRepairPartsDto()
                     {
                         Id = j.Id,
                         PartsId = j.PartsId,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
                         ServiceBookingId = j.ServiceBookingId,
                         Count = j.Count,
-                        Price = j.Price
+                        MaxCount = j.Parts.Count,
+                        Price = j.Price,
+                        ServiceAccountTypeId = j.ServiceAccountTypeId,
+                        ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
                     }).ToList(),
                     ServiceRepairItem = i.ServiceRepairItem.Select(k => new ServiceRepairItemDto()
                     {
                         Id = k.Id,
                         RepairItemId = k.RepairItemId,
                         RepairItemName = k.RepairItem.Name,
-                        WordHour = k.WordHour,
+                        RepairItemSerNo = k.RepairItem.SerNum,
+                        ServiceBookingId = k.ServiceBookingId,
+                        WorkHour = k.WorkHour,
                         Price = k.Price,
                         MainOperatorId = k.MainOperatorId,
-                        MainOperatorName = k.MainOperator.Name
+                        MainOperatorName = k.MainOperator.Name,
+                        ServiceAccountTypeId = k.ServiceAccountTypeId,
+                        ServiceAccountTypeName = k.ServiceAccountType.Name,
+                        Description = k.Description
                     }).ToList()
                 }).FirstOrDefault();
                 return serviceBooking;
@@ -162,36 +245,41 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel(){Msg = "更新预约单失败，未找到该预约单",Success = false};
                 }
-                serviceBooking.BookingTime = serviceBookingDto.BookingTime;
-                serviceBooking.CarId = serviceBookingDto.CarId;
-                serviceBooking.ContactName = serviceBookingDto.ContactName;
-                serviceBooking.ContactPhone = serviceBookingDto.ContactPhone;
-                serviceBooking.ContactAddress = serviceBookingDto.ContactAddress;
-                serviceBooking.ServiceAdvisorId = serviceBookingDto.ServiceAdvisorId;
-                serviceBooking.RepairTypeId = serviceBookingDto.RepairTypeId;
-                serviceBooking.CustomerDescription = serviceBookingDto.CustomerDescription;
-                serviceBooking.RepairDescription = serviceBookingDto.RepairDescription;
+               
                 var estimateRepairParts = serviceBookingDto.EstimateRepairParts.Select(i => new EstimateRepairParts()
                 {
                     Id = Guid.NewGuid(),
                     PartsId = i.PartsId,
                     ServiceBookingId = serviceBooking.Id,
                     Count = i.Count,
-                    Price = i.Price
+                    Price = i.Price,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId
                 });
                 var serviceRepairItem = serviceBookingDto.ServiceRepairItem.Select(i => new ServiceRepairItem()
                 {
                     Id = Guid.NewGuid(),
                     RepairItemId = i.RepairItemId,
-                    WordHour = i.WordHour,
+                    WorkHour = i.WorkHour,
                     Price = i.Price,
-                    MainOperatorId = i.MainOperatorId,
-                    ServiceBookingId = serviceBooking.Id
+                    ServiceBookingId = serviceBooking.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    Description = i.Description
                 });
                 using (var scope=new TransactionScope())
                 {
                     try
                     {
+                        serviceBooking.ServiceRepairTime = serviceBookingDto.ServiceRepairTime;
+                        serviceBooking.CarId = serviceBookingDto.CarId;
+                        serviceBooking.ContactName = serviceBookingDto.ContactName;
+                        serviceBooking.ContactPhone = serviceBookingDto.ContactPhone;
+                        serviceBooking.ContactAddress = serviceBookingDto.ContactAddress;
+                        serviceBooking.ServiceAdvisorId = serviceBookingDto.ServiceAdvisorId;
+                        serviceBooking.RepairTypeId = serviceBookingDto.RepairTypeId;
+                        serviceBooking.CustomerDescription = serviceBookingDto.CustomerDescription;
+                        serviceBooking.RepairDescription = serviceBookingDto.RepairDescription;
+                        serviceBooking.Remark = serviceBookingDto.Remark;
+
                         db.EstimateRepairParts.RemoveRange(serviceBooking.EstimateRepairParts);
                         db.ServiceRepairItem.RemoveRange(serviceBooking.ServiceRepairItem);
                         db.SaveChanges();
@@ -245,7 +333,10 @@ namespace AMS.Model.Repositories.Implements
                 var serviceBookings = db.ServiceBooking.Where(i=>i.ContactName.Contains(keyword)).Select(i => new ServiceBookingDto()
                 {
                     Id = i.Id,
-                    BookingTime = i.BookingTime,
+                    BookingCreateTime = i.BookingCreateTime,
+                    ServiceRepairTime = i.ServiceRepairTime,
+                    ServiceBookingState = i.ServiceBookingState,
+                    BillNo = i.BillNo,
                     CarId = i.CarId,
                     CarPlateNum = i.Car.PlateNum,
                     ContactName = i.ContactName,
@@ -257,28 +348,114 @@ namespace AMS.Model.Repositories.Implements
                     RepairTypeName = i.RepairType.Name,
                     CustomerDescription = i.CustomerDescription,
                     RepairDescription = i.RepairDescription,
+                    Remark = i.Remark,
                     EstimateRepairParts = i.EstimateRepairParts.Select(j => new EstimateRepairPartsDto()
                     {
                         Id = j.Id,
                         PartsId = j.PartsId,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         PartsCode = j.Parts.PartsDictionary.Code,
                         ServiceBookingId = j.ServiceBookingId,
                         Count = j.Count,
-                        Price = j.Price
+                        MaxCount = j.Parts.Count,
+                        Price = j.Price,
+                        WarehouseName = j.Parts.Warehouse.Name,
+                        ServiceAccountTypeId = j.ServiceAccountTypeId,
+                        ServiceAccountTypeName = j.ServiceAccountType.Name
                     }).ToList(),
                     ServiceRepairItem = i.ServiceRepairItem.Select(k => new ServiceRepairItemDto()
                     {
                         Id = k.Id,
                         RepairItemId = k.RepairItemId,
                         RepairItemName = k.RepairItem.Name,
-                        WordHour = k.WordHour,
+                        RepairItemSerNo = k.RepairItem.SerNum,
+                        WorkHour = k.WorkHour,
                         Price = k.Price,
                         MainOperatorId = k.MainOperatorId,
-                        MainOperatorName = k.MainOperator.Name
+                        MainOperatorName = k.MainOperator.Name,
+                        ServiceAccountTypeId = k.ServiceAccountTypeId,
+                        ServiceAccountTypeName = k.ServiceAccountType.Name
                     }).ToList()
                 }).ToList();
                 return serviceBookings;
+            }
+        }
+
+        public ResModel TurnToInvalid(Guid serviceBookingId)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceBooking = db.ServiceBooking.FirstOrDefault(i => i.Id == serviceBookingId);
+                if (serviceBooking == null)
+                {
+                    return new ResModel(){Msg = "作废失败，未找到该预约单",Success = false};
+                }
+                if (serviceBooking.ServiceBookingState!=ServiceBookingState.待接车)
+                {
+                    return new ResModel() { Msg = "作废失败，该预约单已作废", Success = false };
+                }
+
+                try
+                {
+                    serviceBooking.ServiceBookingState = ServiceBookingState.已作废;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "作废失败", Success = false };
+                }
+                return new ResModel() { Msg = "作废成功", Success = true };
+            }
+        }
+
+        public ResModel TurnToRepair(Guid serviceBookingId)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceBooking = db.ServiceBooking.FirstOrDefault(i => i.Id == serviceBookingId);
+                if (serviceBooking == null)
+                {
+                    return new ResModel() { Msg = "转接车失败，未找到该预约单", Success = false };
+                }
+                var serviceRepair=new ServiceRepair()
+                {
+                    Id = Guid.NewGuid(),
+                    CarId = serviceBooking.CarId,
+                    ServiceBookingId = serviceBooking.Id,
+                    ServiceRepairState = ServiceRepairState.在修,
+                    ServiceDateTime = DateTime.Now,
+                    EstimateLeaveTime = DateTime.Now.AddDays(3),
+                    ServiceAdvisorId = serviceBooking.ServiceAdvisorId,
+                    ContactName = serviceBooking.ContactName,
+                    ContactPhone = serviceBooking.ContactPhone,
+                    RepairDescription = serviceBooking.RepairDescription,
+                    CustomerDescription = serviceBooking.CustomerDescription
+                };
+                
+                using (var scope=new TransactionScope())
+                {
+                    try
+                    {
+                        db.ServiceRepair.Add(serviceRepair);
+                        db.SaveChanges();
+                        foreach (var estimateRepairParts in serviceBooking.EstimateRepairParts)
+                        {
+                            estimateRepairParts.ServiceRepairId = serviceRepair.Id;
+                        }
+                        foreach (var serviceRepairItem in serviceBooking.ServiceRepairItem)
+                        {
+                            serviceRepairItem.ServiceRepairId = serviceRepair.Id;
+                        }
+                        serviceBooking.ServiceBookingState = ServiceBookingState.已接车;
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "转接车失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "转接车成功", Success = true };
+                }
             }
         }
     }

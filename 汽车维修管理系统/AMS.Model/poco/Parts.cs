@@ -15,6 +15,7 @@ namespace AMS.Model.poco
         {
             PartsIns=new HashSet<PartsIn>();
             PartsOuts =new HashSet<PartsOut>();
+            EstimateRepairParts=new HashSet<EstimateRepairParts>();
         }
         public Guid PartsDictionaryId { get; set; }
         [ForeignKey("PartsDictionaryId")]
@@ -29,5 +30,7 @@ namespace AMS.Model.poco
 
         public virtual ICollection<PartsIn> PartsIns { get; set; }
         public virtual ICollection<PartsOut> PartsOuts { get; set; }
+
+        public virtual ICollection<EstimateRepairParts> EstimateRepairParts { get; set; }
     }
 }

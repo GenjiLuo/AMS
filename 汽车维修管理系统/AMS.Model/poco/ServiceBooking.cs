@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMS.Model.dto;
+using AMS.Model.Enum;
 using Newtonsoft.Json;
 
 namespace AMS.Model.poco
@@ -17,11 +18,14 @@ namespace AMS.Model.poco
             EstimateRepairParts = new HashSet<EstimateRepairParts>();
             ServiceRepairItem=new HashSet<ServiceRepairItem>();
         }
-        public DateTime BookingTime { get; set; }
+        public string BillNo { get; set; }
+        public int BillNoIndex { get; set; }
+        public DateTime BookingCreateTime { get; set; }
+        public DateTime ServiceRepairTime { get; set; }
         public Guid CarId { get; set; }
         [ForeignKey("CarId")]
         public virtual Car Car { get; set; }
-
+        public ServiceBookingState ServiceBookingState { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactAddress { get; set; }
@@ -34,6 +38,7 @@ namespace AMS.Model.poco
         public virtual RepairType RepairType { get; set; }
         public string CustomerDescription { get; set; }
         public string RepairDescription { get; set; }
+        public string Remark { get; set; }
 
         public virtual ICollection<EstimateRepairParts> EstimateRepairParts { get; set; }
         public virtual ICollection<ServiceRepairItem> ServiceRepairItem { get; set; }

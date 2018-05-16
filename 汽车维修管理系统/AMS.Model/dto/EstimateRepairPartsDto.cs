@@ -10,7 +10,11 @@ namespace AMS.Model.dto
         public string PartsCode { get; set; }
         public string PartsName { get; set; }
         public Guid ServiceBookingId { get; set; }
+        public Guid ServiceAccountTypeId { get; set; }
+        public string ServiceAccountTypeName { get; set; }
         public int Count { get; set; }
+        public int MaxCount { get; set; }
         public decimal Price { get; set; }
+        public string WarehouseName { get; set; }
     }
 }

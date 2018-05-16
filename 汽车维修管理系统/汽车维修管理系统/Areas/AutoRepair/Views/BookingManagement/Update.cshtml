@@ -1,6 +1,7 @@
-﻿
+﻿@using Newtonsoft.Json
+@model AMS.Model.dto.ServiceBookingDto
 @{
-    ViewBag.Title = "新增预约";
+    ViewBag.Title = "更新预约";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Style/booking/create.css" rel="stylesheet" />
@@ -33,17 +34,17 @@
             <div class="form-group">
                 <div class="input-item">
                     <label class="required">联系人：</label>
-                    <input id="contactName" class="k-textbox" />
+                    <input id="contactName" class="k-textbox" value="@Model.ContactName"/>
                 </div>
                 <div class="input-item">
                     <label class="required">联系电话：</label>
-                    <input id="contactPhone" class="k-textbox" />
+                    <input id="contactPhone" class="k-textbox" value="@Model.ContactPhone"/>
                 </div>
             </div>
             <div class="form-group">
                 <div>
                     <label class="required">联系地址：</label>
-                    <input id="address" class="k-textbox" />
+                    <input id="address" class="k-textbox" value="@Model.ContactAddress"/>
                 </div>
             </div>
         </div>
@@ -64,23 +65,23 @@
                 </div>
                 <div class="input-item">
                     <label id="orgLabel" class="required">委修单位：</label>
-                    <input id="org" class="k-textbox" />
+                    <input id="org" class="k-textbox"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-item">
                     <label class="required verticalAlignTop">委修描述：</label>
-                    <textarea id="customerDescription"></textarea>
+                    <textarea id="customerDescription">@Model.CustomerDescription</textarea>
                 </div>
                 <div class="input-item">
                     <label class="required verticalAlignTop">维修说明：</label>
-                    <textarea id="repairDescription"></textarea>
+                    <textarea id="repairDescription">@Model.RepairDescription</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-item">
                     <label class="required verticalAlignTop">备注：</label>
-                    <textarea id="remark"></textarea>
+                    <textarea id="remark">@Model.Remark</textarea>
                 </div>
             </div>
         </div>
@@ -140,8 +141,35 @@
     var totalRepairItemCount = 0;
     var totalEstimatePartsMoney = 0.00;
     var totalEstimatePartsCount = 0;
+    var tempRepairItems =@Html.Raw(JsonConvert.SerializeObject(Model.ServiceRepairItem));
+    var tempEstimateParts=@Html.Raw(JsonConvert.SerializeObject(Model.EstimateRepairParts));
     var repairItems = [];
     var estimateParts = [];
+    for (var i = 0; i < tempRepairItems.length; i++) {
+        repairItems.push({
+            RepairItemId: tempRepairItems[i].RepairItemId,
+            SerNum: tempRepairItems[i].RepairItemSerNo,
+            Name: tempRepairItems[i].RepairItemName,
+            WorkHour: tempRepairItems[i].WorkHour,
+            Price: tempRepairItems[i].Price,
+            ServiceAccountId: tempRepairItems[i].ServiceAccountTypeId,
+            ServiceAccountName: tempRepairItems[i].ServiceAccountTypeName,
+            Description:tempRepairItems[i].Description
+        });
+    }
+    for (var j = 0; j < tempEstimateParts.length; j++) {
+        estimateParts.push({
+            PartsCode: tempEstimateParts[j].PartsCode,
+            PartsId: tempEstimateParts[j].PartsId,
+            PartsName: tempEstimateParts[j].PartsName,
+            Count: tempEstimateParts[j].Count,
+            MaxCount: tempEstimateParts[j].MaxCount,
+            Price: tempEstimateParts[j].Price,
+            WarehouseName: tempEstimateParts[j].WarehouseName,
+            ServiceAccountTypeName: tempEstimateParts[j].ServiceAccountTypeName,
+            ServiceAccountTypeId: tempEstimateParts[j].ServiceAccountTypeId
+        });
+    }
     var defaultAccountType = {};
     $.ajax({
         url: "@Url.Action("ServiceAccountType_DropDownListDataSource")",
@@ -165,6 +193,7 @@
                     }
                 }
             },
+            value:"@Model.CarId",
             dataTextField: "PlateNum",
             dataValueField: "Id",
             headerTemplate:$("#carComboxHeaderTemp").html(),
@@ -172,14 +201,17 @@
             noDataTemplate: "未查询到匹配的车辆",
             change: function (e) {
                 var item = this.dataItem();
-                console.log(this.dataItem());
-                
+                $("#carFullName").html(item?item.FullName:"");
+            },
+            dataBound: function() {
+                var item = this.dataItem();
                 $("#carFullName").html(item?item.FullName:"");
             }
         });
         $("#serviceRepairTime").kendoDateTimePicker({
             format: "yyyy/MM/dd HH:mm",
-            timeFormat:"HH:mm"
+            timeFormat: "HH:mm",
+            value:"@Model.ServiceRepairTime"
         });
         $("#repairAdvisor").kendoDropDownList({
             dataSource: {
@@ -190,7 +222,8 @@
                 }
             },
             dataTextField: "Name",
-            dataValueField:"Id"
+            dataValueField: "Id",
+            value:"@Model.ServiceAdvisorId"
         });
         $("#repairType").kendoDropDownList({
             dataSource: {
@@ -201,12 +234,13 @@
                 }
             },
             dataTextField: "Name",
-            dataValueField:"Id"
+            dataValueField: "Id",
+            value:"@Model.RepairTypeId"
         });
         $("#tabStrip").kendoTabStrip();
         $("#repairItemGrid").kendoGrid({
             dataSource: {
-                data: [],
+                data: repairItems,
                 schema: {
                     fields: {
                         WorkHour: { type: "number" },
@@ -295,7 +329,7 @@
         });
         $("#estimatePartsGrid").kendoGrid({
             dataSource: {
-                data: []
+                data: estimateParts
             },
             height: 500,
             pageable: {
@@ -396,6 +430,7 @@
                 }
             ]
         });
+        refreshLabelInfo();
         //保存
         $("#btn_save").click(function () {
             var serviceRepairItems = [];
@@ -425,6 +460,7 @@
             }
 
             var serviceBooking = {
+                Id:"@Model.Id",
                 ServiceRepairTime: $("#serviceRepairTime").data("kendoDateTimePicker").value(),
                 CarId: $("#chooseCar").data("kendoComboBox").value(),
                 ContactName: $("#contactName").val().trim(),
@@ -439,7 +475,7 @@
                 EstimateRepairParts: estimateRepairParts
             };
             $.ajax({
-                url: "@Url.Action("Create")",
+                url: "@Url.Action("Update")",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json",
@@ -448,7 +484,7 @@
                     if (res.Success) {
                         swal({
                             type: "success",
-                            text: "添加成功",
+                            text: "更新预约信息成功",
                             showConfirmButton: false,
                             timer: 1000
                         });

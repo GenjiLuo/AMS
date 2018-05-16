@@ -266,7 +266,7 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db=new ModelContext())
             {
-                var cars = db.Car.Where(i => i.CarFullName.Contains(keyWord)).Select(i => new CarDto()
+                var cars = db.Car.Where(i => i.PlateNum.Contains(keyWord) || i.Customer.Name.Contains(keyWord) || i.CarFullName.Contains(keyWord)).Select(i => new CarDto()
                 {
                     Id = i.Id,
                     CustomerId = i.CustomerId,

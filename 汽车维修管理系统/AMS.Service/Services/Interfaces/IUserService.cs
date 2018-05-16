@@ -17,5 +17,6 @@ namespace AMS.Service.Services.Interfaces
         ResModel DeleteUser(UserDto userDto, UserDto operationUser);
         ResModel ActiveUser(UserDto userDto, UserDto operationUser);
         ResModel DisableUser(UserDto userDto, UserDto operationUser);
+        List<UserDto> GetAllAdvisor();
     }
 }

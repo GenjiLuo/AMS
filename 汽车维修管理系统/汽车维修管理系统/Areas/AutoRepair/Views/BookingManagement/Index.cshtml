@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 
 @{
     ViewBag.Title = "汽修系统 | 预约列表";
@@ -10,10 +11,14 @@
         <div class="form-group pull-left option-group">
             <button id="btn_add" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;新增</button>&nbsp;
             <button id="btn_edit" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-edit"></i>&nbsp;编辑</button>&nbsp;
-            <button id="btn_delete" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-trash"></i>&nbsp;删除</button>
+            <button id="btn_read" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-eye"></i>&nbsp;查看</button>
         </div>
         <div class="form-group pull-left option-group">
-             <button id="btn_turnToRepair" type="button" class="k-button k-primary"><i class="fa fa-arrow-right"></i>&nbsp;转维修</button>
+            <button id="btn_turnToInvalid" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-flag"></i>&nbsp;作废</button>
+            <button id="btn_turnToRepair" type="button" class="k-button k-primary k-state-disabled"  disabled="disabled"><i class="fa fa-arrow-right"></i>&nbsp;转接车</button>
+        </div>
+        <div class="form-group pull-left option-group">
+            <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
         </div>
         <div class="form-group pull-right">
             <div id="simpleSearchContainer"> 
@@ -31,32 +36,40 @@
         <div id="grid"></div>
     </div>
 </div>
-<script id="isDefaultTemp" type="text/x-kendo-template">
-    # if(IsDefault){ #
-        是
+<script id="stateTemp" type="text/x-kendo-template">
+    # if(ServiceBookingState == @((int)ServiceBookingState.待接车)){ #
+        <label class="label label-sm label-info paddingBottom0">待接车</label>
+    # }else if(ServiceBookingState == @((int)ServiceBookingState.已接车)){ #
+        <label class="label label-sm label-success paddingBottom0">已接车</label>
     # }else{ #
-        否
-    # } #
+        <label class="label label-sm paddingBottom0">已作废</label>
+    # } # 
 </script>
 <script>
     var selectedRow = {};
     $(document).ready(function () {
         $("#btn_add").kendoButton();
         $("#btn_edit").kendoButton();
-        $("#btn_delete").kendoButton();
+        $("#btn_read").kendoButton();
+        $("#btn_turnToInvalid").kendoButton();
+        $("#btn_turnToRepair").kendoButton();
         $("#grid").kendoGrid({
             dataSource: {
                 transport: {
-                    read: "@Url.Action("Warehouse_GridDataSource")"
+                    read: "@Url.Action("ServiceBooking_GridDataSource")"
                 },
                 schema: {
                     model: {
-                        id: "Id" 
+                        id: "Id",
+                        fields: {
+                            BookingCreateTime: { type: "date" },
+                            ServiceRepairTime: {type:"date"}
+                        }
                     }
                 }
             },
             excel: {
-                fileName: "库房信息.xlsx",
+                fileName: "预约信息.xlsx",
                 allPages: true
             },
             height: 550,
@@ -71,12 +84,26 @@
             change: onChange,
             columns: [
                 {
-                    field: "Name",
-                    title: "库房名称"
+                    field: "BillNo",
+                    title: "预约单号"
                 },
                 {
-                    field: "Description",
-                    title: "备注"
+                    field: "CarPlateNum",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "BookingCreateTime",
+                    title: "登记时间",
+                    format: "{0: yyyy-MM-dd HH:mm}"
+                },
+                {
+                    field: "ServiceRepairTime",
+                    title: "预约维修时间",
+                    format: "{0: yyyy-MM-dd HH:mm}"
+                },
+                {
+                    field: "ServiceAdvisorName",
+                    title: "维修顾问"
                 },
                 {
                     field: "ContactName",
@@ -84,35 +111,30 @@
                 },
                 {
                     field: "ContactPhone",
-                    title: "电话"
+                    title: "联系电话"
                 },
                 {
-                    field: "Address",
-                    title: "地址"
-                },
-                {
-                    field: "IsDefault",
-                    title: "默认库房",
-                    template:$("#isDefaultTemp").html()
+                    field: "ServiceBookingState",
+                    title: "状态",
+                    template:$("#stateTemp").html()
                 }
             ]
         });
     });
     //添加
     $("#btn_add").click(function() {
-        window.location.href = "@Url.Action("Add")";
+        window.location.href = "@Url.Action("Create")";
     });
     //更新
     $("#btn_edit").click(function() {
-        window.location.href = "@Url.Action("Update")" + "?warehouId=" + selectedRow.Id;
+        window.location.href = "@Url.Action("Update")" + "?serviceBookingId=" + selectedRow.Id;
     });
-    //删除
-    $("#btn_delete").click(function() {
+    //作废
+    $("#btn_turnToInvalid").click(function() {
         swal({
             position: "center",
             type: "warning",
-            title: selectedRow.FullName,
-            text: "确定删除该库房吗？删除后不可逆",
+            text: "确定将该预约作废吗？",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -122,17 +144,17 @@
             console.log(res);
             if (res.value) {
                 $.ajax({
-                    url: "@Url.Action("Delete")",
+                    url: "@Url.Action("TurnToInvalid")",
                     type: "POST",
                     dataType: "json",
                     data: {
-                        warehouId: selectedRow.Id
+                        serviceBookingId: selectedRow.Id
                     },
                     success: function(res) {
                         if (res.Success) {
                             swal({
                                 type: "success",
-                                text: "该库房已被删除",
+                                text: "该预约已作废",
                                 showConfirmButton: false,
                                 timer: 1000
                             });
@@ -149,6 +171,37 @@
                         }
                     }
                 });
+            }
+        });
+    });
+    //转接车
+    $("#btn_turnToRepair").click(function() {
+        $.ajax({
+            url: "@Url.Action("TurnToRepair")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                serviceBookingId: selectedRow.Id
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "已成功接车，即将跳转...",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                            window.location.href= "@Url.Action("Edit","RepairManagement")"+"?serviceRepairId="+res.Data.ServiceRepairId;
+                        },
+                        1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg,
+                        confirmButtonText: '知道了'
+                    });
+                }
             }
         });
     });
@@ -180,8 +233,10 @@
         selectedRow = this.dataItem(this.select()[0]);
         console.log(selectedRow);
 
-        $("#btn_edit").data("kendoButton").enable(true);
-        $("#btn_delete").data("kendoButton").enable(true);
+        $("#btn_edit").data("kendoButton").enable(selectedRow.ServiceBookingState === @((int)ServiceBookingState.待接车));
+        $("#btn_read").data("kendoButton").enable(true);
+        $("#btn_turnToRepair").data("kendoButton").enable(selectedRow.ServiceBookingState === @((int)ServiceBookingState.待接车));
+        $("#btn_turnToInvalid").data("kendoButton").enable(selectedRow.ServiceBookingState === @((int)ServiceBookingState.待接车));
     }
 </script>
 

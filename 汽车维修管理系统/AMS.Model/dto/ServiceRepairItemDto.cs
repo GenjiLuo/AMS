@@ -10,10 +10,14 @@ namespace AMS.Model.dto
         public Guid? ServiceBookingId { get; set; }
         public Guid RepairItemId { get; set; }
         public string RepairItemName { get; set; }
+        public string RepairItemSerNo { get; set; }
 
-        public float? WordHour { get; set; } 
+        public float? WorkHour { get; set; } 
         public decimal? Price { get; set; }
         public Guid? MainOperatorId { get; set; }
         public string MainOperatorName { get; set; }
+
+        public Guid ServiceAccountTypeId { get; set; }
+        public string ServiceAccountTypeName { get; set; }
     }
 }

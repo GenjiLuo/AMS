@@ -46,5 +46,15 @@ namespace AMS.Service.Services.Implements
         {
             return _serviceBookingRepository.QueryServiceBooking(keyword);
         }
+
+        public ResModel TurnToInvalid(Guid serviceBookingId)
+        {
+            return _serviceBookingRepository.TurnToInvalid(serviceBookingId);
+        }
+
+        public ResModel TurnToRepair(Guid serviceBookingId)
+        {
+            return _serviceBookingRepository.TurnToRepair(serviceBookingId);
+        }
     }
 }

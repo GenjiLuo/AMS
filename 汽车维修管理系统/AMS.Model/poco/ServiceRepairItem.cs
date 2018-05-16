@@ -24,10 +24,14 @@ namespace AMS.Model.poco
         [ForeignKey("ServiceRepairId")]
         public virtual ServiceRepair ServiceRepair { get; set; }
 
-        public float? WordHour { get; set; } 
+        public float? WorkHour { get; set; } 
         public decimal? Price { get; set; }
         public Guid? MainOperatorId { get; set; }
         [ForeignKey("MainOperatorId")]
         public virtual User MainOperator { get; set; }
+
+        public Guid ServiceAccountTypeId { get; set; }
+        [ForeignKey("ServiceAccountTypeId")]
+        public virtual ServiceAccountType ServiceAccountType { get; set; }
     }
 }
