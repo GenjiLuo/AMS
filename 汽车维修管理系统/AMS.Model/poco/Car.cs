@@ -8,6 +8,8 @@ namespace AMS.Model.poco
     {
         public Car()
         {
+            ServiceRepairs=new HashSet<ServiceRepair>();
+            ServiceBookings=new HashSet<ServiceBooking>();
         }
 
         public Guid CustomerId { get; set; }
@@ -34,6 +36,7 @@ namespace AMS.Model.poco
         public DateTime? MaintainExpireTime { get; set; }
         public int? CurrentMileage { get; set; }
         public int? NextMaintainMileage { get; set; }
+        public DateTime? NextMaintainDate { get; set; }
         public DateTime? YearlyCheckTime { get; set; }
         public DateTime? SecondLevelMaintainTime { get; set; }
         public DateTime? LevelCheckTime { get; set; }
@@ -44,5 +47,8 @@ namespace AMS.Model.poco
 
         public DateTime? FirstServiceTime { get; set; }
         public DateTime? LastServiceTime { get; set; }
+
+        public virtual ICollection<ServiceRepair> ServiceRepairs { get; set; }
+        public virtual ICollection<ServiceBooking> ServiceBookings { get; set; }
     }
 }

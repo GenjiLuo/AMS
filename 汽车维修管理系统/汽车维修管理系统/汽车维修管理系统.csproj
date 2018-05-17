@@ -577,6 +577,10 @@
     <Content Include="Areas\AutoRepair\Views\BookingManagement\AddRepairItem_PartialView.cshtml" />
     <Content Include="Areas\AutoRepair\Views\BookingManagement\AddEstimateParts_PartialView.cshtml" />
     <Content Include="Areas\AutoRepair\Views\BookingManagement\Update.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\Index.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\AddRepairParts_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\AddRepairItem_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\ViewDetail.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -15,5 +15,6 @@ namespace AMS.Service.Services.Interfaces
         List<ServiceBookingDto> QueryServiceBooking(string keyword);
         ResModel TurnToInvalid(Guid serviceBookingId);
         ResModel TurnToRepair(Guid serviceBookingId);
+        List<ServiceBookingDto> GetServiceBookingByCarId(Guid carId);
     }
 }

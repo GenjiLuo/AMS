@@ -16,8 +16,10 @@ namespace AMS.Model.poco
         {
             EstimateRepairParts=new HashSet<EstimateRepairParts>();
             ServiceRepairItems=new HashSet<ServiceRepairItem>();
+            RepairParts=new HashSet<RepairParts>();
         }
         public virtual ICollection<EstimateRepairParts> EstimateRepairParts { get; set; }
         public virtual ICollection<ServiceRepairItem> ServiceRepairItems { get; set; }
+        public virtual ICollection<RepairParts> RepairParts { get; set; }
     }
 }

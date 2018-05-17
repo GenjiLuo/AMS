@@ -27,3 +27,10 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceBooking1.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.csprojAssemblyReference.cache
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceRepair.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceRepair1.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableRepairParts.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceRepairAndBooking.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableServiceRepair2.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateServiceRepairNullableColumn.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableCar.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableBookingAndRepair.resources

@@ -56,5 +56,10 @@ namespace AMS.Service.Services.Implements
         {
             return _serviceBookingRepository.TurnToRepair(serviceBookingId);
         }
+
+        public List<ServiceBookingDto> GetServiceBookingByCarId(Guid carId)
+        {
+            return _serviceBookingRepository.GetServiceBookingByCarId(carId);
+        }
     }
 }

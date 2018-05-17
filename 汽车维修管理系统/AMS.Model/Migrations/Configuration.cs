@@ -96,8 +96,16 @@ namespace AMS.Model.Migrations
                                     {
                                         Id = Guid.NewGuid(),
                                         OrderNum = 1,
-                                        Name = "综合开单",
+                                        Name = "维修开单",
                                         Url = CommonUrl.RepairCreate,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
+                                    },
+                                    new Menu()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        OrderNum = 2,
+                                        Name = "维修列表",
+                                        Url = CommonUrl.RepairList,
                                         QuickMenuIcon = "../../Content/img/home/Repair.Create.WashCar.png"
                                     }
                                 }

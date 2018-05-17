@@ -1,0 +1,238 @@
+﻿<div class="container-fluid">
+    <div id="horizontal" class="row">
+        <div>
+            <div id="partsGrid"></div>
+        </div>
+        <div>
+            <div id="repairPartsAddGrid"></div>
+        </div>
+    </div>
+    <div class="option-group">
+        <button id="btn_AddParts" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;确定</button>
+        <button id="btn_cancelAdd" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+    </div>
+</div>
+<script id="operationTemp1" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="addRepairParts(this);" type="button"><i class="fa fa-arrow-circle-right green"></i></button></span>
+</script>
+<script id="operationTemp2" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removeRepairPartsAdd(this);" type="button"><i class="fa fa-arrow-circle-left red"></i></button></span>
+</script>
+<script>
+    
+</script>
+<script>
+    $(document).ready(function () {
+        $("#horizontal").kendoSplitter({
+            panes: [
+                { collapsible: true},
+                { collapsible: true }
+            ]
+        });
+        $("#partsGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("Parts_GridDataSource")"
+                },
+                schema: {
+                    model: {
+                        id: "Id" 
+                    }
+                }
+            },
+            height: 531,
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "PartsDictionaryName",
+                    title: "配件名称"
+                },
+                {
+                    field: "Count",
+                    title: "库存"
+                },
+                {
+                    field: "Price",
+                    title: "销售价格"
+                },
+                {
+                    title:"操作",
+                    template:$("#operationTemp1").html()
+                }
+            ]
+        });
+        $("#repairPartsAddGrid").kendoGrid({
+            dataSource: {
+                data:repairParts
+            },
+            height: 531,
+            sortable: true,
+            filterable: false,
+            editable: true,
+            cellClose: function (e) {
+                if (e.model.Count > e.model.MaxCount) {
+                    e.model.Count = e.model.MaxCount;
+                }
+                if (e.model.Count < 1) {
+                    e.model.Count = 1;
+                }
+                if (e.model.Price<0) {
+                    e.model.Price = 0;
+                }
+                if (e.container[0].cellIndex == 3) {
+                    e.container[0].nextSibling.nextSibling.innerHTML = e.model.Price * e.model.Count;
+                } else if(e.container[0].cellIndex == 4){
+                    e.container[0].nextSibling.innerHTML = e.model.Price * e.model.Count;
+                }
+            },
+            columns: [
+                {
+                    title:"操作",
+                    template:$("#operationTemp2").html()
+                },
+                {
+                    field: "PartsCode",
+                    title: "配件编码",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "Price",
+                    headerTemplate:"<span title='点击行可编辑'>单价<i class='fa fa-edit green'></i><span>"
+                },
+                {
+                    field: "Count",
+                    headerTemplate:"<span title='点击行可编辑'>数量<i class='fa fa-edit green'></i><span>"
+                },
+                {
+                    template: function(item) {
+                        return item.Price * item.Count;
+                    },
+                    title: "总金额",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "WarehouseName",
+                    title: "库房",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    headerTemplate: "<span title='点击行可编辑'>结算方式<i class='fa fa-edit green'></i><span>",
+                    editor: function (container, options) {
+                        var input = $("<input/>");
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url:"@Url.Action("ServiceAccountType_DropDownListDataSource")"
+                                    }
+                                }
+                            },
+                            autoBind: true,
+                            dataTextField: "Name",
+                            dataValueField: "Id",
+                            value:options.model.ServiceAccountTypeId,
+                            change: function(e) {
+                                var item = this.dataItem();
+                                options.model.ServiceAccountTypeId = item.Id;
+                                options.model.ServiceAccountTypeName = item.Name;
+                            }
+                        });
+                    }
+                }
+            ]
+        });
+        $("#btn_AddParts").click(function () {
+            var grid = $("#repairPartsAddGrid").data("kendoGrid");
+            var items = grid.items();
+            if (items.length==0) {
+                swal({
+                    type:"info",
+                    text: "请至少添加一项配件",
+                    showConfirmButton: false,
+                    timer:1000
+                });
+                return;
+            }
+            repairParts = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = grid.dataItem(items[i]);
+                repairParts.push({
+                    PartsCode: item.PartsCode,
+                    PartsId: item.PartsId,
+                    PartsName: item.PartsName,
+                    Count: item.Count,
+                    MaxCount: item.MaxCount,
+                    Price: item.Price,
+                    WarehouseName: item.WarehouseName,
+                    ServiceAccountTypeName: item.ServiceAccountTypeName,
+                    ServiceAccountTypeId: item.ServiceAccountTypeId
+                });
+            }
+            $("#addRepairPartsWindow").data("kendoWindow").close();
+            var dataSource = new kendo.data.DataSource({
+                data:repairParts
+            });
+            $("#repairPartsGrid").data("kendoGrid").setDataSource(dataSource);
+            refreshLabelInfo();
+        });
+        $("#btn_cancelAdd").click(function() {
+            $("#addRepairPartsWindow").data("kendoWindow").close();
+        });
+    });
+</script>
+<script>
+    function addRepairParts(_this) {
+        var grid = $("#partsGrid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        var repairPart = {
+            PartsCode: item.PartsCode,
+            PartsId: item.Id,
+            PartsName: item.PartsDictionaryName,
+            Count: 1,
+            MaxCount: item.Count,
+            Price:item.Price,
+            WarehouseName: item.WarehouseName,
+            ServiceAccountTypeName: defaultAccountType.Name,
+            ServiceAccountTypeId:defaultAccountType.Id
+        };
+        for (var i = 0; i < repairParts.length; i++) {
+            if (repairParts[i].PartsId === item.Id) {
+                return;
+            }
+        }
+        repairParts.push(repairPart); 
+        $("#repairPartsAddGrid").data("kendoGrid").dataSource.add(repairPart);
+    }
+
+    function removeRepairPartsAdd(_this) {
+        var grid = $("#repairPartsAddGrid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < repairParts.length; i++) {
+            if (repairParts[i].PartsId === item.PartsId) {
+                repairParts.splice(i, 1);
+                grid.dataSource.remove(item);
+                return;
+            }
+        }
+    }
+</script>

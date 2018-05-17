@@ -29,12 +29,18 @@ namespace AMS.Model.poco
         [ForeignKey("ServiceBookingId")]
         public virtual ServiceBooking ServiceBooking { get; set; }
 
-        public ServiceRepairState ServiceRepairState { get; set; }
+        public ServiceRepairState? ServiceRepairState { get; set; }
+        public ServiceWashState? ServiceWashState { get; set; }
+        public ServiceType? ServiceType { get; set; }
+
+        public Guid? RepairTypeId { get; set; }
+        [ForeignKey("RepairTypeId")]
+        public virtual RepairType RepairType { get; set; }
+
         public DateTime? ServiceDateTime { get; set; }
         public DateTime? EstimateLeaveTime { get; set; }
         public DateTime? LeaveTime { get; set; }
-
-        public Guid ServiceAdvisorId { get; set; }
+        public Guid? ServiceAdvisorId { get; set; }
         [ForeignKey("ServiceAdvisorId")]
         public virtual User ServiceAdvisor { get; set; }
 

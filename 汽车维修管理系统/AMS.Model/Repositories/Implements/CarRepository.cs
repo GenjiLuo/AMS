@@ -135,6 +135,7 @@ namespace AMS.Model.Repositories.Implements
                     MaintainExpireTime = i.MaintainExpireTime,
                     CurrentMileage = i.CurrentMileage,
                     NextMaintainMileage = i.NextMaintainMileage,
+                    NextMaintainDate = i.NextMaintainDate,
                     YearlyCheckTime = i.YearlyCheckTime,
                     SecondLevelMaintainTime = i.SecondLevelMaintainTime,
                     LevelCheckTime = i.LevelCheckTime,

@@ -80,3 +80,30 @@
 #customerInfo ul li div:first-child {
     width: 320px;
 }
+/* 选择车辆的弹出comboBox */
+#comboxHeaderBox span {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 28%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    font-weight: bold;
+}
+.comboxItem span{
+    box-sizing: border-box;
+    display: inline-block;
+    width: 28%;
+    padding-top: 5px;
+    padding-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#comboxHeaderBox span:nth-child(3),
+.comboxItem span:nth-child(3) {
+    width: 40%;
+}
+#chooseCar-list{
+    width: 400px!important;
+}

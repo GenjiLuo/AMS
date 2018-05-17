@@ -479,6 +479,8 @@ namespace AMS.Model.Repositories.Implements
                     CarId = serviceBooking.CarId,
                     ServiceBookingId = serviceBooking.Id,
                     ServiceRepairState = ServiceRepairState.在修,
+                    ServiceType = ServiceType.维修,
+                    RepairTypeId = serviceBooking.RepairTypeId,
                     ServiceDateTime = DateTime.Now,
                     EstimateLeaveTime = DateTime.Now.AddDays(3),
                     ServiceAdvisorId = serviceBooking.ServiceAdvisorId,
@@ -488,6 +490,25 @@ namespace AMS.Model.Repositories.Implements
                     CustomerDescription = serviceBooking.CustomerDescription,
                     CreateTime = DateTime.Now
                 };
+                var estimateRepairParts = serviceBooking.EstimateRepairParts.Select(i => new EstimateRepairParts()
+                {
+                    Id = Guid.NewGuid(),
+                    PartsId = i.PartsId,
+                    ServiceRepairId = serviceRepair.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    Count = i.Count,
+                    Price = i.Price
+                });
+                var serviceRepairItems = serviceBooking.ServiceRepairItem.Select(i => new ServiceRepairItem()
+                {
+                    Id = Guid.NewGuid(),
+                    RepairItemId = i.RepairItemId,
+                    ServiceRepairId = serviceRepair.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    WorkHour = i.WorkHour,
+                    Price = i.Price,
+                    Description = i.Description
+                });
                 
                 using (var scope=new TransactionScope())
                 {
@@ -495,14 +516,8 @@ namespace AMS.Model.Repositories.Implements
                     {
                         db.ServiceRepair.Add(serviceRepair);
                         db.SaveChanges();
-                        foreach (var estimateRepairParts in serviceBooking.EstimateRepairParts)
-                        {
-                            estimateRepairParts.ServiceRepairId = serviceRepair.Id;
-                        }
-                        foreach (var serviceRepairItem in serviceBooking.ServiceRepairItem)
-                        {
-                            serviceRepairItem.ServiceRepairId = serviceRepair.Id;
-                        }
+                        db.EstimateRepairParts.AddRange(estimateRepairParts);
+                        db.ServiceRepairItem.AddRange(serviceRepairItems);
                         serviceBooking.ServiceBookingState = ServiceBookingState.已接车;
                         db.SaveChanges();
                         scope.Complete();
@@ -513,6 +528,63 @@ namespace AMS.Model.Repositories.Implements
                     }
                     return new ResModel() { Msg = "转接车成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
                 }
+            }
+        }
+
+        public List<ServiceBookingDto> GetServiceBookingByCarId(Guid carId)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceBookings = db.ServiceBooking.Where(i => i.CarId == carId).Select(i => new ServiceBookingDto()
+                {
+                    Id = i.Id,
+                    BookingCreateTime = i.BookingCreateTime,
+                    ServiceRepairTime = i.ServiceRepairTime,
+                    ServiceBookingState = i.ServiceBookingState,
+                    BillNo = i.BillNo,
+                    CarId = i.CarId,
+                    CarPlateNum = i.Car.PlateNum,
+                    ContactName = i.ContactName,
+                    ContactPhone = i.ContactPhone,
+                    ContactAddress = i.ContactAddress,
+                    ServiceAdvisorId = i.ServiceAdvisorId,
+                    ServiceAdvisorName = i.ServiceAdvisor.Name,
+                    RepairTypeId = i.RepairTypeId,
+                    RepairTypeName = i.RepairType.Name,
+                    CustomerDescription = i.CustomerDescription,
+                    RepairDescription = i.RepairDescription,
+                    Remark = i.Remark,
+                    EstimateRepairParts = i.EstimateRepairParts.Select(j => new EstimateRepairPartsDto()
+                    {
+                        Id = j.Id,
+                        PartsId = j.PartsId,
+                        PartsName = j.Parts.PartsDictionary.Name,
+                        PartsCode = j.Parts.PartsDictionary.Code,
+                        ServiceBookingId = j.ServiceBookingId,
+                        Count = j.Count,
+                        MaxCount = j.Parts.Count,
+                        Price = j.Price,
+                        ServiceAccountTypeId = j.ServiceAccountTypeId,
+                        ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
+                    }).ToList(),
+                    ServiceRepairItem = i.ServiceRepairItem.Select(k => new ServiceRepairItemDto()
+                    {
+                        Id = k.Id,
+                        RepairItemId = k.RepairItemId,
+                        RepairItemName = k.RepairItem.Name,
+                        RepairItemSerNo = k.RepairItem.SerNum,
+                        ServiceBookingId = k.ServiceBookingId,
+                        WorkHour = k.WorkHour,
+                        Price = k.Price,
+                        MainOperatorId = k.MainOperatorId,
+                        MainOperatorName = k.MainOperator.Name,
+                        ServiceAccountTypeId = k.ServiceAccountTypeId,
+                        ServiceAccountTypeName = k.ServiceAccountType.Name,
+                        Description = k.Description
+                    }).ToList()
+                }).ToList();
+                return serviceBookings;
             }
         }
     }

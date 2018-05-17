@@ -9,6 +9,7 @@ namespace AMS.Model.dto
         public Guid PartsId { get; set; }
         public string PartsCode { get; set; }
         public string PartsName { get; set; }
+        public Guid? ServiceRepairId { get; set; }
         public Guid ServiceBookingId { get; set; }
         public Guid ServiceAccountTypeId { get; set; }
         public string ServiceAccountTypeName { get; set; }

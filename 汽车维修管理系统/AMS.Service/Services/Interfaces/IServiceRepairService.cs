@@ -13,5 +13,8 @@ namespace AMS.Service.Services.Interfaces
         ResModel UpdateServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser);
         ResModel DeleteServiceRepair(Guid serviceRepairId);
         List<ServiceRepairDto> QueryServiceRepair(string keyword);
+        List<ServiceRepairHistoryDto> GetAllRepairHistory();
+        List<ServiceRepairHistoryDto> GetHistoryRepairByCarId(Guid carId);
+        ResModel TurnToFinish(Guid serviceRepairId);
     }
 }

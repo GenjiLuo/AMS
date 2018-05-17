@@ -35,6 +35,7 @@ namespace AMS.Model.dto
         public DateTime? MaintainExpireTime { get; set; }
         public int? CurrentMileage { get; set; }
         public int? NextMaintainMileage { get; set; }
+        public DateTime? NextMaintainDate { get; set; }
         public DateTime? YearlyCheckTime { get; set; }
         public DateTime? SecondLevelMaintainTime { get; set; }
         public DateTime? LevelCheckTime { get; set; }

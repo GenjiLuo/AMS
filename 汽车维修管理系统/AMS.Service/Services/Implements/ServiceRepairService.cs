@@ -46,5 +46,20 @@ namespace AMS.Service.Services.Implements
         {
             return _serviceRepairRepository.QueryServiceRepair(keyword);
         }
+
+        public List<ServiceRepairHistoryDto> GetAllRepairHistory()
+        {
+            return _serviceRepairRepository.GetAllRepairHistory();
+        }
+
+        public List<ServiceRepairHistoryDto> GetHistoryRepairByCarId(Guid carId)
+        {
+            return _serviceRepairRepository.GetHistoryRepairByCarId(carId);
+        }
+
+        public ResModel TurnToFinish(Guid serviceRepairId)
+        {
+            return _serviceRepairRepository.TurnToFinish(serviceRepairId);
+        }
     }
 }

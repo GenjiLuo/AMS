@@ -12,7 +12,7 @@ namespace AMS.Model.dto
         public string RepairItemName { get; set; }
         public string RepairItemSerNo { get; set; }
 
-        public float? WorkHour { get; set; } 
+        public decimal? WorkHour { get; set; } 
         public decimal? Price { get; set; }
         public Guid? MainOperatorId { get; set; }
         public string MainOperatorName { get; set; }

@@ -52,7 +52,7 @@
 }
 .form-item label {
     display: inline-block;
-    width: 100px;
+    width: 110px;
     text-align: right;
 }
 .k-combobox
@@ -104,6 +104,7 @@
     border-bottom-right-radius: 10px;
     padding: 5px 20px;
     background-color: #fff;
+    bottom: -32px;
 }
 #switchSimpleAndAdvanced:focus {
     outline: none;
@@ -128,4 +129,48 @@
 }
 .info-fix-bottom span{
     font-size: 20px;
+}
+#carChooseArea .k-datetimepicker {
+    width: 220px;
+}
+#carInfoDetail {
+    margin-left: 20px;
+    font-weight: 200;
+}
+#customerDescription,
+#repairDescription{
+    width: 300px;
+    border-radius: 4px !important;
+    height: 50px;
+}
+#Description {
+    width: 320px;
+    border-radius: 4px !important;
+    height: 50px;
+}
+.option-box {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+ }
+.option-box button {
+    min-width: 34px !important;
+    height: 26px;
+}
+/*添加维修项目*/
+.full-width {
+    width: 100%;
+ }
+.option-area {
+    margin-bottom: 10px;
+}
+.option-group {
+        position: absolute;
+    bottom: 11px;
+    right: -22px;
+}
+/*添加维修项目*/
+#horizontal {
+    height: 533px;
 }

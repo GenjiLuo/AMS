@@ -124,13 +124,13 @@
         <div class="form-group row">
             <label class="col-xs-2 text-right">当前里程</label>
             <div class="col-xs-4">
-                <input id="currentMiles" class="k-textbox full-width" v-model.lazy.trim="currentMiles" />
+                <input id="currentMiles" class="k-textbox full-width"/>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-xs-2 text-right">下次保养里程</label>
             <div class="col-xs-4">
-                <input id="nextMaintainMiles" class="k-textbox full-width" v-model.lazy.trim="nextMaintainMiles" />
+                <input id="nextMaintainMiles" class="k-textbox full-width"/>
             </div>
         </div>
         <div class="form-group row">
@@ -248,7 +248,7 @@
                 _this.customerId = customer.Id;
                 _this.customerPhone = customer.MobilePhone || customer.FixPhone;
                 _this.customerName = customer.Name;
-                _this.carModelId = $("#carModel").data("kendoDropDownList").value();
+                _this.carModelId = $("#carModel").data("kendoDropDownList").dataItem().Id;
                 _this.carRegisterTime = $("#carRegisterTime").data("kendoDatePicker").value();
                 _this.maintainExpireTime = $("#maintainExpireTime").data("kendoDatePicker").value();
                 _this.currentMiles = $("#currentMiles").data("kendoNumericTextBox").value();

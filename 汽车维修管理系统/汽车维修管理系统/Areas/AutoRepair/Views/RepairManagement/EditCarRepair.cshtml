@@ -1,15 +1,16 @@
-﻿
+﻿@using Newtonsoft.Json
+@model AMS.Model.dto.ServiceRepairDto
 @{
-    ViewBag.Title = "编辑洗车单";
+    ViewBag.Title = "编辑维修单";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Style/repaircar/edit.css" rel="stylesheet" />
 <div class="container-fluid">
     <div class="row">
-        <div class="pull-left option-group">
+        <div class="pull-left option-area">
             <button id="btn_finish" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
-            <button type="button" class="k-button"><i class="fa fa-save"></i>&nbsp;保存</button>
-            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+            <button id="btn_saveAndRefresh" type="button" class="k-button"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-left option-group">
             <button type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
@@ -36,9 +37,7 @@
                 <label>车辆：</label>
                 <input id="chooseCar"/>
             </div>
-            <div class="form-item">
-                重庆诺怀软件 陈军 18734343443
-            </div>
+            <div id="carInfoDetail" class="form-item">@Model.Car.CustomerName @Model.Car.CustomerPhone</div>
             <div class="form-item">
                 <label>预约单：</label>
                 <input id="chooseBooking" />
@@ -64,6 +63,20 @@
                     <input id="repairAdvisor" />
                 </div>
                 <div class="form-item marginRight20px">
+                    <label>送修人：</label>
+                    <input id="contactName" class="k-textbox" value="@Model.ContactName"/>
+                </div>
+                <div class="form-item ">
+                    <label>联系方式：</label>
+                    <input id="contactPhone" class="k-textbox" value="@Model.ContactPhone"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item marginRight20px">
+                    <label>维修类型：</label>
+                    <input id="repairType" />
+                </div>
+                <div class="form-item marginRight20px">
                     <label>当前里程：</label>
                     <input id="currentMiles" />
                 </div>
@@ -74,30 +87,8 @@
             </div>
             <div class="form-group">
                 <div class="form-item marginRight20px">
-                    <label>维修类型：</label>
-                    <input id="repairType" />
-                </div>
-                <div class="form-item marginRight20px">
-                    <label>送修人：</label>
-                    <input id="" class="k-textbox"/>
-                </div>
-                <div class="form-item ">
-                    <label>联系方式：</label>
-                    <input class="k-textbox" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-item marginRight20px">
                     <label>下次保养日期：</label>
                     <input id="nextMaintainDate" />
-                </div>
-                <div class="form-item marginRight20px">
-                    <label>保险到期：</label>
-                    <input id="insuranceExpireTime" />
-                </div>
-                <div class="form-item ">
-                    <label>年审到期：</label>
-                    <input id="yearlyCheckTime" />
                 </div>
             </div>
         </div>
@@ -106,21 +97,21 @@
                 <div class="form-group">
                 <div class="form-item marginRight20px">
                     <label>发动机型号：</label>
-                    <input id="carEngineModelNo" class="k-textbox"/>
+                    <input id="carEngineModelNo" class="k-textbox" value="@Model.Car.EngineModelNo"/>
                 </div>
                 <div class="form-item marginRight20px">
                     <label>发动机号：</label>
-                    <input id="carEngineNo" class="k-textbox"/>
+                    <input id="carEngineNo" class="k-textbox" value="@Model.Car.EngineNo"/>
                 </div>
                 <div class="form-item">
                     <label>车辆登记时间：</label>
-                    <input id="carRegisterTime" class="k-textbox"/>
+                    <input id="carRegisterTime"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-item marginRight20px">
                     <label>保险公司：</label>
-                    <input id="insuranceOrg" class="k-textbox"/>
+                    <input id="insuranceOrg" class="k-textbox" value="@Model.Car.InsuranceOrg"/>
                 </div>
                 <div class="form-item marginRight20px">
                     <label>保险到期：</label>
@@ -135,17 +126,17 @@
             <div class="form-group">
                 <div class="form-item marginRight20px">
                     <label>维修说明：</label>
-                    <input id="repairDescription" class="k-textbox"/>
+                    <textarea id="repairDescription" class="k-textbox">@Model.RepairDescription</textarea>
                 </div>
                 <div class="form-item ">
                     <label>备注：</label>
-                    <input id="Description"  class="k-textbox"/>
+                    <textarea id="Description"  class="k-textbox">@Model.Description</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-item marginRight20px">
                     <label>客户委修说明：</label>
-                    <input id="customerDescription" class="k-textbox"/>
+                    <textarea id="customerDescription" class="k-textbox">@Model.CustomerDescription</textarea>
                 </div>
             </div>
             
@@ -159,21 +150,21 @@
         <div id="tabStrip">
             <ul>
                 <li class="k-state-active">
-                    <span>维修项目&nbsp;<span class="badge badge-success">￥0.00&nbsp;(0项)</span></span>
+                    <span>维修项目&nbsp;<label class="badge badge-success">￥<span id="totalRepairItemMoney">0.00</span> &nbsp;(<span id="totalRepairItemCount">0</span>项)</label></span>
                 </li>
-                <li>
+                @*<li>
                     <span>预估用料&nbsp;</span>
-                </li>
+                </li>*@
                 <li>
-                    <span>维修用料&nbsp;<span class="badge badge-info">￥0.00</span></span>
+                    <span>维修用料&nbsp;<span class="badge badge-info">￥<span id="totalRepairPartsMoney">0.00</span>&nbsp;(<span id="totalRepairPartsCount">0</span>项</span></span>
                 </li>
             </ul>
             <div>
                 <div id="repairItemGrid"></div>
             </div>
-            <div>
+            @*<div>
                 <div id="estimatePartsGrid"></div>
-            </div>
+            </div>*@
             <div>
                 <div id="repairPartsGrid"></div>
             </div>
@@ -181,179 +172,256 @@
     </div>
     <div class="info-fix-bottom k-primary">
         <label>费用合计：</label>
-        <span>0.00</span>
+        <span id="totalMoney">0.00</span>
     </div>
 </div>
 <script id="repairItemGridToolBarTemp" type="text/x-kendo-template">
     <div>
-        <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+        <button onclick="addRepairItem();" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
     </div>
 </script>
 <script id="estimatePartsGridToolBarTemp" type="text/x-kendo-template">
     <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
 </script>
 <script id="repairPartsGridToolBarTemp" type="text/x-kendo-template">
-    <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+    <button onclick="addRepairPartsWindow();" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;添加</button>
+</script>
+<script id="repairItemOptionTemp" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removeRepairItem(this);"><i class="fa fa-times red"></i></button></span>
+</script>
+<script id="repairPartsOptionTemp" type="text/x-kendo-template">
+    <span class="option-box"><button class="k-button k-button-icontext" onclick="removeRepairParts(this);"><i class="fa fa-times red"></i></button></span>
+</script>
+<script>
+    var totalRepairItemMoney = 0.00;
+    var totalRepairItemCount = 0;
+    var totalRepairPartsMoney = 0.00;
+    var totalRepairPartsCount = 0;
+    var totalMoney = 0.00;
+    var tempRepairItems =@Html.Raw(JsonConvert.SerializeObject(Model.ServiceRepairItem));
+    var tempRepairParts=@Html.Raw(JsonConvert.SerializeObject(Model.RepairParts));
+    var repairItems = [];
+    var repairParts = [];
+    for (var i = 0; i < tempRepairItems.length; i++) {
+        repairItems.push({
+            RepairItemId: tempRepairItems[i].RepairItemId,
+            SerNum: tempRepairItems[i].RepairItemSerNo,
+            Name: tempRepairItems[i].RepairItemName,
+            WorkHour: tempRepairItems[i].WorkHour,
+            Price: tempRepairItems[i].Price,
+            ServiceAccountId: tempRepairItems[i].ServiceAccountTypeId,
+            ServiceAccountName: tempRepairItems[i].ServiceAccountTypeName,
+            MainOperatorId: tempRepairItems[i].MainOperatorId,
+            MainOperatorName:tempRepairItems[i].MainOperatorName,
+            Description:tempRepairItems[i].Description
+        });
+    }
+    for (var j = 0; j < tempRepairParts.length; j++) {
+        repairParts.push({
+            PartsCode: tempRepairParts[j].PartsCode,
+            PartsId: tempRepairParts[j].PartsId,
+            PartsName: tempRepairParts[j].PartsName,
+            Count: tempRepairParts[j].Count,
+            MaxCount: tempRepairParts[j].MaxCount,
+            Price: tempRepairParts[j].Price,
+            WarehouseName: tempRepairParts[j].WarehouseName,
+            ServiceAccountTypeName: tempRepairParts[j].ServiceAccountTypeName,
+            ServiceAccountTypeId: tempRepairParts[j].ServiceAccountTypeId
+        });
+    }
+    var defaultAccountType = {};
+    $.ajax({
+        url: "@Url.Action("ServiceAccountType_DropDownListDataSource")",
+        success: function(res) {
+            defaultAccountType = res[0];
+        }
+    });
 </script>
 <script>
     $(document).ready(function() {
         $("#chooseCar").kendoComboBox({
-            text: "渝BF1234"
+            text:"@Model.Car.PlateNum"
         }).data("kendoComboBox").enable(false);
-        $("#chooseBooking").kendoDropDownList().data("kendoDropDownList").enable(false);
+        $("#chooseBooking").kendoDropDownList({
+            text:"@Model.BookingBillNo",
+        }).data("kendoDropDownList").enable(false);
+
         $("#serviceTime").kendoDateTimePicker({
-            value:"@DateTime.Now"
-        });
+            value: "@Model.ServiceDateTime",
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm"
+        }).data("kendoDateTimePicker").enable(false);
         $("#estimateLeaveTime").kendoDateTimePicker({
-            value:"@DateTime.Now"
-        });
-        $("#mainOperator").kendoDropDownList({
-            text:"张山"
+            value: "@Model.EstimateLeaveTime",
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm"
         });
         $("#repairAdvisor").kendoDropDownList({
-            text:"李四"
+            dataSource: {
+                transport: {
+                    read: {
+                        url:"@Url.Action("RepairAdvisor_DropDownListDataSource")"
+                    }
+                }
+            },
+            dataTextField: "Name",
+            dataValueField: "Id",
+            value:"@Model.ServiceAdvisorId"
+        });
+        $("#repairType").kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: {
+                        url:"@Url.Action("RepairType_DropDownListDataSource")"
+                    }
+                }
+            },
+            dataTextField: "Name",
+            dataValueField: "Id",
+            value:"@Model.RepairTypeId"
         });
         $("#currentMiles").kendoNumericTextBox({
-            value:19800
+            value:"@Model.Car.CurrentMileage"
         });
         $("#nextMaintainMiles").kendoNumericTextBox({
-            value:22800
+            value:"@Model.Car.NextMaintainMileage"
         });
         $("#nextMaintainDate").kendoDatePicker({
-            value:"@DateTime.Now"
+            value: "@Model.Car.NextMaintainDate",
+            format: "yyyy/MM/dd"
         });
         $("#insuranceExpireTime").kendoDatePicker({
-            value:"@DateTime.Now"
+            value: "@Model.Car.InsuranceExpireTime",
+            format: "yyyy/MM/dd"
+        });
+        $("#carRegisterTime").kendoDatePicker({
+            value: "@Model.Car.CarRegisterTime",
+            format: "yyyy/MM/dd"
         });
         $("#yearlyCheckTime").kendoDatePicker({
-            value:"@DateTime.Now"
+            value: "@Model.Car.YearlyCheckTime",
+            format: "yyyy/MM/dd"
         });
         $("#tabStrip").kendoTabStrip();
         $("#repairItemGrid").kendoGrid({
             dataSource: {
-                data: []
-            },
-            height: 500,
-            pageable: {
-                pageSize: 20,
-                refresh: true
-            },
-            toolbar: $("#repairPartsGridToolBarTemp").html(),
-            sortable: true,
-            filterable: false,
-            selectable: "multiple",
-            persistSelection: true,
-            columns: [
-                {
-                    field: "Name",
-                    title: "客户"
-                },
-                {
-                    field: "Code",
-                    title: "车辆牌照"
-                },
-                {
-                    field: "ContactName",
-                    title: "车架号"
-                },
-                {
-                    field: "MobilePhone",
-                    title: "里程数"
-                },
-                {
-                    field: "Wechat",
-                    title: "维修顾问"
-                },
-                {
-                    field: "QQ",
-                    title: "进厂时间"
-                },
-                {
-                    field: "FixPhone",
-                    title: "状态"
-                },
-                {
-                    field: "Fax",
-                    title: "工时费"
-                },
-                {
-                    field: "MajorOrigin",
-                    title: "材料费"
-                },
-                {
-                    field: "Address",
-                    title: "管理费"
-                },
-                {
-                    field: "FixPhone",
-                    title: "其它费用"
+                data: repairItems,
+                schema: {
+                    fields: {
+                        WorkHour: { type: "number" },
+                        Price: {type:"number"}
+                    }
                 }
-            ]
-        });
-        $("#estimatePartsGrid").kendoGrid({
-            dataSource: {
-                data:[]
             },
             height: 500,
             pageable: {
                 pageSize: 20,
                 refresh: true
             },
-            toolbar: $("#estimatePartsGridToolBarTemp").html(),
+            toolbar: $("#repairItemGridToolBarTemp").html(),
             sortable: true,
             filterable: false,
-            selectable: "multiple",
-            persistSelection: true,
+            editable: true,
+            cellClose: function (e) {
+                if (e.model.WorkHour < 0) {
+                    e.model.Count = 0;
+                }
+                if (e.model.Price<0) {
+                    e.model.Price = 0;
+                }
+                refreshLabelInfo();
+            },
             columns: [
                 {
+                    title: "操作",
+                    width:"100px",
+                    template:$("#repairItemOptionTemp").html()
+                },
+                {
+                    field: "SerNum",
+                    title: "项目编码",
+                    editable: function() {
+                        return false;
+                    }
+                },
+                {
                     field: "Name",
-                    title: "客户"
+                    title: "项目名称",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "Code",
-                    title: "车辆牌照"
+                    field: "WorkHour",
+                    headerTemplate:"<span title='点击行可编辑'>工时<i class='fa fa-edit green'></i><span>"
                 },
                 {
-                    field: "ContactName",
-                    title: "车架号"
+                    field: "Price",
+                    headerTemplate:"<span title='点击行可编辑'>单价<i class='fa fa-edit green'></i><span>"
                 },
                 {
-                    field: "MobilePhone",
-                    title: "里程数"
+                    field: "ServiceAccountName",
+                    headerTemplate:"<span title='点击行可编辑'>结算方式<i class='fa fa-edit green'></i><span>",
+                    editor: function (container, options) {
+                        console.log(container);
+                        console.log(options);
+                        var input = $("<input/>");
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url:"@Url.Action("ServiceAccountType_DropDownListDataSource")"
+                                    }
+                                }
+                            },
+                            dataTextField: "Name",
+                            dataValueField: "Id",
+                            value:options.model.ServiceAccountTypeId,
+                            change: function(e) {
+                                var item = this.dataItem();
+                                options.model.ServiceAccountId = item.Id;
+                                options.model.ServiceAccountName = item.Name;
+                            }
+                        });
+                    }
                 },
                 {
-                    field: "Wechat",
-                    title: "维修顾问"
+                    field: "MainOperatorName",
+                    headerTemplate:"<span title='点击行可编辑'>结算方式<i class='fa fa-edit green'></i><span>",
+                    editor: function (container, options) {
+                        console.log(container);
+                        console.log(options);
+                        var input = $("<input/>");
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url:"@Url.Action("MainOperator_DropDownListDataSource")"
+                                    }
+                                }
+                            },
+                            dataTextField: "Name",
+                            dataValueField: "Id",
+                            value:options.model.MainOperatorId,
+                            change: function(e) {
+                                var item = this.dataItem();
+                                options.model.MainOperatorId = item.Id;
+                                options.model.MainOperatorName = item.Name;
+                            }
+                        });
+                    }
                 },
                 {
-                    field: "QQ",
-                    title: "进厂时间"
-                },
-                {
-                    field: "FixPhone",
-                    title: "状态"
-                },
-                {
-                    field: "Fax",
-                    title: "工时费"
-                },
-                {
-                    field: "MajorOrigin",
-                    title: "材料费"
-                },
-                {
-                    field: "Address",
-                    title: "管理费"
-                },
-                {
-                    field: "FixPhone",
-                    title: "其它费用"
+                    field: "Description",
+                    title: "备注"
                 }
             ]
         });
         $("#repairPartsGrid").kendoGrid({
             dataSource: {
-                data:[]
+                data: repairParts
             },
             height: 500,
             pageable: {
@@ -363,55 +431,107 @@
             toolbar: $("#repairPartsGridToolBarTemp").html(),
             sortable: true,
             filterable: false,
-            selectable: "multiple",
-            persistSelection: true,
+            editable: true,
+            cellClose: function (e) {
+                if (e.model.Count > e.model.MaxCount) {
+                    e.model.Count = e.model.MaxCount;
+                }
+                if (e.model.Count < 1) {
+                    e.model.Count = 1;
+                }
+                if (e.model.Price<0) {
+                    e.model.Price = 0;
+                }
+                if (e.container[0].cellIndex == 3) {
+                    e.container[0].nextSibling.nextSibling.innerHTML = e.model.Price * e.model.Count;
+                } else if(e.container[0].cellIndex == 4){
+                    e.container[0].nextSibling.innerHTML = e.model.Price * e.model.Count;
+                }
+                refreshLabelInfo();
+            },
             columns: [
                 {
-                    field: "Name",
-                    title: "客户"
+                    title:"操作",
+                    template: $("#repairPartsOptionTemp").html(),
+                    width:"100px"
                 },
                 {
-                    field: "Code",
-                    title: "车辆牌照"
+                    field: "PartsCode",
+                    title: "配件编码",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "ContactName",
-                    title: "车架号"
+                    field: "PartsName",
+                    title: "配件名称",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "MobilePhone",
-                    title: "里程数"
+                    field: "Price",
+                    headerTemplate:"<span title='点击行可编辑'>单价<i class='fa fa-edit green'></i><span>"
                 },
                 {
-                    field: "Wechat",
-                    title: "维修顾问"
+                    field: "Count",
+                    headerTemplate:"<span title='点击行可编辑'>数量<i class='fa fa-edit green'></i><span>"
                 },
                 {
-                    field: "QQ",
-                    title: "进厂时间"
+                    template: function(item) {
+                        return item.Price * item.Count;
+                    },
+                    title: "总金额",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "FixPhone",
-                    title: "状态"
+                    field: "WarehouseName",
+                    title: "库房",
+                    editable: function() {
+                        return false;
+                    }
                 },
                 {
-                    field: "Fax",
-                    title: "工时费"
-                },
-                {
-                    field: "MajorOrigin",
-                    title: "材料费"
-                },
-                {
-                    field: "Address",
-                    title: "管理费"
-                },
-                {
-                    field: "FixPhone",
-                    title: "其它费用"
+                    field: "ServiceAccountTypeName",
+                    headerTemplate: "<span title='点击行可编辑'>结算方式<i class='fa fa-edit green'></i><span>",
+                    editor: function (container, options) {
+                        console.log(container);
+                        console.log(options);
+                        var input = $("<input/>");
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url:"@Url.Action("ServiceAccountType_DropDownListDataSource")"
+                                    }
+                                }
+                            },
+                            dataTextField: "Name",
+                            dataValueField: "Id",
+                            value:options.model.ServiceAccountTypeId,
+                            change: function(e) {
+                                var item = this.dataItem();
+                                options.model.ServiceAccountTypeId = item.Id;
+                                options.model.ServiceAccountTypeName = item.Name;
+                            }
+                        });
+                    }
                 }
             ]
         });
+    refreshLabelInfo();
+    });
+    $("#btn_finish").click(function() {
+        save("竣工");
+    });
+    $("#btn_saveAndRefresh").click(function() {
+        save("保存");
+    });
+    $("#btn_back").click(function() {
+        window.history.back();
     });
     $("#switchSimpleAndAdvanced").click(function () {
         if ($("#advancedInfo").is(":hidden")) {
@@ -422,8 +542,196 @@
             $(this).html("<i class='fa fa-angle-double-down'></i><span>&nbsp;更多信息</span>");
         }
     });
-    $("#btn_finish").click(function() {
-        window.location.href = "@Url.Action("RepairAccount")";
-    });
+</script>
+<script>
+    function addRepairItem() {
+        $("body").append("<div id='addRepairItemWindow'></div>");
+        var window = $("#addRepairItemWindow").kendoWindow({
+            title: "添加维修项目",
+            width: "500px",
+            height: "300px",
+            content: "@Url.Action("AddRepairItem_PartialView")",
+            visible: false,
+            resizable:false,
+            modal: true,
+            close: function() {
+                this.destroy();
+            }
+        });
+        window.data("kendoWindow").center().open();
+    }
+    function addRepairPartsWindow() {
+        $("body").append("<div id='addRepairPartsWindow'></div>");
+        var window = $("#addRepairPartsWindow").kendoWindow({
+            title: "添加维修材料",
+            width: "1400px",
+            height: "600px",
+            content: "@Url.Action("AddRepairParts_PartialView")",
+            visible: false,
+            resizable: false,
+            modal: true,
+            close: function() {
+                this.destroy();
+            }
+        });
+        window.data("kendoWindow").center().open();
+        var grid = $("#repairPartsGrid").data("kendoGrid");
+        var items = grid.items();
+        repairParts = [];
+        for (var i = 0; i < items.length; i++) {
+            var item = grid.dataItem(items[i]);
+            repairParts.push({
+                PartsCode: item.PartsCode,
+                PartsId: item.PartsId,
+                PartsName: item.PartsName,
+                Count: item.Count,
+                MaxCount: item.MaxCount,
+                Price: item.Price,
+                WarehouseName: item.WarehouseName,
+                ServiceAccountTypeName: item.ServiceAccountTypeName,
+                ServiceAccountTypeId: item.ServiceAccountTypeId
+            });
+        }
+    }
+
+    function removeRepairItem(_this) {
+        var grid = $("#repairItemGrid").data("kendoGrid");
+        var repairItem = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < repairItems.length; i++) {
+            if (repairItem.SerNum == repairItems[i].SerNum) {
+                repairItems.splice(i, 1);
+                grid.dataSource.remove(repairItem);
+                break;
+            }
+        }
+        refreshLabelInfo();
+    }
+
+    function removeRepairParts(_this) {
+        var grid = $("#repairPartsGrid").data("kendoGrid");
+        var item = grid.dataItem($(_this).parent().parent().parent());
+        for (var i = 0; i < repairParts.length; i++) {
+            if (item.PartsCode == repairParts[i].PartsCode) {
+                repairParts.splice(i, 1);
+                grid.dataSource.remove(item);
+                break;
+            }
+        }
+        refreshLabelInfo();
+    }
+
+    function refreshLabelInfo() {
+        totalRepairItemMoney = 0.00;
+        totalRepairItemCount = 0;
+        totalRepairPartsMoney = 0.00;
+        totalRepairPartsCount = 0;
+        totalMoney = 0.00;
+        var grid1 = $("#repairItemGrid").data("kendoGrid");
+        var items1 = grid1.items();
+        for (var i = 0; i < items1.length; i++) {
+            var item1 = grid1.dataItem(items1[i]);
+            totalRepairItemMoney += item1.Price * item1.WorkHour;
+            totalRepairItemCount++;
+        }
+        var grid2 = $("#repairPartsGrid").data("kendoGrid");
+        var items2 = grid2.items();
+        for (var j = 0; j < items2.length; j++) {
+            var item2 = grid2.dataItem(items2[j]);
+            totalRepairPartsMoney += item2.Price * item2.Count;
+            totalRepairPartsCount++;
+        }
+        totalMoney = totalRepairItemMoney + totalRepairPartsMoney;
+        $("#totalRepairItemMoney").html(totalRepairItemMoney);
+        $("#totalRepairItemCount").html(totalRepairItemCount);
+        $("#totalRepairPartsMoney").html(totalRepairPartsMoney);
+        $("#totalRepairPartsCount").html(totalRepairPartsCount);
+        $("#totalMoney").html(totalMoney);
+    }
+
+    function save(order) {
+        var serviceRepairItems = [];
+        var serviceRepairParts = [];
+        var repairItemGrid = $("#repairItemGrid").data("kendoGrid");
+        var repairItems = repairItemGrid.items();
+        for (var i = 0; i < repairItems.length; i++) {
+            var repairItem = repairItemGrid.dataItem(repairItems[i]);
+            serviceRepairItems.push({
+                RepairItemId: repairItem.RepairItemId,
+                WorkHour: repairItem.WorkHour,
+                Price: repairItem.Price,
+                ServiceAccountTypeId: repairItem.ServiceAccountId,
+                Description: repairItem.Description,
+                MainOperatorId:repairItem.MainOperatorId
+            });
+        }
+        var repairPartsGrid = $("#repairPartsGrid").data("kendoGrid");
+        var partsItems = repairPartsGrid.items();
+        for (var j = 0; j < partsItems.length; j++) {
+            var repairParts = repairPartsGrid.dataItem(partsItems[j]);
+            serviceRepairParts.push({
+                PartsId: repairParts.PartsId,
+                ServiceAccountTypeId: repairParts.ServiceAccountTypeId,
+                Count: repairParts.Count,
+                Price: repairParts.Price
+            });
+        }
+
+        var serviceRepair = {
+            Id: "@Model.Id",
+            CarId: "@Model.CarId",
+            Car: {
+                CurrentMileage: $("#currentMiles").data("kendoNumericTextBox").value(),
+                NextMaintainMileage: $("#nextMaintainMiles").data("kendoNumericTextBox").value(),
+                NextMaintainDate: $("#nextMaintainDate").data("kendoDatePicker").value(),
+                EngineModelNo: $("#carEngineModelNo").val().trim(),
+                EngineNo: $("#carEngineNo").val().trim(),
+                CarRegisterTime: $("#carRegisterTime").data("kendoDatePicker").value(),
+                InsuranceOrg: $("#insuranceOrg").val().trim(),
+                InsuranceExpireTime: $("#insuranceExpireTime").data("kendoDatePicker").value(),
+                YearlyCheckTime:$("#yearlyCheckTime").data("kendoDatePicker").value()
+            },
+            RepairTypeId: $("#repairType").data("kendoDropDownList").value(),
+            ServiceAdvisorId: $("#repairAdvisor").data("kendoDropDownList").value(),
+            ContactName: $("#contactName").val().trim(),
+            ContactPhone: $("#contactPhone").val().trim(),
+            ServiceDateTime: "@Model.ServiceDateTime",
+            EstimateLeaveTime: $("#estimateLeaveTime").data("kendoDateTimePicker").value(),
+            CustomerDescription: $("#customerDescription").val().trim(),
+            RepairDescription: $("#repairDescription").val().trim(),
+            Description:$("#Description").val().trim(),
+            ServiceRepairItem: serviceRepairItems,
+            RepairParts: serviceRepairParts
+        };
+        $.ajax({
+            url: "@Url.Action("Update")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(serviceRepair),
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "操作成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                            if (order === "竣工") {
+                                window.location.href = "@Url.Action("TurnToFinish")" + "?serviceRepairId=" + res.Data.ServiceRepairId;
+                            } else {
+                                window.location.reload();
+                            }
+                        },
+                        1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    }
 </script>
 

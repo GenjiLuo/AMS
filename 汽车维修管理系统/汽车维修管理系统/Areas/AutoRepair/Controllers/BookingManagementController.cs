@@ -80,6 +80,9 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             return Json(_serviceAccountTypeService.GetAllServiceAccountType(), JsonRequestBehavior.AllowGet);
         }
+
+        
+
         [HttpPost]
         public ActionResult Create(ServiceBookingDto serviceBookingDto)
         {

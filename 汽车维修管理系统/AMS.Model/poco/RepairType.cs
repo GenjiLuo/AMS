@@ -12,5 +12,12 @@ namespace AMS.Model.poco
 {
     public class RepairType : BaseModel
     {
+        public RepairType()
+        {
+            ServiceRepairs = new HashSet<ServiceRepair>();
+            ServiceBookings=new HashSet<ServiceBooking>();
+        }
+        public virtual ICollection<ServiceRepair> ServiceRepairs { get; set; }
+        public virtual ICollection<ServiceBooking> ServiceBookings { get; set; }
     }
 }

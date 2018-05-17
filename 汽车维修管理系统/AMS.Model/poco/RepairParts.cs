@@ -16,9 +16,15 @@ namespace AMS.Model.poco
         public Guid PartsId { get; set; }
         [ForeignKey("PartsId")]
         public virtual Parts Parts { get; set; }
+
         public Guid ServiceRepairId { get; set; }
         [ForeignKey("ServiceRepairId")]
         public virtual ServiceRepair ServiceRepair { get; set; }
+
+        public Guid ServiceAccountTypeId { get; set; }
+        [ForeignKey("ServiceAccountTypeId")]
+        public virtual ServiceAccountType ServiceAccountType { get; set; }
+
         public int Count { get; set; }
         public decimal Price { get; set; }
     }

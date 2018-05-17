@@ -12,6 +12,7 @@ namespace AMS.Model.Static
         #region 维修接待
         public static string WashCarCreate = "/AutoRepair/RepairManagement/WashCarCreate";
         public static string RepairCreate = "/AutoRepair/RepairManagement/RepairCreate";
+        public static string RepairList = "/AutoRepair/RepairManagement/Index";
         public static string RepairHistory= "/AutoRepair/RepairHistory/Index";
 
         public static string BookingList = "/AutoRepair/BookingManagement/Index";
