@@ -511,7 +511,7 @@
                             },
                             dataTextField: "Name",
                             dataValueField: "Id",
-                            value:options.model.ServiceAccountTypeId,
+                            value: options.model.ServiceAccountTypeId,
                             change: function(e) {
                                 var item = this.dataItem();
                                 options.model.ServiceAccountTypeId = item.Id;
@@ -522,13 +522,62 @@
                 }
             ]
         });
-    refreshLabelInfo();
+        refreshLabelInfo();
     });
+    //竣工
     $("#btn_finish").click(function() {
-        save("竣工");
+        $.ajax({
+            url: "@Url.Action("Finish")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(getServiceRepair()),
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "竣工成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "@Url.Action("ViewDetail")" + "?serviceRepairId=" + res.Data.ServiceRepairId;
+                    },1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
     });
     $("#btn_saveAndRefresh").click(function() {
-        save("保存");
+        $.ajax({
+            url: "@Url.Action("Update")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(getServiceRepair()),
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "保存成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
     });
     $("#btn_back").click(function() {
         window.history.back();
@@ -648,7 +697,7 @@
         $("#totalMoney").html(totalMoney);
     }
 
-    function save(order) {
+    function getServiceRepair() {
         var serviceRepairItems = [];
         var serviceRepairParts = [];
         var repairItemGrid = $("#repairItemGrid").data("kendoGrid");
@@ -702,36 +751,7 @@
             ServiceRepairItem: serviceRepairItems,
             RepairParts: serviceRepairParts
         };
-        $.ajax({
-            url: "@Url.Action("Update")",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(serviceRepair),
-            success: function(res) {
-                if (res.Success) {
-                    swal({
-                        type: "success",
-                        text: "操作成功",
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    setTimeout(function() {
-                            if (order === "竣工") {
-                                window.location.href = "@Url.Action("TurnToFinish")" + "?serviceRepairId=" + res.Data.ServiceRepairId;
-                            } else {
-                                window.location.reload();
-                            }
-                        },
-                        1100);
-                } else {
-                    swal({
-                        type: "error",
-                        text: res.Msg
-                    });
-                }
-            }
-        });
+        return serviceRepair;
     }
 </script>
 

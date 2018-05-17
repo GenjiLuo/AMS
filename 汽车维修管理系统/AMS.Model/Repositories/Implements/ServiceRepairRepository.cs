@@ -274,6 +274,8 @@ namespace AMS.Model.Repositories.Implements
                     ServiceBookingId = i.ServiceBookingId,
                     ServiceRepairState = i.ServiceRepairState,
                     ServiceType = i.ServiceType,
+                    RepairTypeId = i.RepairTypeId,
+                    RepairTypeName = i.RepairType.Name,
                     ServiceDateTime = i.ServiceDateTime,
                     EstimateLeaveTime = i.EstimateLeaveTime,
                     LeaveTime = i.LeaveTime,
@@ -531,32 +533,79 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
-        public ResModel TurnToFinish(Guid serviceRepairId)
+        public ResModel TurnToFinish(Guid serviceRepairId, UserDto operationUser)
         {
-            using (var db=new ModelContext())
+            using (var db = new ModelContext())
             {
                 var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
                 if (serviceRepair == null)
                 {
-                    return new ResModel(){Msg = "竣工失败，未找到该维修单",Success = false};
+                    return new ResModel() { Msg = "竣工失败，未找到该维修单", Success = false };
                 }
                 if (serviceRepair.ServiceRepairState != ServiceRepairState.在修)
                 {
                     return new ResModel() { Msg = "竣工失败，该维修单状态已竣工或未转在修", Success = false };
                 }
-                using (var scope=new TransactionScope())
+                try
                 {
-                    try
-                    {
-                        serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
-                        scope.Complete();
-                    }
-                    catch (Exception e)
-                    {
-                        return new ResModel() { Msg = "竣工失败", Success = false };
-                    }
-                    return new ResModel() { Msg = "竣工成功", Success = true,Data = new {ServiceRepairId=serviceRepair.Id}};
+                    serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
+                    db.SaveChanges();
                 }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "竣工失败", Success = false };
+                }
+                return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+            }
+        }
+
+        public ResModel TurnToInvalid(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "作废失败，未找到该维修单", Success = false };
+                }
+                if (serviceRepair.ServiceRepairState == ServiceRepairState.作废)
+                {
+                    return new ResModel() { Msg = "作废失败，该维修单状态为作废状态", Success = false };
+                }
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.作废;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "作废失败", Success = false };
+                }
+                return new ResModel() { Msg = "作废成功", Success = true };
+            }
+        }
+
+        public ResModel Finish(ServiceRepairDto serviceRepairDto, UserDto operationUser)
+        {
+            var res=UpdateServiceRepair(serviceRepairDto, operationUser);
+            if (!res.Success)
+            {
+                return new ResModel(){Msg = "竣工失败",Success = false};
+            }
+
+            using (var db=new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairDto.Id);
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "竣工失败", Success = false };
+                }
+                return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
             }
         }
 

@@ -15,6 +15,8 @@ namespace AMS.Service.Services.Interfaces
         List<ServiceRepairDto> QueryServiceRepair(string keyword);
         List<ServiceRepairHistoryDto> GetAllRepairHistory();
         List<ServiceRepairHistoryDto> GetHistoryRepairByCarId(Guid carId);
-        ResModel TurnToFinish(Guid serviceRepairId);
+        ResModel TurnToFinish(Guid serviceRepairId, UserDto operationUser);
+        ResModel TurnToInvalid(Guid serviceRepairId, UserDto operationUser);
+        ResModel Finish(ServiceRepairDto serviceRepairDto, UserDto operationUser);
     }
 }

@@ -57,9 +57,19 @@ namespace AMS.Service.Services.Implements
             return _serviceRepairRepository.GetHistoryRepairByCarId(carId);
         }
 
-        public ResModel TurnToFinish(Guid serviceRepairId)
+        public ResModel TurnToFinish(Guid serviceRepairId, UserDto operationUser)
         {
-            return _serviceRepairRepository.TurnToFinish(serviceRepairId);
+            return _serviceRepairRepository.TurnToFinish(serviceRepairId,operationUser);
+        }
+
+        public ResModel TurnToInvalid(Guid serviceRepairId, UserDto operationUser)
+        {
+            return _serviceRepairRepository.TurnToInvalid(serviceRepairId, operationUser);
+        }
+
+        public ResModel Finish(ServiceRepairDto serviceRepairDto, UserDto operationUser)
+        {
+            return _serviceRepairRepository.Finish(serviceRepairDto, operationUser);
         }
     }
 }

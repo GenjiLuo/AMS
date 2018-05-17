@@ -137,12 +137,14 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
 
         public ActionResult RepairAccount(Guid serviceRepairId)
         {
-            return View("RepairAccount");
+            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
+            return View("RepairAccount", serviceRepair);
         }
 
         public ActionResult RepairCash(Guid serviceRepairId)
         {
-            return View("RepairCash");
+            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
+            return View("RepairCash", serviceRepair);
         }
         [HttpPost]
         public ActionResult Update(ServiceRepairDto serviceRepair)
@@ -164,7 +166,17 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             return null;
         }
-
+        [HttpPost]
+        public ActionResult Finish(ServiceRepairDto serviceRepairDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.Finish(serviceRepairDto, currentUser));
+        }
+        [HttpPost]
+        public ActionResult UnFinish(Guid serviceRepairId)
+        {
+            return null;
+        }
         public ActionResult ViewDetail(Guid serviceRepairId)
         {
             var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);

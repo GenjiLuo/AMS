@@ -1,4 +1,4 @@
-﻿
+﻿@model AMS.Model.dto.ServiceRepairDto
 @{
     ViewBag.Title = "维修结算";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -58,7 +58,7 @@
                             <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D;"></i>
                         </div>
                         <div id="orderNo" class="pull-left">
-                            LA118051004
+                            @Model.BillNo
                         </div>
                     </div>
                     <div class="form-group row">
@@ -67,15 +67,15 @@
                         </div>
                         <div class="pull-left">
                             <span class="marginRight15px">
-                                <span>渝BG9832</span>
+                                <span>@Model.Car.PlateNum</span>
                             </span>
                             <span class="marginRight15px">
                                 <label><strong>维修类型：</strong></label>
-                                <span>保养</span>
+                                <span>@Model.RepairTypeName</span>
                             </span>
                             <span>
                                 <label><strong>维修顾问：</strong></label>
-                                <span>员工007</span>
+                                <span>@Model.ServiceAdvisorName</span>
                             </span>
                         </div>
                     </div>
@@ -85,21 +85,21 @@
                         </div>
                         <div class="pull-left">
                             <div class="form-group">
-                                <span class="marginRight15px compnay">重庆诺怀软件公司&nbsp;陈军</span>
-                                <span>18944345443</span>
+                                <span class="marginRight15px compnay">@Model.ContactName</span>
+                                <span>@Model.ContactPhone</span>
                                 <ul class="info-box">
                                     <li>
                                         <div>
                                             <label>会员卡号：</label>
-                                            <span>894343434343434</span>
+                                            <span>无</span>
                                         </div>
                                         <div>
                                             <label>会员等级：</label>
-                                            <span>普通会员</span>
+                                            <span>无</span>
                                         </div>
                                         <div>
                                             <label>会员余额：</label>
-                                            <span>0.00</span>
+                                            <span>无</span>
                                         </div>
                                     </li>
                                     <li>
