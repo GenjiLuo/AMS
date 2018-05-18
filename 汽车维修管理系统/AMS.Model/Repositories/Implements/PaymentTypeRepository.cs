@@ -18,6 +18,9 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     Name = i.Name,
+                    IconUrl = i.IconUrl,
+                    SelectedIconUrl = i.SelectedIconUrl,
+                    OperationType = i.OperationType,
                     Description = i.Description
                 }).ToList();
                 return paymentTypes;
@@ -32,6 +35,8 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = Guid.NewGuid(),
                     Name = paymentTypeDto.Name,
+                    IconUrl = "../../Content/img/payment/default-pay.png",
+                    SelectedIconUrl = "../../Content/img/payment/default-selected-pay.png",
                     Description = paymentTypeDto.Description
                 };
                 try
@@ -55,6 +60,9 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     Name = i.Name,
+                    IconUrl = i.IconUrl,
+                    SelectedIconUrl = i.SelectedIconUrl,
+                    OperationType = i.OperationType,
                     Description = i.Description
                 }).FirstOrDefault();
                 return paymentType;
@@ -116,6 +124,9 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     Name = i.Name,
+                    IconUrl = i.IconUrl,
+                    SelectedIconUrl = i.SelectedIconUrl,
+                    OperationType = i.OperationType,
                     Description = i.Description
                 }).ToList();
                 return paymentTypes;

@@ -10,9 +10,11 @@ namespace AMS.Model.Repositories.Interfaces
     {
         List<ServiceRepairDto> GetAllServiceRepair();
         ResModel AddServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser);
+        ResModel AddWashCar(ServiceRepairDto serviceRepairDto, UserDto operationUser);
         ServiceRepairDto GetOneServiceRepair(Guid serviceRepairId);
         ServiceRepairAccountTicketDto GetOneAccountTicket(Guid serviceRepairAccountTicketId);
         ServiceRepairAccountTicketDto GetOneAccountTicketByRepairId(Guid serviceRepairId);
+        ServiceRepairCashTicketDto GetOneCashTicketByRepairId(Guid serviceRepairId);
         ResModel UpdateServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser);
         ResModel DeleteServiceRepair(Guid serviceRepairId);
         List<ServiceRepairDto> QueryServiceRepair(string keyword);
@@ -28,5 +30,6 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel SaveAndFinish(ServiceRepairDto serviceRepairDto, UserDto operationUser);
         ResModel SaveAndAccount(ServiceRepairAccountTicketDto serviceRepairAccountTicketDto, UserDto operationUser);
         ResModel SaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser);
+        ResModel WashCarSaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser);
     }
 }

@@ -16,6 +16,8 @@ namespace AMS.Model.poco
         {
             ServiceRpairPayments=new HashSet<ServiceRpairPayment>();
         }
+        public string IconUrl { get; set; }
+        public string SelectedIconUrl { get; set; }
         public virtual ICollection<ServiceRpairPayment> ServiceRpairPayments { get; set; }
     }
 }

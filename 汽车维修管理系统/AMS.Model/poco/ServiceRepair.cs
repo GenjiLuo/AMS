@@ -19,6 +19,8 @@ namespace AMS.Model.poco
             EstimateRepairParts = new HashSet<EstimateRepairParts>();
             RepairParts=new HashSet<RepairParts>();
             ServiceRepairAccountTickets=new HashSet<ServiceRepairAccountTicket>();
+            ServiceRepairCashTickets=new HashSet<ServiceRepairCashTicket>();
+            ServiceWashItems=new HashSet<ServiceWashItem>();
         }
         public string BillNo { get; set; }
         public int BillNoIndex { get; set; }
@@ -45,6 +47,10 @@ namespace AMS.Model.poco
         [ForeignKey("ServiceAdvisorId")]
         public virtual User ServiceAdvisor { get; set; }
 
+        public Guid? WashCarMainOperatorId { get; set; }
+        [ForeignKey("WashCarMainOperatorId")]
+        public virtual User WashCarMainOperator { get; set; }
+
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string RepairDescription { get; set; }
@@ -53,8 +59,10 @@ namespace AMS.Model.poco
         public virtual ICollection<ServiceRepairItem> ServiceRepairItem { get; set; }
         public virtual ICollection<EstimateRepairParts> EstimateRepairParts { get; set; }
         public virtual ICollection<RepairParts> RepairParts { get; set; }
+        public virtual ICollection<ServiceWashItem> ServiceWashItems { get; set; }
 
         public virtual ICollection<ServiceRepairAccountTicket> ServiceRepairAccountTickets { get; set; }
+        public virtual ICollection<ServiceRepairCashTicket> ServiceRepairCashTickets { get; set; }
 
     }
 }

@@ -28,7 +28,7 @@ namespace AMS.Model.Migrations
                     Id = Guid.NewGuid(),
                     Name = "默认部门",
                     OrderNum = 0,
-                    OperationType = (int)OperationTypeEnum.系统预置,
+                    OperationType = OperationTypeEnum.系统预置,
                     Description = "系统默认数据",
                     CreateTime = DateTime.Now,
                     OrgHope = "好的开始是成功的一半"
@@ -43,7 +43,7 @@ namespace AMS.Model.Migrations
                         Account = "admin",
                         Password = "admin",
                         Description = "系统默认数据",
-                        OperationType = (int)OperationTypeEnum.系统预置,
+                        OperationType = OperationTypeEnum.系统预置,
                         Org = defaultDepartment,
                         CreateTime = DateTime.Now
                     };
@@ -56,7 +56,7 @@ namespace AMS.Model.Migrations
                         Id = Guid.NewGuid(),
                         Name = "仓库管理员",
                         Description = "系统默认数据",
-                        OperationType = (int)OperationTypeEnum.系统预置,
+                        OperationType = OperationTypeEnum.系统预置,
                         Org = defaultDepartment,
                         CreateTime = DateTime.Now
                     };
@@ -811,6 +811,50 @@ namespace AMS.Model.Migrations
                     }
                 };
                 context.ParameterControl.AddRange(parameterControls);
+            }
+            //支付方式默认数据
+            if (!context.PaymentType.Any())
+            {
+                var paymentTypes=new List<PaymentType>()
+                {
+                    new PaymentType()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "会员余额",
+                        IconUrl = "../../Content/img/payment/balance_red.png",
+                        SelectedIconUrl = "../../Content/img/payment/balance_white.png",
+                        OperationType = OperationTypeEnum.系统预置,
+                        Description = "系统预置，不可删除"
+                    },
+                    new PaymentType()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "现金",
+                        IconUrl = "../../Content/img/payment/crash_green.png",
+                        SelectedIconUrl = "../../Content/img/payment/crash_white.png",
+                        OperationType = OperationTypeEnum.系统预置,
+                        Description = "系统预置，不可删除"
+                    },
+                    new PaymentType()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "银行卡",
+                        IconUrl = "../../Content/img/payment/card_blue.png",
+                        SelectedIconUrl = "../../Content/img/payment/card_white.png",
+                        OperationType = OperationTypeEnum.系统预置,
+                        Description = "系统预置，不可删除"
+                    },
+                    new PaymentType()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "微信支付",
+                        IconUrl = "../../Content/img/payment/wechart_green.png",
+                        SelectedIconUrl = "../../Content/img/payment/wechart_white.png",
+                        OperationType = OperationTypeEnum.系统预置,
+                        Description = "系统预置，不可删除"
+                    }
+                };
+                context.PaymentType.AddRange(paymentTypes);
             }
         }
     }

@@ -23,6 +23,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         private readonly IRepairItemService _repairItemService;
         private readonly IServiceTicketTypeService _serviceTicketTypeService;
         private readonly IPaymentTypeService _paymentTypeService;
+        private readonly IWashItemService _washItemService;
         public RepairManagementController()
         {
             _serviceRepairService=new ServiceRepairService();
@@ -36,6 +37,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             _repairItemService=new RepairItemService();
             _serviceTicketTypeService=new ServiceTicketTypeService();
             _paymentTypeService=new PaymentTypeService();
+            _washItemService=new WashItemService();
         }
 
         public ActionResult Index()
@@ -104,6 +106,12 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_serviceRepairService.AddServiceRepair(serviceRepair, currentUser));
         }
+
+        public ActionResult AddWashCar(ServiceRepairDto serviceRepair)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.AddWashCar(serviceRepair, currentUser));
+        }
         public ActionResult AddRepairItem_PartialView()
         {
             return PartialView("AddRepairItem_PartialView");
@@ -121,6 +129,11 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             return Json(_repairItemService.GetAllRepairItem(), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult WashItem_ButtonGroupDataSource()
+        {
+            return Json(_washItemService.GetAllWashItem(), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Parts_GridDataSource()
         {
             return Json(_partsService.GetAllParts(), JsonRequestBehavior.AllowGet);
@@ -134,7 +147,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
             if (serviceRepair.ServiceType == ServiceType.洗车)
             {
-                return View("EditWashCar",serviceRepair);
+                return View("EditWashCar", serviceRepair);
             }
             return View("EditCarRepair",serviceRepair);
         }
@@ -165,6 +178,23 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         public ActionResult ViewDetail(Guid serviceRepairId)
         {
             var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
+            if (serviceRepair.ServiceType == ServiceType.洗车)
+            {
+                var serviceRepairCashTicket = _serviceRepairService.GetOneCashTicketByRepairId(serviceRepairId);
+                if (serviceRepairCashTicket == null)
+                {
+                    serviceRepairCashTicket=new ServiceRepairCashTicketDto()
+                    {
+                        ServiceRepairPayments = new List<ServiceRpairPaymentDto>()
+                        {
+                            new ServiceRpairPaymentDto()
+                        }
+                    };
+                    serviceRepair.ServiceWashItem = new ServiceWashItemDto();
+                }
+                serviceRepairCashTicket.ServiceRepair = serviceRepair;
+                return View("WashCarView", serviceRepairCashTicket);
+            }
             return View(serviceRepair);
         }
         [HttpPost]
@@ -232,6 +262,12 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         {
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_serviceRepairService.SaveAndCash(serviceRepairCashTicketDto, currentUser));
+        }
+        [HttpPost]
+        public ActionResult WashCarTurnToCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.WashCarSaveAndCash(serviceRepairCashTicketDto, currentUser));
         }
         [HttpPost]
         public ActionResult Query(string keyword)

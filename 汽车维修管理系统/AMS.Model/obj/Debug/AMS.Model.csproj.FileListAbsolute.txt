@@ -37,3 +37,10 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableTicket.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableCash.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableCash.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableCash1.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableWashItem.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTablePaymentType.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateCashTicket.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateCashTicket1.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateCashTicket2.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateServiceRepair.resources

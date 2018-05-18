@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 @{
     ViewBag.Title = "洗车开单";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,8 +8,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="pull-left option-group">
-            <button type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;开单</button>
-            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+            <button id="btn_create" type="button" class="k-button k-primary"><i class="fa fa-plus"></i>&nbsp;开单</button>
+            <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-right">
             <div class="navigation">
@@ -16,7 +17,13 @@
                 <span class="interval-line"></span>
                 <span><span>2</span><span>开单</span></span>
                 <span class="interval-line"></span>
-                <span><span>3</span><span>出厂</span></span>
+                <span><span>3</span><span>维修</span></span>
+                <span class="interval-line"></span>
+                <span><span>4</span><span>竣工</span></span>
+                <span class="interval-line"></span>
+                <span><span>5</span><span>结算收银</span></span>
+                <span class="interval-line"></span>
+                <span><span>6</span><span>出厂</span></span>
             </div>
         </div>
     </div>
@@ -26,7 +33,7 @@
                 <label>选择车辆：</label>
                 <input id="chooseCar" />
             </div>
-            <div class="form-item"></div>
+            <div id="carInfoDetail" class="form-item"></div>
             <div class="form-item">
                 <label>预约单：</label>
                 <input id="chooseBooking" />
@@ -62,67 +69,67 @@
                         <li>
                             <div>
                                 <label>客户名称：</label>
-                                <span>张山</span>
+                                <span id="customerName"></span>
                             </div>
                             <div>
                                 <label>微信：</label>
-                                <span>小贤1234跟你走</span>
+                                <span id="wechat"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>客户等级：</label>
-                                <span>3</span>
+                                <span id="level"></span>
                             </div>
                             <div>
                                 <label>性别：</label>
-                                <span>男</span>
+                                <span id="gender"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>手机：</label>
-                                <span>15223525254</span>
+                                <span id="mobilePhone"></span>
                             </div>
                             <div>
                                 <label>生日：</label>
-                                <span>1991-08-28</span>
+                                <span id="birthday"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>联系人：</label>
-                                <span>李四</span>
+                                <span id="contactName"></span>
                             </div>
                             <div>
                                 <label>QQ：</label>
-                                <span>837607072</span>
+                                <span id="qq"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>身份证号</label>
-                                <span>500235199508282214</span>
+                                <span id="idNumber"></span>
                             </div>
                             <div>
                                 <label>爱好：</label>
-                                <span>钓鱼、打球、打游戏</span>
+                                <span id="hobby"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>座机：</label>
-                                <span>023-98978767</span>
+                                <span id="fixPhone"></span>
                             </div>
                             <div>
                                 <label>备注：</label>
-                                <span>一个傻逼</span>
+                                <span id="description"></span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label>联系地址：</label>
-                                <span>马栏山马兰村1组</span>
+                                <span id="address"></span>
                             </div>
                         </li>
                     </ul>
@@ -131,12 +138,90 @@
         </div>
     </div>
 </div>
+<script id="carComboxHeaderTemp" type="text/x-kendo-template">
+    <div id="comboxHeaderBox">
+        <span>车牌号</span>
+        <span>车型</span>
+        <span>客户</span>
+    </div>
+</script>
+<script id="carComboxTemp" type="text/x-kendo-template">
+    <div class="comboxItem">
+        <span>#: PlateNum #</span>
+        <span>#: BrandName ##: SeriesName #</span>
+        <span>#: CustomerName #</span>
+    </div>
+</script>
 <script>
     $(document).ready(function() {
-        $("#chooseCar").kendoComboBox();
-        $("#chooseBooking").kendoDropDownList();
-        $("#serviceTime").kendoDateTimePicker();
-        $("#estimateLeaveTime").kendoDateTimePicker();
+        $("#chooseCar").kendoComboBox({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Car_ComboBoxDataSource")",
+                        data: function (){
+                            return {
+                                keyword:$("#chooseCar").data("kendoComboBox").text().trim()
+                            }
+                        }
+                    }
+                }
+            },
+            dataTextField: "PlateNum",
+            dataValueField: "Id",
+            headerTemplate:$("#carComboxHeaderTemp").html(),
+            template: $("#carComboxTemp").html(),
+            noDataTemplate: "未查询到匹配的车辆",
+            change: function (e) {
+                var item = this.dataItem();
+                console.log(this.dataItem());
+                $("#carInfoDetail").html(item ? item.CustomerName + "  " + item.CustomerPhone : "");
+                var bookingdDataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: "@Url.Action("ServiceBooking_DropDownListDataSource")",
+                            data: function() {
+                                return {
+                                    carId:item.Id
+                                }
+                            }
+                        }
+                    }
+                });
+                $("#chooseBooking").data("kendoDropDownList").setDataSource(bookingdDataSource);
+                var repairHistoryDataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: "@Url.Action("RepairHistory_GridDataSource")",
+                            data: function() {
+                                return {
+                                    carId:item.Id
+                                }
+                            }
+                        }
+                    }
+                });
+                $("#grid").data("kendoGrid").setDataSource(repairHistoryDataSource);
+                refreshCustomerInfo(item);
+            }
+        });
+        $("#chooseBooking").kendoDropDownList({
+            dataSource: {
+                data:[]
+            },
+            dataTextField: "BillNo",
+            dataValueField: "Id"
+        });
+        $("#serviceTime").kendoDateTimePicker({
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm",
+            value:"@DateTime.Now.ToString("yyyy/MM/dd HH:mm")"
+        });
+        $("#estimateLeaveTime").kendoDateTimePicker({
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm",
+            value:"@DateTime.Now.AddDays(3).ToString("yyyy/MM/dd HH:mm")"
+        });
         $("#tabStrip").kendoTabStrip();
         $("#grid").kendoGrid({
             dataSource: {
@@ -153,51 +238,167 @@
             persistSelection: true,
             columns: [
                 {
-                    field: "Name",
-                    title: "客户"
+                    title: "客户",
+                    template: function(item) {
+                        return item.CustomerName + "(" + item.CustomerPhone + ")";
+                    }
                 },
                 {
-                    field: "Code",
+                    field: "CarPlateNum",
                     title: "车辆牌照"
                 },
                 {
-                    field: "ContactName",
+                    field: "CarVIN",
                     title: "车架号"
                 },
                 {
-                    field: "MobilePhone",
+                    field: "CurrentMileage",
                     title: "里程数"
                 },
                 {
-                    field: "Wechat",
+                    field: "ServiceAdvisorName",
                     title: "维修顾问"
                 },
                 {
-                    field: "QQ",
+                    field: "ServiceDataTime",
                     title: "进厂时间"
                 },
                 {
-                    field: "FixPhone",
-                    title: "状态"
+                    title: "状态",
+                    template: function(item) {
+                        if (item.ServiceType === @((int)ServiceType.维修)) {
+                            switch (item.ServiceRepairState) {
+                                case @((int)ServiceRepairState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceRepairState.在修):
+                                    return "<span class='label label-sm label-primary' style='line-height: 14px;height: 14px;'>在修</span>";
+                                case @((int)ServiceRepairState.竣工):
+                                    return "<span class='label label-sm label-success' style='line-height: 14px;height: 14px;'>竣工</span>";
+                                case @((int)ServiceRepairState.结算):
+                                    return "<span class='label label-sm label-warning' style='line-height: 14px;height: 14px;'>结算</span>";
+                                case @((int)ServiceRepairState.收银):
+                                    return "<span class='label label-sm label-danger' style='line-height: 14px;height: 14px;'>收银</span>";
+                                case @((int)ServiceRepairState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceRepairState.作废):
+                                    return "<span class='label label-sm ' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
+                        } else {
+                            switch (item.ServiceWashState) {
+                                case @((int)ServiceWashState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceWashState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceWashState.作废):
+                                    return "<span class='label label-sm' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
+                        }
+                    }
                 },
                 {
-                    field: "Fax",
+                    field: "TotalRepairItemMoney",
                     title: "工时费"
                 },
                 {
-                    field: "MajorOrigin",
+                    field: "TotalPartsMoney",
                     title: "材料费"
                 },
                 {
-                    field: "Address",
+                    field: "ManagementMoney",
                     title: "管理费"
                 },
                 {
-                    field: "FixPhone",
+                    field: "OtherMoney",
                     title: "其它费用"
                 }
             ]
         });
     });
+    $("#btn_create").click(function() {
+        var serviceRepair = {
+            CarId: $("#chooseCar").data("kendoComboBox").value(),
+            ServiceBookingId: $("#chooseBooking").data("kendoDropDownList").value(),
+            ServiceDateTime: $("#serviceTime").data("kendoDateTimePicker").value(),
+            EstimateLeaveTime: $("#estimateLeaveTime").data("kendoDateTimePicker").value(),
+            ContactName: $("#chooseCar").data("kendoComboBox").dataItem().CustomerName,
+            ContactPhone: $("#chooseCar").data("kendoComboBox").dataItem().CustomerPhone
+        };
+        $.ajax({
+            url: "@Url.Action("AddWashCar")",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(serviceRepair),
+            success: function (res) {
+                console.log(res);
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "洗车开单成功",
+                        showConfirmButton: false,
+                        timer: 800
+                    });
+                    setTimeout(function() {
+                            window.location.href =
+                                "@Url.Action("Edit")" + "?serviceRepairId=" + res.Data.ServiceRepairId;
+                        },
+                        900);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+    $("#btn_back").click(function() {
+        window.history.back();
+    });
+</script>
+<script>
+    function refreshCustomerInfo(info) {
+        if (info && info.CustomerId) {
+            $.ajax({
+                url: "@Url.Action("GetCustomerInfo")",
+                type:"POST",
+                dataType: "json",
+                data: {
+                    customerId:info.CustomerId
+                },
+                success: function(res) {
+                    if (res) {
+                        $("#customerName").html(res.Name || "");
+                        $("#wechat").html(res.Wechat || "");
+                        $("#level").html(res.Level);
+                        $("#gender").html(res.Gender===0?"男":"女");
+                        $("#mobilePhone").html(res.MobilePhone || "");
+                        $("#birthday").html(res.Birthday || "");
+                        $("#contactName").html(res.ContactName || "");
+                        $("#qq").html(res.QQ || "");
+                        $("#idNumber").html(res.IDCard || "");
+                        $("#hobby").html(res.Hobby || "");
+                        $("#fixPhone").html(res.FixPhone || "");
+                        $("#description").html(res.Description || "");
+                        $("#address").html(res.Address || "");
+                    }
+                }
+            });
+        } else {
+            $("#customerName").html("");
+            $("#wechat").html("");
+            $("#level").html("");
+            $("#gender").html("");
+            $("#mobilePhone").html("");
+            $("#birthday").html("");
+            $("#contactName").html("");
+            $("#qq").html("");
+            $("#idNumber").html("");
+            $("#hobby").html("");
+            $("#fixPhone").html("");
+            $("#description").html("");
+            $("#address").html("");
+        }
+    }
 </script>
 

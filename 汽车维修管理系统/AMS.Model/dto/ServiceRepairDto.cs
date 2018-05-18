@@ -35,6 +35,9 @@ namespace AMS.Model.dto
         public Guid? ServiceAdvisorId { get; set; }
         public string ServiceAdvisorName { get; set; }
 
+        public Guid? WashCarMainOperatorId { get; set; }
+        public string WashCarMainOperatorName { get; set; }
+
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string RepairDescription { get; set; }
@@ -64,5 +67,6 @@ namespace AMS.Model.dto
         public  List<ServiceRepairItemDto> ServiceRepairItem { get; set; }
         public  List<EstimateRepairPartsDto> EstimateRepairParts { get; set; }
         public  List<RepairPartsDto> RepairParts { get; set; }
+        public ServiceWashItemDto ServiceWashItem { get; set; }
     }
 }

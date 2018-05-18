@@ -27,6 +27,11 @@ namespace AMS.Service.Services.Implements
             return _serviceRepairRepository.AddServiceRepair(serviceRepairDto, operationUser);
         }
 
+        public ResModel AddWashCar(ServiceRepairDto serviceRepairDto, UserDto operationUser)
+        {
+            return _serviceRepairRepository.AddWashCar(serviceRepairDto,operationUser);
+        }
+
         public ServiceRepairDto GetOneServiceRepair(Guid serviceRepairId)
         {
             return _serviceRepairRepository.GetOneServiceRepair(serviceRepairId);
@@ -40,6 +45,11 @@ namespace AMS.Service.Services.Implements
         public ServiceRepairAccountTicketDto GetOneAccountTicketByRepairId(Guid serviceRepairId)
         {
             return _serviceRepairRepository.GetOneAccountTicketByRepairId(serviceRepairId);
+        }
+
+        public ServiceRepairCashTicketDto GetOneCashTicketByRepairId(Guid serviceRepairId)
+        {
+            return _serviceRepairRepository.GetOneCashTicketByRepairId(serviceRepairId);
         }
 
         public ResModel UpdateServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser)
@@ -115,6 +125,11 @@ namespace AMS.Service.Services.Implements
         public ResModel SaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser)
         {
             return _serviceRepairRepository.SaveAndCash(serviceRepairCashTicketDto, operationUser);
+        }
+
+        public ResModel WashCarSaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser)
+        {
+            return _serviceRepairRepository.WashCarSaveAndCash(serviceRepairCashTicketDto,operationUser);
         }
     }
 }

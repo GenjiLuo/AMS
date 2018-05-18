@@ -199,6 +199,10 @@
                                 }
                             }
                         }
+                    },
+                    schema: {
+                        id: "Id",
+
                     }
                 });
                 $("#grid").data("kendoGrid").setDataSource(repairHistoryDataSource);
@@ -225,7 +229,7 @@
         $("#tabStrip").kendoTabStrip();
         $("#grid").kendoGrid({
             dataSource: {
-                data:[]
+                data: []
             },
             height: 500,
             pageable: {
@@ -235,7 +239,9 @@
             sortable: true,
             filterable: false,
             selectable: "multiple",
-            persistSelection: true,
+            change: function() {
+                console.log(this.dataItem());
+            },
             columns: [
                 {
                     title: "客户",
@@ -265,11 +271,34 @@
                 },
                 {
                     title: "状态",
-                    template: function(item) {
-                        if (item.ServiceType === @ServiceType.洗车) {
-                            return "洗车状态";
+                    template: function (item) {
+                        console.log(item);
+                        if (item.ServiceType === @((int)ServiceType.维修)) {
+                            switch (item.ServiceRepairState) {
+                                case @((int)ServiceRepairState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceRepairState.在修):
+                                    return "<span class='label label-sm label-primary' style='line-height: 14px;height: 14px;'>在修</span>";
+                                case @((int)ServiceRepairState.竣工):
+                                    return "<span class='label label-sm label-success' style='line-height: 14px;height: 14px;'>竣工</span>";
+                                case @((int)ServiceRepairState.结算):
+                                    return "<span class='label label-sm label-warning' style='line-height: 14px;height: 14px;'>结算</span>";
+                                case @((int)ServiceRepairState.收银):
+                                    return "<span class='label label-sm label-danger' style='line-height: 14px;height: 14px;'>收银</span>";
+                                case @((int)ServiceRepairState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceRepairState.作废):
+                                    return "<span class='label label-sm ' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
                         } else {
-                            return "维修状态";
+                            switch (item.ServiceWashState) {
+                                case @((int)ServiceWashState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceWashState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceWashState.作废):
+                                    return "<span class='label label-sm' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
                         }
                     }
                 },

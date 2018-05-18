@@ -1,0 +1,213 @@
+﻿@using AMS.Model.Enum
+@using Newtonsoft.Json
+@model AMS.Model.dto.ServiceRepairCashTicketDto
+@{
+    ViewBag.Title = "查看洗车单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Style/washcar/edit.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="pull-left option-group">
+            <button id="btn_edit" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-edit"></i>&nbsp;编辑</button>
+            <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+        </div>
+        <div class="pull-left option-group">
+            <button type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
+        </div>
+        <div class="pull-right">  
+            <div class="navigation">
+                <span class="finished"><span>√</span><span>选择车辆</span></span>
+                <span class="interval-line"></span>
+                <span class="finished"><span>√</span><span>开单</span></span>
+                <span class="interval-line"></span>
+                <span class="current"><span>3</span><span>出厂</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="carChooseArea" class="row">
+        <div class="form-group marginBottom25px">
+            <div class="form-item">
+                <label>车辆：</label>
+                <input id="chooseCar"/>
+            </div>
+            <div class="form-item">@Model.ServiceRepair.Car.CustomerName @Model.ServiceRepair.Car.CustomerPhone</div>
+            <div class="form-item">
+                <label>预约单：</label>
+                <input id="chooseBooking" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>进厂时间：</label>
+                <input id="serviceTime" />
+            </div>
+            <div class="form-item">
+                <label>预计出厂时间：</label>
+                <input id="estimateLeaveTime" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>洗车工：</label>
+                <input id="mainOperator" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>维修顾问：</label>
+                <input id="repairAdvisor" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>当前里程：</label>
+                <input id="currentMiles" />
+            </div>
+            <div class="form-item">
+                <label>下次保养里程：</label>
+                <input id="nextMaintainMiles" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-item marginRight20px">
+                <label>下次保养日期：</label>
+                <input id="nextMaintainDate" />
+            </div>
+            <div class="form-item marginRight20px">
+                <label>保险到期：</label>
+                <input id="insuranceExpireTime" />
+            </div>
+            <div class="form-item ">
+                <label>年审到期：</label>
+                <input id="yearlyCheckTime" />
+            </div>
+        </div>
+    </div>
+    <div id="washCarItem" class="row">
+        <div>
+            <i class="fa fa-info-circle blue"></i>&nbsp;洗车项目
+        </div>
+        <ul id="washItemBox">
+        </ul>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>项目备注：</label>
+            <input class="k-textbox" style="width: 400px;" value="@Model.Description" disabled="disabled"/>
+        </div>
+    </div>
+    <div id="checkMoney" class="row">
+        <div class="form-group">
+            <label>应结金额：</label>
+            <strong>&yen;&nbsp;<span id="totalMoney">@Model.ShouldPay</span></strong>
+        </div>
+        <div class="form-group red">
+            <label>优惠金额：</label>
+            <strong>-&yen;&nbsp;<span>@Model.WashCarDiscount</span></strong>
+        </div>
+        <div class="form-group red">
+            <label>抹零：</label>
+            <strong>-&yen;&nbsp;<input id="removeLittle"/></strong>
+        </div>
+    </div>
+    <div id="payWay">
+        <div>付款方式</div>
+        <ul id="payWayBox">
+        </ul>
+    </div>
+    <div id="finalMoney" class="row">
+        <hr/>
+        <div class="form-group">
+            <label>应收金额：</label>
+            <span><span id="shouldPay" class="moneyNumber">@Model.RealPay</span>元</span>
+        </div>
+        <div class="form-group">
+            <label>挂账收款：</label>
+            <span><span id="creditPay" class="moneyNumber">@Model.WashCarCreditPay</span>元</span>
+        </div>
+    </div>
+</div>
+<script>
+    $("#btn_edit").toggle(@Json.Encode(Model.ServiceRepair.ServiceWashState == ServiceWashState.登记));
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "@Url.Action("WashItem_ButtonGroupDataSource")",
+            success: function (res) {
+                if (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].Id === "@Model.ServiceRepair.ServiceWashItem.WashItemId") {
+                            $("#washItemBox").append("<li class='selected' id='"+res[i].Id+"' data-price='"+res[i].Price+"'><span class='pull-left'>"+res[i].Name+"</span><span class='pull-right'>"+res[i].Price+"元</span></li>");
+                        } else {
+                            $("#washItemBox").append("<li id='"+res[i].Id+"' data-price='"+res[i].Price+"'><span class='pull-left'>"+res[i].Name+"</span><span class='pull-right'>"+res[i].Price+"元</span></li>");
+                        }
+                    }
+                }
+            }
+        });
+        $.ajax({
+            url: "@Url.Action("PaymentType_Choose")",
+            success: function(res) {
+                if (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].Id === "@Model.ServiceRepairPayments[0].PaymentTypeId") {
+                            $("#payWayBox").append("<li class='selectedPayType' id='" + res[i].Id + "' data-iconUrl='" + res[i].IconUrl + "' data-selectedIconUrl='" + res[i].SelectedIconUrl + "'><img src='" + res[i].SelectedIconUrl + "'/><p>" + res[i].Name + "</p></li>");
+                        } else {
+                            $("#payWayBox").append("<li id='"+res[i].Id+"' data-iconUrl='"+res[i].IconUrl+"' data-selectedIconUrl='"+res[i].SelectedIconUrl+"'><img src='"+res[i].IconUrl+"'/><p>"+res[i].Name+"</p></li>");
+                        }
+                    }
+                }
+            }
+        });
+        $("#chooseCar").kendoComboBox({
+            text:"@Model.ServiceRepair.Car.PlateNum"
+        }).data("kendoComboBox").enable(false);
+        $("#chooseBooking").kendoDropDownList({
+            text:"@Model.ServiceRepair.BookingBillNo"
+        }).data("kendoDropDownList").enable(false);
+        $("#serviceTime").kendoDateTimePicker({
+            value: "@Model.ServiceRepair.ServiceDateTime",
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm"
+        }).data("kendoDateTimePicker").enable(false);
+        $("#estimateLeaveTime").kendoDateTimePicker({
+            value: "@Model.ServiceRepair.EstimateLeaveTime",
+            format: "yyyy/MM/dd HH:mm",
+            timeFormat:"HH:mm"
+        }).data("kendoDateTimePicker").enable(false);
+        $("#mainOperator").kendoDropDownList({
+            autoBind: false,
+            text:"@Model.ServiceRepair.WashCarMainOperatorName"
+        }).data("kendoDropDownList").enable(false);
+        $("#repairAdvisor").kendoDropDownList({
+            autoBind: false,
+            text:"@Model.ServiceRepair.ServiceAdvisorName"
+        }).data("kendoDropDownList").enable(false);
+        $("#currentMiles").kendoNumericTextBox({
+            value:"@Model.ServiceRepair.Car.CurrentMileage"
+        }).data("kendoNumericTextBox").enable(false);
+        $("#nextMaintainMiles").kendoNumericTextBox({
+            value:"@Model.ServiceRepair.Car.NextMaintainMileage"
+        }).data("kendoNumericTextBox").enable(false);
+        $("#nextMaintainDate").kendoDatePicker({
+            value: "@Model.ServiceRepair.Car.NextMaintainDate",
+            format: "yyyy/MM/dd"
+        }).data("kendoDatePicker").enable(false);
+        $("#insuranceExpireTime").kendoDatePicker({
+            value: "@Model.ServiceRepair.Car.InsuranceExpireTime",
+            format: "yyyy/MM/dd"
+        }).data("kendoDatePicker").enable(false);
+        $("#yearlyCheckTime").kendoDatePicker({
+            value: "@Model.ServiceRepair.Car.YearlyCheckTime",
+            format: "yyyy/MM/dd"
+        }).data("kendoDatePicker").enable(false);
+        $("#removeLittle").kendoNumericTextBox({
+            value:"@Model.BackLittle"
+        }).data("kendoNumericTextBox").enable(false);
+        $("#btn_edit").click(function() {
+            window.location.href="@Url.Action("Edit")" + "?serviceRepairId=" + "@Model.ServiceRepair.Id";
+        });
+        $("#btn_back").click(function () {
+            window.history.back();
+        });
+    });
+</script>
+

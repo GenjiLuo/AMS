@@ -45,6 +45,8 @@
     <Compile Include="Services\Implements\CustomerService.cs" />
     <Compile Include="Services\Implements\CarModelService.cs" />
     <Compile Include="Services\Implements\BillNoSettingService.cs" />
+    <Compile Include="Services\Implements\ServiceRepairHistoryService.cs" />
+    <Compile Include="Services\Implements\WashItemService.cs" />
     <Compile Include="Services\Implements\PartsService.cs" />
     <Compile Include="Services\Implements\PartsReturnService.cs" />
     <Compile Include="Services\Implements\ParameterControlService.cs" />
@@ -89,12 +91,14 @@
     <Compile Include="Services\Interfaces\IRepairTypeService.cs" />
     <Compile Include="Services\Interfaces\IServiceAccountTypeService.cs" />
     <Compile Include="Services\Interfaces\IServiceBookingService.cs" />
+    <Compile Include="Services\Interfaces\IServiceRepairHistoryService.cs" />
     <Compile Include="Services\Interfaces\IServiceRepairService.cs" />
     <Compile Include="Services\Interfaces\IServiceTicketTypeService.cs" />
     <Compile Include="Services\Interfaces\ISupplierService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\Interfaces\IParameterControlService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />
+    <Compile Include="Services\Interfaces\IWashItemService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

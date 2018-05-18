@@ -17,9 +17,13 @@ namespace AMS.Model.poco
         {
             ServiceRpairPayments=new HashSet<ServiceRpairPayment>();
         }
-        public Guid ServiceRepairAccountTicketId { get; set; }
+        public Guid? ServiceRepairAccountTicketId { get; set; }
         [ForeignKey("ServiceRepairAccountTicketId")]
         public virtual ServiceRepairAccountTicket ServiceRepairAccountTicket { get; set; }
+
+        public Guid? ServiceRepairId { get; set; }
+        [ForeignKey("ServiceRepairId")]
+        public virtual ServiceRepair ServiceRepair { get; set; }
 
         public Guid? ServiceTicketTypeId { get; set; }
         [ForeignKey("ServiceTicketTypeId")]
@@ -27,6 +31,8 @@ namespace AMS.Model.poco
         public string TaxBillNo { get; set; }
 
         public decimal ShouldPay { get; set; }
+        public decimal WashCarDiscount { get; set; }
+        public decimal WashCarCreditPay { get; set; }
         public decimal RealPay { get; set; }
         public decimal BackLittle { get; set; }
         public virtual ICollection<ServiceRpairPayment> ServiceRpairPayments { get; set; }

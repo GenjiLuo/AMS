@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.Enum
 {
-    enum OperationTypeEnum
+    public enum OperationTypeEnum
     {
         用户添加,
         系统预置

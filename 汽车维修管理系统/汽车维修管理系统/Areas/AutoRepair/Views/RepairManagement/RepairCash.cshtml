@@ -204,7 +204,7 @@
                     ShouldPay:@Model.ServiceRepairAccountTicket.RealPay,
                     RealPay: parseFloat($("#realPay").html()),
                     BackLittle: parseFloat($("#backLittle").html()),
-                    ServiceRpairPayments:selectPayments
+                    ServiceRepairPayments:selectPayments
                 }),
                 success: function(res) {
                     if (res.Success) {

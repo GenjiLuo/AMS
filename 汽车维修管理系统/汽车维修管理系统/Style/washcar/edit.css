@@ -112,15 +112,24 @@
     border-radius: 5px;
     background-color: #F3F3F3;
     color: #666666;
-    padding: 4px 15px;
-    width: 144px;
-    height: 28px;
+        padding: 5px 15px;
+    width: 170px;
+    height: 32px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: center;
     margin-right: 5px;
     margin-bottom: 5px;
+}
+#washCarItem>ul li>span:first-child {
+    max-width: 95px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#washCarItem>ul li:hover {
+    cursor: pointer;
 }
 #checkMoney {
     background-color: #FFF7F1;
@@ -154,16 +163,36 @@
     list-style: none;
     margin-right: 8px;
     width: 168px;
-    height: 58px;
+    height: 60px;
     border-radius: 4px;
     background-color: #EFF3F6;
     border: 1px solid #DFE3E6;
     text-align: center;
     margin-bottom: 10px;
     padding-top: 10px;
+    color: black;
 }
-#finalMoney label{
-        color: #666666;
+#payWay>ul li.selectedPayType {
+    background-color: #FFAE00;
+    border: 1px solid #EBA000;
+    color: #fff;
+}
+#payWay>ul li img {
+    max-height: 20px;
+    margin-bottom: 5px;
+}
+#washCarItem > ul li.selected {
+    border: 1px solid #FDE3CF;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #FDE3CF;
+    color: #F56A00;
+    background-position: right bottom;
+    background-image: url('../../Content/img/washcar/select.png');
+    background-repeat: no-repeat;
+}
+#finalMoney label {
+    color: #666666;
     font-size: 14px;
 }
 #finalMoney .moneyNumber{

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AMS.Model.Enum;
 
 namespace AMS.Model.poco
 {
@@ -19,7 +20,7 @@ namespace AMS.Model.poco
 
         public Guid? CreateBy { get; set; }
         public int State { get; set; }
-        public int OperationType { get; set; }
+        public OperationTypeEnum OperationType { get; set; }
         public DateTime? CreateTime { get; set; }
         public Guid? UpdateBy { get; set; }
         public DateTime? UpdateTime { get; set; }

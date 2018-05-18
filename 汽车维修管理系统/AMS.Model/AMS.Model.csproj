@@ -94,12 +94,14 @@
     <Compile Include="dto\ServiceRepairDto.cs" />
     <Compile Include="dto\ServiceRepairItemDto.cs" />
     <Compile Include="dto\ServiceTicketTypeDto.cs" />
+    <Compile Include="dto\ServiceWashItemDto.cs" />
     <Compile Include="dto\SupplierDto.cs" />
     <Compile Include="dto\UserQuickMenuDto.cs" />
     <Compile Include="dto\QuickMenuDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
     <Compile Include="dto\UserDto.cs" />
     <Compile Include="dto\WarehouseDto.cs" />
+    <Compile Include="dto\WashItemDto.cs" />
     <Compile Include="Enum\BillSerNoLength.cs" />
     <Compile Include="Enum\BillTypeName.cs" />
     <Compile Include="Enum\PartsReturnState.cs" />
@@ -187,12 +189,42 @@
     <Compile Include="Migrations\201805181135030_UpdateTableCash.Designer.cs">
       <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805181213541_UpdateTableCash1.cs" />
+    <Compile Include="Migrations\201805181213541_UpdateTableCash1.Designer.cs">
+      <DependentUpon>201805181213541_UpdateTableCash1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181259488_AddTableWashItem.cs" />
+    <Compile Include="Migrations\201805181259488_AddTableWashItem.Designer.cs">
+      <DependentUpon>201805181259488_AddTableWashItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181514271_UpdateTablePaymentType.cs" />
+    <Compile Include="Migrations\201805181514271_UpdateTablePaymentType.Designer.cs">
+      <DependentUpon>201805181514271_UpdateTablePaymentType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181652154_UpdateCashTicket.cs" />
+    <Compile Include="Migrations\201805181652154_UpdateCashTicket.Designer.cs">
+      <DependentUpon>201805181652154_UpdateCashTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181656282_UpdateCashTicket1.cs" />
+    <Compile Include="Migrations\201805181656282_UpdateCashTicket1.Designer.cs">
+      <DependentUpon>201805181656282_UpdateCashTicket1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181704408_UpdateCashTicket2.cs" />
+    <Compile Include="Migrations\201805181704408_UpdateCashTicket2.Designer.cs">
+      <DependentUpon>201805181704408_UpdateCashTicket2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181713197_UpdateServiceRepair.cs" />
+    <Compile Include="Migrations\201805181713197_UpdateServiceRepair.Designer.cs">
+      <DependentUpon>201805181713197_UpdateServiceRepair.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
     <Compile Include="poco\CarModel.cs" />
     <Compile Include="poco\CarSeries.cs" />
     <Compile Include="poco\CarBrand.cs" />
+    <Compile Include="poco\ServiceWashItem.cs" />
+    <Compile Include="poco\WashItem.cs" />
     <Compile Include="poco\PartsIn.cs" />
     <Compile Include="poco\PartsOut.cs" />
     <Compile Include="poco\PartsReturn.cs" />
@@ -231,6 +263,8 @@
     <Compile Include="Repositories\Implements\CustomerRepository.cs" />
     <Compile Include="Repositories\Implements\CarModelRepository.cs" />
     <Compile Include="Repositories\Implements\BillNoSettingRepository.cs" />
+    <Compile Include="Repositories\Implements\ServiceRepairHistoryRepository.cs" />
+    <Compile Include="Repositories\Implements\WashItemRepository.cs" />
     <Compile Include="Repositories\Implements\PartsRepository.cs" />
     <Compile Include="Repositories\Implements\PartsReturnRepository.cs" />
     <Compile Include="Repositories\Implements\ParameterControlRepository.cs" />
@@ -258,6 +292,7 @@
     <Compile Include="Repositories\Interfaces\IPartsDictionaryRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsBuyRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceBookingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IServiceRepairHistoryRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceRepairRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceAccountTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServiceTicketTypeRepository.cs" />
@@ -266,6 +301,7 @@
     <Compile Include="Repositories\Interfaces\IOperationLogRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsReturnRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IWashItemRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISupplierRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPartsTypeRepository.cs" />
@@ -341,6 +377,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805181135030_UpdateTableCash.resx">
       <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181213541_UpdateTableCash1.resx">
+      <DependentUpon>201805181213541_UpdateTableCash1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181259488_AddTableWashItem.resx">
+      <DependentUpon>201805181259488_AddTableWashItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181514271_UpdateTablePaymentType.resx">
+      <DependentUpon>201805181514271_UpdateTablePaymentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181652154_UpdateCashTicket.resx">
+      <DependentUpon>201805181652154_UpdateCashTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181656282_UpdateCashTicket1.resx">
+      <DependentUpon>201805181656282_UpdateCashTicket1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181704408_UpdateCashTicket2.resx">
+      <DependentUpon>201805181704408_UpdateCashTicket2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181713197_UpdateServiceRepair.resx">
+      <DependentUpon>201805181713197_UpdateServiceRepair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

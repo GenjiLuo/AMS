@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using AMS.Model.dto;
+using AMS.Model.Enum;
 using AMS.Model.poco;
 
 namespace AMS.Model
@@ -58,5 +59,7 @@ namespace AMS.Model
         public virtual DbSet<ServiceRepairAccountTicket> ServiceRepairAccountTicket { get; set; }
         public virtual DbSet<ServiceRpairPayment> ServiceRpairPayment { get; set; }
         public virtual DbSet<ServiceRepairCashTicket> ServiceRepairCashTicket { get; set; }
+        public virtual DbSet<WashItem> WashItem { get; set; }
+        public virtual DbSet<ServiceWashItem> ServiceWashItem { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace AMS.Model.dto
             ServiceRepairItem = new List<ServiceRepairItemDto>();
             EstimateRepairParts = new List<EstimateRepairPartsDto>();
             RepairParts=new List<RepairPartsDto>();
+            ServiceWashItems=new List<ServiceWashItemDto>();
         }
         public Guid CarId { get; set; }
         public string BillNo { get; set; }
@@ -89,5 +90,6 @@ namespace AMS.Model.dto
         public  List<ServiceRepairItemDto> ServiceRepairItem { get; set; }
         public  List<EstimateRepairPartsDto> EstimateRepairParts { get; set; }
         public  List<RepairPartsDto> RepairParts { get; set; }
+        public List<ServiceWashItemDto> ServiceWashItems { get; set; }
     }
 }

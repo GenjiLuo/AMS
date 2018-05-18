@@ -74,7 +74,119 @@ namespace AMS.Model.Repositories.Implements
                     BillNo = billNo,
                     BillNoIndex = index,
                     ServiceBookingId = serviceRepairDto.ServiceBookingId,
-                    ServiceDateTime = serviceRepairDto.ServiceDateTime,
+                    ServiceDateTime = DateTime.Now,
+                    EstimateLeaveTime = serviceRepairDto.EstimateLeaveTime,
+                    LeaveTime = serviceRepairDto.LeaveTime,
+                    ServiceAdvisorId = serviceRepairDto.ServiceAdvisorId,
+                    ContactName = serviceRepairDto.ContactName,
+                    ContactPhone = serviceRepairDto.ContactPhone,
+                    RepairDescription = serviceRepairDto.RepairDescription,
+                    CustomerDescription = serviceRepairDto.CustomerDescription,
+                    CreateTime = DateTime.Now
+                };
+                var serviceRepairItem = serviceRepairDto.ServiceRepairItem.Select(i => new ServiceRepairItem()
+                {
+                    Id = Guid.NewGuid(),
+                    RepairItemId = i.RepairItemId,
+                    ServiceRepairId = serviceRepair.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    WorkHour = i.WorkHour,
+                    Price = i.Price,
+                    MainOperatorId = i.MainOperatorId,
+                    Description = i.Description
+                });
+                var repairParts = serviceRepairDto.RepairParts.Select(i => new RepairParts()
+                {
+                    Id = Guid.NewGuid(),
+                    PartsId = i.PartsId,
+                    ServiceRepairId = serviceRepair.Id,
+                    ServiceAccountTypeId = i.ServiceAccountTypeId,
+                    Count = i.Count,
+                    Price = i.Price
+                });
+                using (var scope=new TransactionScope())
+                {
+                    try
+                    {
+                        db.ServiceRepair.Add(serviceRepair);
+                        db.SaveChanges();
+                        db.ServiceRepairItem.AddRange(serviceRepairItem);
+                        db.RepairParts.AddRange(repairParts);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel(){Msg = "添加维修单失败",Success = false};
+                    }
+                    return new ResModel() { Msg = "添加维修单成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+                }
+            }
+        }
+
+        public ResModel AddWashCar(ServiceRepairDto serviceRepairDto, UserDto operationUser)
+        {
+            using (var db=new ModelContext())
+            {
+                var billNo = "";
+                var lastIndex = 0;
+                var dateFormat = "";
+                var index = 0;
+                var indexStr = "";
+                var repairBill = db.BillNoSetting.FirstOrDefault(i => i.Name == BillTypeName.接车单号.ToString());
+                if (repairBill.DailyReset)
+                {
+                    var lastRepair = db.ServiceRepair.Where(i => i.CreateTime.Value.Day == DateTime.Now.Day).OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastRepair?.BillNoIndex ?? 0;
+                }
+                else
+                {
+                    var lastRepair = db.ServiceRepair.OrderByDescending(i => i.CreateTime).FirstOrDefault();
+                    lastIndex = lastRepair?.BillNoIndex ?? 0;
+                }
+                index = lastIndex + 1;
+                indexStr = index.ToString();
+                switch (repairBill.SerNoLength)
+                {
+                    case BillSerNoLength.两位:
+                        indexStr = indexStr.PadLeft(2, '0');
+                        break;
+                    case BillSerNoLength.三位:
+                        indexStr = indexStr.PadLeft(3, '0');
+                        break;
+                    case BillSerNoLength.四位:
+                        indexStr = indexStr.PadLeft(4, '0');
+                        break;
+                    case BillSerNoLength.五位:
+                        indexStr = indexStr.PadLeft(5, '0');
+                        break;
+                    case BillSerNoLength.六位:
+                        indexStr = indexStr.PadLeft(6, '0');
+                        break;
+                }
+                switch (repairBill.DateFormat)
+                {
+                    case BillDateFormat.简洁年月日:
+                        dateFormat = DateTime.Now.ToString("yyMMdd");
+                        break;
+                    case BillDateFormat.完整年月日:
+                        dateFormat = DateTime.Now.ToString("yyyyMMdd");
+                        break;
+                    case BillDateFormat.无:
+                        dateFormat = "";
+                        break;
+                }
+                billNo = repairBill.Prefix + dateFormat + indexStr;
+                var serviceRepair = new ServiceRepair()
+                {
+                    Id = Guid.NewGuid(),
+                    CarId = serviceRepairDto.CarId,
+                    ServiceType = ServiceType.洗车,
+                    ServiceWashState = ServiceWashState.登记,
+                    BillNo = billNo,
+                    BillNoIndex = index,
+                    ServiceBookingId = serviceRepairDto.ServiceBookingId,
+                    ServiceDateTime = DateTime.Now,
                     EstimateLeaveTime = serviceRepairDto.EstimateLeaveTime,
                     LeaveTime = serviceRepairDto.LeaveTime,
                     ServiceAdvisorId = serviceRepairDto.ServiceAdvisorId,
@@ -166,6 +278,7 @@ namespace AMS.Model.Repositories.Implements
                     BookingBillNo = i.ServiceBookingId.HasValue ? i.ServiceBooking.BillNo:"",
                     ServiceBookingId = i.ServiceBookingId,
                     ServiceRepairState = i.ServiceRepairState,
+                    ServiceWashState = i.ServiceWashState,
                     ServiceType = i.ServiceType,
                     RepairTypeId = i.RepairTypeId,
                     RepairTypeName = i.RepairType.Name,
@@ -273,6 +386,7 @@ namespace AMS.Model.Repositories.Implements
                     BillNo = i.BillNo,
                     ServiceBookingId = i.ServiceBookingId,
                     ServiceRepairState = i.ServiceRepairState,
+                    ServiceWashState = i.ServiceWashState,
                     ServiceType = i.ServiceType,
                     RepairTypeId = i.RepairTypeId,
                     RepairTypeName = i.RepairType.Name,
@@ -281,6 +395,8 @@ namespace AMS.Model.Repositories.Implements
                     LeaveTime = i.LeaveTime,
                     ServiceAdvisorId = i.ServiceAdvisorId,
                     ServiceAdvisorName = i.ServiceAdvisor.Name,
+                    WashCarMainOperatorId = i.WashCarMainOperatorId,
+                    WashCarMainOperatorName = i.WashCarMainOperator.Name,
                     ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone,
                     RepairDescription = i.RepairDescription,
@@ -326,7 +442,15 @@ namespace AMS.Model.Repositories.Implements
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
                         WarehouseName = j.Parts.Warehouse.Name
-                    }).ToList()
+                    }).ToList(),
+                    ServiceWashItem = i.ServiceWashItems.Select(j=>new ServiceWashItemDto()
+                    {
+                        Id = j.Id,
+                        WashItemId = j.WashItemId,
+                        WashItemName = j.WashItem.Name,
+                        WashItemPrice = j.WashItem.Price,
+                        ServiceRepairId = j.ServiceRepairId
+                    }).FirstOrDefault()
                 }).FirstOrDefault();
                 return serviceRepair;
             }
@@ -385,6 +509,33 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
+        public ServiceRepairCashTicketDto GetOneCashTicketByRepairId(Guid serviceRepairId)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceRepairCashTicket = db.ServiceRepairCashTicket
+                    .Where(i => i.ServiceRepairId == serviceRepairId).Select(i => new ServiceRepairCashTicketDto()
+                    {
+                        Id = i.Id,
+                        ServiceRepairId = i.ServiceRepairId,
+                        ShouldPay = i.ShouldPay,
+                        WashCarDiscount = i.WashCarDiscount,
+                        WashCarCreditPay = i.WashCarCreditPay,
+                        RealPay = i.RealPay,
+                        BackLittle = i.BackLittle,
+                        Description = i.Description,
+                        ServiceRepairPayments = i.ServiceRpairPayments.Select(j=>new ServiceRpairPaymentDto()
+                        {
+                            Id = j.Id,
+                            ServiceRepairCashTicketId = j.ServiceRepairCashTicketId,
+                            PaymentTypeId = j.PaymentTypeId,
+                            Money = j.Money
+                        }).ToList()
+                    }).FirstOrDefault();
+                return serviceRepairCashTicket;
+            }
+        }
+
         public List<ServiceRepairDto> QueryServiceRepair(string keyword)
         {
             using (var db = new ModelContext())
@@ -396,6 +547,7 @@ namespace AMS.Model.Repositories.Implements
                     BillNo = i.BillNo,
                     ServiceBookingId = i.ServiceBookingId,
                     ServiceRepairState = i.ServiceRepairState,
+                    ServiceWashState = i.ServiceWashState,
                     ServiceType = i.ServiceType,
                     ServiceDateTime = i.ServiceDateTime,
                     EstimateLeaveTime = i.EstimateLeaveTime,
@@ -534,6 +686,7 @@ namespace AMS.Model.Repositories.Implements
                     BillNo = i.BillNo,
                     ServiceRepairState = i.ServiceRepairState,
                     ServiceType = i.ServiceType,
+                    ServiceWashState = i.ServiceWashState,
                     ServiceDateTime = i.ServiceDateTime,
                     LeaveTime = i.LeaveTime,
                     ServiceAdvisorId = i.ServiceAdvisorId,
@@ -580,6 +733,14 @@ namespace AMS.Model.Repositories.Implements
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                    }).ToList(),
+                    ServiceWashItems = i.ServiceWashItems.Select(j => new ServiceWashItemDto()
+                    {
+                        Id = j.Id,
+                        WashItemId = j.WashItemId,
+                        WashItemName = j.WashItem.Name,
+                        WashItemPrice = j.WashItem.Price,
+                        ServiceRepairId = j.ServiceRepairId
                     }).ToList()
                 }).ToList();
                 return serviceRepairHistories;
@@ -675,15 +836,34 @@ namespace AMS.Model.Repositories.Implements
                 var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
                 if (serviceRepair == null)
                 {
-                    return new ResModel() { Msg = "作废失败，未找到该维修单", Success = false };
+                    return new ResModel() { Msg = "作废失败，未找到该维修(洗车)单", Success = false };
                 }
-                if (serviceRepair.ServiceRepairState == ServiceRepairState.作废)
+
+                if (serviceRepair.ServiceType == ServiceType.洗车)
                 {
-                    return new ResModel() { Msg = "作废失败，该维修单状态为作废状态", Success = false };
+                    if (serviceRepair.ServiceWashState == ServiceWashState.作废)
+                    {
+                        return new ResModel() { Msg = "作废失败，该维修(洗车)单状态为作废状态", Success = false };
+                    }
                 }
+                else
+                {
+                    if (serviceRepair.ServiceRepairState == ServiceRepairState.作废)
+                    {
+                        return new ResModel() { Msg = "作废失败，该维修(洗车)单状态为作废状态", Success = false };
+                    }
+                }
+                
                 try
                 {
-                    serviceRepair.ServiceRepairState = ServiceRepairState.作废;
+                    if (serviceRepair.ServiceType == ServiceType.洗车)
+                    {
+                        serviceRepair.ServiceWashState = ServiceWashState.作废;
+                    }
+                    else
+                    {
+                        serviceRepair.ServiceRepairState = ServiceRepairState.作废;
+                    }
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -869,7 +1049,7 @@ namespace AMS.Model.Repositories.Implements
                     BackLittle = serviceRepairCashTicketDto.BackLittle,
                     
                 };
-                var serviceRpairPayments = serviceRepairCashTicketDto.ServiceRpairPayments.Select(i =>
+                var serviceRpairPayments = serviceRepairCashTicketDto.ServiceRepairPayments.Select(i =>
                     new ServiceRpairPayment()
                     {
                         Id = Guid.NewGuid(),
@@ -897,6 +1077,85 @@ namespace AMS.Model.Repositories.Implements
                 }
             }
         }
+
+        public ResModel WashCarSaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairCashTicketDto.ServiceRepair.Id);
+                var car = db.Car.FirstOrDefault(i => i.Id == serviceRepairCashTicketDto.ServiceRepair.Car.Id);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "收银失败，未找到该洗车单", Success = false };
+                }
+                if (serviceRepair.ServiceType!=ServiceType.洗车)
+                {
+                    return new ResModel() { Msg = "收银失败，该单不是洗车单", Success = false };
+                }
+                if (serviceRepair.ServiceWashState != ServiceWashState.登记)
+                {
+                    return new ResModel() { Msg = "收银失败，该洗车单的状态不是登记状态", Success = false };
+                }
+                var serviceRepairCashTicket = new ServiceRepairCashTicket()
+                {
+                    Id = Guid.NewGuid(),
+                    ServiceRepairId = serviceRepair.Id,
+                    ShouldPay = serviceRepairCashTicketDto.ShouldPay,
+                    WashCarDiscount = serviceRepairCashTicketDto.WashCarDiscount,
+                    WashCarCreditPay = serviceRepairCashTicketDto.WashCarCreditPay,
+                    RealPay = serviceRepairCashTicketDto.RealPay,
+                    BackLittle = serviceRepairCashTicketDto.BackLittle,
+                    Description = serviceRepairCashTicketDto.Description
+                };
+                var serviceWashItem = new ServiceWashItem()
+                {
+                    Id = Guid.NewGuid(),
+                    WashItemId = serviceRepairCashTicketDto.ServiceRepair.ServiceWashItem.WashItemId,
+                    ServiceRepairId = serviceRepair.Id
+                };
+                var serviceRpairPayments = serviceRepairCashTicketDto.ServiceRepairPayments.Select(i =>
+                    new ServiceRpairPayment()
+                    {
+                        Id = Guid.NewGuid(),
+                        ServiceRepairCashTicketId = serviceRepairCashTicket.Id,
+                        PaymentTypeId = i.PaymentTypeId,
+                        Money = i.Money
+
+                    });
+                using (var scope = new TransactionScope())
+                {
+                    try
+                    {
+                        //进出厂信息
+                        serviceRepair.EstimateLeaveTime = serviceRepairCashTicketDto.ServiceRepair.EstimateLeaveTime;
+                        serviceRepair.WashCarMainOperatorId = serviceRepairCashTicketDto.ServiceRepair.WashCarMainOperatorId;
+                        serviceRepair.ServiceAdvisorId= serviceRepairCashTicketDto.ServiceRepair.ServiceAdvisorId;
+                        serviceRepair.ServiceWashState = ServiceWashState.出厂;
+
+                        //车辆信息
+                        car.CurrentMileage = serviceRepairCashTicketDto.ServiceRepair.Car.CurrentMileage;
+                        car.NextMaintainMileage = serviceRepairCashTicketDto.ServiceRepair.Car.NextMaintainMileage;
+                        car.NextMaintainDate = serviceRepairCashTicketDto.ServiceRepair.Car.NextMaintainDate;
+                        car.InsuranceExpireTime = serviceRepairCashTicketDto.ServiceRepair.Car.InsuranceExpireTime;
+                        car.YearlyCheckTime = serviceRepairCashTicketDto.ServiceRepair.Car.YearlyCheckTime;
+                        db.SaveChanges();
+
+                        db.ServiceRepairCashTicket.Add(serviceRepairCashTicket);
+                        //洗车项目信息
+                        db.ServiceWashItem.Add(serviceWashItem);
+                        db.ServiceRpairPayment.AddRange(serviceRpairPayments);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "收银失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "收银成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+                }
+            }
+        }
+
         public ResModel UpdateServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser)
         {
             using (var db = new ModelContext())

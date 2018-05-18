@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 
 @{
     ViewBag.Title = "汽修系统 | 付款方式";
@@ -123,8 +124,8 @@
         selectedRow = this.dataItem(this.select()[0]);
         console.log(selectedRow);
 
-        $("#btn_edit").data("kendoButton").enable(true);
-        $("#btn_delete").data("kendoButton").enable(true);
+        $("#btn_edit").data("kendoButton").enable(selectedRow.OperationType!==@((int)OperationTypeEnum.系统预置));
+        $("#btn_delete").data("kendoButton").enable(selectedRow.OperationType!==@((int)OperationTypeEnum.系统预置));
     }
 </script>
 

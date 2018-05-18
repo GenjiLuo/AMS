@@ -1,8 +1,357 @@
-﻿
+﻿@using AMS.Model.Enum
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "汽修系统 | 维修列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Style/booking/list.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
+            <span><i class="fa fa-warning purple"></i>通过高级搜索，可以查询已经出厂的单据！</span>
+        </div>
+        <div class="form-group pull-right">
+            <div id="simpleSearchContainer">
+                <input id="simpleSearchContent" class="k-textbox" />
+                <button id="btn_simpleSearch" type="button" class="k-button k-primary"><i class="fa fa-search"></i></button>
+            </div>
+            <button id="btn_switchSearchType" type="button" class="k-button k-primary"><span>展开</span>&nbsp;<i class="fa fa-angle-double-down"></i></button>
+        </div>
+    </div>
+    <form style="display: none;" id="advancedSearchContainer" class="row">
+        <ul class="info-input-box">
+            <li>
+                <label>接车单号：</label>
+                <input id="billNo" class="k-textbox" />
+            </li>
+            <li>
+                <label>车辆牌照：</label>
+                <input id="plateNum" class="k-textbox" />
+            </li>
+            <li>
+                <label>维修类型：</label>
+                <input id="repairType" class="k-textbox" />
+            </li>
+            <li>
+                <label>工单类型：</label>
+                <input id="washOrRepair" />
+            </li>
+            <li>
+                <label>车辆标签：</label>
+                <input id="carLabel" />
+            </li>
+            <li>
+                <label>送修人：</label>
+                <input id="carContact" class="k-textbox" />
+            </li>
+            <li>
+                <label>维修顾问：</label>
+                <input id="serviceAdvisor" class="k-textbox" />
+            </li>
+            <li>
+                <label>车型：</label>
+                <input id="carModel" class="k-textbox" />
+            </li>
+            <li>
+                <label>电话：</label>
+                <input id="phone" class="k-textbox" />
+            </li>
+            <li>
+                <label>维修状态：</label>
+                <input id="state" class="k-textbox" />
+            </li>
+        </ul>
+        <div class="info-search-box">
+            <button id="btn_advancedSearch" type="button" class="k-button k-primary marginRight5px"><i class="fa fa-search"></i>&nbsp;查找</button>
+            <button id="btn_reset" type="button" class="k-button"><i class="fa fa-undo"></i>&nbsp;重置</button>
+        </div>
+    </form>
+    <div class="row">
+        <div id="grid"></div>
+    </div>
+</div>
+<script id="serviceTypeTemp" type="text/x-kendo-template">
+    # if(ServiceType == @((int)ServiceType.洗车)){ #
+    <label class="label label-sm label-yellow paddingBottom0">洗车</label>
+    # }else{ #
+    <label class="label label-sm label-success paddingBottom0">维修</label>
+    # } #
+</script>
+<script id="stateTemp" type="text/x-kendo-template">
+    # if(ServiceBookingState == @((int)ServiceBookingState.待接车)){ #
+    <label class="label label-sm label-info paddingBottom0">待接车</label>
+    # }else if(ServiceBookingState == @((int)ServiceBookingState.已接车)){ #
+    <label class="label label-sm label-success paddingBottom0">已接车</label>
+    # }else{ #
+    <label class="label label-sm paddingBottom0">已作废</label>
+    # } #
+</script>
+<script>
+    var selectedRow = {};
+    $(document).ready(function () {
+        $("#btn_edit").kendoButton();
+        $("#btn_read").kendoButton();
+        $("#btn_turnToInvalid").kendoButton();
+        $("#btn_turnToRepair").kendoButton();
+        $("#btn_turnToFinish").kendoButton();
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url:"@Url.Action("ServiceRepairHistory_GridDataSource")"
+                    }
+                }
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            detailInit:detailInit,
+            columns: [
+                {
+                    title: "客户",
+                    template: function(item) {
+                        return item.CustomerName + "(" + item.CustomerPhone + ")";
+                    }
+                },
+                {
+                    field: "CarPlateNum",
+                    title: "车辆牌照"
+                },
+                {
+                    field: "CarVIN",
+                    title: "车架号"
+                },
+                {
+                    field: "CurrentMileage",
+                    title: "里程数"
+                },
+                {
+                    title: "接车单号",
+                    template: function(item) {
+                        return "<a target='_blank' href='@Url.Action("ViewDetail","RepairManagement")" +
+                            "?serviceRepairId=" +
+                            item.Id +
+                            "'>"+item.BillNo+"</a>";
+                    }
+                },
+                {
+                    field: "ServiceAdvisorName",
+                    title: "维修顾问"
+                },
+                {
+                    field: "ServiceDataTime",
+                    title: "进厂时间"
+                },
+                {
+                    title: "状态",
+                    template: function (item) {
+                        if (item.ServiceType === @((int)ServiceType.维修)) {
+                            switch (item.ServiceRepairState) {
+                            case @((int)ServiceRepairState.登记):
+                                return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                            case @((int)ServiceRepairState.在修):
+                                return "<span class='label label-sm label-primary' style='line-height: 14px;height: 14px;'>在修</span>";
+                            case @((int)ServiceRepairState.竣工):
+                                return "<span class='label label-sm label-success' style='line-height: 14px;height: 14px;'>竣工</span>";
+                            case @((int)ServiceRepairState.结算):
+                                return "<span class='label label-sm label-warning' style='line-height: 14px;height: 14px;'>结算</span>";
+                            case @((int)ServiceRepairState.收银):
+                                return "<span class='label label-sm label-danger' style='line-height: 14px;height: 14px;'>收银</span>";
+                            case @((int)ServiceRepairState.出厂):
+                                return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                            case @((int)ServiceRepairState.作废):
+                                return "<span class='label label-sm ' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
+                        } else {
+                            switch (item.ServiceWashState) {
+                            case @((int)ServiceWashState.登记):
+                                return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                            case @((int)ServiceWashState.出厂):
+                                return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                            case @((int)ServiceWashState.作废):
+                                return "<span class='label label-sm' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
+                        }
+                    }
+                },
+                {
+                    field: "TotalRepairItemMoney",
+                    title: "工时费"
+                },
+                {
+                    field: "TotalPartsMoney",
+                    title: "材料费"
+                },
+                {
+                    field: "ManagementMoney",
+                    title: "管理费"
+                },
+                {
+                    field: "OtherMoney",
+                    title: "其它费用"
+                }
+            ]
+        });
+    });
+    $("#btn_export").click(function() {
+        var grid = $("#carModelGrid").data("kendoGrid");
+        grid.saveAsExcel();
+    });
+    //简单搜索
+    $("#btn_simpleSearch").click(function() {
+        var keyword = $("#simpleSearchContent").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            dataType: "json",
+            data: {
+                keyword:keyword
+            },
+            success: function(data) {
+                var dataSource = new kendo.data.DataSource({
+                    data: data
+                });
+                var grid = $("#grid").data("kendoGrid");
+                grid.setDataSource(dataSource);
+            }
+        });
+    });
+    $("#btn_switchSearchType").click(function () {
+        if ($(this).find("i").hasClass("fa-angle-double-down")) {
+            $(this).find("i").removeClass("fa-angle-double-down");
+            $(this).find("i").addClass("fa-angle-double-up");
+            $(this).find("span").html("收起");
+            $("#simpleSearchContainer").hide();
+            $("#advancedSearchContainer").slideDown();
+        } else {
+            $(this).find("i").removeClass("fa-angle-double-up");
+            $(this).find("i").addClass("fa-angle-double-down");
+            $(this).find("span").html("展开");
+            $("#simpleSearchContainer").show();
+            $("#advancedSearchContainer").slideUp();
+        }
+    });
+    $("#btn_advancedSearch").click(function() {
 
-<h2>Index</h2>
+
+    });
+    $("#btn_reset").click(function() {
+        $("#advancedSearchContainer")[0].reset();
+    });
+</script>
+<script>
+    function detailInit(e) {
+        console.log(e);
+        $("<div/>").appendTo(e.detailCell).append("<ul>" +
+            "<li class='k-state-active'>维修项目</li>" +
+            "<li>维修用料</li>" +
+            "</ul>" +
+            "<div>" +
+               "<div class='agrid'></div>"+
+            "</div>" +
+            "<div>" +
+               "<div class='bgrid'></div>"+
+            "</div>").kendoTabStrip();
+        $(".agrid").each(function() {
+            $(this).kendoGrid({
+                dataSource: {
+                    data: [],
+                    schema: {
+                        fields: {
+                            WorkHour: { type: "number" },
+                            Price: {type:"number"}
+                        }
+                    }
+                },
+                height: 300,
+                pageable: {
+                    pageSize: 20,
+                    refresh: true
+                },
+                sortable: true,
+                filterable: false,
+                columns: [
+                    {
+                        field: "SerNum",
+                        title: "项目编码"
+                    },
+                    {
+                        field: "Name",
+                        title: "项目名称"
+                    },
+                    {
+                        field: "WorkHour",
+                        title:"工时"
+                    },
+                    {
+                        field: "Price",
+                        title:"单价"
+                    },
+                    {
+                        field: "ServiceAccountName",
+                        title:"结算方式"
+                    },
+                    {
+                        field: "MainOperatorName",
+                        title:"主修人"
+                    },
+                    {
+                        field: "Description",
+                        title: "备注"
+                    }
+                ]
+            });
+        });
+        $(".bgrid").each(function() {
+            $(this).kendoGrid({
+                dataSource: {
+                data: []
+            },
+            height: 300,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称"
+                },
+                {
+                    field: "Price",
+                    title:"单价"
+                },
+                {
+                    field: "Count",
+                    title:"数量"
+                },
+                {
+                    template: function(item) {
+                        return item.Price * item.Count;
+                    },
+                    title: "总金额"
+                },
+                {
+                    field: "WarehouseName",
+                    title: "库房"
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    title:"结算方式"
+                }
+            ]
+            });
+        });
+    }
+</script>
 
