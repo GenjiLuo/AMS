@@ -297,6 +297,7 @@ namespace AMS.Model.Repositories.Implements
                         ServiceRepairId = j.ServiceRepairId,
                         RepairItemId = j.RepairItemId,
                         RepairItemName = j.RepairItem.Name,
+                        RepairItemSerNo = j.RepairItem.SerNum,
                         WorkHour = j.WorkHour,
                         Price = j.Price,
                         MainOperatorId = j.MainOperatorId,
@@ -310,7 +311,7 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
@@ -323,12 +324,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
                     }).ToList()
                 }).ToList();
                 return serviceRepairs;

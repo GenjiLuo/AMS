@@ -251,65 +251,62 @@
             "<li>维修用料</li>" +
             "</ul>" +
             "<div>" +
-               "<div class='agrid'></div>"+
+            "<div id='a" + e.data.Id + "'></div>" +
             "</div>" +
             "<div>" +
-               "<div class='bgrid'></div>"+
+            "<div id='b" + e.data.Id + "'></div>" +
             "</div>").kendoTabStrip();
-        $(".agrid").each(function() {
-            $(this).kendoGrid({
-                dataSource: {
-                    data: [],
-                    schema: {
-                        fields: {
-                            WorkHour: { type: "number" },
-                            Price: {type:"number"}
-                        }
+        $("#a"+e.data.Id).kendoGrid({
+            dataSource: {
+                data: e.data.ServiceRepairItem,
+                schema: {
+                    fields: {
+                        WorkHour: { type: "number" },
+                        Price: { type: "number" }
                     }
+                }
+            },
+            height: 300,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "RepairItemSerNo",
+                    title: "项目编码"
                 },
-                height: 300,
-                pageable: {
-                    pageSize: 20,
-                    refresh: true
+                {
+                    field: "RepairItemName",
+                    title: "项目名称"
                 },
-                sortable: true,
-                filterable: false,
-                columns: [
-                    {
-                        field: "SerNum",
-                        title: "项目编码"
-                    },
-                    {
-                        field: "Name",
-                        title: "项目名称"
-                    },
-                    {
-                        field: "WorkHour",
-                        title:"工时"
-                    },
-                    {
-                        field: "Price",
-                        title:"单价"
-                    },
-                    {
-                        field: "ServiceAccountName",
-                        title:"结算方式"
-                    },
-                    {
-                        field: "MainOperatorName",
-                        title:"主修人"
-                    },
-                    {
-                        field: "Description",
-                        title: "备注"
-                    }
-                ]
-            });
+                {
+                    field: "WorkHour",
+                    title: "工时"
+                },
+                {
+                    field: "Price",
+                    title: "单价"
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    title: "结算方式"
+                },
+                {
+                    field: "MainOperatorName",
+                    title: "主修人"
+                },
+                {
+                    field: "Description",
+                    title: "备注"
+                }
+            ]
         });
-        $(".bgrid").each(function() {
-            $(this).kendoGrid({
-                dataSource: {
-                data: []
+        $("#b"+e.data.Id).kendoGrid({
+            dataSource: {
+                data: e.data.RepairParts
             },
             height: 300,
             pageable: {
@@ -329,14 +326,14 @@
                 },
                 {
                     field: "Price",
-                    title:"单价"
+                    title: "单价"
                 },
                 {
                     field: "Count",
-                    title:"数量"
+                    title: "数量"
                 },
                 {
-                    template: function(item) {
+                    template: function (item) {
                         return item.Price * item.Count;
                     },
                     title: "总金额"
@@ -347,10 +344,9 @@
                 },
                 {
                     field: "ServiceAccountTypeName",
-                    title:"结算方式"
+                    title: "结算方式"
                 }
             ]
-            });
         });
     }
 </script>
