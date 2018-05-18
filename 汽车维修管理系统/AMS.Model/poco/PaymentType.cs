@@ -12,5 +12,10 @@ namespace AMS.Model.poco
 {
     public class PaymentType : BaseModel
     {
+        public PaymentType()
+        {
+            ServiceRpairPayments=new HashSet<ServiceRpairPayment>();
+        }
+        public virtual ICollection<ServiceRpairPayment> ServiceRpairPayments { get; set; }
     }
 }

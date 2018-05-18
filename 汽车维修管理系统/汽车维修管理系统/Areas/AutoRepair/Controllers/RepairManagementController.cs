@@ -21,6 +21,8 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         private readonly IServiceAccountTypeService _serviceAccountTypeService;
         private readonly IPartsService _partsService;
         private readonly IRepairItemService _repairItemService;
+        private readonly IServiceTicketTypeService _serviceTicketTypeService;
+        private readonly IPaymentTypeService _paymentTypeService;
         public RepairManagementController()
         {
             _serviceRepairService=new ServiceRepairService();
@@ -32,6 +34,8 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             _serviceAccountTypeService=new ServiceAccountTypeService();
             _partsService=new PartsService();
             _repairItemService=new RepairItemService();
+            _serviceTicketTypeService=new ServiceTicketTypeService();
+            _paymentTypeService=new PaymentTypeService();
         }
 
         public ActionResult Index()
@@ -138,13 +142,30 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         public ActionResult RepairAccount(Guid serviceRepairId)
         {
             var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
-            return View("RepairAccount", serviceRepair);
+            var serviceRepairAccountTicket=new ServiceRepairAccountTicketDto(){ ServiceRepair = serviceRepair };
+            return View("RepairAccount", serviceRepairAccountTicket);
         }
 
         public ActionResult RepairCash(Guid serviceRepairId)
         {
+            var serviceAccountTicket = _serviceRepairService.GetOneAccountTicketByRepairId(serviceRepairId);
+            var serviceRepairCashTicket=new ServiceRepairCashTicketDto(){ ServiceRepairAccountTicket  = serviceAccountTicket };
+            return View("RepairCash", serviceRepairCashTicket);
+        }
+
+        public ActionResult ServiceTickType_ButtonGroupDataSource()
+        {
+            return Json(_serviceTicketTypeService.GetAllServiceTicketType(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PaymentType_Choose()
+        {
+            return Json(_paymentTypeService.GetAllPaymentType(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ViewDetail(Guid serviceRepairId)
+        {
             var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
-            return View("RepairCash", serviceRepair);
+            return View(serviceRepair);
         }
         [HttpPost]
         public ActionResult Update(ServiceRepairDto serviceRepair)
@@ -152,39 +173,70 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             var currentUser = Session["LogUser"] as UserDto;
             return Json(_serviceRepairService.UpdateServiceRepair(serviceRepair, currentUser));
         }
+        [HttpPost]
         public ActionResult TurnToInvalid(Guid serviceRepairId)
         {
-            return null;
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToInvalid(serviceRepairId, currentUser));
         }
-
+        [HttpPost]
         public ActionResult TurnToRepair(Guid serviceRepairId)
         {
-            return null;
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToRepair(serviceRepairId, currentUser));
         }
-
+        [HttpPost]
         public ActionResult TurnToFinish(Guid serviceRepairId)
         {
-            return null;
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToFinish(serviceRepairId, currentUser));
         }
         [HttpPost]
-        public ActionResult Finish(ServiceRepairDto serviceRepairDto)
+        public ActionResult TurnToUnFinish(Guid serviceRepairId)
         {
             var currentUser = Session["LogUser"] as UserDto;
-            return Json(_serviceRepairService.Finish(serviceRepairDto, currentUser));
+            return Json(_serviceRepairService.TurnToFinish(serviceRepairId, currentUser));
         }
         [HttpPost]
-        public ActionResult UnFinish(Guid serviceRepairId)
+        public ActionResult TurnToAccount(Guid serviceRepairId)
         {
-            return null;
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToAccount(serviceRepairId, currentUser));
         }
-        public ActionResult ViewDetail(Guid serviceRepairId)
+        [HttpPost]
+        public ActionResult TurnToCash(Guid serviceRepairId)
         {
-            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
-            return View(serviceRepair);
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToCash(serviceRepairId, currentUser));
         }
+        [HttpPost]
+        public ActionResult TurnToLeave(Guid serviceRepairId)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.TurnToLeave(serviceRepairId, currentUser));
+        }
+        [HttpPost]
+        public ActionResult SaveAndTurnToAccount(ServiceRepairAccountTicketDto serviceRepairAccountTicketDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.SaveAndAccount(serviceRepairAccountTicketDto, currentUser));
+        }
+        [HttpPost]
+        public ActionResult SaveAndTurnToFinish(ServiceRepairDto serviceRepairDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.SaveAndFinish(serviceRepairDto, currentUser));
+        }
+        [HttpPost]
+        public ActionResult SaveAndTurnToCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_serviceRepairService.SaveAndCash(serviceRepairCashTicketDto, currentUser));
+        }
+        [HttpPost]
         public ActionResult Query(string keyword)
         {
-            return null;
+            return Json(_serviceRepairService.QueryServiceRepair(keyword));
         }
     }
 }

@@ -332,6 +332,59 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
+        public ServiceRepairAccountTicketDto GetOneAccountTicket(Guid serviceRepairAccountTicketId)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceRepairAccountTicket = db.ServiceRepairAccountTicket.Where(i => i.Id == serviceRepairAccountTicketId)
+                    .Select(i => new ServiceRepairAccountTicketDto()
+                    {
+                        Id = i.Id,
+                        ServiceRepair = GetOneServiceRepair(i.ServiceRepairId),
+                        ManagementMoney = i.ManagementMoney,
+                        OtherMoney = i.OtherMoney,
+                        TaxMoney = i.TaxMoney,
+                        WorkHourDiscount = i.WorkHourDiscount,
+                        PartsDiscount = i.PartsDiscount,
+                        ManagementDiscount = i.ManagementDiscount,
+                        TotalMoney = i.TotalMoney,
+                        MoveLittle = i.MoveLittle,
+                        ShouldPay = i.ShouldPay,
+                        CreditPay = i.CreditPay,
+                        RealPay = i.RealPay
+                    }).FirstOrDefault();
+                return serviceRepairAccountTicket;
+            }
+        }
+        public ServiceRepairAccountTicketDto GetOneAccountTicketByRepairId(Guid serviceRepairId)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRpair = GetOneServiceRepair(serviceRepairId);
+                var serviceRepairAccountTicket = db.ServiceRepairAccountTicket.Where(i => i.ServiceRepairId == serviceRepairId)
+                    .Select(i => new ServiceRepairAccountTicketDto()
+                    {
+                        Id = i.Id,
+                        ManagementMoney = i.ManagementMoney,
+                        OtherMoney = i.OtherMoney,
+                        TaxMoney = i.TaxMoney,
+                        WorkHourDiscount = i.WorkHourDiscount,
+                        PartsDiscount = i.PartsDiscount,
+                        ManagementDiscount = i.ManagementDiscount,
+                        TotalMoney = i.TotalMoney,
+                        MoveLittle = i.MoveLittle,
+                        ShouldPay = i.ShouldPay,
+                        CreditPay = i.CreditPay,
+                        RealPay = i.RealPay
+                    }).FirstOrDefault();
+                if (serviceRepairAccountTicket != null)
+                {
+                    serviceRepairAccountTicket.ServiceRepair = serviceRpair;
+                }
+                return serviceRepairAccountTicket;
+            }
+        }
+
         public List<ServiceRepairDto> QueryServiceRepair(string keyword)
         {
             using (var db = new ModelContext())
@@ -533,6 +586,34 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
+        public ResModel TurnToRepair(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel(){Msg = "转维修失败，未找到该维修单",Success = false};
+                }
+
+                if (serviceRepair.ServiceRepairState != ServiceRepairState.登记)
+                {
+                    return new ResModel() { Msg = "转维修失败，该维修单已作废或不是登记状态", Success = false };
+                }
+
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.在修;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "转维修失败", Success = false };
+                }
+                return new ResModel() { Msg = "转维修成功", Success = true };
+            }
+        }
+
         public ResModel TurnToFinish(Guid serviceRepairId, UserDto operationUser)
         {
             using (var db = new ModelContext())
@@ -556,6 +637,34 @@ namespace AMS.Model.Repositories.Implements
                     return new ResModel() { Msg = "竣工失败", Success = false };
                 }
                 return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+            }
+        }
+
+        public ResModel TurnToUnFinish(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "取消竣工失败，未找到该维修单", Success = false };
+                }
+
+                if (serviceRepair.ServiceRepairState != ServiceRepairState.竣工)
+                {
+                    return new ResModel() { Msg = "取消竣工失败，该维修单不是竣工状态", Success = false };
+                }
+
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.在修;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "取消竣工失败", Success = false };
+                }
+                return new ResModel() { Msg = "取消竣工成功", Success = true };
             }
         }
 
@@ -585,12 +694,95 @@ namespace AMS.Model.Repositories.Implements
             }
         }
 
-        public ResModel Finish(ServiceRepairDto serviceRepairDto, UserDto operationUser)
+        public ResModel TurnToAccount(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "结算失败，未找到该维修单", Success = false };
+                }
+
+                if (serviceRepair.ServiceRepairState != ServiceRepairState.竣工)
+                {
+                    return new ResModel() { Msg = "结算失败，该维修单不是竣工状态", Success = false };
+                }
+
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.结算;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "结算失败", Success = false };
+                }
+                return new ResModel() { Msg = "结算成功", Success = true };
+            }
+        }
+
+        public ResModel TurnToCash(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "收银失败，未找到该维修单", Success = false };
+                }
+
+                if (serviceRepair.ServiceRepairState != ServiceRepairState.结算)
+                {
+                    return new ResModel() { Msg = "收银失败，该维修单不是竣工状态", Success = false };
+                }
+
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.收银;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "收银失败", Success = false };
+                }
+                return new ResModel() { Msg = "收银成功", Success = true };
+            }
+        }
+
+        public ResModel TurnToLeave(Guid serviceRepairId, UserDto operationUser)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel() { Msg = "出厂失败，未找到该维修单", Success = false };
+                }
+
+                if (serviceRepair.ServiceRepairState != ServiceRepairState.收银)
+                {
+                    return new ResModel() { Msg = "出厂失败，该维修单还未收银", Success = false };
+                }
+
+                try
+                {
+                    serviceRepair.ServiceRepairState = ServiceRepairState.出厂;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "出厂失败", Success = false };
+                }
+                return new ResModel() { Msg = "出厂成功", Success = true };
+            }
+        }
+        public ResModel SaveAndFinish(ServiceRepairDto serviceRepairDto, UserDto operationUser)
         {
             var res=UpdateServiceRepair(serviceRepairDto, operationUser);
             if (!res.Success)
             {
-                return new ResModel(){Msg = "竣工失败",Success = false};
+                return new ResModel(){Msg = "竣工保存失败",Success = false};
             }
 
             using (var db=new ModelContext())
@@ -603,12 +795,108 @@ namespace AMS.Model.Repositories.Implements
                 }
                 catch (Exception e)
                 {
-                    return new ResModel() { Msg = "竣工失败", Success = false };
+                    return new ResModel() { Msg = "竣工保存失败", Success = false };
                 }
-                return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+                return new ResModel() { Msg = "竣工保存成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
             }
         }
 
+        public ResModel SaveAndAccount(ServiceRepairAccountTicketDto ticketDto, UserDto operationUser)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceRepair =
+                    db.ServiceRepair.FirstOrDefault(i => i.Id == ticketDto.ServiceRepairId);
+                if (serviceRepair == null)
+                {
+                    return new ResModel(){Msg = "结算失败，未找到该维修单",Success = false};
+                }
+                var serviceRepairAccountTicket=new ServiceRepairAccountTicket()
+                {
+                    Id = Guid.NewGuid(),
+                    ServiceRepairId = serviceRepair.Id,
+                    ManagementMoney = ticketDto.ManagementMoney,
+                    OtherMoney = ticketDto.OtherMoney,
+                    TaxMoney = ticketDto.TaxMoney,
+                    WorkHourDiscount = ticketDto.WorkHourDiscount,
+                    PartsDiscount = ticketDto.PartsDiscount,
+                    ManagementDiscount = ticketDto.ManagementDiscount,
+                    TotalMoney = ticketDto.TotalMoney,
+                    MoveLittle = ticketDto.MoveLittle,
+                    ShouldPay = ticketDto.ShouldPay,
+                    CreditPay = ticketDto.CreditPay,
+                    RealPay = ticketDto.RealPay
+                };
+                using (var scope=new TransactionScope())
+                {
+                    try
+                    {
+                        serviceRepair.ServiceRepairState = ServiceRepairState.结算;
+                        db.ServiceRepairAccountTicket.Add(serviceRepairAccountTicket);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "结算失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "结算成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+                }
+            }
+        }
+        public ResModel SaveAndCash(ServiceRepairCashTicketDto serviceRepairCashTicketDto, UserDto operationUser)
+        {
+            using (var db=new ModelContext())
+            {
+                var serviceRepairAccountTicket = db.ServiceRepairAccountTicket.FirstOrDefault(i =>
+                    i.Id == serviceRepairCashTicketDto.ServiceRepairAccountTicketId);
+                if (serviceRepairAccountTicket == null)
+                {
+                    return new ResModel(){Msg = "收银失败，未找到收银的结算单",Success = false};
+                }
+                if (serviceRepairAccountTicket.ServiceRepair.ServiceRepairState != ServiceRepairState.结算)
+                {
+                    return new ResModel() { Msg = "收银失败，该维修单的状态不是结算状态", Success = false };
+                }
+                var serviceRepairCashTicket=new ServiceRepairCashTicket()
+                {
+                    Id = Guid.NewGuid(),
+                    ServiceRepairAccountTicketId = serviceRepairCashTicketDto.ServiceRepairAccountTicketId,
+                    ServiceTicketTypeId = serviceRepairCashTicketDto.ServiceTicketTypeId,
+                    TaxBillNo = serviceRepairCashTicketDto.TaxBillNo,
+                    ShouldPay = serviceRepairCashTicketDto.ShouldPay,
+                    RealPay = serviceRepairCashTicketDto.RealPay,
+                    BackLittle = serviceRepairCashTicketDto.BackLittle,
+                    
+                };
+                var serviceRpairPayments = serviceRepairCashTicketDto.ServiceRpairPayments.Select(i =>
+                    new ServiceRpairPayment()
+                    {
+                        Id = Guid.NewGuid(),
+                        ServiceRepairCashTicketId = serviceRepairCashTicket.Id,
+                        PaymentTypeId = i.PaymentTypeId,
+                        Money = i.Money
+
+                    });
+                using (var scope=new TransactionScope())
+                {
+                    try
+                    {
+                        db.ServiceRepairCashTicket.Add(serviceRepairCashTicket);
+                        serviceRepairAccountTicket.ServiceRepair.ServiceRepairState = ServiceRepairState.收银;
+                        db.SaveChanges();
+                        db.ServiceRpairPayment.AddRange(serviceRpairPayments);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "收银失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "收银成功", Success = true, Data = new { ServiceRepairId = serviceRepairAccountTicket.ServiceRepair.Id } };
+                }
+            }
+        }
         public ResModel UpdateServiceRepair(ServiceRepairDto serviceRepairDto, UserDto operationUser)
         {
             using (var db = new ModelContext())

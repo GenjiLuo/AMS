@@ -34,3 +34,6 @@ D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateServiceRepairNullableColumn.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableCar.resources
 D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableBookingAndRepair.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableTicket.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.AddTableCash.resources
+D:\汽车维修管理系统\AMS\汽车维修管理系统\AMS.Model\obj\Debug\AMS.Model.Migrations.UpdateTableCash.resources

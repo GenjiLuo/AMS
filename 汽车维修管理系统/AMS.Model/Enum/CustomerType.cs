@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace AMS.Model.Enum
 {
-    public enum ServiceWashState
+    public enum CustomerType
     {
-        登记,
-        出厂,
-        作废
+        个人,
+        单位
     } 
 }

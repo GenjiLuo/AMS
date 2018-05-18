@@ -88,6 +88,8 @@
     <Compile Include="dto\OrgDto.cs" />
     <Compile Include="dto\ServiceAccountTypeDto.cs" />
     <Compile Include="dto\ServiceBookingDto.cs" />
+    <Compile Include="dto\ServiceRepairAccountTicketDto.cs" />
+    <Compile Include="dto\ServiceRepairCashTicketDto.cs" />
     <Compile Include="dto\ServiceRepairHistoryDto.cs" />
     <Compile Include="dto\ServiceRepairDto.cs" />
     <Compile Include="dto\ServiceRepairItemDto.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
     <Compile Include="Enum\GenderEnum.cs" />
+    <Compile Include="Enum\CustomerType.cs" />
     <Compile Include="Enum\ServiceWashState.cs" />
     <Compile Include="Enum\ServiceType.cs" />
     <Compile Include="Enum\ServiceRepairState.cs" />
@@ -172,6 +175,18 @@
     <Compile Include="Migrations\201805171320119_UpdateTableBookingAndRepair.Designer.cs">
       <DependentUpon>201805171320119_UpdateTableBookingAndRepair.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805171802205_AddTableTicket.cs" />
+    <Compile Include="Migrations\201805171802205_AddTableTicket.Designer.cs">
+      <DependentUpon>201805171802205_AddTableTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805180700230_AddTableCash.cs" />
+    <Compile Include="Migrations\201805180700230_AddTableCash.Designer.cs">
+      <DependentUpon>201805180700230_AddTableCash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805181135030_UpdateTableCash.cs" />
+    <Compile Include="Migrations\201805181135030_UpdateTableCash.Designer.cs">
+      <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
@@ -188,6 +203,8 @@
     <Compile Include="poco\PartsDictionary.cs" />
     <Compile Include="poco\PartsType.cs" />
     <Compile Include="poco\PartsBuy.cs" />
+    <Compile Include="poco\ServiceRepairCashTicket.cs" />
+    <Compile Include="poco\ServiceRepairAccountTicket.cs" />
     <Compile Include="poco\ServiceRepairItem.cs" />
     <Compile Include="poco\ServiceRepair.cs" />
     <Compile Include="poco\ServiceBooking.cs" />
@@ -315,6 +332,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805171320119_UpdateTableBookingAndRepair.resx">
       <DependentUpon>201805171320119_UpdateTableBookingAndRepair.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805171802205_AddTableTicket.resx">
+      <DependentUpon>201805171802205_AddTableTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805180700230_AddTableCash.resx">
+      <DependentUpon>201805180700230_AddTableCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805181135030_UpdateTableCash.resx">
+      <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿
+﻿@model AMS.Model.dto.ServiceRepairCashTicketDto
 @{
     ViewBag.Title = "维修结算";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,8 +7,8 @@
 <div id="repairCash" class="container-fluid">
     <div class="option-area row">
         <div class="pull-left option-group">
-            <button type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
-            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+            <button id="btn_cash" type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;收银</button>
+            <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-right">
             <div class="navigation">
@@ -35,11 +35,11 @@
                 <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D; padding-left: 12px"></i>
             </span>
             <span>
-                LA1180551005
+                @Model.ServiceRepairAccountTicket.ServiceRepair.BillNo
             </span>
             <span id="payMoney" class="pull-right">
                 <label>应付金额：</label>
-                <span>￥93.5</span>
+                <span>@Model.ServiceRepairAccountTicket.RealPay</span>
             </span>
         </div>
         <div class="form-group">
@@ -47,7 +47,9 @@
                 <i class="fa fa-user fa-2x blue" style="padding-left: 12px"></i>
             </span>
             <span>
-                任海泉 &nbsp; 189343454 &nbsp; 渝BG4321
+                @Model.ServiceRepairAccountTicket.ServiceRepair.ContactName &nbsp; 
+                @Model.ServiceRepairAccountTicket.ServiceRepair.ContactPhone &nbsp; 
+                @Model.ServiceRepairAccountTicket.ServiceRepair.Car.PlateNum
             </span>
         </div>
     </div>
@@ -56,69 +58,14 @@
             付款方式
         </div>
         <ul id="payWayBox">
-            <li>
-                <span class="checkbox-item">
-                    <input type="checkbox" id="eq1" class="k-checkbox">
-                    <label class="k-checkbox-label" for="eq1"></label>
-                </span>
-                <label class="name-item">
-                    预收款抵扣
-                </label>
-                <input class="k-textbox"/>
-                <span class="pull-right">
-                    余额：￥<span>0.00</span>
-                </span>
-            </li>
-            <li>
-                <span class="checkbox-item">
-                    <input type="checkbox" id="eq2" class="k-checkbox">
-                    <label class="k-checkbox-label" for="eq2"></label>
-                </span>
-                <label class="name-item">
-                    会员余额
-                </label>
-                <input class="k-textbox"/>
-                <span class="pull-right">
-                    余额：￥<span>0.00</span>
-                </span>
-            </li>
-            <li>
-                <span class="checkbox-item">
-                    <input type="checkbox" id="eq2" class="k-checkbox">
-                    <label class="k-checkbox-label" for="eq2"></label>
-                </span>
-                <label class="name-item">
-                    现金
-                </label>
-                <input class="k-textbox"/>
-            </li>
-            <li>
-                <span class="checkbox-item">
-                    <input type="checkbox" id="eq2" class="k-checkbox">
-                    <label class="k-checkbox-label" for="eq2"></label>
-                </span>
-                <label class="name-item">
-                    银行卡
-                </label>
-                <input class="k-textbox"/>
-            </li>
-            <li>
-                <span class="checkbox-item">
-                    <input type="checkbox" id="eq2" class="k-checkbox">
-                    <label class="k-checkbox-label" for="eq2"></label>
-                </span>
-                <label class="name-item">
-                    微信支付
-                </label>
-                <input class="k-textbox"/>
-            </li>
+            
         </ul>
         <div class="money-check-item">
             <label class="pull-left">
                 实付：
             </label>
             <span class="pull-right">
-                ￥<span>93.00</span>
+                ￥<span id="realPay">0.00</span>
             </span>
         </div>
         <div class="money-check-item">
@@ -126,7 +73,7 @@
                 应付：
             </label>
             <span class="pull-right">
-                -￥<span>93.00</span>
+                -￥<span>@Model.ServiceRepairAccountTicket.RealPay</span>
             </span>
         </div>
         <div class="money-check-item">
@@ -134,7 +81,7 @@
                 找零：
             </label>
             <span class="pull-right">
-                ￥<span>0.00</span>
+                ￥<span id="backLittle">0.00</span>
             </span>
         </div>
     </div>
@@ -144,71 +91,157 @@
         </div>
         <div>
             <div id="tax">
-                <span>
-                    收据
-                </span>
-                <span>
-                    普通发票
-                </span>
-                <span>
-                    专用发票
-                </span>
             </div>
             <label>票据号：</label>
-            <input class="k-textbox"/>
+            <input id="taxBillNo" class="k-textbox"/>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function() {
-        $("#chooseCar").kendoComboBox();
-        $("#chooseBooking").kendoDropDownList();
-        $("#serviceTime").kendoDateTimePicker();
-        $("#estimateLeaveTime").kendoDateTimePicker();
-        $("#filter").kendoButtonGroup();
-        $("#tax").kendoButtonGroup({
-            index: 0
-        });
-        $("#grid").kendoGrid({
-            dataSource: {
-                data:[]
-            },
-            height: 250,
-            pageable: {
-                pageSize: 20,
-                refresh: true
-            },
-            sortable: true,
-            filterable: false,
-            selectable: "multiple",
-            persistSelection: true,
-            columns: [
-                {
-                    field: "Name",
-                    title: "客户"
-                },
-                {
-                    field: "Code",
-                    title: "车辆牌照"
-                },
-                {
-                    field: "ContactName",
-                    title: "车架号"
-                },
-                {
-                    field: "MobilePhone",
-                    title: "里程数"
-                },
-                {
-                    field: "Wechat",
-                    title: "维修顾问"
-                },
-                {
-                    field: "QQ",
-                    title: "进厂时间"
+    var serviceTicketId = "";
+    var selectPayments = [];
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "@Url.Action("ServiceTickType_ButtonGroupDataSource")",
+            success: function(res) {
+                if (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        $("#tax").append("<span id='" + res[i].Id + "'>" + res[i].Name + "</span>");
+                    }
+                    $("#tax").kendoButtonGroup({
+                        select: function() {
+                            serviceTicketId = $(this.current()).attr("id");
+                        }
+                    });
                 }
-            ]
+            }
+        });
+        $.ajax({
+            url: "@Url.Action("PaymentType_Choose")",
+            success: function(res) {
+                if (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].Name === "现金") {
+                            $("#payWayBox").append('<li>' +
+                                '                <span class="checkbox-item">' +
+                                '                    <input type="checkbox" checked="checked" id="'+res[i].Id+'" class="k-checkbox">' +
+                                '                    <label class="k-checkbox-label" for="'+res[i].Id+'"></label>' +
+                                '                </span>' +
+                                '                <label class="name-item">' +
+                                '                    ' +res[i].Name+ 
+                                '                </label>' +
+                                '                <input type="number" class="k-textbox" value="'+@Model.ServiceRepairAccountTicket.RealPay+'"/>' +
+                                '            </li>');
+                            selectPayments.push({
+                                PaymentTypeId: res[i].Id,
+                                Money:@Model.ServiceRepairAccountTicket.RealPay
+                            });
+                        } else {
+                            $("#payWayBox").append('<li>' +
+                                '                <span class="checkbox-item">' +
+                                '                    <input type="checkbox" id="'+res[i].Id+'" class="k-checkbox">' +
+                                '                    <label class="k-checkbox-label" for="'+res[i].Id+'"></label>' +
+                                '                </span>' +
+                                '                <label class="name-item">' +
+                                '                    ' +res[i].Name+ 
+                                '                </label>' +
+                                '                <input type="number" class="k-textbox"/>' +
+                                '            </li>');
+                        }
+                        refreshMoneyCalculate();
+                    }
+                }
+            }
+        });
+        $("#payWayBox").on("change", "li input[type=checkbox]", function() {
+            if ($(this).is(":checked")) {
+                selectPayments.push({
+                    PaymentTypeId: $(this).attr("id"),
+                    Money:parseFloat($(this).parent().next().next().val()) || 0
+                });
+            } else {
+                for (var i = 0; i < selectPayments.length; i++) {
+                    if (selectPayments[i].PaymentTypeId == $(this).attr("id")) {
+                        selectPayments.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            refreshMoneyCalculate();
+        });
+        $("#payWayBox").on("keyup", "li input[type=number]", function () {
+            var id = $(this).prev().prev().children("input").attr("id");
+            for (var i = 0; i < selectPayments.length; i++) {
+                if (selectPayments[i].PaymentTypeId === id) {
+                    selectPayments[i].Money = parseFloat($(this).val());
+                    break;
+                }
+            }
+            refreshMoneyCalculate();
+        });
+        $("#payWayBox").on("change", "li input[type=number]", function () {
+            var id = $(this).prev().prev().children("input").attr("id");
+            for (var i = 0; i < selectPayments.length; i++) {
+                if (selectPayments[i].PaymentTypeId === id) {
+                    selectPayments[i].Money = parseFloat($(this).val());
+                    break;
+                }
+            }
+            refreshMoneyCalculate();
+        });
+        $("#btn_cash").click(function() {
+            $.ajax({
+                url: "@Url.Action("SaveAndTurnToCash")",
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    ServiceRepairAccountTicketId:"@Model.ServiceRepairAccountTicket.Id",
+                    ServiceTicketTypeId: serviceTicketId,
+                    TaxBillNo: $("#taxBillNo").val().trim(),
+                    ShouldPay:@Model.ServiceRepairAccountTicket.RealPay,
+                    RealPay: parseFloat($("#realPay").html()),
+                    BackLittle: parseFloat($("#backLittle").html()),
+                    ServiceRpairPayments:selectPayments
+                }),
+                success: function(res) {
+                    if (res.Success) {
+                        swal({
+                            type: "success",
+                            text: "收银成功",
+                            showConfirmButton: false,
+                            timer:800
+                        });
+                        setTimeout(function() {
+                            window.location.href = "@Url.Action("ViewDetail")" +
+                                "?serviceRepairId=" +
+                                res.Data.ServiceRepairId;
+                        },900);
+                    } else {
+                        swal({
+                            type: "error",
+                            text:res.Msg
+                        });
+                    }
+                }
+            });
+        });
+        $("#btn_back").click(function() {
+            window.history.back();
         });
     });
+</script>
+<script>
+    function refreshMoneyCalculate() {
+        var realPay = 0;
+        for (var i = 0; i < selectPayments.length; i++) {
+            realPay += selectPayments[i].Money;
+        }
+        var backLittle = realPay - @Model.ServiceRepairAccountTicket.RealPay;
+        $("#realPay").html(realPay);
+        $("#backLittle").html(backLittle>0?backLittle:0);
+    }
 </script>
 

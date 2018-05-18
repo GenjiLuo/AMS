@@ -1,265 +1,275 @@
-﻿@model AMS.Model.dto.ServiceRepairDto
+﻿@using Newtonsoft.Json
+@model AMS.Model.dto.ServiceRepairAccountTicketDto
 @{
     ViewBag.Title = "维修结算";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Style/repaircar/account.css" rel="stylesheet" />
 <div class="container-fluid">
-    <div class="option-area row">
-        <div class="pull-left option-group">
-            <button id="btn_cash" type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
-            <button type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
-        </div>
-        <div class="pull-right">
-            <div class="navigation">
-                <span class="finished"><span>√</span><span>选择车辆</span></span>
-                <span class="interval-line"></span>
-                <span class="finished"><span>√</span><span>开单</span></span>
-                <span class="interval-line"></span>
-                <span class="finished"><span>√</span><span>维修</span></span>
-                <span class="interval-line"></span>
-                <span class="finished"><span>√</span><span>竣工</span></span>
-                <span class="interval-line"></span>
-                <span class="current"><span>5</span><span>结算收银</span></span>
-                <span class="interval-line"></span>
-                <span><span>6</span><span>出厂</span></span>
-            </div>
-        </div>
+<div class="option-area row">
+    <div class="pull-left option-group">
+        <button id="btn_account" type="button" class="k-button k-primary"><i class="fa fa-money"></i>&nbsp;结算</button>
+        <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
     </div>
-    <div class="row">
-        <div class="tabbable">
-            <ul class="nav nav-tabs" id="myTab">
-                <li class="active">
-                    <a data-toggle="tab" href="#home">
-                        <i class="green ace-icon fa fa-book bigger-120"></i>
-                        基本信息
-                    </a>
-                </li>
-
-                <li>
-                    <a data-toggle="tab" href="#messages">
-                        <i class="green ace-icon fa fa-minus-circle bigger-120"></i>
-                        会员优惠
-                    </a>
-                </li>
-
-                <li>
-                    <a data-toggle="tab" href="#dropdown">
-                        <i class="green ace-icon fa fa-list bigger-120"></i>
-                        结算明细
-                    </a>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
-                    <div class="form-group row">
-                        <div class="pull-left">
-                            <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D;"></i>
-                        </div>
-                        <div id="orderNo" class="pull-left">
-                            @Model.BillNo
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="pull-left">
-                            <i class="fa fa-car fa-2x"></i>
-                        </div>
-                        <div class="pull-left">
-                            <span class="marginRight15px">
-                                <span>@Model.Car.PlateNum</span>
-                            </span>
-                            <span class="marginRight15px">
-                                <label><strong>维修类型：</strong></label>
-                                <span>@Model.RepairTypeName</span>
-                            </span>
-                            <span>
-                                <label><strong>维修顾问：</strong></label>
-                                <span>@Model.ServiceAdvisorName</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="pull-left">
-                            <i class="fa fa-user fa-2x" style="color: #12B6F1;"></i>
-                        </div>
-                        <div class="pull-left">
-                            <div class="form-group">
-                                <span class="marginRight15px compnay">@Model.ContactName</span>
-                                <span>@Model.ContactPhone</span>
-                                <ul class="info-box">
-                                    <li>
-                                        <div>
-                                            <label>会员卡号：</label>
-                                            <span>无</span>
-                                        </div>
-                                        <div>
-                                            <label>会员等级：</label>
-                                            <span>无</span>
-                                        </div>
-                                        <div>
-                                            <label>会员余额：</label>
-                                            <span>无</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <label>工时折扣：</label>
-                                            <span>无</span>
-                                        </div>
-                                        <div>
-                                            <label>材料折扣：</label>
-                                            <span>无</span>
-                                        </div>
-                                        <div>
-                                            <label>管理费折扣：</label>
-                                            <span>无</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="messages" class="tab-pane fade">
-                    <h2>
-                        待开发...
-                    </h2>
-                </div>
-
-                <div id="dropdown" class="tab-pane fade">
-                    <div class="form-group">
-                        <div id="filter">
-                            <span>
-                                全部
-                            </span>
-                            <span>
-                                维修项目
-                            </span>
-                            <span>
-                                配件
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div id="grid"></div>
-                    </div>
-                </div>
-            </div>
+    <div class="pull-right">
+        <div class="navigation">
+            <span class="finished"><span>√</span><span>选择车辆</span></span>
+            <span class="interval-line"></span>
+            <span class="finished"><span>√</span><span>开单</span></span>
+            <span class="interval-line"></span>
+            <span class="finished"><span>√</span><span>维修</span></span>
+            <span class="interval-line"></span>
+            <span class="finished"><span>√</span><span>竣工</span></span>
+            <span class="interval-line"></span>
+            <span class="current"><span>5</span><span>结算收银</span></span>
+            <span class="interval-line"></span>
+            <span><span>6</span><span>出厂</span></span>
         </div>
-    </div>
-    <div class="row">
-        <ul id="checkItemBox">
-            <li>
-                <div class="item-header text-center">应结金额</div>
-                <ul>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                </ul>
-                <div class="item-footer">
-                    <span class="pull-left">小计</span>
-                    <span class="pull-right">110.00</span>
-                </div>
-            </li>
-            <li>
-                <div class="item-header text-center">优惠金额</div>
-                <ul>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                </ul>
-                <div class="item-footer">
-                    <span class="pull-left">小计</span>
-                    <span class="pull-right">110.00</span>
-                </div>
-            </li>
-            <li>
-                <div class="item-header text-center">实结金额</div>
-                <ul>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                    <li>
-                        <span class="pull-left">工时费</span>
-                        <span class="pull-right">110.00</span>
-                    </li>
-                </ul>
-                <div class="item-footer">
-                    <span class="pull-left">小计</span>
-                    <span class="pull-right">110.00</span>
-                </div>
-            </li>
-        </ul>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $("#chooseCar").kendoComboBox();
-        $("#chooseBooking").kendoDropDownList();
-        $("#serviceTime").kendoDateTimePicker();
+<div class="row">
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#home">
+                    <i class="green ace-icon fa fa-book bigger-120"></i>
+                    基本信息
+                </a>
+            </li>
 
-        $("#estimateLeaveTime").kendoDateTimePicker();
+            <li>
+                <a data-toggle="tab" href="#messages">
+                    <i class="green ace-icon fa fa-minus-circle bigger-120"></i>
+                    会员优惠
+                </a>
+            </li>
+
+            <li>
+                <a data-toggle="tab" href="#dropdown">
+                    <i class="green ace-icon fa fa-list bigger-120"></i>
+                    结算明细
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div class="form-group row">
+                    <div class="pull-left">
+                        <i class="fa fa-file-text-o fa-2x" style="color: #1ABD9D;"></i>
+                    </div>
+                    <div id="orderNo" class="pull-left">
+                        @Model.ServiceRepair.BillNo
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="pull-left">
+                        <i class="fa fa-car fa-2x"></i>
+                    </div>
+                    <div class="pull-left">
+                        <span class="marginRight15px">
+                            <span>@Model.ServiceRepair.Car.PlateNum</span>
+                        </span>
+                        <span class="marginRight15px">
+                            <label><strong>维修类型：</strong></label>
+                            <span>@Model.ServiceRepair.RepairTypeName</span>
+                        </span>
+                        <span>
+                            <label><strong>维修顾问：</strong></label>
+                            <span>@Model.ServiceRepair.ServiceAdvisorName</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="pull-left">
+                        <i class="fa fa-user fa-2x" style="color: #12B6F1;"></i>
+                    </div>
+                    <div class="pull-left">
+                        <div class="form-group">
+                            <span class="marginRight15px compnay">@Model.ServiceRepair.ContactName</span>
+                            <span>@Model.ServiceRepair.ContactPhone</span>
+                            <ul class="info-box">
+                                <li>
+                                    <div>
+                                        <label>会员卡号：</label>
+                                        <span>无</span>
+                                    </div>
+                                    <div>
+                                        <label>会员等级：</label>
+                                        <span>无</span>
+                                    </div>
+                                    <div>
+                                        <label>会员余额：</label>
+                                        <span>无</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <label>工时折扣：</label>
+                                        <span>无</span>
+                                    </div>
+                                    <div>
+                                        <label>材料折扣：</label>
+                                        <span>无</span>
+                                    </div>
+                                    <div>
+                                        <label>管理费折扣：</label>
+                                        <span>无</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="messages" class="tab-pane fade">
+                <h2>
+                    待开发...
+                </h2>
+            </div>
+
+            <div id="dropdown" class="tab-pane fade">
+                <div class="form-group">
+                    <div id="filter">
+                        <span>
+                            全部
+                        </span>
+                        <span>
+                            维修项目
+                        </span>
+                        <span>
+                            配件
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div id="grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <ul id="checkItemBox">
+        <li>
+            <div class="item-header text-center">应结金额</div>
+            <ul>
+                <li>
+                    <span class="pull-left">工时费</span>
+                    <span id="workHourMoney" class="pull-right">@Model.WorkHourMoney</span>
+                </li>
+                <li>
+                    <span class="pull-left">材料费</span>
+                    <span id="partsMoney" class="pull-right">@Model.PartsMoney</span>
+                </li>
+                <li>
+                    <span class="pull-left">管理费</span>
+                    <span id="managementMoney" class="pull-right">@Model.ManagementMoney</span>
+                </li>
+                <li>
+                    <span class="pull-left">其它费用</span>
+                    <span id="otherMoney" class="pull-right">@Model.OtherMoney</span>
+                </li>
+                <li>
+                    <span class="pull-left">税金</span>
+                    <input id="taxMoney" class="input-no-border pull-right k-textbox text-right" value="@Model.TaxMoney"/>
+                </li>
+            </ul>
+            <div class="item-footer">
+                <span class="pull-left">小计</span>
+                <span id="shouldPaySubTotal" class="pull-right">0.00</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-header text-center">优惠金额</div>
+            <ul>
+                <li>
+                    <span class="pull-left">工时优惠</span>
+                    <input id="workHourDiscount" class="input-no-border pull-right k-textbox text-right" value="@Model.WorkHourDiscount"/>
+                </li>
+                <li>
+                    <span class="pull-left">材料优惠</span>
+                    <input id="partsDiscount" class="input-no-border pull-right k-textbox text-right" value="@Model.PartsDiscount"/>
+                </li>
+                <li>
+                    <span class="pull-left">管理费优惠</span>
+                    <input id="managementDiscount" class="input-no-border pull-right k-textbox text-right" value="@Model.ManagementDiscount"/>
+                </li>
+                <li>
+                    <span class="pull-left"></span>
+                    <span class="pull-right"></span>
+                </li>
+                <li>
+                    <span class="pull-left"></span>
+                    <span class="pull-right"></span>
+                </li>
+            </ul>
+            <div class="item-footer">
+                <span class="pull-left">小计</span>
+                <span id="discountSubTotal" class="pull-right">0.00</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-header text-center">实结金额</div>
+            <ul>
+                <li>
+                    <span class="pull-left">合计金额</span>
+                    <span id="totalMoney" class="pull-right">0.00</span>
+                </li>
+                <li>
+                    <span class="pull-left">抹零</span>
+                    <input id="moveLittle" class="input-no-border pull-right k-textbox text-right"/>
+                </li>
+                <li>
+                    <span class="pull-left">实结金额</span>
+                    <span id="shouldPay" class="pull-right">0.00</span>
+                </li>
+                <li>
+                    <span class="pull-left">本次挂账</span>
+                    <input id="creditPay" class="input-no-border pull-right k-textbox text-right"/>
+                </li>
+                <li>
+                    <span class="pull-left"></span>
+                    <span class="pull-right"></span>
+                </li>
+            </ul>
+            <div class="item-footer">
+                <span class="pull-left">出厂收现</span>
+                <span id="realPayBox"  class="pull-right">
+                    &yen;<span id="realPay">0.00</span>
+                </span>
+            </div>
+        </li>
+    </ul>
+</div>
+</div>
+<script>
+    var repairParts = @Html.Raw(JsonConvert.SerializeObject(Model.ServiceRepair.RepairParts));
+    var repairItems = @Html.Raw(JsonConvert.SerializeObject(Model.ServiceRepair.ServiceRepairItem));
+    var allGridItems = [];
+</script>
+<script>
+        var workHourMoney = @Model.WorkHourMoney;
+        var partsMoney =@Model.PartsMoney;
+        var managementMoney =@Model.ManagementMoney;
+        var otherMoney =@Model.OtherMoney;
+        var taxMoney = 0;
+        var subTotalMoney = 0;
+
+        var workHourDiscount = 0;
+        var partsDiscount = 0;
+        var managementDiscount = 0;
+        var totalDiscount = 0;
+
+        var totalMoney = 0;
+        var moveLittle = 0;
+        var shoulPay = 0;
+        var creditPay = 0;
+        var realPay = 0;
+</script>
+<script>
+    $(document).ready(function() { 
         $("#filter").kendoButtonGroup({
             index: 0
         });
@@ -303,9 +313,99 @@
                 }
             ]
         });
-        $("#btn_cash").click(function() {
-            window.location.href = "@Url.Action("RepairCash")";
+        $("#btn_account").click(function() {
+            $.ajax({
+                url: "@Url.Action("SaveAndTurnToAccount")",
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(getTicketItem()),
+                success: function(res) {
+                    if (res.Success) {
+                        swal({
+                            type: "success",
+                            text: "结算成功",
+                            showConfirmButton: false,
+                            timer:800
+                        });
+                        setTimeout(function() {
+                            window.location.href = "@Url.Action("ViewDetail")" +
+                                "?serviceRepairId=" +
+                                res.Data.ServiceRepairId;
+                        },900);
+                    } else {
+                        swal({
+                            type: "error",
+                            text:res.Msg
+                        });
+                    }
+                }
+            });
+        });
+        $("#btn_back").click(function() {
+            window.history.back();
+        });
+        refreshMoney();
+        $("#taxMoney").keyup(function() {
+            refreshMoney();
+        });
+        $("#workHourDiscount").keyup(function() {
+            refreshMoney();
+        });
+        $("#partsDiscount").keyup(function() {
+            refreshMoney();
+        });
+        $("#managementDiscount").keyup(function() {
+            refreshMoney();
+        });
+        $("#moveLittle").keyup(function() {
+            refreshMoney();
+        });
+        $("#creditPay").keyup(function() {
+            refreshMoney();
         });
     });
+</script>
+<script>
+    function refreshMoney() {
+        taxMoney = parseFloat($("#taxMoney").val()) || 0;
+        subTotalMoney = workHourMoney + partsMoney + managementMoney + otherMoney + taxMoney;
+        $("#shouldPaySubTotal").html(subTotalMoney);
+
+        workHourDiscount = parseFloat($("#workHourDiscount").val()) || 0;
+        partsDiscount = parseFloat($("#partsDiscount").val()) || 0;
+        managementDiscount = parseFloat($("#managementDiscount").val()) || 0;
+        totalDiscount = workHourDiscount + partsDiscount + managementDiscount;
+        $("#discountSubTotal").html(totalDiscount);
+
+        totalMoney = subTotalMoney - totalDiscount;
+        $("#totalMoney").html(totalMoney);
+        moveLittle = parseFloat($("#moveLittle").val()) || 0;
+        shoulPay = totalMoney - moveLittle;
+        $("#shouldPay").html(shoulPay);
+        creditPay = parseFloat($("#creditPay").val()) || 0;
+        realPay = shoulPay - creditPay;
+        $("#realPay").html(realPay);
+    }
+</script>
+<script>
+    function getTicketItem() {
+        return {
+            ServiceRepairId:"@Model.ServiceRepair.Id",
+            ManagementMoney:managementMoney,
+            OtherMoney:otherMoney,
+            TaxMoney: taxMoney,
+
+            WorkHourDiscount: workHourDiscount,
+            PartsDiscount: partsDiscount,
+            ManagementDiscount: managementDiscount,
+
+            TotalMoney:totalMoney,
+            MoveLittle: moveLittle,
+            ShouldPay:shoulPay,
+            CreditPay: creditPay,
+            RealPay:realPay
+        }   
+    }
 </script>
 

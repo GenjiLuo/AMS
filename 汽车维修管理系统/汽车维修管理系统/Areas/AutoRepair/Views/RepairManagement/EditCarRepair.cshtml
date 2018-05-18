@@ -527,7 +527,7 @@
     //竣工
     $("#btn_finish").click(function() {
         $.ajax({
-            url: "@Url.Action("Finish")",
+            url: "@Url.Action("SaveAndTurnToFinish")",
             type: "POST",
             dataType: "json",
             contentType: "application/json",

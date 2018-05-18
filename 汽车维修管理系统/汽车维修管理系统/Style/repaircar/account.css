@@ -159,8 +159,8 @@ li {
     padding: 0 5px;
 }
 #checkItemBox>li ul li {
-    height: 28px;
-    line-height: 28px;
+    height: 30px;
+    line-height: 30px;
     
     overflow: hidden;
 }
@@ -173,6 +173,22 @@ li {
 }
 .item-footer {
     border-top: 1px solid lightgrey;
-    padding: 3px 5px;
+    padding: 8px 5px;
     overflow: hidden;
  }
+.input-no-border {
+    width: 100px;
+    border: none;
+    border-bottom: 1px solid #c5c5c5;
+    border-radius: 0;
+}
+.input-no-border:focus {
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    text-align: left;
+}
+#realPayBox {
+    font-weight: 400;
+    color: orangered;
+    font-size: 15px;
+}

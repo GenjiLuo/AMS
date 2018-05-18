@@ -204,7 +204,10 @@
 <script>
     $(document).ready(function () {
         $("#customerType").kendoButtonGroup({
-            index: 0
+            index: 0,
+            select: function (e) {
+                
+            }
         });
         $("#gender").kendoButtonGroup({
             index: 0

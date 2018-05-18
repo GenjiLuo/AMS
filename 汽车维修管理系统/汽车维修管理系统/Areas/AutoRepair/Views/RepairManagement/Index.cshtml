@@ -30,8 +30,11 @@
         </div>
         <div class="form-group pull-left option-group">
             <button id="btn_turnToInvalid" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-trash"></i>&nbsp;作废</button>
-            <button id="btn_turnToRepair" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-wrench"></i>&nbsp;维修</button>
-            <button id="btn_turnToFinish" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-flag"></i>&nbsp;竣工</button>
+            <button id="btn_turnToRepair" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-wrench"></i>&nbsp;维修</button>
+            <button id="btn_turnToFinish" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
+            <button id="btn_turnToAccount" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;结算</button>
+            <button id="btn_turnToCash" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;收银</button>
+            <button id="btn_turnToLeave" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;出厂</button>
         </div>
         <div class="form-group pull-left option-group">
             <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
@@ -135,7 +138,7 @@
                     model: {
                         id: "Id",
                         fields: {
-                            ServiceRepairTime: {type:"date"}
+                            ServiceDateTime: {type:"date"}
                         }
                     }
                 }
@@ -173,17 +176,39 @@
                     title: "车辆牌照"
                 },
                 {
-                    field: "ServiceRepairTime",
+                    field: "ServiceDateTime",
                     title: "进厂时间",
                     format: "{0: yyyy-MM-dd HH:mm}"
                 },
                 {
                     title: "状态",
                     template: function(item) {
-                        if (item.ServiceType === @((int)ServiceType.洗车)) {
-                            return "洗车状态";
+                        if (item.ServiceType === @((int)ServiceType.维修)) {
+                            switch (item.ServiceRepairState) {
+                                case @((int)ServiceRepairState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceRepairState.在修):
+                                    return "<span class='label label-sm label-primary' style='line-height: 14px;height: 14px;'>在修</span>";
+                                case @((int)ServiceRepairState.竣工):
+                                    return "<span class='label label-sm label-success' style='line-height: 14px;height: 14px;'>竣工</span>";
+                                case @((int)ServiceRepairState.结算):
+                                    return "<span class='label label-sm label-warning' style='line-height: 14px;height: 14px;'>结算</span>";
+                                case @((int)ServiceRepairState.收银):
+                                    return "<span class='label label-sm label-danger' style='line-height: 14px;height: 14px;'>收银</span>";
+                                case @((int)ServiceRepairState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceRepairState.作废):
+                                    return "<span class='label label-sm ' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
                         } else {
-                            return "维修状态";
+                            switch (item.ServiceRepairState) {
+                                case @((int)ServiceWashState.登记):
+                                    return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>登记</span>";
+                                case @((int)ServiceWashState.出厂):
+                                    return "<span class='label label-sm label-purple' style='line-height: 14px;height: 14px;'>出厂</span>";
+                                case @((int)ServiceWashState.作废):
+                                    return "<span class='label label-sm' style='line-height: 14px;height: 14px;'>作废</span>";
+                            }
                         }
                     }
                 },
@@ -338,6 +363,56 @@
     $("#btn_read").click(function() {
         window.location.href = "@Url.Action("ViewDetail")" + "?serviceRepairId=" + selectedRow.Id;
     });
+    $("#btn_turnToAccount").click(function() {
+        window.location.href = "@Url.Action("RepairAccount")" + "?serviceRepairId=" + selectedRow.Id;
+    });
+    $("#btn_turnToCash").click(function() {
+        window.location.href = "@Url.Action("RepairCash")" + "?serviceRepairId=" + selectedRow.Id;
+    });
+    $("#btn_turnToLeave").click(function() {
+        swal({
+            position: "center",
+            type: "warning",
+            text: "确定出厂吗？",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '我确定',
+            cancelButtonText: "取消"
+        }).then(function(res) {
+            console.log(res);
+            if (res.value) {
+                $.ajax({
+                    url: "@Url.Action("TurnToLeave")",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        serviceRepairId: selectedRow.Id
+                    },
+                    success: function(res) {
+                        if (res.Success) {
+                            swal({
+                                type: "success",
+                                text: "该维修已出厂",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            setTimeout(function() {
+                                    window.location.reload();
+                                },
+                                1100);
+                        } else {
+                            swal({
+                                type: "error",
+                                text: res.Msg,
+                                confirmButtonText: '知道了'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
     //简单搜索
     $("#btn_simpleSearch").click(function() {
         var keyword = $("#simpleSearchContent").val();
@@ -384,10 +459,15 @@
         selectedRow = this.dataItem(this.select()[0]);
         console.log(selectedRow);
 
-        $("#btn_edit").data("kendoButton").enable();
+        $("#btn_edit").data("kendoButton").enable(selectedRow.ServiceRepairState === @((int)ServiceRepairState.登记) || selectedRow.ServiceRepairState === @((int)ServiceRepairState.在修));
         $("#btn_read").data("kendoButton").enable(true);
-        $("#btn_turnToRepair").data("kendoButton").enable();
-        $("#btn_turnToInvalid").data("kendoButton").enable();
+        $("#btn_turnToInvalid").data("kendoButton").enable(selectedRow.ServiceRepairState !== @((int)ServiceRepairState.作废) && selectedRow.ServiceRepairState !== @((int)ServiceRepairState.出厂));
+
+        $("#btn_turnToRepair").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.登记));
+        $("#btn_turnToFinish").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.在修));
+        $("#btn_turnToAccount").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.竣工));
+        $("#btn_turnToCash").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.结算));
+        $("#btn_turnToLeave").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.收银));
     }
 </script>
 

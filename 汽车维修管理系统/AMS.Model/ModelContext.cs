@@ -55,5 +55,8 @@ namespace AMS.Model
         public virtual DbSet<ServiceTicketType> ServiceTicketType { get; set; }
         public virtual DbSet<ParameterControl> ParameterControl { get; set; }
         public virtual DbSet<BillNoSetting> BillNoSetting { get; set; }
+        public virtual DbSet<ServiceRepairAccountTicket> ServiceRepairAccountTicket { get; set; }
+        public virtual DbSet<ServiceRpairPayment> ServiceRpairPayment { get; set; }
+        public virtual DbSet<ServiceRepairCashTicket> ServiceRepairCashTicket { get; set; }
     }
 }

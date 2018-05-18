@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿@using AMS.Model.Enum
+@using Newtonsoft.Json
 @model AMS.Model.dto.ServiceRepairDto
 @{
     ViewBag.Title = "查看维修单";
@@ -8,8 +9,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="pull-left option-area">
-            <button id="btn_unfinish" type="button" class="k-button"><i class="fa fa-flag"></i>&nbsp;取消竣工</button>
-            <button id="btn_account" type="button" class="k-button k-primary"><i class="fa fa-yen"></i>&nbsp;结算</button>
+            <button id="btn_finish" style="display: none;" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;竣工</button>
+            <button id="btn_unfinish" style="display: none;" type="button" class="k-button"><i class="fa fa-flag"></i>&nbsp;取消竣工</button>
+            <button id="btn_account" style="display: none;" type="button" class="k-button k-primary"><i class="fa fa-yen"></i>&nbsp;结算</button>
+            <button id="btn_cash" style="display: none;" type="button" class="k-button k-primary"><i class="fa fa-yen"></i>&nbsp;收银</button>
+            <button id="btn_leave" style="display: none;" type="button" class="k-button k-primary"><i class="fa fa-flag"></i>&nbsp;出厂</button>
             <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
         <div class="pull-left option-group">
@@ -191,6 +195,13 @@
 </script>
 <script id="repairPartsOptionTemp" type="text/x-kendo-template">
     <span class="option-box"><button class="k-button k-button-icontext" onclick="removeRepairParts(this);"><i class="fa fa-times red"></i></button></span>
+</script>
+<script>
+    $("#btn_finish").toggle(@Json.Encode(Model.ServiceRepairState== ServiceRepairState.在修));
+    $("#btn_unfinish").toggle(@Json.Encode(Model.ServiceRepairState== ServiceRepairState.竣工));
+    $("#btn_account").toggle(@Json.Encode(Model.ServiceRepairState== ServiceRepairState.竣工));
+    $("#btn_cash").toggle(@Json.Encode(Model.ServiceRepairState== ServiceRepairState.结算));
+    $("#btn_leave").toggle(@Json.Encode(Model.ServiceRepairState== ServiceRepairState.收银));
 </script>
 <script>
     var totalRepairItemMoney = 0.00;
@@ -395,11 +406,21 @@
                 }
             ]
         });
-    refreshLabelInfo();
+        refreshLabelInfo();
     });
+    $("#switchSimpleAndAdvanced").click(function () {
+        if ($("#advancedInfo").is(":hidden")) {
+            $("#advancedInfo").slideDown();
+            $(this).html("<i class='fa fa-angle-double-up'></i><span>&nbsp;收起</span>");
+        } else {
+            $("#advancedInfo").slideUp();
+            $(this).html("<i class='fa fa-angle-double-down'></i><span>&nbsp;更多信息</span>");
+        }
+    });
+    //取消竣工
     $("#btn_unFinish").click(function() {
         $.ajax({
-            url: "@Url.Action("UnFinish")",
+            url: "@Url.Action("TurnToUnFinish")",
             type: "POST",
             dataType: "json",
             data: {
@@ -425,19 +446,84 @@
             }
         });
     });
+    //竣工
+    $("#btn_finish").click(function() {
+        $.ajax({
+            url: "@Url.Action("TurnToFinish")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                serviceRepairId:"@Model.Id"
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "操作成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+    //结算
     $("#btn_account").click(function() {
         window.location.href = "@Url.Action("RepairAccount")" + "?serviceRepairId=" + "@Model.Id";
     });
-    $("#btn_back").click(function() {
-        window.history.back();
+    //收银
+    $("#btn_cash").click(function() {
+        window.location.href = "@Url.Action("RepairCash")" + "?serviceRepairId=" + "@Model.Id";
     });
-    $("#switchSimpleAndAdvanced").click(function () {
-        if ($("#advancedInfo").is(":hidden")) {
-            $("#advancedInfo").slideDown();
-            $(this).html("<i class='fa fa-angle-double-up'></i><span>&nbsp;收起</span>");
-        } else {
-            $("#advancedInfo").slideUp();
-            $(this).html("<i class='fa fa-angle-double-down'></i><span>&nbsp;更多信息</span>");
+    //出厂
+    $("#btn_leave").click(function() {
+        $.ajax({
+            url: "@Url.Action("TurnToLeave")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                serviceRepairId:"@Model.Id"
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "success",
+                        text: "操作成功",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },1100);
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg
+                    });
+                }
+            }
+        });
+    });
+    $("#btn_back").click(function () {
+        @if (Model.ServiceRepairState == ServiceRepairState.出厂)
+        {
+            <text>
+                window.location.href = "@Url.Action("Index")";
+            </text>
+        }
+        else
+        {
+            <text>
+                window.history.back();
+            </text>
         }
     });
 </script>
