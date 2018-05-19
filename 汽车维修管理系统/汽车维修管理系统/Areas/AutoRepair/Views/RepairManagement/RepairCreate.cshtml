@@ -239,9 +239,7 @@
             sortable: true,
             filterable: false,
             selectable: "multiple",
-            change: function() {
-                console.log(this.dataItem());
-            },
+            detailInit:detailInit,
             columns: [
                 {
                     title: "客户",
@@ -262,12 +260,32 @@
                     title: "里程数"
                 },
                 {
+                    title: "接车单号",
+                    template: function(item) {
+                        return "<a target='_blank' href='@Url.Action("ViewDetail","RepairManagement")" +
+                            "?serviceRepairId=" +
+                            item.Id +
+                            "'>"+item.BillNo+"</a>";
+                    }
+                },
+                {
                     field: "ServiceAdvisorName",
                     title: "维修顾问"
                 },
                 {
                     field: "ServiceDataTime",
                     title: "进厂时间"
+                },
+                {
+                    field: "ServiceDataTime",
+                    title: "工单类型",
+                    template: function(item) {
+                        if (item.ServiceType === @((int)ServiceType.维修)) {
+                            return "<span class='label label-sm label-success' style='line-height: 14px;height: 14px;'>维修</span>";
+                        } else {
+                            return "<span class='label label-sm label-yellow' style='line-height: 14px;height: 14px;'>洗车</span>";
+                        }
+                    }
                 },
                 {
                     title: "状态",
@@ -408,4 +426,153 @@
         }
     }
 </script>
+<script>
+    function detailInit(e) {
+        console.log(e);
+        if (e.data.ServiceType === @((int)ServiceType.洗车)) {
+            var content = "";
+            if (e.data.ServiceWashItems.length > 0) {
+                var item = e.data.ServiceWashItems[0];
+                content = '<div class="washitem-box row">' +
+                    '  <div class="washitem-title">洗车项目</div>' +
+                    '<div class="form-group washitem-content-title">' +
+                    '    <div class="col-xs-2">名称</div>' +
+                    '    <div class="col-xs-1">价格</div>' +
+                    '    <div class="col-xs-1">优惠</div>' +
+                    '    <div class="col-xs-1">抹零</div>' +
+                    '    <div class="col-xs-1">支付或挂账</div>' +
+                    '</div>' +
+                    '<div class="form-group washitem-content">' +
+                    '    <div class="col-xs-2">'+item.WashItemName+'</div>' +
+                    '    <div class="col-xs-1">'+item.WashItemPrice+'</div>' +
+                    '    <div class="col-xs-1">0</div>' +
+                    '    <div class="col-xs-1">0</div>' +
+                    '    <div class="col-xs-1">0</div>' +
+                    '</div>' +
+                    '</div>';
+            } else {
+                content = '<div class="washitem-box row">' +
+                    '  <div class="washitem-title">洗车项目</div>' +
+                    '<div class="form-group washitem-content-title">' +
+                    '    <div class="col-xs-2">名称</div>' +
+                    '    <div class="col-xs-1">价格</div>' +
+                    '    <div class="col-xs-1">优惠</div>' +
+                    '    <div class="col-xs-1">抹零</div>' +
+                    '    <div class="col-xs-1">支付或挂账</div>' +
+                    '</div>' +
+                    '</div>';
+            }
+            $("<div class='container-fluid'/>").appendTo(e.detailCell).append(content);
+        } else {
+            $("<div/>").appendTo(e.detailCell).append("<ul>" +
+            "<li class='k-state-active'>" +
+            "维修项目&nbsp;<span class='badge badge-success' style='padding: 3px 5px;line-height: 12px;'>"+e.data.ServiceRepairItem.length+"</span>" +
+            "</li>" +
+            "<li>" +
+            "维修用料&nbsp;<span class='badge badge-info' style='padding: 3px 5px;line-height: 12px;'>"+e.data.RepairParts.length+"</span>" +
+            "</li>" +
+            "</ul>" +
+            "<div>" +
+            "<div id='a" + e.data.Id + "'></div>" +
+            "</div>" +
+            "<div>" +
+            "<div id='b" + e.data.Id + "'></div>" +
+            "</div>").kendoTabStrip();
+        $("#a"+e.data.Id).kendoGrid({
+            dataSource: {
+                data: e.data.ServiceRepairItem,
+                schema: {
+                    fields: {
+                        WorkHour: { type: "number" },
+                        Price: { type: "number" }
+                    }
+                }
+            },
+            height: 300,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "RepairItemSerNo",
+                    title: "项目编码"
+                },
+                {
+                    field: "RepairItemName",
+                    title: "项目名称"
+                },
+                {
+                    field: "WorkHour",
+                    title: "工时"
+                },
+                {
+                    field: "Price",
+                    title: "单价"
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    title: "结算方式"
+                },
+                {
+                    field: "MainOperatorName",
+                    title: "主修人"
+                },
+                {
+                    field: "Description",
+                    title: "备注"
+                }
+            ]
+        });
+        $("#b"+e.data.Id).kendoGrid({
+            dataSource: {
+                data: e.data.RepairParts
+            },
+            height: 300,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称"
+                },
+                {
+                    field: "Price",
+                    title: "单价"
+                },
+                {
+                    field: "Count",
+                    title: "数量"
+                },
+                {
+                    template: function (item) {
+                        return item.Price * item.Count;
+                    },
+                    title: "总金额"
+                },
+                {
+                    field: "WarehouseName",
+                    title: "库房"
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    title: "结算方式"
+                }
+            ]
+        });
+        }
+    }
+</script>
+
+
 

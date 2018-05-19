@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AMS.Model.dto;
 using AMS.Model.Repositories.Implements;
 using AMS.Model.Repositories.Interfaces;
@@ -17,6 +18,11 @@ namespace AMS.Service.Services.Implements
         public List<ServiceRepairHistoryDto> GetAllHistory()
         {
             return _serviceRepairHistoryRepository.GetAllHistory();
+        }
+
+        public List<ServiceRepairHistoryDto> GetHistoryRepairByCarId(Guid carId)
+        {
+            return _serviceRepairHistoryRepository.GetHistoryRepairByCarId(carId);
         }
     }
 }

@@ -88,7 +88,7 @@
     </div>
 </div>
 <script id="carImgTemp" type="text/x-kendo-template">
-    <i class="fa fa-camera"></i>
+    <div style="padding-top:5px;padding-bottom:5px;cursor:pointer;" onclick="viewCarImg(this);" class="text-center" data-imgUrl="#: CarImg #"><i class="fa fa-camera fa-lg"></i></div>
 </script>
 <script>
     var searchVm = new Vue({
@@ -316,6 +316,37 @@
 
         $("#btn_edit").data("kendoButton").enable(true);
         $("#btn_delete").data("kendoButton").enable(true);
+    }
+
+    function viewCarImg(_this) {
+        var imgUrl = $(_this).attr("data-imgUrl");
+        var content = "";
+        if (imgUrl === "null") {
+            content = "<div id='viewImgWindow'>" +
+            "<div id='carImgBox'>"+
+                "<h3>暂无数据</h3>" +
+            "</div>"+
+            "</div>";
+        } else {
+            content = "<div id='viewImgWindow'>" +
+            "<div id='carImgBox'>"+
+                "<img src='" + imgUrl + "'/>" +
+            "</div>"+
+            "</div>";
+        }
+        console.log(imgUrl);
+        $("body").append(content);
+        var window = $("#viewImgWindow").kendoWindow({
+            title: "车辆照片",
+            width: "800px",
+            height: "600px",
+            modal: true,
+            visiable: false,
+            close: function() {
+                this.destroy();
+            }
+        }).data("kendoWindow");
+        window.center().open();
     }
 </script>
 

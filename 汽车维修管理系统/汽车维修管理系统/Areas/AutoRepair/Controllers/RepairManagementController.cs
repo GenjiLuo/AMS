@@ -24,6 +24,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         private readonly IServiceTicketTypeService _serviceTicketTypeService;
         private readonly IPaymentTypeService _paymentTypeService;
         private readonly IWashItemService _washItemService;
+        private readonly IServiceRepairHistoryService _serviceRepairHistoryService;
         public RepairManagementController()
         {
             _serviceRepairService=new ServiceRepairService();
@@ -38,6 +39,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             _serviceTicketTypeService=new ServiceTicketTypeService();
             _paymentTypeService=new PaymentTypeService();
             _washItemService=new WashItemService();
+            _serviceRepairHistoryService=new ServiceRepairHistoryService();
         }
 
         public ActionResult Index()
@@ -93,7 +95,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
 
         public ActionResult RepairHistory_GridDataSource(Guid carId)
         {
-            return Json(_serviceRepairService.GetHistoryRepairByCarId(carId), JsonRequestBehavior.AllowGet);
+            return Json(_serviceRepairHistoryService.GetHistoryRepairByCarId(carId), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult GetCustomerInfo(Guid customerId)

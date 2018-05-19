@@ -8,5 +8,6 @@ namespace AMS.Service.Services.Interfaces
     public interface IServiceRepairHistoryService
     {
         List<ServiceRepairHistoryDto> GetAllHistory();
+        List<ServiceRepairHistoryDto> GetHistoryRepairByCarId(Guid carId);
     }
 }

@@ -55,7 +55,7 @@ namespace 汽车维修管理系统.Areas.CustomerRelation.Controllers
                 {
                     // Some browsers send file names with full path. This needs to be stripped.
                     var fileName = Path.GetFileName(file.FileName);
-                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data/CarImgs"), uid + fileName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/CustomerData/CarImgs"), uid + fileName);
 
                     // The files are not actually saved in this demo
                     file.SaveAs(physicalPath);
@@ -75,7 +75,7 @@ namespace 汽车维修管理系统.Areas.CustomerRelation.Controllers
                 foreach (var fullName in fileNames)
                 {
                     var fileName = Path.GetFileName(fullName);
-                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), uid + fileName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/CustomerData"), uid + fileName);
 
                     // TODO: Verify user permissions
 

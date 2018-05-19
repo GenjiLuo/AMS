@@ -107,3 +107,20 @@
 #chooseCar-list{
     width: 400px!important;
 }
+.washitem-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+ }
+.washitem-box {
+        background: #F0FAF6;
+    padding: 8px;
+    border: 1px solid lightgrey;
+}
+.washitem-content-title {
+    font-weight: 600;
+}
+.washitem-content,
+.washitem-content-title{
+    overflow: hidden;
+ }
