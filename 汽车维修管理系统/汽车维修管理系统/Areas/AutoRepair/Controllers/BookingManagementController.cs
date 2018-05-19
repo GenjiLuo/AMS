@@ -18,6 +18,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         private readonly IRepairItemService _repairItemService;
         private readonly IServiceAccountTypeService _serviceAccountTypeService;
         private readonly IPartsService _partsService;
+        private readonly ICustomerService _customerService;
         public BookingManagementController()
         {
             _serviceBookingService=new ServiceBookingService();
@@ -27,6 +28,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             _repairItemService=new RepairItemService();
             _serviceAccountTypeService=new ServiceAccountTypeService();
             _partsService=new PartsService();
+            _customerService=new CustomerService();
         }
         public ActionResult Index()
         {
@@ -81,7 +83,10 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             return Json(_serviceAccountTypeService.GetAllServiceAccountType(), JsonRequestBehavior.AllowGet);
         }
 
-        
+        public ActionResult GetCustomerInfo(Guid customerId)
+        {
+            return Json(_customerService.GetOneCustomer(customerId), JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult Create(ServiceBookingDto serviceBookingDto)
@@ -90,6 +95,11 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             return Json(_serviceBookingService.AddServiceBooking(serviceBookingDto,currrentUser));
         }
         public ActionResult Update(Guid serviceBookingId)
+        {
+            var serviceBooking = _serviceBookingService.GetOneServiceBooking(serviceBookingId);
+            return View(serviceBooking);
+        }
+        public ActionResult ViewDetail(Guid serviceBookingId)
         {
             var serviceBooking = _serviceBookingService.GetOneServiceBooking(serviceBookingId);
             return View(serviceBooking);

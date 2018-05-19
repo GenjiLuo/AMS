@@ -1,8 +1,196 @@
-﻿
+﻿@using AMS.Model.Enum
+
+
 @{
-    ViewBag.Title = "Charge";
+    ViewBag.Title = "汽修系统 | 维修项目";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Style/customerManage/customerManage.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <button id="btn_editPreCharge" type="button" class="k-button k-primary k-state-disabled" disabled="disabled"><i class="fa fa-yen"></i>&nbsp;预存款</button>
+        </div>
+        <div class="form-group pull-right">
+            <div id="simpleSearchContainer"> 
+                <input id="simpleSearchContent" class="k-textbox" />
+                <button id="btn_simpleSearch" type="button" class="k-button k-primary"><i class="fa fa-search"></i></button>    
+            </div>
+            <button id="btn_switchSearchType" type="button" class="k-button k-primary"><span>展开</span>&nbsp;<i class="fa fa-angle-double-down"></i></button>
+        </div>
+    </div>
+    <form style="display: none;" id="advancedSearchContainer" class="row">
+        <ul class="info-input-box">
+            <li>
+                <label>客户名称：</label>
+                <input id="name" class="k-textbox"/>
+            </li>
+            <li>
+                <label>联系人：</label>
+                <input id="contactName" class="k-textbox"/>
+            </li>
+            <li>
+                <label>移动电话：</label>
+                <input id="mobilePhone" class="k-textbox"/>
+            </li>
+            <li>
+                <label>客户生日：</label>
+                <input id="birthdayStart" placeholder="开始"/>
+            </li>
+            <li>
+                <label>客户生日：</label>
+                <input id="birthdayEnd" placeholder="结束"/>
+            </li>
+            <li>
+                <label>客户类别：</label>
+                <div id="customerType"></div>
+            </li>
+            <li>
+                <label>车牌号：</label>
+                <input id="plateNum" class="k-textbox"/>
+            </li>
+        </ul>
+        <div class="info-search-box">
+            <button id="btn_advancedSearch" type="button" class="k-button k-primary marginRight5px"><i class="fa fa-search"></i>&nbsp;查找</button>
+            <button id="btn_reset" type="button" class="k-button"><i class="fa fa-undo"></i>&nbsp;重置</button>
+        </div>
+    </form>
+    <div class="row">
+        <div id="repairItemTypeGrid"></div>
+    </div>
+</div>
+<script id="customerTypeTemp" type="text/x-kendo-template">
+    # if(CustomerType == 0){ #
+        <span>个人</span>
+    # }else{ #
+        <span>单位</span>
+    # } # 
+</script>
+<script id="genderTemp" type="text/x-kendo-template">
+    # if(Gender == 0){ #
+        <span>男</span>
+    # }else{ #
+        <span>女</span>
+    # } # 
+</script>
+<script>
+    var selectedRow = {};
+    $(document).ready(function () {
+        $("#btn_editPreCharge").kendoButton();
+        $("#repairItemTypeGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("Grid_CustomerDataSource")"
+                },
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Birthday: {type:"date"}
+                        }
+                    }
+                },
+                pageSize: 20
+            },
+            height: 550,
+            pageable: true,
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            persistSelection: true,
+            change: onChange,
+            columns: [
+                {
+                    field: "CustomerType",
+                    title: "客户类型",
+                    template:$("#customerTypeTemp").html()
+                },
+                {
+                    field: "Level",
+                    title: "等级",
+                    template: function(item) {
+                        if (item.Level === @((int)CustomerLevel.普通客户)) {
+                            return "普通客户";
+                        } else if (item.Level === @((int)CustomerLevel.中级客户)) {
+                            return "中级客户";
+                        } else {
+                            return "高级客户";
+                        }
+                    }
+                },
+                {
+                    field: "Name",
+                    title: "名称"
+                },
+                {
+                    field: "ContactName",
+                    title: "联系人"
+                },
+                {
+                    field: "MobilePhone",
+                    title: "电话"
+                },
+                {
+                    field: "totalCost",
+                    title: "累计消费"
+                },
+                {
+                    field: "PreChargeMoney",
+                    title: "预存款余额"
+                }
+            ]
+        });
+    });
+    //添加预存款
+    $("#btn_editPreCharge").click(function() {
+        $("body").append("<div id='preChargeWindow'></div>");
+        var window=$("#preChargeWindow").kendoWindow({
+            title: "预存款",
+            width: "500px",
+            height: "150px",
+            content: "@Url.Action("PreCharge_PartialView")"+"?customerId="+selectedRow.Id,
+            modal: true,
+            visiable: false,
+            resizable:false,
+            close: function() {
+                this.destroy();
+            }
+        }).data("kendoWindow");
+        window.center().open();
+    });
+    $("#btn_switchSearchType").click(function () {
+        if ($(this).find("i").hasClass("fa-angle-double-down")) {
+            $(this).find("i").removeClass("fa-angle-double-down");
+            $(this).find("i").addClass("fa-angle-double-up");
+            $(this).find("span").html("收起");
+            $("#simpleSearchContainer").hide();
+            $("#advancedSearchContainer").slideDown();
+        } else {
+            $(this).find("i").removeClass("fa-angle-double-up");
+            $(this).find("i").addClass("fa-angle-double-down");
+            $(this).find("span").html("展开");
+            $("#simpleSearchContainer").show();
+            $("#advancedSearchContainer").slideUp();
+        }
+    });
+    $("#btn_advancedSearch").click(function() {
+        
+        
+    });
+    $("#btn_reset").click(function() {
+        $("#advancedSearchContainer")[0].reset();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+    });
+</script>
+<script>
+    function onChange() {
+        selectedRow = this.dataItem(this.select()[0]);
+        console.log(selectedRow);
 
-<h2>Charge</h2>
+        $("#btn_editPreCharge").data("kendoButton").enable(true);
+    }
+</script>
 

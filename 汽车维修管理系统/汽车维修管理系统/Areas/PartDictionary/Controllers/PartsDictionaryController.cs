@@ -25,6 +25,18 @@ namespace 汽车维修管理系统.Areas.PartDictionary.Controllers
         {
             return View();
         }
+        public ActionResult PartsAlert_PartialView(Guid partsDictionaryId)
+        {
+            var partsDictionary = _partsDictionaryService.GetOnePartsDictionary(partsDictionaryId);
+            return PartialView(partsDictionary);
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePartsAlertCount(PartsDictionaryDto partsDictionaryDto)
+        {
+            var currentUser = Session["LogUser"] as UserDto;
+            return Json(_partsDictionaryService.UpdatePartsAlertCount(partsDictionaryDto, currentUser));
+        }
 
         public ActionResult PartsDictionary_GridDataSource()
         {

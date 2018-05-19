@@ -26,5 +26,59 @@ namespace AMS.Model.Repositories.Implements
                 return parts;
             }
         }
+
+        public List<PartsAlertDto> GetAllPartAlerts()
+        {
+            using (var db=new ModelContext())
+            {
+                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                    (i, j) => new PartsAlertDto()
+                    {
+                        PartsCode = i.Code,
+                        PartsName = i.Name,
+                        WarehouseName = j.Warehouse.Name,
+                        CurrentCount = j.Count,
+                        LowestAlertCount = i.LowestAlertCount,
+                        HighestAlertCount = i.HighestAlertCount
+                    }).ToList();
+                return partsAlerts;
+            }
+        }
+
+        public List<PartsAlertDto> GetOverHighestPartAlerts()
+        {
+            using (var db = new ModelContext())
+            {
+                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                    (i, j) => new PartsAlertDto()
+                    {
+                        PartsCode = i.Code,
+                        PartsName = i.Name,
+                        WarehouseName = j.Warehouse.Name,
+                        CurrentCount = j.Count,
+                        LowestAlertCount = i.LowestAlertCount,
+                        HighestAlertCount = i.HighestAlertCount
+                    }).Where(i=>i.CurrentCount>i.HighestAlertCount).ToList();
+                return partsAlerts;
+            }
+        }
+
+        public List<PartsAlertDto> GetLowerLowestPartAlerts()
+        {
+            using (var db = new ModelContext())
+            {
+                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                    (i, j) => new PartsAlertDto()
+                    {
+                        PartsCode = i.Code,
+                        PartsName = i.Name,
+                        WarehouseName = j.Warehouse.Name,
+                        CurrentCount = j.Count,
+                        LowestAlertCount = i.LowestAlertCount,
+                        HighestAlertCount = i.HighestAlertCount
+                    }).Where(i=>i.CurrentCount<i.LowestAlertCount).ToList();
+                return partsAlerts;
+            }
+        }
     }
 }

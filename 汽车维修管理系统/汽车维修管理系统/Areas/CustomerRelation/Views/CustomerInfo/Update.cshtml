@@ -57,9 +57,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">身份证号</label>
+            <label class="col-xs-2 text-right">联系电话</label>
             <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="IDNum" />
+                <input class="k-textbox full-width" v-model.trim="contactPhone" />
             </div>
         </div>
         <div class="form-group row">
@@ -137,7 +137,7 @@
             servicePassword:"@Model.ServicePassword",
             confirmServicePassword: "@Model.ServicePassword",
             contact: "@Model.ContactName",
-            IDNum: "@Model.IDCard",
+            contactPhone: "@Model.ContactPhone",
             fixPhone: "@Model.FixPhone",
             address: "@Model.Address",
             wechat: "@Model.WeChat",
@@ -163,7 +163,7 @@
                     MobilePhone: _this.mobile,
                     ServicePassword: _this.servicePassword,
                     ContactName: _this.contact,
-                    IDCard: _this.IDNum,
+                    ContactPhone: _this.contactPhone,
                     FixPhone: _this.fixPhone,
                     Address: _this.address,
                     Wechat: _this.wechat,
@@ -206,7 +206,7 @@
 <script>
     $(document).ready(function () {
         $("#customerType").kendoButtonGroup({
-            index: @Model.CustomerType
+            index: @((int)Model.CustomerType)
         });
         $("#gender").kendoButtonGroup({
             index: @Model.Gender

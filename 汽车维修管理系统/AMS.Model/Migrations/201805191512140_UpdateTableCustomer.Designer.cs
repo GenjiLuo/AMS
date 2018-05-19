@@ -7,13 +7,13 @@ namespace AMS.Model.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpdateTableServiceRepair2 : IMigrationMetadata
+    public sealed partial class UpdateTableCustomer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateTableServiceRepair2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateTableCustomer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805170542045_UpdateTableServiceRepair2"; }
+            get { return "201805191512140_UpdateTableCustomer"; }
         }
         
         string IMigrationMetadata.Source

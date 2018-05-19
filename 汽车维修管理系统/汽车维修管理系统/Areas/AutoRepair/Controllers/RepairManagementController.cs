@@ -90,7 +90,7 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
         }
         public ActionResult ServiceBooking_DropDownListDataSource(Guid carId)
         {
-            return Json(_serviceBookingService.GetServiceBookingByCarId(carId), JsonRequestBehavior.AllowGet);
+            return Json(_serviceBookingService.GetUnBoundServiceBookingByCarId(carId), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult RepairHistory_GridDataSource(Guid carId)

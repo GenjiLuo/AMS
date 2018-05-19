@@ -16,5 +16,6 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel UpdatePartsDictionary(PartsDictionaryDto partsDictionaryDto, UserDto operationUser);
         ResModel DeletePartsDictionary(Guid partsDictionaryId);
         List<PartsDictionaryDto> QueryPartsDictionary(string keyWord);
+        ResModel UpdatePartsAlertCount(PartsDictionaryDto partsDictionaryDto, UserDto operationUser);
     }
 }

@@ -45,5 +45,15 @@ namespace AMS.Service.Services.Implements
         {
             return _customerRepository.QueryCustomer(customerName,tel,contact,plateNum);
         }
+
+        public List<CustomerPreChargeDto> GetAllCustomerPreCharges()
+        {
+            return _customerRepository.GetAllCustomerPreCharges();
+        }
+
+        public ResModel UpdatePreCharge(CustomerDto customerDto, UserDto operationUser)
+        {
+            return _customerRepository.UpdatePreCharge(customerDto,operationUser);
+        }
     }
 }

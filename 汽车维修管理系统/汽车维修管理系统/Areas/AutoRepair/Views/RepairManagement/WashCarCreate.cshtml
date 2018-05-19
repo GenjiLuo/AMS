@@ -34,10 +34,6 @@
                 <input id="chooseCar" />
             </div>
             <div id="carInfoDetail" class="form-item"></div>
-            <div class="form-item">
-                <label>预约单：</label>
-                <input id="chooseBooking" />
-            </div>
         </div>
         <div class="form-group">
             <div class="form-item marginRight20px">
@@ -171,24 +167,12 @@
             dataValueField: "Id",
             headerTemplate:$("#carComboxHeaderTemp").html(),
             template: $("#carComboxTemp").html(),
+            placeholder:"---下拉选择车辆---",
             noDataTemplate: "未查询到匹配的车辆",
             change: function (e) {
                 var item = this.dataItem();
                 console.log(this.dataItem());
                 $("#carInfoDetail").html(item ? item.CustomerName + "  " + item.CustomerPhone : "");
-                var bookingdDataSource = new kendo.data.DataSource({
-                    transport: {
-                        read: {
-                            url: "@Url.Action("ServiceBooking_DropDownListDataSource")",
-                            data: function() {
-                                return {
-                                    carId:item.Id
-                                }
-                            }
-                        }
-                    }
-                });
-                $("#chooseBooking").data("kendoDropDownList").setDataSource(bookingdDataSource);
                 var repairHistoryDataSource = new kendo.data.DataSource({
                     transport: {
                         read: {
@@ -204,13 +188,6 @@
                 $("#grid").data("kendoGrid").setDataSource(repairHistoryDataSource);
                 refreshCustomerInfo(item);
             }
-        });
-        $("#chooseBooking").kendoDropDownList({
-            dataSource: {
-                data:[]
-            },
-            dataTextField: "BillNo",
-            dataValueField: "Id"
         });
         $("#serviceTime").kendoDateTimePicker({
             format: "yyyy/MM/dd HH:mm",
@@ -338,7 +315,6 @@
     $("#btn_create").click(function() {
         var serviceRepair = {
             CarId: $("#chooseCar").data("kendoComboBox").value(),
-            ServiceBookingId: $("#chooseBooking").data("kendoDropDownList").value(),
             ServiceDateTime: $("#serviceTime").data("kendoDateTimePicker").value(),
             EstimateLeaveTime: $("#estimateLeaveTime").data("kendoDateTimePicker").value(),
             ContactName: $("#chooseCar").data("kendoComboBox").dataItem().CustomerName,

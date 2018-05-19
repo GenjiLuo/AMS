@@ -1,0 +1,54 @@
+﻿@model AMS.Model.dto.PartsDictionaryDto
+<div class="container-fluid">
+    <div class="row form-group partial-content">
+        <div class="col-xs-5">
+            <label>最低库存</label>
+            <input id="lowestAlertCount"/>
+        </div>
+        <div class="col-xs-5">
+            <label>最高库存</label>
+            <input id="highestAlertCount"/>
+        </div>
+    </div>
+    <div class="partial-option-group">
+        <span id="errorMsg" style="display: none;" class="red">保存失败&nbsp;</span>
+        <button id="btn_save" type="button" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;保存</button>&nbsp;
+        <button id="btn_cancel" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+    </div>
+</div>
+<script>
+    $("#lowestAlertCount").kendoNumericTextBox({
+        value: "@Model.LowestAlertCount",
+        format:"n0"
+    });
+    $("#highestAlertCount").kendoNumericTextBox({
+        value: "@Model.HighestAlertCount",
+        format:"n0"
+    });
+    $("#btn_save").click(function() {
+        var highestAlertCount = $("#highestAlertCount").data("kendoNumericTextBox").value();
+        var lowestAlertCount = $("#lowestAlertCount").data("kendoNumericTextBox").value();
+        $.ajax({
+            url: "@Url.Action("UpdatePartsAlertCount")",
+            type: "POST",
+            dataType: "json",
+            contentType:"application/json",
+            data: JSON.stringify({
+                Id: "@Model.Id",
+                HighestAlertCount: highestAlertCount,
+                LowestAlertCount:lowestAlertCount
+            }),
+            success: function(res) {
+                if (res.Success) {
+                    $("#errorMsg").hide();
+                    $("#partsAlertWindow").data("kendoWindow").close();
+                } else {
+                    $("#errorMsg").show();
+                }
+            }
+        });
+    });
+    $("#btn_cancel").click(function() {
+        $("#partsAlertWindow").data("kendoWindow").close();
+    });
+</script>

@@ -184,6 +184,23 @@
             }
         });
     });
+    //库存预警
+    $("#btn_countAlert").click(function() {
+        $("body").append("<div id='partsAlertWindow'></div>");
+        var window=$("#partsAlertWindow").kendoWindow({
+            title: "库存预警",
+            width: "500px",
+            height: "150px",
+            content: "@Url.Action("PartsAlert_PartialView")"+"?partsDictionaryId="+selectedRow.Id,
+            modal: true,
+            visiable: false,
+            resizable:false,
+            close: function() {
+                this.destroy();
+            }
+        }).data("kendoWindow");
+        window.center().open();
+    });
     $("#btn_export").click(function() {
         var grid = $("#grid").data("kendoGrid");
         grid.saveAsExcel();

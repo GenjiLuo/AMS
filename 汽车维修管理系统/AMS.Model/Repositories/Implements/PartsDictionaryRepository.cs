@@ -40,6 +40,8 @@ namespace AMS.Model.Repositories.Implements
                     TradePrice = i.TradePrice,
                     AdjustPrice = i.AdjustPrice,
                     ClaimPrice = i.ClaimPrice,
+                    HighestAlertCount = i.HighestAlertCount,
+                    LowestAlertCount = i.LowestAlertCount,
                     BrandName = i.BrandName,
                     Specifications = i.Specifications,
                     ProducedAddress = i.ProducedAddress,
@@ -80,6 +82,8 @@ namespace AMS.Model.Repositories.Implements
                     TradePrice = i.TradePrice,
                     AdjustPrice = i.AdjustPrice,
                     ClaimPrice = i.ClaimPrice,
+                    HighestAlertCount = i.HighestAlertCount,
+                    LowestAlertCount = i.LowestAlertCount,
                     BrandName = i.BrandName,
                     Specifications = i.Specifications,
                     ProducedAddress = i.ProducedAddress,
@@ -253,6 +257,8 @@ namespace AMS.Model.Repositories.Implements
                     TradePrice = i.TradePrice,
                     AdjustPrice = i.AdjustPrice,
                     ClaimPrice = i.ClaimPrice,
+                    HighestAlertCount = i.HighestAlertCount,
+                    LowestAlertCount = i.LowestAlertCount,
                     BrandName = i.BrandName,
                     Specifications = i.Specifications,
                     ProducedAddress = i.ProducedAddress,
@@ -260,6 +266,30 @@ namespace AMS.Model.Repositories.Implements
                     Description = i.Description
                 }).ToList();
                 return partsDictionaries;
+            }
+        }
+
+        public ResModel UpdatePartsAlertCount(PartsDictionaryDto partsDictionaryDto, UserDto operationUser)
+        {
+            using (var db=new ModelContext())
+            {
+                var partsDictionary = db.PartsDictionary.FirstOrDefault(i => i.Id == partsDictionaryDto.Id);
+                if (partsDictionary == null)
+                {
+                    return new ResModel(){Msg = "更新库存预警失败，未找到该库存档案",Success = false};
+                }
+
+                try
+                {
+                    partsDictionary.HighestAlertCount = partsDictionaryDto.HighestAlertCount;
+                    partsDictionary.LowestAlertCount = partsDictionaryDto.LowestAlertCount;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return new ResModel() { Msg = "更新库存预警失败", Success = false };
+                }
+                return new ResModel() { Msg = "更新库存预警成功", Success = true };
             }
         }
     }

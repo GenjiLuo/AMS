@@ -599,6 +599,9 @@
     <Content Include="Areas\BaseInfo\Views\WashItem\Update.cshtml" />
     <Content Include="Areas\AutoRepair\Views\RepairHistory\a.cshtml" />
     <Content Include="Areas\AutoRepair\Views\RepairHistory\b.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\BookingManagement\ViewDetail.cshtml" />
+    <Content Include="Areas\PartDictionary\Views\PartsDictionary\PartsAlert_PartialView.cshtml" />
+    <Content Include="Areas\CustomerRelation\Views\ChargeManagement\PreCharge_PartialView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

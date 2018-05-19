@@ -18,7 +18,7 @@ namespace AMS.Model.poco
         [ForeignKey("PartsId")]
         public virtual Parts Parts { get; set; }
 
-        public Guid ServiceBookingId { get; set; }
+        public Guid? ServiceBookingId { get; set; }
         [ForeignKey("ServiceBookingId")]
         public virtual ServiceBooking ServiceBooking { get; set; }
 

@@ -57,9 +57,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 text-right">身份证号</label>
+            <label class="col-xs-2 text-right">联系电话</label>
             <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="IDNum" />
+                <input class="k-textbox full-width" v-model.trim="contactPhone" />
             </div>
         </div>
         <div class="form-group row">
@@ -136,7 +136,7 @@
             servicePassword:"",
             confirmServicePassword: "",
             contact: "",
-            IDNum: "",
+            contactPhone: "",
             fixPhone: "",
             address: "",
             wechat: "",
@@ -161,7 +161,7 @@
                     MobilePhone: _this.mobile,
                     ServicePassword: _this.servicePassword,
                     ContactName: _this.contact,
-                    IDCard: _this.IDNum,
+                    ContactPhone: _this.contactPhone,
                     FixPhone: _this.fixPhone,
                     Address: _this.address,
                     Wechat: _this.wechat,
@@ -204,10 +204,7 @@
 <script>
     $(document).ready(function () {
         $("#customerType").kendoButtonGroup({
-            index: 0,
-            select: function (e) {
-                
-            }
+            index: 0
         });
         $("#gender").kendoButtonGroup({
             index: 0

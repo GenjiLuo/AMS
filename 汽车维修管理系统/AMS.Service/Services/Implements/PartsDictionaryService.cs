@@ -46,5 +46,10 @@ namespace AMS.Service.Services.Implements
         {
             return _partsDictionaryRepository.QueryPartsDictionary(keyWord);
         }
+
+        public ResModel UpdatePartsAlertCount(PartsDictionaryDto partsDictionaryDto, UserDto operationUser)
+        {
+            return _partsDictionaryRepository.UpdatePartsAlertCount(partsDictionaryDto,operationUser);
+        }
     }
 }

@@ -299,24 +299,8 @@ namespace AMS.Model.Migrations
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
-                                        Name = "综合查询",
+                                        Name = "预充值",
                                         OrderNum = 0,
-                                        Url = CommonUrl.Query,
-                                        QuickMenuIcon = "../../Content/img/home/Customer.Index.CustomerBusiness.png"
-                                    },
-                                    new Menu()
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        Name = "办会员卡",
-                                        OrderNum = 1,
-                                        Url = CommonUrl.MemberCardCreate,
-                                        QuickMenuIcon = "../../Content/img/home/Member.Create.Member.png"
-                                    },
-                                    new Menu()
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        Name = "充值",
-                                        OrderNum = 2,
                                         Url = CommonUrl.Charge,
                                         QuickMenuIcon = "../../Content/img/home/Member.MemberCharge.MemberCharge.png"
                                     }
@@ -820,7 +804,7 @@ namespace AMS.Model.Migrations
                     new PaymentType()
                     {
                         Id = Guid.NewGuid(),
-                        Name = "会员余额",
+                        Name = "预存款",
                         IconUrl = "../../Content/img/payment/balance_red.png",
                         SelectedIconUrl = "../../Content/img/payment/balance_white.png",
                         OperationType = OperationTypeEnum.系统预置,

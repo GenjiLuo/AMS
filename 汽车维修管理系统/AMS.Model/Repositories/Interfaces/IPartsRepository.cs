@@ -9,5 +9,8 @@ namespace AMS.Model.Repositories.Interfaces
     public interface IPartsRepository
     {
         List<PartsDto> GetAllParts();
+        List<PartsAlertDto> GetAllPartAlerts();
+        List<PartsAlertDto> GetOverHighestPartAlerts();
+        List<PartsAlertDto> GetLowerLowestPartAlerts();
     }
 }

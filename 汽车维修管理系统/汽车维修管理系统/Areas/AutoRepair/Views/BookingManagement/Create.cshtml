@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 @{
     ViewBag.Title = "新增预约";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -173,8 +174,20 @@
             change: function (e) {
                 var item = this.dataItem();
                 console.log(this.dataItem());
-                
-                $("#carFullName").html(item?item.FullName:"");
+                $("#carFullName").html(item ? item.FullName : "");
+                $.ajax({
+                    url: "@Url.Action("GetCustomerInfo")",
+                    data: {
+                        customerId:item.CustomerId
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $("#contactName").val(res.ContactName || res.Name);
+                        $("#contactPhone").val(res.MobilePhone || res.FixPhone);
+                        $("#address").val(res.Address);
+                        $("#org").val(res.CustomerType === @((int)CustomerType.单位)?res.Name:res.ContactName);
+                    }
+                });
             }
         });
         $("#serviceRepairTime").kendoDateTimePicker({
@@ -430,6 +443,7 @@
                 ContactName: $("#contactName").val().trim(),
                 ContactPhone: $("#contactPhone").val().trim(),
                 ContactAddress: $("#address").val().trim(),
+                CompanyName:$("#org").val().trim(),
                 ServiceAdvisorId: $("#repairAdvisor").data("kendoDropDownList").value(),
                 RepairTypeId: $("#repairType").data("kendoDropDownList").value(),
                 CustomerDescription: $("#customerDescription").val().trim(),

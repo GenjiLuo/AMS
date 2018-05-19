@@ -13,5 +13,7 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel UpdateCustomer(CustomerDto customerDto, UserDto operationUser);
         ResModel DeleteCustomer(Guid customerDtoId);
         List<CustomerDto> QueryCustomer(string customerName, string tel, string contact, string plateNum);
+        List<CustomerPreChargeDto> GetAllCustomerPreCharges();
+        ResModel UpdatePreCharge(CustomerDto customerDto, UserDto operationUser);
     }
 }

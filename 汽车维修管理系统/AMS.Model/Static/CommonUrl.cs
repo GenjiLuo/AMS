@@ -31,8 +31,6 @@ namespace AMS.Model.Static
         public static string Customer = "/CustomerRelation/CustomerInfo/Index";
         public static string Car = "/CustomerRelation/Car/Index";
 
-        public static string Query = "/CustomerRelation/Business/Query";
-        public static string MemberCardCreate = "/CustomerRelation/MemberCard/Create";
         public static string Charge = "/CustomerRelation/ChargeManagement/Charge";
 
         #endregion

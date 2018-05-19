@@ -171,6 +171,7 @@
             dataValueField: "Id",
             headerTemplate:$("#carComboxHeaderTemp").html(),
             template: $("#carComboxTemp").html(),
+            placeholder:"---下拉选择车辆---",
             noDataTemplate: "未查询到匹配的车辆",
             change: function (e) {
                 var item = this.dataItem();
@@ -214,7 +215,8 @@
                 data:[]
             },
             dataTextField: "BillNo",
-            dataValueField: "Id"
+            dataValueField: "Id",
+            optionLabel:"下拉选择预约单进行绑定"
         });
         $("#serviceTime").kendoDateTimePicker({
             format: "yyyy/MM/dd HH:mm",
@@ -359,7 +361,7 @@
                 if (res.Success) {
                     swal({
                         type: "success",
-                        text: "维修开单成功",
+                        text: "洗车开单成功",
                         showConfirmButton: false,
                         timer: 800
                     });

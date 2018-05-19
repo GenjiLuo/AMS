@@ -28,6 +28,7 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone,
                     ContactAddress = i.ContactAddress,
+                    CompanyName = i.CompanyName,
                     ServiceAdvisorId = i.ServiceAdvisorId,
                     ServiceAdvisorName = i.ServiceAdvisor.Name,
                     RepairTypeId = i.RepairTypeId,
@@ -133,6 +134,7 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = serviceBookingDto.ContactName,
                     ContactPhone = serviceBookingDto.ContactPhone,
                     ContactAddress = serviceBookingDto.ContactAddress,
+                    CompanyName = serviceBookingDto.CompanyName,
                     ServiceAdvisorId = serviceBookingDto.ServiceAdvisorId,
                     RepairTypeId = serviceBookingDto.RepairTypeId,
                     CustomerDescription = serviceBookingDto.CustomerDescription,
@@ -195,6 +197,7 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone,
                     ContactAddress = i.ContactAddress,
+                    CompanyName = i.CompanyName,
                     ServiceAdvisorId = i.ServiceAdvisorId,
                     ServiceAdvisorName = i.ServiceAdvisor.Name,
                     RepairTypeId = i.RepairTypeId,
@@ -274,6 +277,7 @@ namespace AMS.Model.Repositories.Implements
                         serviceBooking.ContactName = serviceBookingDto.ContactName;
                         serviceBooking.ContactPhone = serviceBookingDto.ContactPhone;
                         serviceBooking.ContactAddress = serviceBookingDto.ContactAddress;
+                        serviceBooking.CompanyName = serviceBookingDto.CompanyName;
                         serviceBooking.ServiceAdvisorId = serviceBookingDto.ServiceAdvisorId;
                         serviceBooking.RepairTypeId = serviceBookingDto.RepairTypeId;
                         serviceBooking.CustomerDescription = serviceBookingDto.CustomerDescription;
@@ -342,6 +346,7 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone,
                     ContactAddress = i.ContactAddress,
+                    CompanyName = i.CompanyName,
                     ServiceAdvisorId = i.ServiceAdvisorId,
                     ServiceAdvisorName = i.ServiceAdvisor.Name,
                     RepairTypeId = i.RepairTypeId,
@@ -547,6 +552,64 @@ namespace AMS.Model.Repositories.Implements
                     ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone,
                     ContactAddress = i.ContactAddress,
+                    CompanyName = i.CompanyName,
+                    ServiceAdvisorId = i.ServiceAdvisorId,
+                    ServiceAdvisorName = i.ServiceAdvisor.Name,
+                    RepairTypeId = i.RepairTypeId,
+                    RepairTypeName = i.RepairType.Name,
+                    CustomerDescription = i.CustomerDescription,
+                    RepairDescription = i.RepairDescription,
+                    Remark = i.Remark,
+                    EstimateRepairParts = i.EstimateRepairParts.Select(j => new EstimateRepairPartsDto()
+                    {
+                        Id = j.Id,
+                        PartsId = j.PartsId,
+                        PartsName = j.Parts.PartsDictionary.Name,
+                        PartsCode = j.Parts.PartsDictionary.Code,
+                        ServiceBookingId = j.ServiceBookingId,
+                        Count = j.Count,
+                        MaxCount = j.Parts.Count,
+                        Price = j.Price,
+                        ServiceAccountTypeId = j.ServiceAccountTypeId,
+                        ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
+                    }).ToList(),
+                    ServiceRepairItem = i.ServiceRepairItem.Select(k => new ServiceRepairItemDto()
+                    {
+                        Id = k.Id,
+                        RepairItemId = k.RepairItemId,
+                        RepairItemName = k.RepairItem.Name,
+                        RepairItemSerNo = k.RepairItem.SerNum,
+                        ServiceBookingId = k.ServiceBookingId,
+                        WorkHour = k.WorkHour,
+                        Price = k.Price,
+                        MainOperatorId = k.MainOperatorId,
+                        MainOperatorName = k.MainOperator.Name,
+                        ServiceAccountTypeId = k.ServiceAccountTypeId,
+                        ServiceAccountTypeName = k.ServiceAccountType.Name,
+                        Description = k.Description
+                    }).ToList()
+                }).ToList();
+                return serviceBookings;
+            }
+        }
+        public List<ServiceBookingDto> GetUnBoundServiceBookingByCarId(Guid carId)
+        {
+            using (var db = new ModelContext())
+            {
+                var serviceBookings = db.ServiceBooking.Where(i => i.CarId == carId && i.ServiceBookingState == ServiceBookingState.待接车).Select(i => new ServiceBookingDto()
+                {
+                    Id = i.Id,
+                    BookingCreateTime = i.BookingCreateTime,
+                    ServiceRepairTime = i.ServiceRepairTime,
+                    ServiceBookingState = i.ServiceBookingState,
+                    BillNo = i.BillNo,
+                    CarId = i.CarId,
+                    CarPlateNum = i.Car.PlateNum,
+                    ContactName = i.ContactName,
+                    ContactPhone = i.ContactPhone,
+                    ContactAddress = i.ContactAddress,
+                    CompanyName = i.CompanyName,
                     ServiceAdvisorId = i.ServiceAdvisorId,
                     ServiceAdvisorName = i.ServiceAdvisor.Name,
                     RepairTypeId = i.RepairTypeId,

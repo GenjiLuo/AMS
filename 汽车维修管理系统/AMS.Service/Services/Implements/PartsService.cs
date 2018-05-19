@@ -19,5 +19,20 @@ namespace AMS.Service.Services.Implements
         {
             return _partsRepository.GetAllParts();
         }
+
+        public List<PartsAlertDto> GetAllPartAlerts()
+        {
+            return _partsRepository.GetAllPartAlerts();
+        }
+
+        public List<PartsAlertDto> GetOverHighestPartAlerts()
+        {
+            return _partsRepository.GetOverHighestPartAlerts();
+        }
+
+        public List<PartsAlertDto> GetLowerLowestPartAlerts()
+        {
+            return _partsRepository.GetLowerLowestPartAlerts();
+        }
     }
 }

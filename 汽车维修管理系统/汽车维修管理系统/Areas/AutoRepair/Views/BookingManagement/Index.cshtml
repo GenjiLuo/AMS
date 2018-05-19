@@ -129,6 +129,10 @@
     $("#btn_edit").click(function() {
         window.location.href = "@Url.Action("Update")" + "?serviceBookingId=" + selectedRow.Id;
     });
+    //查看
+    $("#btn_read").click(function() {
+        window.location.href="@Url.Action("ViewDetail")"+ "?serviceBookingId=" + selectedRow.Id;
+    });
     //作废
     $("#btn_turnToInvalid").click(function() {
         swal({
@@ -175,7 +179,7 @@
         });
     });
     //转接车
-    $("#btn_turnToRepair").click(function() {
+    $("#btn_turnToRepair").click(function () {
         $.ajax({
             url: "@Url.Action("TurnToRepair")",
             type: "POST",
@@ -194,8 +198,8 @@
                         cancelButtonColor: '#d33',
                         confirmButtonText: '跳转',
                         cancelButtonText: "取消"
-                    }).then(function(res) {
-                        if (res.value) {
+                    }).then(function(result) {
+                        if (result.value) {
                             window.location.href= "@Url.Action("Edit","RepairManagement")"+"?serviceRepairId="+res.Data.ServiceRepairId;
                         } else {
                             window.location.reload();

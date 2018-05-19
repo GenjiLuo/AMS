@@ -66,11 +66,13 @@
     <Compile Include="dto\CarBrandDto.cs" />
     <Compile Include="dto\CarDto.cs" />
     <Compile Include="dto\CarSeriesDto.cs" />
+    <Compile Include="dto\CustomerPreChargeDto.cs" />
     <Compile Include="dto\CustomerDto.cs" />
     <Compile Include="dto\CarModelDto.cs" />
     <Compile Include="dto\EstimateRepairPartsDto.cs" />
     <Compile Include="dto\OperationLogDto.cs" />
     <Compile Include="dto\ParameterControlDto.cs" />
+    <Compile Include="dto\PartsAlertDto.cs" />
     <Compile Include="dto\PartsInDto.cs" />
     <Compile Include="dto\PartsOutDto.cs" />
     <Compile Include="dto\PartsReturnDto.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="dto\WashItemDto.cs" />
     <Compile Include="Enum\BillSerNoLength.cs" />
     <Compile Include="Enum\BillTypeName.cs" />
+    <Compile Include="Enum\CustomerLevel.cs" />
     <Compile Include="Enum\PartsReturnState.cs" />
     <Compile Include="Enum\PartsBuyState.cs" />
     <Compile Include="Enum\OperationTypeEnum.cs" />
@@ -117,105 +120,13 @@
     <Compile Include="Enum\ServiceBookingState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201805141416431_InitDatabase.cs" />
-    <Compile Include="Migrations\201805141416431_InitDatabase.Designer.cs">
-      <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201805191400214_InitDataBase.cs" />
+    <Compile Include="Migrations\201805191400214_InitDataBase.Designer.cs">
+      <DependentUpon>201805191400214_InitDataBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805150750541_UpdateTableServiceBooking.cs" />
-    <Compile Include="Migrations\201805150750541_UpdateTableServiceBooking.Designer.cs">
-      <DependentUpon>201805150750541_UpdateTableServiceBooking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805160156246_UpdateTable.cs" />
-    <Compile Include="Migrations\201805160156246_UpdateTable.Designer.cs">
-      <DependentUpon>201805160156246_UpdateTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805160443138_UpdateTableServiceAccountType.cs" />
-    <Compile Include="Migrations\201805160443138_UpdateTableServiceAccountType.Designer.cs">
-      <DependentUpon>201805160443138_UpdateTableServiceAccountType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805161031439_UpdateTableServiceRepairItem.cs" />
-    <Compile Include="Migrations\201805161031439_UpdateTableServiceRepairItem.Designer.cs">
-      <DependentUpon>201805161031439_UpdateTableServiceRepairItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805161114517_UpdateSomeTables.cs" />
-    <Compile Include="Migrations\201805161114517_UpdateSomeTables.Designer.cs">
-      <DependentUpon>201805161114517_UpdateSomeTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805161141489_UpdateTableServiceBooking1.cs" />
-    <Compile Include="Migrations\201805161141489_UpdateTableServiceBooking1.Designer.cs">
-      <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805161613381_UpdateTableServiceRepair.cs" />
-    <Compile Include="Migrations\201805161613381_UpdateTableServiceRepair.Designer.cs">
-      <DependentUpon>201805161613381_UpdateTableServiceRepair.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170246042_UpdateTableServiceRepair1.cs" />
-    <Compile Include="Migrations\201805170246042_UpdateTableServiceRepair1.Designer.cs">
-      <DependentUpon>201805170246042_UpdateTableServiceRepair1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170306521_UpdateTableRepairParts.cs" />
-    <Compile Include="Migrations\201805170306521_UpdateTableRepairParts.Designer.cs">
-      <DependentUpon>201805170306521_UpdateTableRepairParts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170450398_UpdateTableServiceRepairAndBooking.cs" />
-    <Compile Include="Migrations\201805170450398_UpdateTableServiceRepairAndBooking.Designer.cs">
-      <DependentUpon>201805170450398_UpdateTableServiceRepairAndBooking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170542045_UpdateTableServiceRepair2.cs" />
-    <Compile Include="Migrations\201805170542045_UpdateTableServiceRepair2.Designer.cs">
-      <DependentUpon>201805170542045_UpdateTableServiceRepair2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170744238_UpdateServiceRepairNullableColumn.cs" />
-    <Compile Include="Migrations\201805170744238_UpdateServiceRepairNullableColumn.Designer.cs">
-      <DependentUpon>201805170744238_UpdateServiceRepairNullableColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805170909480_UpdateTableCar.cs" />
-    <Compile Include="Migrations\201805170909480_UpdateTableCar.Designer.cs">
-      <DependentUpon>201805170909480_UpdateTableCar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805171320119_UpdateTableBookingAndRepair.cs" />
-    <Compile Include="Migrations\201805171320119_UpdateTableBookingAndRepair.Designer.cs">
-      <DependentUpon>201805171320119_UpdateTableBookingAndRepair.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805171802205_AddTableTicket.cs" />
-    <Compile Include="Migrations\201805171802205_AddTableTicket.Designer.cs">
-      <DependentUpon>201805171802205_AddTableTicket.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805180700230_AddTableCash.cs" />
-    <Compile Include="Migrations\201805180700230_AddTableCash.Designer.cs">
-      <DependentUpon>201805180700230_AddTableCash.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181135030_UpdateTableCash.cs" />
-    <Compile Include="Migrations\201805181135030_UpdateTableCash.Designer.cs">
-      <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181213541_UpdateTableCash1.cs" />
-    <Compile Include="Migrations\201805181213541_UpdateTableCash1.Designer.cs">
-      <DependentUpon>201805181213541_UpdateTableCash1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181259488_AddTableWashItem.cs" />
-    <Compile Include="Migrations\201805181259488_AddTableWashItem.Designer.cs">
-      <DependentUpon>201805181259488_AddTableWashItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181514271_UpdateTablePaymentType.cs" />
-    <Compile Include="Migrations\201805181514271_UpdateTablePaymentType.Designer.cs">
-      <DependentUpon>201805181514271_UpdateTablePaymentType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181652154_UpdateCashTicket.cs" />
-    <Compile Include="Migrations\201805181652154_UpdateCashTicket.Designer.cs">
-      <DependentUpon>201805181652154_UpdateCashTicket.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181656282_UpdateCashTicket1.cs" />
-    <Compile Include="Migrations\201805181656282_UpdateCashTicket1.Designer.cs">
-      <DependentUpon>201805181656282_UpdateCashTicket1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181704408_UpdateCashTicket2.cs" />
-    <Compile Include="Migrations\201805181704408_UpdateCashTicket2.Designer.cs">
-      <DependentUpon>201805181704408_UpdateCashTicket2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805181713197_UpdateServiceRepair.cs" />
-    <Compile Include="Migrations\201805181713197_UpdateServiceRepair.Designer.cs">
-      <DependentUpon>201805181713197_UpdateServiceRepair.cs</DependentUpon>
+    <Compile Include="Migrations\201805191512140_UpdateTableCustomer.cs" />
+    <Compile Include="Migrations\201805191512140_UpdateTableCustomer.Designer.cs">
+      <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -324,80 +235,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805141416431_InitDatabase.resx">
-      <DependentUpon>201805141416431_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805191400214_InitDataBase.resx">
+      <DependentUpon>201805191400214_InitDataBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805150750541_UpdateTableServiceBooking.resx">
-      <DependentUpon>201805150750541_UpdateTableServiceBooking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805160156246_UpdateTable.resx">
-      <DependentUpon>201805160156246_UpdateTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805160443138_UpdateTableServiceAccountType.resx">
-      <DependentUpon>201805160443138_UpdateTableServiceAccountType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805161031439_UpdateTableServiceRepairItem.resx">
-      <DependentUpon>201805161031439_UpdateTableServiceRepairItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805161114517_UpdateSomeTables.resx">
-      <DependentUpon>201805161114517_UpdateSomeTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805161141489_UpdateTableServiceBooking1.resx">
-      <DependentUpon>201805161141489_UpdateTableServiceBooking1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805161613381_UpdateTableServiceRepair.resx">
-      <DependentUpon>201805161613381_UpdateTableServiceRepair.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170246042_UpdateTableServiceRepair1.resx">
-      <DependentUpon>201805170246042_UpdateTableServiceRepair1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170306521_UpdateTableRepairParts.resx">
-      <DependentUpon>201805170306521_UpdateTableRepairParts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170450398_UpdateTableServiceRepairAndBooking.resx">
-      <DependentUpon>201805170450398_UpdateTableServiceRepairAndBooking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170542045_UpdateTableServiceRepair2.resx">
-      <DependentUpon>201805170542045_UpdateTableServiceRepair2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170744238_UpdateServiceRepairNullableColumn.resx">
-      <DependentUpon>201805170744238_UpdateServiceRepairNullableColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805170909480_UpdateTableCar.resx">
-      <DependentUpon>201805170909480_UpdateTableCar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805171320119_UpdateTableBookingAndRepair.resx">
-      <DependentUpon>201805171320119_UpdateTableBookingAndRepair.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805171802205_AddTableTicket.resx">
-      <DependentUpon>201805171802205_AddTableTicket.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805180700230_AddTableCash.resx">
-      <DependentUpon>201805180700230_AddTableCash.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181135030_UpdateTableCash.resx">
-      <DependentUpon>201805181135030_UpdateTableCash.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181213541_UpdateTableCash1.resx">
-      <DependentUpon>201805181213541_UpdateTableCash1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181259488_AddTableWashItem.resx">
-      <DependentUpon>201805181259488_AddTableWashItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181514271_UpdateTablePaymentType.resx">
-      <DependentUpon>201805181514271_UpdateTablePaymentType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181652154_UpdateCashTicket.resx">
-      <DependentUpon>201805181652154_UpdateCashTicket.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181656282_UpdateCashTicket1.resx">
-      <DependentUpon>201805181656282_UpdateCashTicket1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181704408_UpdateCashTicket2.resx">
-      <DependentUpon>201805181704408_UpdateCashTicket2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805181713197_UpdateServiceRepair.resx">
-      <DependentUpon>201805181713197_UpdateServiceRepair.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805191512140_UpdateTableCustomer.resx">
+      <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,6 +29,7 @@ namespace AMS.Model.poco
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactAddress { get; set; }
+        public string CompanyName { get; set; }
         public Guid ServiceAdvisorId { get; set; }
         [ForeignKey("ServiceAdvisorId")]
         public virtual User ServiceAdvisor { get; set; }

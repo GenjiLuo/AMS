@@ -61,5 +61,10 @@ namespace AMS.Service.Services.Implements
         {
             return _serviceBookingRepository.GetServiceBookingByCarId(carId);
         }
+
+        public List<ServiceBookingDto> GetUnBoundServiceBookingByCarId(Guid carId)
+        {
+            return _serviceBookingRepository.GetUnBoundServiceBookingByCarId(carId);
+        }
     }
 }

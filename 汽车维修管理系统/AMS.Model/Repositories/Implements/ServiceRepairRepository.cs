@@ -71,12 +71,12 @@ namespace AMS.Model.Repositories.Implements
                     CarId = serviceRepairDto.CarId,
                     ServiceType = ServiceType.维修,
                     ServiceRepairState = ServiceRepairState.在修,
+                    RepairTypeId = serviceRepairDto.RepairTypeId,
                     BillNo = billNo,
                     BillNoIndex = index,
                     ServiceBookingId = serviceRepairDto.ServiceBookingId,
                     ServiceDateTime = DateTime.Now,
                     EstimateLeaveTime = serviceRepairDto.EstimateLeaveTime,
-                    LeaveTime = serviceRepairDto.LeaveTime,
                     ServiceAdvisorId = serviceRepairDto.ServiceAdvisorId,
                     ContactName = serviceRepairDto.ContactName,
                     ContactPhone = serviceRepairDto.ContactPhone,
@@ -84,34 +84,44 @@ namespace AMS.Model.Repositories.Implements
                     CustomerDescription = serviceRepairDto.CustomerDescription,
                     CreateTime = DateTime.Now
                 };
-                var serviceRepairItem = serviceRepairDto.ServiceRepairItem.Select(i => new ServiceRepairItem()
+                var serviceBooking = db.ServiceBooking.FirstOrDefault(i => i.Id == serviceRepairDto.ServiceBookingId);
+                var serviceRepairItem=new List<ServiceRepairItem>();
+                var estimateRepairParts=new List<EstimateRepairParts>();
+                if (serviceBooking !=null )
                 {
-                    Id = Guid.NewGuid(),
-                    RepairItemId = i.RepairItemId,
-                    ServiceRepairId = serviceRepair.Id,
-                    ServiceAccountTypeId = i.ServiceAccountTypeId,
-                    WorkHour = i.WorkHour,
-                    Price = i.Price,
-                    MainOperatorId = i.MainOperatorId,
-                    Description = i.Description
-                });
-                var repairParts = serviceRepairDto.RepairParts.Select(i => new RepairParts()
-                {
-                    Id = Guid.NewGuid(),
-                    PartsId = i.PartsId,
-                    ServiceRepairId = serviceRepair.Id,
-                    ServiceAccountTypeId = i.ServiceAccountTypeId,
-                    Count = i.Count,
-                    Price = i.Price
-                });
+                    serviceRepairItem = serviceBooking.ServiceRepairItem.Select(i => new ServiceRepairItem()
+                    {
+                        Id = Guid.NewGuid(),
+                        RepairItemId = i.RepairItemId,
+                        ServiceRepairId = serviceRepair.Id,
+                        ServiceAccountTypeId = i.ServiceAccountTypeId,
+                        WorkHour = i.WorkHour,
+                        Price = i.Price,
+                        Description = i.Description
+                    }).ToList();
+                    estimateRepairParts = serviceBooking.EstimateRepairParts.Select(i => new EstimateRepairParts()
+                    {
+                        Id = Guid.NewGuid(),
+                        PartsId = i.PartsId,
+                        Price = i.Price,
+                        Count = i.Count,
+                        ServiceAccountTypeId = i.ServiceAccountTypeId,
+                        ServiceRepairId = serviceRepair.Id
+
+                    }).ToList();
+                }
                 using (var scope=new TransactionScope())
                 {
                     try
                     {
                         db.ServiceRepair.Add(serviceRepair);
                         db.SaveChanges();
-                        db.ServiceRepairItem.AddRange(serviceRepairItem);
-                        db.RepairParts.AddRange(repairParts);
+                        if (serviceBooking != null)
+                        {
+                            db.ServiceRepairItem.AddRange(serviceRepairItem);
+                            db.EstimateRepairParts.AddRange(estimateRepairParts);
+                            serviceBooking.ServiceBookingState = ServiceBookingState.已接车;
+                        }
                         db.SaveChanges();
                         scope.Complete();
                     }
@@ -196,42 +206,19 @@ namespace AMS.Model.Repositories.Implements
                     CustomerDescription = serviceRepairDto.CustomerDescription,
                     CreateTime = DateTime.Now
                 };
-                var serviceRepairItem = serviceRepairDto.ServiceRepairItem.Select(i => new ServiceRepairItem()
-                {
-                    Id = Guid.NewGuid(),
-                    RepairItemId = i.RepairItemId,
-                    ServiceRepairId = serviceRepair.Id,
-                    ServiceAccountTypeId = i.ServiceAccountTypeId,
-                    WorkHour = i.WorkHour,
-                    Price = i.Price,
-                    MainOperatorId = i.MainOperatorId,
-                    Description = i.Description
-                });
-                var repairParts = serviceRepairDto.RepairParts.Select(i => new RepairParts()
-                {
-                    Id = Guid.NewGuid(),
-                    PartsId = i.PartsId,
-                    ServiceRepairId = serviceRepair.Id,
-                    ServiceAccountTypeId = i.ServiceAccountTypeId,
-                    Count = i.Count,
-                    Price = i.Price
-                });
                 using (var scope=new TransactionScope())
                 {
                     try
                     {
                         db.ServiceRepair.Add(serviceRepair);
                         db.SaveChanges();
-                        db.ServiceRepairItem.AddRange(serviceRepairItem);
-                        db.RepairParts.AddRange(repairParts);
-                        db.SaveChanges();
                         scope.Complete();
                     }
                     catch (Exception e)
                     {
-                        return new ResModel(){Msg = "添加维修单失败",Success = false};
+                        return new ResModel(){Msg = "添加洗车单失败",Success = false};
                     }
-                    return new ResModel() { Msg = "添加维修单成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
+                    return new ResModel() { Msg = "添加洗车单成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
                 }
             }
         }
@@ -317,6 +304,7 @@ namespace AMS.Model.Repositories.Implements
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
 
                     }).ToList(),
                     RepairParts = i.RepairParts.Select(j=>new RepairPartsDto()
@@ -424,12 +412,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
 
                     }).ToList(),
                     RepairParts = i.RepairParts.Select(j => new RepairPartsDto()
@@ -579,12 +568,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
 
                     }).ToList(),
                     RepairParts = i.RepairParts.Select(j => new RepairPartsDto()
@@ -592,12 +582,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
                     }).ToList()
                 }).ToList();
                 return serviceRepairs;
@@ -647,12 +638,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
 
                     }).ToList(),
                     RepairParts = i.RepairParts.Select(j => new RepairPartsDto()
@@ -660,12 +652,13 @@ namespace AMS.Model.Repositories.Implements
                         Id = j.Id,
                         PartsId = j.PartsId,
                         PartsCode = j.Parts.PartsDictionary.Code,
-                        PartsName = j.Parts.Name,
+                        PartsName = j.Parts.PartsDictionary.Name,
                         ServiceRepairId = j.ServiceRepairId,
                         Count = j.Count,
                         Price = j.Price,
                         ServiceAccountTypeId = j.ServiceAccountTypeId,
                         ServiceAccountTypeName = j.ServiceAccountType.Name,
+                        WarehouseName = j.Parts.Warehouse.Name
                     }).ToList()
                 }).ToList();
                 return serviceRepairHistories;
@@ -790,16 +783,34 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "竣工失败，该维修单状态已竣工或未转在修", Success = false };
                 }
-                try
+
+                using (var scope=new TransactionScope())
                 {
-                    serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
-                    db.SaveChanges();
+                    try
+                    {
+                        serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
+                        db.SaveChanges();
+                        foreach (var repairPart in serviceRepair.RepairParts)
+                        {
+                            var parts = db.Parts.FirstOrDefault(i => i.Id == repairPart.PartsId);
+                            if (parts != null)
+                            {
+                                parts.Count -= repairPart.Count;
+                                if (parts.Count < 0)
+                                {
+                                    return new ResModel() { Msg = "竣工保存失败，存在选取的配件数量高于库存的情况", Success = false };
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "竣工失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
                 }
-                catch (Exception e)
-                {
-                    return new ResModel() { Msg = "竣工失败", Success = false };
-                }
-                return new ResModel() { Msg = "竣工成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
             }
         }
 
@@ -970,16 +981,33 @@ namespace AMS.Model.Repositories.Implements
             using (var db=new ModelContext())
             {
                 var serviceRepair = db.ServiceRepair.FirstOrDefault(i => i.Id == serviceRepairDto.Id);
-                try
+                using (var scope=new TransactionScope())
                 {
-                    serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
-                    db.SaveChanges();
+                    try
+                    {
+                        serviceRepair.ServiceRepairState = ServiceRepairState.竣工;
+                        db.SaveChanges();
+                        foreach (var repairPart in serviceRepair.RepairParts)
+                        {
+                            var parts = db.Parts.FirstOrDefault(i => i.Id == repairPart.PartsId);
+                            if (parts != null)
+                            {
+                                parts.Count -= repairPart.Count;
+                                if (parts.Count < 0)
+                                {
+                                    return new ResModel(){Msg = "竣工保存失败，存在选取的配件数量高于库存的情况",Success = false};
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "竣工保存失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "竣工保存成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
                 }
-                catch (Exception e)
-                {
-                    return new ResModel() { Msg = "竣工保存失败", Success = false };
-                }
-                return new ResModel() { Msg = "竣工保存成功", Success = true, Data = new { ServiceRepairId = serviceRepair.Id } };
             }
         }
 

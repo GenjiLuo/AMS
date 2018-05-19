@@ -53,6 +53,9 @@ namespace AMS.Model.dto
         public decimal AdjustPrice { get; set; }
         public decimal ClaimPrice { get; set; }
 
+        public int? HighestAlertCount { get; set; }
+        public int? LowestAlertCount { get; set; }
+
         public string BrandName { get; set; }
         public string Specifications { get; set; }
         public string ProducedAddress { get; set; }

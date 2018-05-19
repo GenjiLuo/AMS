@@ -17,5 +17,6 @@ namespace AMS.Model.Repositories.Interfaces
         ResModel TurnToInvalid(Guid serviceBookingId);
         ResModel TurnToRepair(Guid serviceBookingId);
         List<ServiceBookingDto> GetServiceBookingByCarId(Guid carId);
+        List<ServiceBookingDto> GetUnBoundServiceBookingByCarId(Guid carId);
     }
 }

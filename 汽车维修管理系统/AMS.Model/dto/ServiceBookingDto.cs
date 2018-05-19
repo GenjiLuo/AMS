@@ -24,6 +24,7 @@ namespace AMS.Model.dto
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactAddress { get; set; }
+        public string CompanyName { get; set; }
         public Guid ServiceAdvisorId { get; set; }
         public string ServiceAdvisorName { get; set; }
 

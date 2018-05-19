@@ -152,9 +152,9 @@
                 <li class="k-state-active">
                     <span>维修项目&nbsp;<label class="badge badge-success">￥<span id="totalRepairItemMoney">0.00</span> &nbsp;(<span id="totalRepairItemCount">0</span>项)</label></span>
                 </li>
-                @*<li>
+                <li>
                     <span>预估用料&nbsp;</span>
-                </li>*@
+                </li>
                 <li>
                     <span>维修用料&nbsp;<span class="badge badge-info">￥<span id="totalRepairPartsMoney">0.00</span>&nbsp;(<span id="totalRepairPartsCount">0</span>项</span></span>
                 </li>
@@ -162,9 +162,9 @@
             <div>
                 <div id="repairItemGrid"></div>
             </div>
-            @*<div>
+            <div>
                 <div id="estimatePartsGrid"></div>
-            </div>*@
+            </div>
             <div>
                 <div id="repairPartsGrid"></div>
             </div>
@@ -199,8 +199,10 @@
     var totalRepairPartsCount = 0;
     var totalMoney = 0.00;
     var tempRepairItems =@Html.Raw(JsonConvert.SerializeObject(Model.ServiceRepairItem));
-    var tempRepairParts=@Html.Raw(JsonConvert.SerializeObject(Model.RepairParts));
+    var tempRepairParts =@Html.Raw(JsonConvert.SerializeObject(Model.RepairParts));
+    var tempEstimateParts=@Html.Raw(JsonConvert.SerializeObject(Model.EstimateRepairParts));
     var repairItems = [];
+    var estimateParts = [];
     var repairParts = [];
     for (var i = 0; i < tempRepairItems.length; i++) {
         repairItems.push({
@@ -214,6 +216,19 @@
             MainOperatorId: tempRepairItems[i].MainOperatorId,
             MainOperatorName:tempRepairItems[i].MainOperatorName,
             Description:tempRepairItems[i].Description
+        });
+    }
+    for (var j = 0; j < tempEstimateParts.length; j++) {
+        estimateParts.push({
+            PartsCode: tempEstimateParts[j].PartsCode,
+            PartsId: tempEstimateParts[j].PartsId,
+            PartsName: tempEstimateParts[j].PartsName,
+            Count: tempEstimateParts[j].Count,
+            MaxCount: tempEstimateParts[j].MaxCount,
+            Price: tempEstimateParts[j].Price,
+            WarehouseName: tempEstimateParts[j].WarehouseName,
+            ServiceAccountTypeName: tempEstimateParts[j].ServiceAccountTypeName,
+            ServiceAccountTypeId: tempEstimateParts[j].ServiceAccountTypeId
         });
     }
     for (var j = 0; j < tempRepairParts.length; j++) {
@@ -303,6 +318,50 @@
             format: "yyyy/MM/dd"
         });
         $("#tabStrip").kendoTabStrip();
+        $("#estimatePartsGrid").kendoGrid({
+            dataSource: {
+                data: estimateParts
+            },
+            height: 500,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码",
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称",
+                },
+                {
+                    field: "Price",
+                    headerTemplate:"<span >单价<i class='fa fa-edit green'></i><span>"
+                },
+                {
+                    field: "Count",
+                    headerTemplate:"<span >数量<i class='fa fa-edit green'></i><span>"
+                },
+                {
+                    template: function(item) {
+                        return item.Price * item.Count;
+                    },
+                    title: "总金额",
+                },
+                {
+                    field: "WarehouseName",
+                    title: "库房",
+                },
+                {
+                    field: "ServiceAccountTypeName",
+                    headerTemplate: "<span>结算方式<i class='fa fa-edit green'></i><span>",
+                }
+            ]
+        });
         $("#repairItemGrid").kendoGrid({
             dataSource: {
                 data: repairItems,
@@ -388,7 +447,7 @@
                 },
                 {
                     field: "MainOperatorName",
-                    headerTemplate:"<span title='点击行可编辑'>结算方式<i class='fa fa-edit green'></i><span>",
+                    headerTemplate:"<span title='点击行可编辑'>主修人<i class='fa fa-edit green'></i><span>",
                     editor: function (container, options) {
                         console.log(container);
                         console.log(options);

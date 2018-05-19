@@ -1,8 +1,188 @@
 ﻿
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "汽修系统 | 库存预警";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
+<link href="~/Style/partsDictionary/index.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-group pull-left option-group">
+            <div id="showAlertType">
+                <span>
+                    全部
+                </span>
+                <span>
+                    仅短缺
+                </span>
+                <span>
+                    仅积压
+                </span>
+            </div>
+        </div>
+        <div class="form-group pull-right">
+            <div id="simpleSearchContainer">
+                <input id="simpleSearchContent" class="k-textbox" />
+                <button id="btn_simpleSearch" type="button" class="k-button k-primary"><i class="fa fa-search"></i></button>
+            </div>
+            <button id="btn_switchSearchType" type="button" class="k-button k-primary"><span>展开</span>&nbsp;<i class="fa fa-angle-double-down"></i></button>
+        </div>
+    </div>
+    <form style="display: none;" id="advancedSearchContainer" class="row">
+        <ul class="info-input-box">
+            <li>
+                <label>配件编码：</label>
+                <input id="code" class="k-textbox" />
+            </li>
+            <li>
+                <label>配件名称：</label>
+                <input id="name" class="k-textbox" />
+            </li>
+            <li>
+                <label>名称缩写：</label>
+                <input id="nameShort" class="k-textbox" />
+            </li>
+            <li>
+                <label>适用车型：</label>
+                <input id="suitedCarModel"/>
+            </li>
+            <li>
+                <label>品牌：</label>
+                <div id="brandName"></div>
+            </li>
+            <li>
+                <label>备注：</label>
+                <input id="description" class="k-textbox" />
+            </li>
+        </ul>
+        <div class="info-search-box">
+            <button id="btn_advancedSearch" type="button" class="k-button k-primary marginRight5px"><i class="fa fa-search"></i>&nbsp;查找</button>
+            <button id="btn_reset" type="button" class="k-button"><i class="fa fa-undo"></i>&nbsp;重置</button>
+        </div>
+    </form>
+    <div class="row">
+        <div id="grid"></div>
+    </div>
+</div>
+<script>
+    var selectedRow = {};
+    $(document).ready(function () {
+        
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("AllPartsAlert_GridDataSource")"
+                }
+            },
+            height: 550,
+            pageable: {
+                pageSize: 20,
+                refresh: true
+            },
+            sortable: true,
+            filterable: false,
+            selectable: "multiple",
+            columns: [
+                {
+                    field: "PartsCode",
+                    title: "配件编码"
+                },
+                {
+                    field: "PartsName",
+                    title: "配件名称"
+                },
+                {
+                    field: "WarehouseName",
+                    title: "仓库"
+                },
+                {
+                    title: "类型",
+                    template: function (item) {
+                        if (item.CurrentCount < item.LowestAlertCount) {
+                            return '<span class="label label-sm label-danger" style="line-height:14px;height:14px;">短缺</span>';
+                        }
+                        else if (item.CurrentCount > item.HighestAlertCount) {
+                            return '<span class="label label-sm label-warning" style="line-height:14px;height:14px;">积压</span>';
+                        } else {
+                            return '<span class="label label-sm label-success" style="line-height:14px;height:14px;">正常</span>';
+                        }
+                    }
+                },
+                {
+                    field: "CurrentCount",
+                    title: "当前库存"
+                },
+                {
+                    field: "LowestAlertCount",
+                    title: "最低存量"
+                },
+                {
+                    field: "HighestAlertCount",
+                    title: "最高存量"
+                }
+            ]
+        });
+        $("#showAlertType").kendoButtonGroup({
+            index: 0,
+            select: function() {
+                var index = this.current().index();
+                var url = "";
+                if (index === 0) {
+                    url = "@Url.Action("AllPartsAlert_GridDataSource")";
+                } else if (index === 1) {
+                    url = "@Url.Action("LowerLowestPartsAlert_GridDataSource")";
+                } else {
+                    url = "@Url.Action("OverHighestPartsAlert_GridDataSource")";
+                }
+                var dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url:url
+                        }
+                    }
+                });
+                $("#grid").data("kendoGrid").setDataSource(dataSource);
+            }
+        });
+    });
+    //简单搜索
+    $("#btn_simpleSearch").click(function() {
+        var keyword = $("#simpleSearchContent").val();
+        $.ajax({
+            url: "@Url.Action("Query")",
+            dataType: "json",
+            data: {
+                keyword:keyword
+            },
+            success: function(data) {
+                var dataSource = new kendo.data.DataSource({
+                    data: data
+                });
+                var grid = $("#grid").data("kendoGrid");
+                grid.setDataSource(dataSource);
+            }
+        });
+    });
+    $("#btn_switchSearchType").click(function () {
+        if ($(this).find("i").hasClass("fa-angle-double-down")) {
+            $(this).find("i").removeClass("fa-angle-double-down");
+            $(this).find("i").addClass("fa-angle-double-up");
+            $(this).find("span").html("收起");
+            $("#simpleSearchContainer").hide();
+            $("#advancedSearchContainer").slideDown();
+        } else {
+            $(this).find("i").removeClass("fa-angle-double-up");
+            $(this).find("i").addClass("fa-angle-double-down");
+            $(this).find("span").html("展开");
+            $("#simpleSearchContainer").show();
+            $("#advancedSearchContainer").slideUp();
+        }
+    });
+    $("#btn_advancedSearch").click(function() {
+        
+        
+    });
+    $("#btn_reset").click(function() {
+        $("#advancedSearchContainer")[0].reset();
+    });
+</script>

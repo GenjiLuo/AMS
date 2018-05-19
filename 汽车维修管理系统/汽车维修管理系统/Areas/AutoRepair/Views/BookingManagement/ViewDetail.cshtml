@@ -1,14 +1,16 @@
-﻿@using Newtonsoft.Json
+﻿@using AMS.Model.Enum
+@using Newtonsoft.Json
 @model AMS.Model.dto.ServiceBookingDto
 @{
-    ViewBag.Title = "更新预约";
+    ViewBag.Title = "查看预约";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Style/booking/create.css" rel="stylesheet" />
 <div id="booking" class="container-fluid">
     <div class="option-area row info-input-item">
         <div class="pull-left">
-            <button id="btn_save" type="button" class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;保存</button>
+            <button id="btn_turnToRepair" style="display: none;" type="button" class="k-button k-primary"><i class="fa fa-arrow-left"></i>&nbsp;转接车</button>
+            <button id="btn_edit" style="display: none" type="button" class="k-button k-primary"><i class="fa fa-edit"></i>&nbsp;编辑</button>
             <button id="btn_back" type="button" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
         </div>
     </div>
@@ -34,17 +36,17 @@
             <div class="form-group">
                 <div class="input-item">
                     <label class="required">联系人：</label>
-                    <input id="contactName" class="k-textbox" value="@Model.ContactName"/>
+                    <input id="contactName" disabled="disabled"  class="k-textbox" value="@Model.ContactName"/>
                 </div>
                 <div class="input-item">
                     <label class="required">联系电话：</label>
-                    <input id="contactPhone" class="k-textbox" value="@Model.ContactPhone"/>
+                    <input id="contactPhone" disabled="disabled"  class="k-textbox" value="@Model.ContactPhone"/>
                 </div>
             </div>
             <div class="form-group">
                 <div>
                     <label class="required">联系地址：</label>
-                    <input id="address" class="k-textbox" value="@Model.ContactAddress"/>
+                    <input id="address" disabled="disabled"  class="k-textbox" value="@Model.ContactAddress"/>
                 </div>
             </div>
         </div>
@@ -65,23 +67,23 @@
                 </div>
                 <div class="input-item">
                     <label id="orgLabel" class="required">委修单位：</label>
-                    <input id="org" class="k-textbox" value="@Model.CompanyName"/>
+                    <input id="org" disabled="disabled" value="@Model.CompanyName" class="k-textbox"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-item">
                     <label class="required verticalAlignTop">委修描述：</label>
-                    <textarea id="customerDescription">@Model.CustomerDescription</textarea>
+                    <textarea disabled="disabled" id="customerDescription">@Model.CustomerDescription</textarea>
                 </div>
                 <div class="input-item">
                     <label class="required verticalAlignTop">维修说明：</label>
-                    <textarea id="repairDescription">@Model.RepairDescription</textarea>
+                    <textarea disabled="disabled" id="repairDescription">@Model.RepairDescription</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-item">
                     <label class="required verticalAlignTop">备注：</label>
-                    <textarea id="remark">@Model.Remark</textarea>
+                    <textarea disabled="disabled" id="remark">@Model.Remark</textarea>
                 </div>
             </div>
         </div>
@@ -135,6 +137,10 @@
 </script>
 <script id="estimatePartsOptionTemp" type="text/x-kendo-template">
     <span class="option-box"><button class="k-button k-button-icontext" onclick="removeEstimateParts(this);"><i class="fa fa-times red"></i></button></span>
+</script>
+<script>
+    $("#btn_edit").toggle(@Json.Encode(Model.ServiceBookingState == ServiceBookingState.待接车));
+    $("#btn_turnToRepair").toggle(@Json.Encode(Model.ServiceBookingState == ServiceBookingState.待接车));
 </script>
 <script>
     var totalRepairItemMoney = 0.00;
@@ -218,12 +224,12 @@
                 var item = this.dataItem();
                 $("#carFullName").html(item?item.FullName:"");
             }
-        });
+        }).data("kendoComboBox").enable(false);
         $("#serviceRepairTime").kendoDateTimePicker({
             format: "yyyy/MM/dd HH:mm",
             timeFormat: "HH:mm",
             value:"@Model.ServiceRepairTime"
-        });
+        }).data("kendoDateTimePicker").enable(false);
         $("#repairAdvisor").kendoDropDownList({
             dataSource: {
                 transport: {
@@ -235,7 +241,7 @@
             dataTextField: "Name",
             dataValueField: "Id",
             value:"@Model.ServiceAdvisorId"
-        });
+        }).data("kendoDropDownList").enable(false);
         $("#repairType").kendoDropDownList({
             dataSource: {
                 transport: {
@@ -247,7 +253,7 @@
             dataTextField: "Name",
             dataValueField: "Id",
             value:"@Model.RepairTypeId"
-        });
+        }).data("kendoDropDownList").enable(false);
         $("#tabStrip").kendoTabStrip();
         $("#repairItemGrid").kendoGrid({
             dataSource: {
@@ -264,10 +270,8 @@
                 pageSize: 20,
                 refresh: true
             },
-            toolbar: $("#repairItemGridToolBarTemp").html(),
             sortable: true,
             filterable: false,
-            editable: true,
             cellClose: function (e) {
                 if (e.model.WorkHour < 0) {
                     e.model.Count = 0;
@@ -278,11 +282,6 @@
                 refreshLabelInfo();
             },
             columns: [
-                {
-                    title: "操作",
-                    width:"100px",
-                    template:$("#repairItemOptionTemp").html()
-                },
                 {
                     field: "SerNum",
                     title: "项目编码",
@@ -347,10 +346,8 @@
                 pageSize: 20,
                 refresh: true
             },
-            toolbar: $("#estimatePartsGridToolBarTemp").html(),
             sortable: true,
             filterable: false,
-            editable: true,
             cellClose: function (e) {
                 if (e.model.Count > e.model.MaxCount) {
                     e.model.Count = e.model.MaxCount;
@@ -369,11 +366,7 @@
                 refreshLabelInfo();
             },
             columns: [
-                {
-                    title:"操作",
-                    template: $("#estimatePartsOptionTemp").html(),
-                    width:"100px"
-                },
+                
                 {
                     field: "PartsCode",
                     title: "配件编码",
@@ -442,76 +435,46 @@
             ]
         });
         refreshLabelInfo();
-        //保存
-        $("#btn_save").click(function () {
-            var serviceRepairItems = [];
-            var estimateRepairParts = [];
-            var repairItemGrid = $("#repairItemGrid").data("kendoGrid");
-            var repairItems = repairItemGrid.items();
-            for (var i = 0; i < repairItems.length; i++) {
-                var repairItem = repairItemGrid.dataItem(repairItems[i]);
-                serviceRepairItems.push({
-                    RepairItemId: repairItem.RepairItemId,
-                    WorkHour: repairItem.WorkHour,
-                    Price: repairItem.Price,
-                    ServiceAccountTypeId: repairItem.ServiceAccountId,
-                    Description:repairItem.Description
-                });
-            }
-            var estimatePartsGrid = $("#estimatePartsGrid").data("kendoGrid");
-            var partsItems = estimatePartsGrid.items();
-            for (var j = 0; j < partsItems.length; j++) {
-                var estimateParts = estimatePartsGrid.dataItem(partsItems[j]);
-                estimateRepairParts.push({
-                    PartsId: estimateParts.PartsId,
-                    ServiceAccountTypeId: estimateParts.ServiceAccountTypeId,
-                    Count: estimateParts.Count,
-                    Price: estimateParts.Price
-                });
-            }
-
-            var serviceBooking = {
-                Id:"@Model.Id",
-                ServiceRepairTime: $("#serviceRepairTime").data("kendoDateTimePicker").value(),
-                CarId: $("#chooseCar").data("kendoComboBox").value(),
-                ContactName: $("#contactName").val().trim(),
-                ContactPhone: $("#contactPhone").val().trim(),
-                ContactAddress: $("#address").val().trim(),
-                CompanyName:$("#org").val().trim(),
-                ServiceAdvisorId: $("#repairAdvisor").data("kendoDropDownList").value(),
-                RepairTypeId: $("#repairType").data("kendoDropDownList").value(),
-                CustomerDescription: $("#customerDescription").val().trim(),
-                RepairDescription: $("#repairDescription").val().trim(),
-                Remark: $("#remark").val().trim(),
-                ServiceRepairItem: serviceRepairItems,
-                EstimateRepairParts: estimateRepairParts
-            };
+        //转接车
+        $("#btn_turnToRepair").click(function () {
             $.ajax({
-                url: "@Url.Action("Update")",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(serviceBooking),
-                success: function(res) {
-                    if (res.Success) {
-                        swal({
-                            type: "success",
-                            text: "更新预约信息成功",
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                        setTimeout(function() {
-                                window.location.href = "@Url.Action("Index")";
-                            },
-                            1100);
-                    } else {
-                        swal({
-                            type: "error",
-                            text: res.Msg
-                        });
-                    }
+            url: "@Url.Action("TurnToRepair")",
+            type: "POST",
+            dataType: "json",
+            data: {
+                serviceBookingId: "@Model.Id"
+            },
+            success: function(res) {
+                if (res.Success) {
+                    swal({
+                        type: "question",
+                        title: "成功转接车",
+                        text: "跳转到维修页面？",
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '跳转',
+                        cancelButtonText: "取消"
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location.href= "@Url.Action("Edit","RepairManagement")"+"?serviceRepairId="+res.Data.ServiceRepairId;
+                        } else {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    swal({
+                        type: "error",
+                        text: res.Msg,
+                        confirmButtonText: '知道了'
+                    });
                 }
-            });
+            }
+        });
+        });
+        //编辑
+        $("#btn_edit").click(function () {
+            window.location.href = "@Url.Action("Update",new{serviceBookingId = Model.Id})";
         });
         //返回
         $("#btn_back").click(function() {
