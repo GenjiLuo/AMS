@@ -493,8 +493,16 @@ namespace AMS.Model.Migrations
                                     new Menu()
                                     {
                                         Id = Guid.NewGuid(),
-                                        Name = "结算方式",
+                                        Name = "洗车项目",
                                         OrderNum = 3,
+                                        Url = CommonUrl.RepairItem,
+                                        QuickMenuIcon = "../../Content/img/home/Repair.Index.RepairItemType.png"
+                                    },
+                                    new Menu()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "结算方式",
+                                        OrderNum = 4,
                                         Url = CommonUrl.ServiceAccountType,
                                         QuickMenuIcon = "../../Content/img/home/Repair.Index.RepairItemType.png"
                                     },
@@ -502,7 +510,7 @@ namespace AMS.Model.Migrations
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = "付款方式",
-                                        OrderNum = 4,
+                                        OrderNum = 5,
                                         Url = CommonUrl.PaymentType,
                                         QuickMenuIcon = "../../Content/img/home/Repair.Index.RepairItemType.png"
                                     },

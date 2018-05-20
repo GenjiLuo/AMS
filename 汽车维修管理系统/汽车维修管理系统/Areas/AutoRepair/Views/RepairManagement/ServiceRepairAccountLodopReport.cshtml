@@ -1,0 +1,464 @@
+﻿@model AMS.Model.dto.ServiceRepairAccountTicketDto
+
+<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+<div id="printcontent" class="content" style="margin: 0 auto; border: 1px solid red; width: 737px; z-index: -99999;">
+    <style>
+        #printcontainer * {
+            font-family: "italic" !important;
+            font-size: 14px;
+            line-height: 16px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #printcontainer table {
+            border-collapse: collapse !important;
+            border: none;
+        }
+
+        #printcontainer tr {
+            border-collapse: collapse !important;
+            border: none;
+        }
+
+        #printcontainer td {
+            border-collapse: collapse !important;
+            border: none;
+        }
+
+        #printcontainer .text-center {
+            text-align: center;
+        }
+
+        #printcontainer .text-left {
+            text-align: left;
+        }
+
+        #printcontainer .text-right {
+            text-align: right;
+        }
+
+        #printcontainer .main-table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: none;
+        }
+
+            #printcontainer .main-table.border tr td {
+                border: 1px solid #000;
+            }
+
+        #printcontainer .shopname {
+            margin-bottom: 2px;
+            font-size: 24px;
+            line-height: 26px;
+        }
+
+        #printcontainer .invoicetype {
+            font-size: 20px;
+        }
+
+        #printcontainer .border {
+            border: 1px solid #000;
+        }
+
+        #printcontainer .borderleft {
+            border-left: 1px solid #000;
+        }
+
+        #printcontainer .borderright {
+            border-right: 1px solid #000;
+        }
+
+        #printcontainer .bordertop {
+            border-top: 1px solid #000;
+        }
+
+        #printcontainer .borderbottom {
+            border-bottom: 1px solid #000;
+        }
+
+        #printcontainer .border-bottom-1px {
+            border-bottom: 1px solid #000;
+        }
+
+        #printcontainer .padding-bottom-5px {
+            padding-bottom: 5px;
+        }
+
+        #printcontainer .margin-bottom-5px {
+            margin-bottom: 5px;
+        }
+
+        #printcontainer .margin-bottom-10px {
+            margin-bottom: 10px;
+        }
+
+        #printcontainer th {
+            text-align: left;
+            font-weight: normal;
+            padding-bottom: 3px;
+        }
+
+        #printcontainer .vertical-align-top {
+            vertical-align: top;
+        }
+
+        #printcontainer .span-lable {
+            -moz-min-width: 80px;
+            -ms-min-width: 80px;
+            -o-min-width: 80px;
+            -webkit-min-width: 80px;
+            min-width: 80px;
+        }
+
+        #printcontainer span.number {
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        #printcontainer .thinfont {
+            font-size: 12px;
+            line-height: 14px;
+        }
+    </style>
+    <div id="printcontainer">
+        <div class="text-center invoicetype">维修结算单</div>
+        <div class="order-no text-right">
+            单号
+            <span>@Model.ServiceRepair.BillNo</span>
+        </div>
+        <table class="main-table margin-bottom-5px border">
+            <tbody>
+                <tr>
+                    <td>
+                        车主:
+                        <span>@Model.ServiceRepair.Car.CarOwnerName</span>
+                    </td>
+                    <td>
+                        车牌号:
+                        <span>@Model.ServiceRepair.Car.PlateNum</span>
+                    </td>
+                    <td>
+                        联系人:
+                        <span>@Model.ServiceRepair.ContactName</span>
+                    </td>
+                    <td>
+                        联系电话:
+                        <span>@Model.ServiceRepair.ContactPhone</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        车架号（VIN）:
+                        <span>@Model.ServiceRepair.Car.VIN</span>
+                    </td>
+                    <td>
+                        行驶里程:
+                        <span>@Model.ServiceRepair.Car.CurrentMileage</span>
+                    </td>
+                    <td>进厂日期: @((Model.ServiceRepair.ServiceDateTime ?? DateTime.Now).ToString("yyyy/MM/dd HH:ss"))</td>
+                </tr>
+                <tr>
+                    <td>
+                        发动机号:
+                        <span>@Model.ServiceRepair.Car.EngineNo</span>
+                    </td>
+                    <td>
+                        车型:
+                        <span>@Model.ServiceRepair.Car.BrandName @Model.ServiceRepair.Car.SeriesName</span>
+                    </td>
+                    <td>
+                        服务顾问:
+                        <span>@Model.ServiceRepair.ServiceAdvisorName</span>
+                    </td>
+                    <td>
+                        结算日期:
+                        <span></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="main-table margin-bottom-5px border-bottom-1px">
+            <caption class="padding-bottom-5px border-bottom-1px text-left">
+                <span>维修项目明细</span>
+            </caption>
+            <thead>
+                <tr>
+                    <th style="width: 289px;">
+                        <span>编号 / 项目名称</span>
+                    </th>
+                    <th style="width: 52px;">
+                        <span>工时</span>
+                    </th>
+                    <th style="width: 79px;">
+                        <span>单价</span>
+                    </th>
+                    <th style="width: 79px;">
+                        <span>工时费</span>
+                    </th>
+                    <th style="width: 70px;">
+                        <span>结算方式</span>
+                    </th>
+                    <th style="width: 70px;">
+                        <span>主修人</span>
+                    </th>
+                    <th>
+                        <span>备注</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ServiceRepair.ServiceRepairItem)
+                {
+                    <tr>
+                        <td>
+                            <span>@item.RepairItemSerNo / @item.RepairItemName</span>
+                        </td>
+                        <td>
+                            <span>@item.WorkHour</span>
+                        </td>
+                        <td>
+                            <span>@((item.Price ?? 0).ToString("f2"))</span>
+                        </td>
+                        <td>
+                            <span>@((item.WorkHour * item.Price ?? 0).ToString("f2"))</span>
+                        </td>
+                        <td>
+                            <span>@item.ServiceAccountTypeName</span>
+                        </td>
+                        <td>
+                            <span>@item.MainOperatorName</span>
+                        </td>
+                        <td>
+                            <span>@item.Description</span>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <span>小计</span>
+                    </td>
+                    <td colspan="4">
+                        <span>@(Model.ServiceRepair.ServiceRepairItem.Sum(i => i.WorkHour * i.Price ?? 0).ToString("f2"))</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="main-table margin-bottom-5px">
+            <caption class="padding-bottom-5px border-bottom-1px text-left">
+                <span>维修材料明细</span>
+            </caption>
+            <thead>
+                <tr>
+                    <th style="width: 289px;">
+                        <span>配件编码 / 配件名称</span>
+                    </th>
+                    <th style="width: 52px;">
+                        <span>数量</span>
+                    </th>
+                    <th style="width: 79px;">
+                        <span>单价</span>
+                    </th>
+                    <th style="width: 79px;">
+                        <span>材料费</span>
+                    </th>
+                    <th style="width: 70px;">
+                        <span>结算方式</span>
+                    </th>
+                    <th>
+                        <span style="margin-left: 70px;">备注</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var part in Model.ServiceRepair.RepairParts)
+                {
+                    <tr>
+                        <td>
+                            <span>@part.PartsCode / @part.PartsName</span>
+                        </td>
+                        <td>
+                            <span>@part.Count</span>
+                        </td>
+                        <td>
+                            <span>@(part.Price.ToString("f2"))</span>
+                        </td>
+                        <td>
+                            <span>@(part.Price * part.Count)</span>
+                        </td>
+                        <td>
+                            <span>@part.ServiceAccountTypeName</span>
+                        </td>
+                        <td>
+                            <span>@part.Description</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="border-bottom-1px">
+                <tr>
+                    <td colspan="3">
+                        <span>小计</span>
+                    </td>
+                    <td colspan="3">
+                        <span>@(Model.ServiceRepair.RepairParts.Sum(i => i.Count * i.Price).ToString("f2"))</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="main-table margin-bottom-5px">
+            <caption class="padding-bottom-5px border-bottom-1px text-left">
+                <span>其它费用明细</span>
+            </caption>
+            <thead>
+                <tr>
+                    <th style="width: 420px;">
+                        <span>收费项目</span>
+                    </th>
+                    <th style="width: 79px;">
+                        <span>金额</span>
+                    </th>
+                    <th style="width: 70px;">
+                        <span>结算方式</span>
+                    </th>
+                    <th>
+                        <span style="margin-left: 70px;">备注</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+@*                 @foreach (var otherCharge in otherChargeList) *@
+@*                 { *@
+@*                     <tr> *@
+@*                         <td> *@
+@*                             <span>@otherCharge.ChargeName</span> *@
+@*                         </td> *@
+@*                         <td> *@
+@*                             <span>@otherCharge.OtherChargePrice</span> *@
+@*                         </td> *@
+@*                         <td> *@
+@*                             <span>@otherCharge.ServiceAccountTypeName</span> *@
+@*                         </td> *@
+@*                         <td> *@
+@*                             <span>@otherCharge.Remark</span> *@
+@*                         </td> *@
+@*                     </tr> *@
+@*                 } *@
+            </tbody>
+            <tfoot class="border-bottom-1px">
+                <tr>
+                    <td>
+                        <span>小计</span>
+                    </td>
+                    <td colspan="3">
+                        @* <span>@(otherChargeList.Sum(x => x.OtherChargePrice ?? 0).ToString("f2"))</span> *@
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="main-table">
+            <tr>
+                <td rowspan="7" class="vertical-align-top bordertop borderleft borderright borderbottom" style="width: 253px;">
+                    <span style="width: 69px;">保养提醒: </span>
+                    <span style="width: 181px;" class="thinfont">下次保养日期 @Model.ServiceRepair.Car.NextMaintainDate</span>
+                    <div style="margin-bottom: 5px;"></div>
+                    <span style="width: 69px;">维修说明: </span>
+                    <span style="width: 181px;" class="thinfont">@Model.ServiceRepair.RepairDescription</span>
+                </td>
+                <td class="text-right bordertop" style="width: 74px;"><span class="thinfont">工时费</span></td>
+                <td class="text-right bordertop borderright" style="width: 86px;"><span class="number">@((Model.ServiceRepair.ServiceRepairItem.Sum(i=>i.WorkHour * i.Price) ?? 0).ToString("f2"))</span></td>
+                <td class="text-right bordertop" style="width: 88px;"><span class="thinfont">工时优惠</span></td>
+                <td class="text-right bordertop borderright" style="width: 72px;"><span class="number">@((Model.WorkHourDiscount).ToString("f2"))</span></td>
+                <td class="text-right bordertop" style="width: 53px;"><span class="thinfont">抵扣合计</span></td>
+                <td class="text-right bordertop borderright borderright" style="width: 107px;"><span class="number">@((Model.WorkHourDiscount).ToString("f2"))</span></td>
+            </tr>
+            <tr>
+
+                <td class="text-right"><span class="thinfont ">材料费</span></td>
+                <td class="text-right borderright"><span class="number">@((Model.ServiceRepair.RepairParts.Sum(i=>i.Count * i.Price)).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont">材料优惠 @Model.PartsDiscount.ToString("f2")</span></td>
+                <td class="text-right borderright"><span class="number"></span></td>
+                <td class="text-right"><span class="thinfont">优惠合计</span></td>
+                <td class="text-right borderright"><span class="number">@Model.PartsDiscount.ToString("f2")</span></td>
+            </tr>
+            <tr>
+                <td class="text-right"><span class="thinfont">管理费</span></td>
+                <td class="text-right borderright"><span class="number">@((Model.ManagementMoney).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont">管理费优惠 </span></td>
+                <td class="text-right borderright"><span class="number">@((Model.ManagementDiscount).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont">实结金额</span></td>
+                <td class="text-right borderright"><span class="number">@((Model.ManagementMoney-Model.ManagementDiscount).ToString("f2"))</span></td>
+                <td></td>
+            </tr>
+            <tr>
+
+                <td class="text-right"><span class="thinfont">其它费用</span></td>
+                <td class="text-right borderright"><span class="number"></span></td>
+                <td class="text-right"><span class="thinfont">免费结算</span></td>
+                <td class="text-right borderright"><span class="number"></span></td>
+                <td class="text-right"><span class="thinfont">挂账金额</span></td>
+                <td class="text-right borderright"><span class="number"></span></td>
+            </tr>
+            <tr>
+                <td class="text-right"><span class="thinfont">税金</span> </td>
+                <td class="text-right borderright"><span class="number">@((Model.TaxMoney).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont">抹零</span> </td>
+                <td class="text-right borderright"><span class="number">@((Model.MoveLittle).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont">出厂收现</span></td>
+                <td class="text-right borderright"><span class="number">@((Model.RealPay).ToString("f2"))</span></td>
+            </tr>
+            <tr>
+                <td class="text-right"><span class="thinfont">应收合计</span> </td>
+                <td class="text-right borderright"><span class="number">@((Model.TotalMoney).ToString("f2"))</span></td>
+                <td class="text-right"><span class="thinfont"></span></td>
+                <td class="text-right borderright"><span class="number"></span></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="bordertop borderright borderbottom"><span>实结金额: </span><span>@Model.RealPay</span></td>
+            </tr>
+        </table>
+        <table class="main-table">
+            <tr class="">
+                <td>
+                    地址:
+                    <span></span>
+                </td>
+                <td>
+                    电话:
+                    <span>
+
+                    </span>
+                </td>
+            </tr>
+            <tr class="">
+                <td>
+                    开户银行:
+                    <span></span>
+                </td>
+                <td>
+                    账号:
+                    <span></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>客户签名: </span>
+                    <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </td>
+                <td>
+                    <span>结算人: </span>
+                    <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </td>
+                <td>
+                    <span>维修顾问: </span>
+                    <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

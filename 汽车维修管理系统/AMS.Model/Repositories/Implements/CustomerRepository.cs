@@ -59,6 +59,7 @@ namespace AMS.Model.Repositories.Implements
                     Birthday = i.Birthday,
                     QQ = i.QQ,
                     Hobby = i.Hobby,
+                    PreChargeMoney = i.PreChargeMoney,
                     Description = i.Description
                 }).FirstOrDefault();
                 return customer;
@@ -232,8 +233,9 @@ namespace AMS.Model.Repositories.Implements
                 {
                     CustomerId = i.Id,
                     CustomerType = i.CustomerType,
+                    Name = i.Name,
                     Level = i.Level,
-                    ContactName = i.ContactName ?? i.Name,
+                    ContactName = i.ContactName,
                     ContactPhone = i.ContactPhone ?? i.MobilePhone ?? i.FixPhone,
                     TotalCost = i.TotalCost,
                     PreChargeMoney = i.PreChargeMoney

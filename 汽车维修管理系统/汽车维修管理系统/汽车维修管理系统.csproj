@@ -602,6 +602,8 @@
     <Content Include="Areas\AutoRepair\Views\BookingManagement\ViewDetail.cshtml" />
     <Content Include="Areas\PartDictionary\Views\PartsDictionary\PartsAlert_PartialView.cshtml" />
     <Content Include="Areas\CustomerRelation\Views\ChargeManagement\PreCharge_PartialView.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\ServiceRepairAccountLodopReport.cshtml" />
+    <Content Include="Areas\AutoRepair\Views\RepairManagement\ServiceWashAccountLodopReport.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\common\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -612,6 +614,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\kendo\kendo.web.ext.js" />
+    <Content Include="Scripts\Lodop\LodopFuncs.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

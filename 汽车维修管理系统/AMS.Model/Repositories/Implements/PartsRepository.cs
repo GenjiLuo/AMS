@@ -31,7 +31,7 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db=new ModelContext())
             {
-                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                var partsAlerts = db.PartsDictionary.Where(i=>i.HighestAlertCount.HasValue && i.LowestAlertCount.HasValue).Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
                     (i, j) => new PartsAlertDto()
                     {
                         PartsCode = i.Code,
@@ -49,7 +49,7 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db = new ModelContext())
             {
-                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                var partsAlerts = db.PartsDictionary.Where(i => i.HighestAlertCount.HasValue && i.LowestAlertCount.HasValue).Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
                     (i, j) => new PartsAlertDto()
                     {
                         PartsCode = i.Code,
@@ -67,7 +67,7 @@ namespace AMS.Model.Repositories.Implements
         {
             using (var db = new ModelContext())
             {
-                var partsAlerts = db.PartsDictionary.Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
+                var partsAlerts = db.PartsDictionary.Where(i => i.HighestAlertCount.HasValue && i.LowestAlertCount.HasValue).Join(db.Parts, i => i.Code, j => j.PartsDictionary.Code,
                     (i, j) => new PartsAlertDto()
                     {
                         PartsCode = i.Code,

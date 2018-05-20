@@ -80,7 +80,7 @@
         $("#repairItemTypeGrid").kendoGrid({
             dataSource: {
                 transport: {
-                    read: "@Url.Action("Grid_CustomerDataSource")"
+                    read: "@Url.Action("GetAllCustomerPrecharge_GridDataSource")"
                 },
                 schema: {
                     model: {
@@ -127,11 +127,11 @@
                     title: "联系人"
                 },
                 {
-                    field: "MobilePhone",
+                    field: "ContactPhone",
                     title: "电话"
                 },
                 {
-                    field: "totalCost",
+                    field: "TotalCost",
                     title: "累计消费"
                 },
                 {
@@ -146,9 +146,9 @@
         $("body").append("<div id='preChargeWindow'></div>");
         var window=$("#preChargeWindow").kendoWindow({
             title: "预存款",
-            width: "500px",
-            height: "150px",
-            content: "@Url.Action("PreCharge_PartialView")"+"?customerId="+selectedRow.Id,
+            width: "600px",
+            height: "200px",
+            content: "@Url.Action("PreCharge_PartialView")" + "?customerId=" + selectedRow.CustomerId,
             modal: true,
             visiable: false,
             resizable:false,

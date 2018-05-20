@@ -1,1 +1,55 @@
-﻿
+﻿@model AMS.Model.dto.CustomerDto
+<div class="container-fluid">
+    <div class="row form-group">
+        <label class="col-xs-3">预收款</label>
+        <div class="col-xs-7">
+            <input style="padding-left: 5px; padding-right: 5px;" id="preCharge"  class="k-textbox full-width text-right"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3">预收款余额</label>
+        <span style="padding-left: 5px; padding-right: 5px;" class="col-xs-7 text-right">&yen;@Model.PreChargeMoney</span>
+    </div>
+    <div class="row form-group">
+        <label class="col-xs-3">预收款总额</label>
+        <span id="currentTotal" style="padding-left: 5px; padding-right: 5px;" class="col-xs-7 text-right red">&yen;@Model.PreChargeMoney</span>
+    </div>
+    <div class="window-bottom-option">
+        <span class="red" style="display: none;">保存预收款失败&nbsp;</span>
+        <button id="btn_savePreCharge"  class="k-button k-primary"><i class="fa fa-save"></i>&nbsp;保存并收款</button>
+        <button id="btn_cancel" class="k-button"><i class="fa fa-reply"></i>&nbsp;返回</button>
+    </div>
+</div>
+<script>
+    $("#preCharge").focus(function() {
+        $(this).removeClass("text-right");
+    }).blur(function() {
+        $(this).addClass("text-right");
+    }).keyup(function () {
+        var preChargeInput = parseFloat($(this).val().trim());
+        $("#currentTotal").html("￥" + (@Model.PreChargeMoney +preChargeInput));
+    });
+    $("#btn_savePreCharge").click(function() {
+        $.ajax({
+            url: "@Url.Action("UpdateCustomerPrecharge")",
+            type:'post',
+            contentType: "application/json",
+            data: JSON.stringify({
+                Id:"@Model.Id",
+                PreChargeMoney: parseFloat($("#preCharge").val().trim())
+            }),
+            success: function(res) {
+                if (res.Success) {
+                    $("#errorMsg").hide();
+                    $("#preChargeWindow").data("kendoWindow").close();
+                    window.location.reload();
+                } else {
+                    $("#errorMsg").show();
+                }
+            }
+        });
+    });
+    $("#btn_cancel").click(function() {
+        $("#preChargeWindow").data("kendoWindow").close();
+    });
+</script>

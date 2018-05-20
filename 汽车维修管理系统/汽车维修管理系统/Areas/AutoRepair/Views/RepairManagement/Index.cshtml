@@ -38,7 +38,7 @@
         </div>
         <div class="form-group pull-left option-group">
             <button id="btn_export" type="button" class="k-button"><i class="fa fa-file-excel-o"></i>&nbsp;导出</button>
-            <button id="btn_print" type="button" class="k-button"><i class="fa fa-print"></i>&nbsp;打印</button>
+            <button id="btn_print" type="button" class="k-button k-state-disabled" disabled="disabled"><i class="fa fa-print"></i>&nbsp;打印</button>
         </div>
         <div class="form-group pull-right">
             <div id="simpleSearchContainer">
@@ -129,6 +129,7 @@
         $("#btn_turnToInvalid").kendoButton();
         $("#btn_turnToRepair").kendoButton();
         $("#btn_turnToFinish").kendoButton();
+        $("#btn_print").kendoButton();
         $("#grid").kendoGrid({
             dataSource: {
                 transport: {
@@ -369,6 +370,62 @@
     $("#btn_turnToCash").click(function() {
         window.location.href = "@Url.Action("RepairCash")" + "?serviceRepairId=" + selectedRow.Id;
     });
+    $("#btn_print").click(function () {
+        $("#Frame1").remove();
+
+        $("body").append($("<iframe width='100%' height='100%' id='Frame1' src='" + "@Url.Action("LodopPrintContent")" + "?serviceRepairId="+ selectedRow.Id + "' style='position: absolute;left: -999999px;top: -999999px;'></iframe>"));
+        document.getElementById("Frame1").onload = function () {
+            //your codes here.
+            var printcontent = $("#Frame1").contents().find("body #printcontent");
+            var printcontainer = printcontent.find("#printcontainer");
+
+            function cmtopx(cm) {
+                return cm * 96 / 2.54;//37.79527
+            }
+
+            var LODOP;
+            try {
+                LODOP = getLodop();//判断有没有装插件
+                if (LODOP.VERSION) {
+
+                };
+            } catch (err) {
+                return;
+            }
+
+            var interval = setInterval(function () {
+                console.log("执行函数interval");
+                LODOP = getLodop();
+                if (LODOP) {
+                    clearInterval(interval);
+
+                    LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
+                    $("#printcontainer").css("height", "auto");
+                    console.log("外容器高度：" + printcontent.outerHeight());
+                    console.log("内容器高度：" + printcontainer.outerHeight());
+                    var height = printcontainer.outerHeight() + cmtopx(0.83);
+                    console.log("最后偏移高度：" + height);
+                    var pageheight = cmtopx(9.31);
+                    var pages = Math.ceil(height / pageheight);
+                    var abs = pages * pageheight;
+                    printcontainer.height(abs);
+                    var html = printcontent.html();
+                    html = "<body style='margin:0;padding:0;border:none;background-color: #ffffff;'>" + html + "</body>";
+
+                    LODOP.PRINT_INITA(0, 0, cmtopx(24.1) + "px", cmtopx(9.31) + "px", "");//初始值设置
+                    LODOP.SET_PRINT_PAGESIZE(3, cmtopx(24.1) + "px", "0px", "CreateCustomPage");//intOrient,PageWidth,PageHeight,strPageName
+                    LODOP.ADD_PRINT_HTM(0, cmtopx(0.5) + "px", cmtopx(19.5) + "px", "BottomMargin:0px", html);//自动根据内容高度//Top, Left,Width,Height,strHtmlContent
+                    LODOP.SET_PRINT_MODE("AUTO_CLOSE_PREWINDOW", 1); // 打印后自动关闭预览
+                    LODOP.SET_SHOW_MODE("HIDE_PAPER_BOARD", 1); // 去除背景滚动线
+                    LODOP.SET_SHOW_MODE("HIDE_PAPER_BOARD", true);//隐藏走纸板
+                    //LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");//按整页缩放
+
+                    LODOP.PREVIEW();
+                    //LODOP.PRINT();
+                }
+            }, 100);
+        };
+    });
     $("#btn_turnToLeave").click(function() {
         swal({
             position: "center",
@@ -482,6 +539,7 @@
         $("#btn_edit").data("kendoButton").enable(canEdit(selectedRow));
         $("#btn_read").data("kendoButton").enable(true);
         $("#btn_turnToInvalid").data("kendoButton").enable(canTurnToValid(selectedRow));
+        $("#btn_print").data("kendoButton").enable(true);
 
         $("#btn_turnToRepair").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.登记));
         $("#btn_turnToFinish").toggle(selectedRow.ServiceRepairState === @((int)ServiceRepairState.在修));

@@ -51,6 +51,7 @@ namespace AMS.Model.Static
         public static string RepairType = "/BaseInfo/RepairType/Index";
         public static string RepairItemType = "/BaseInfo/RepairItemType/Index";
         public static string RepairItem = "/BaseInfo/RepairItem/Index";
+        public static string WashItem = "BaseInfo/WashItem/Index";
         public static string ServiceAccountType = "/BaseInfo/ServiceAccountType/Index";
         public static string PaymentType = "/BaseInfo/PaymentType/Index";
         public static string ServiceTicketType = "/BaseInfo/ServiceTicketType/Index";

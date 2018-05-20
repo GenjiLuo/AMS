@@ -55,3 +55,14 @@
 .option-group {
      margin-right: 20px;
  }
+.full-width {
+    width: 100%;
+}
+#preChargeWindow {
+    padding-top: 20px;
+}
+.window-bottom-option {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}

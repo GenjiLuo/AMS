@@ -1,0 +1,220 @@
+﻿@model AMS.Model.dto.ServiceRepairCashTicketDto
+
+<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+<div id="printcontent" class="content" style="margin: 0 auto; border: 1px solid red; width: 737px; z-index: -99999;">
+    <style>
+        #printcontainer * {
+            font-family: "italic" !important;
+            font-size: 14px;
+            line-height: 16px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #printcontainer table {
+            border: none;
+            border-collapse: collapse !important;
+        }
+
+        #printcontainer tr {
+            border: none;
+            border-collapse: collapse !important;
+        }
+
+        #printcontainer td {
+            border: none;
+            border-collapse: collapse !important;
+        }
+
+        #printcontainer .text-center { text-align: center; }
+
+        #printcontainer .text-left { text-align: left; }
+
+        #printcontainer .text-right { text-align: right; }
+
+        #printcontainer .main-table {
+            border: none;
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #printcontainer .main-table.border tr td { border: 1px solid #000; }
+
+        #printcontainer .shopname {
+            font-size: 24px;
+            line-height: 26px;
+            margin-bottom: 2px;
+        }
+
+        #printcontainer .invoicetype { font-size: 20px; }
+
+        #printcontainer .border { border: 1px solid #000; }
+
+        #printcontainer .borderleft { border-left: 1px solid #000; }
+
+        #printcontainer .borderright { border-right: 1px solid #000; }
+
+        #printcontainer .bordertop { border-top: 1px solid #000; }
+
+        #printcontainer .borderbottom { border-bottom: 1px solid #000; }
+
+        #printcontainer .border-bottom-1px { border-bottom: 1px solid #000; }
+
+        #printcontainer .padding-bottom-5px { padding-bottom: 5px; }
+
+        #printcontainer .margin-bottom-5px { margin-bottom: 5px; }
+
+        #printcontainer .margin-bottom-10px { margin-bottom: 10px; }
+
+        #printcontainer th {
+            font-weight: normal;
+            padding-bottom: 3px;
+            text-align: left;
+        }
+
+        #printcontainer .vertical-align-top { vertical-align: top; }
+
+        #printcontainer .span-lable {
+            -moz-min-width: 80px;
+            -ms-min-width: 80px;
+            -o-min-width: 80px;
+            -webkit-min-width: 80px;
+            min-width: 80px;
+        }
+
+        #printcontainer span.number {
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        #printcontainer .thinfont {
+            font-size: 12px;
+            line-height: 14px;
+        }
+    </style>
+    <div id="printcontainer">
+        <div class="text-center invoicetype">维修洗车单</div>
+        <div class="order-no text-right">
+            单号
+            <span>@Model.ServiceRepair.BillNo</span>
+        </div>
+        <table class="main-table margin-bottom-5px border">
+            <tr>
+                <td>
+                    车主：
+                    <span>@Model.ServiceRepair.Car.CarOwnerName</span>
+                </td>
+                <td>
+                    车牌号：
+                    <span>@Model.ServiceRepair.Car.PlateNum</span>
+                </td>
+                <td>
+                    联系人：
+                    <span>@Model.ServiceRepair.ContactName</span>
+                </td>
+                <td>
+                    联系电话：
+                    <span>@Model.ServiceRepair.ContactPhone</span>
+                </td>
+            </tr>
+        </table>
+        <table class="main-table border-bottom-1px">
+            <caption class="padding-bottom-5px border-bottom-1px text-left">
+                <span>维修项目明细</span>
+            </caption>
+            <thead>
+            <tr>
+                <th style="width: 289px;">编号/项目名称</th>
+                <th style="width: 52px;">工时</th>
+                <th style="width: 79px;">单价</th>
+                <th style="width: 79px;">工时费</th>
+                <th style="width: 70px;">结算类型</th>
+                <th style="width: 70px;">主修人</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="3">
+                    <span>小计</span>
+                </td>
+                <td colspan="4">
+                    <span>@(Model.ServiceRepair.ServiceWashItem.WashItemPrice.ToString("f2"))</span>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td>
+                    <span> @Model.ServiceRepair.ServiceWashItem.WashItemName</span>
+                </td>
+                <td>
+                    <span></span>
+                </td>
+                <td>
+                    <span>@Model.ServiceRepair.ServiceWashItem.WashItemPrice</span>
+                </td>
+                <td>
+                    <span></span>
+                </td>
+                <td>
+                    <span></span>
+                </td>
+                <td>
+                    <span>@Model.ServiceRepair.WashCarMainOperatorName</span>
+                </td>
+                <td>
+                    <span>@Model.Description</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="main-table margin-bottom-5px border-bottom-1px">
+            <tr>
+                <td style="width: 120px">实结金额</td>
+                <td style="width: 170px;">
+                    <span class="number">@Model.RealPay.ToString("f2"))</span>
+                </td>
+                <td style="width: 130px">抹零</td>
+                <td>
+                    <span class="number">@Model.BackLittle</span>
+                </td>
+            </tr>
+            <tr>
+                <td>挂账金额</td>
+                <td>
+                    <span class="number">@Model.WashCarCreditPay</span>
+                </td>
+                <td>
+                    <span class="thinfont">优惠金额</span>
+                </td>
+                <td>
+                    <span class="number">@Model.WashCarDiscount</span>
+                </td>
+            </tr>
+            <tr>
+                <td>出厂收现</td>
+                <td>
+                    <span class="number">@Model.RealPay</span>
+                </td>
+                <td>抵扣合计</td>
+                <td>
+                    <span class="number">@(Model.WashCarDiscount + Model.BackLittle)</span>
+                </td>
+            </tr>
+        </table>
+        <table class="main-table">
+            <tr>
+                <td>
+                    地址：
+                    <span></span>
+                </td>
+                <td>
+                    电话：
+                    <span></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

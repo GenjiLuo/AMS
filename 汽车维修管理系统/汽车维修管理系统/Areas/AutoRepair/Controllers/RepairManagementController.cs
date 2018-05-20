@@ -47,6 +47,18 @@ namespace 汽车维修管理系统.Areas.AutoRepair.Controllers
             return View();
         }
 
+        public ActionResult LodopPrintContent(Guid serviceRepairId)
+        {
+            var serviceRepair = _serviceRepairService.GetOneServiceRepair(serviceRepairId);
+            if (serviceRepair.ServiceType == ServiceType.洗车)
+            {
+                var serviceWashCashTicket = _serviceRepairService.GetOneCashTicketByRepairId(serviceRepairId);
+                serviceWashCashTicket.ServiceRepair = serviceRepair;
+                return PartialView("ServiceWashAccountLodopReport", serviceWashCashTicket);
+            }
+            var serviceAccountTicket = _serviceRepairService.GetOneAccountTicketByRepairId(serviceRepairId);
+            return View("ServiceRepairAccountLodopReport", serviceAccountTicket);
+        }
         public ActionResult ServiceRepair_GridDataSource()
         {
             return Json(_serviceRepairService.GetAllServiceRepair(), JsonRequestBehavior.AllowGet);
