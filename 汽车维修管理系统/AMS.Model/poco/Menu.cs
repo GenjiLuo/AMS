@@ -14,6 +14,7 @@ namespace AMS.Model.poco
         {
             SubMenu = new HashSet<Menu>();
             QuickMenu = new HashSet<QuickMenu>();
+            JobMenus=new HashSet<JobMenu>();
         }
         public string Icon { get; set; }
         public string QuickMenuIcon { get; set; }
@@ -26,5 +27,7 @@ namespace AMS.Model.poco
         public virtual Menu ParentMenu { get; set; }
 
         public virtual ICollection<QuickMenu> QuickMenu { get; set; }
+
+        public virtual ICollection<JobMenu> JobMenus { get; set; }
     }
 }

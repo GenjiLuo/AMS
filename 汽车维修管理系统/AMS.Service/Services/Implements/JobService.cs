@@ -41,5 +41,10 @@ namespace AMS.Service.Services.Implements
         {
             return _jobRepository.DeleteJob(jobId);
         }
+
+        public List<JobDto> GetJobsByOrgId(Guid orgId)
+        {
+            return _jobRepository.GetJobsByOrgId(orgId);
+        }
     }
 }

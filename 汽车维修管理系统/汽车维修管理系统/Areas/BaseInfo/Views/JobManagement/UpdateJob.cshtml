@@ -1,17 +1,20 @@
-﻿@model AMS.Model.poco.JobDto
+﻿@using AMS.Model.dto
+@using Newtonsoft.Json
+@model AMS.Model.dto.JobDto
 @{
-    ViewBag.Title = "新增一个岗位";
+    ViewBag.Title = "编辑一个岗位";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var menus = TempData["Menus"] as List<MenuDto>;
 }
 <link href="~/Style/jobManage/jobAdd.css" rel="stylesheet" />
 <div id="addJobApp" class="form">
-    
+
     <div class="baseinfo container-fluid">
         <h4 class="marginBottom30px">岗位信息</h4>
         <div class="form-group row">
             <label class="required col-xs-1 text-left">岗位名称</label>
             <div class="col-xs-3">
-                <input class="k-textbox full-width" v-model.trim="name"/>
+                <input class="k-textbox full-width" v-model.trim="name" />
             </div>
         </div>
         <div class="form-group row">
@@ -24,13 +27,15 @@
     <div class="advancedinfo container-fluid">
         <h4 class="marginBottom30px">分配权限</h4>
         <div class="form-group">
-            <button class="btn btn-minier btn-purple">全选</button>
-            <button class="btn btn-minier btn-purple">全不选</button>
+            <button id="checkAll" class="btn btn-minier btn-purple">全选</button>
+            <button id="unCheckAll" class="btn btn-minier btn-purple">全不选</button>
             &nbsp;||&nbsp;
-            <button class="btn btn-minier">全展开</button>
-            <button class="btn btn-minier">全折叠</button>
+            <button id="expandAll" class="btn btn-minier">全展开</button>
+            <button id="collapseAll" class="btn btn-minier">全折叠</button>
         </div>
-        <div class="form-group menu-tree-container"></div>
+        <div class="form-group menu-tree-container">
+            <div id="menuTree"></div>
+        </div>
     </div>
     <div class="options container-fluid">
         <div class="row">
@@ -40,7 +45,35 @@
     </div>
 </div>
 <script>
-
+    var menus =@Html.Raw(JsonConvert.SerializeObject(menus));
+    var checkedMenus =@Html.Raw(JsonConvert.SerializeObject(Model.JobMenus));
+    for (var i = 0; i < menus.length; i++) {
+        for (var j = 0; j < checkedMenus.length; j++) {
+            if (menus[i].Id === checkedMenus[j].MenuId) {
+                menus[i].checked = true;
+                checkedMenus.splice(j, 1);
+                break;
+            }
+        }
+        for (var k = 0; k < menus[i].SubMenuDto.length; k++) {
+            for (var l = 0; l < checkedMenus.length; l++) {
+                if (menus[i].SubMenuDto[k].Id === checkedMenus[l].MenuId) {
+                    menus[i].SubMenuDto[k].checked = true;
+                    checkedMenus.splice(l, 1);
+                    break;
+                }
+            }
+            for (var m = 0; m < menus[i].SubMenuDto[k].SubMenuDto.length; m++) {
+                for (var n = 0; n < checkedMenus.length; n++) {
+                    if (menus[i].SubMenuDto[k].SubMenuDto[m].Id === checkedMenus[n].MenuId) {
+                        menus[i].SubMenuDto[k].SubMenuDto[m].checked = true;
+                        checkedMenus.splice(n, 1);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 </script>
 <script>
     var addJobApp = new Vue({
@@ -48,7 +81,8 @@
         data: {
             id:"@Model.Id",
             name: "@Model.Name",
-            orgId:"@Model.OrgId"
+            orgId: "@Model.OrgId",
+            jobMenus:[]
         },
         methods: {
             goBack: function() {
@@ -56,11 +90,13 @@
             },
             saveUser: function () {
                 var _this = this;
-                _this.orgId=$("#organization").data("kendoDropDownList").value();
+                _this.orgId = $("#organization").data("kendoDropDownList").value();
+                _this.jobMenus = getCheckedNodes();
                 var job = {
                     Id:_this.id,
                     Name: _this.name,
-                    OrgId: _this.orgId
+                    OrgId: _this.orgId,
+                    JobMenus: _this.jobMenus
                 };
                 $.ajax({
                     url: "@Url.Action("UpdateJob")",
@@ -72,7 +108,7 @@
                         if (res.Success) {
                             swal({
                                 type: "success",
-                                text: "添加成功",
+                                text: "修改成功",
                                 showConfirmButton: false,
                                 timer: "1000"
                             });
@@ -83,7 +119,7 @@
                         } else {
                             swal({
                                 type: "error",
-                                text: "添加失败"
+                                text: "修改失败"
                             });
                         }
                     }
@@ -106,5 +142,61 @@
             },
             value:"@Model.OrgId"
         });
+        var menuTree=$("#menuTree").kendoTreeView({
+            dataSource: {
+                data: menus,
+                schema: {
+                    model: {
+                        id: "Id",
+                        children:"SubMenuDto"
+                    }
+                }
+            },
+            loadOnDemand: false,
+            messages: {
+                loading:"加载中..."
+            },
+            dataTextField:"Name",
+            checkboxes: {
+                checkChildren: true
+            }
+        }).data("kendoTreeView");
+        $("#checkAll").click(function () {
+            checkUncheckAllNodes(menuTree.dataSource.view(), true);
+        });
+        $("#unCheckAll").click(function () {
+            checkUncheckAllNodes(menuTree.dataSource.view(), false);
+        });
+        $("#expandAll").click(function () {
+            menuTree.expand(".k-item");
+        });
+        $("#collapseAll").click(function () {
+            menuTree.collapse(".k-item");
+        });
     });
+</script>
+<script>
+    function checkUncheckAllNodes(nodes, checked) {
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].set("checked", checked);
+            if (nodes[i].hasChildren) {
+                checkUncheckAllNodes(nodes[i].children.view(), checked);
+            }
+        }
+    }
+    function getCheckedNodes() {
+        var selectedMenus = [];
+        var menuTree = $("#menuTree").data("kendoTreeView");
+        var items = menuTree.items();
+        for (var i = 0; i < items.length; i++) {
+            var item = menuTree.dataItem(items[i]);
+            if (item.checked === true) {
+                selectedMenus.push({
+                    MenuId: item.Id,
+                    MenuName: item.Name
+                });
+            }
+        }
+        return selectedMenus;
+    }
 </script>

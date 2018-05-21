@@ -1,4 +1,5 @@
-﻿@model AMS.Model.dto.UserDto
+﻿@using Newtonsoft.Json
+@model AMS.Model.dto.UserDto
 @{
     ViewBag.Title = "更新员工信息";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -61,38 +62,14 @@
         <div class="form-group row">
             <label class="col-xs-2 text-right">岗位权限</label>
             <div class="col-xs-4">
-                <ul class="role-container">
-                    <li class="role-item">
-                        <input type="checkbox" id="eq1" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq1">财务</label>
-                    </li>
-                    <li class="role-item">
-                        <input type="checkbox" id="eq2" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq2">总部管理</label>
-                    </li>
-                    <li class="role-item">
-                        <input type="checkbox" id="eq3" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq3">通用</label>
-                    </li>
-                    <li class="role-item">
-                        <input type="checkbox" id="eq4" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq4">财务</label>
-                    </li>
-                    <li class="role-item">
-                        <input type="checkbox" id="eq5" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq5">总部管理</label>
-                    </li>
-                    <li class="role-item">
-                        <input type="checkbox" id="eq6" class="k-checkbox">
-                        <label class="k-checkbox-label" for="eq6">通用</label>
-                    </li>
+                <ul id="roleBox" class="role-container">
                 </ul>
             </div>
         </div>
     </div>
 </div>
 <script>
-
+    var selectdJobs=@Html.Raw(JsonConvert.SerializeObject(Model.UserJobs));
 </script>
 <script>
     var updateUserApp = new Vue({
@@ -105,7 +82,8 @@
             confirmPassword: "@Model.Password",
             email: "@Model.Email",
             tel: "@Model.Tel",
-            orgId:"@Model.OrgId"
+            orgId: "@Model.OrgId",
+            userJobs: []
         },
         methods: {
             goBack: function() {
@@ -113,7 +91,16 @@
             },
             saveUser: function () {
                 var _this = this;
-                _this.orgId=$("#organization").data("kendoDropDownList").value();
+                _this.orgId = $("#organization").data("kendoDropDownList").value();
+                _this.userJobs = [];
+                $("#roleBox input").each(function () {
+                    if ($(this).is(":checked")) {
+                        _this.userJobs.push({
+                            JobId: $(this).attr("id"),
+                            JobName: $(this).next().html()
+                        });
+                    }
+                });
                 var user = {
                     Id:_this.id,
                     Account: _this.account,
@@ -121,7 +108,8 @@
                     Password: _this.password,
                     Email: _this.email,
                     Tel:_this.tel,
-                    OrgId: _this.orgId
+                    OrgId: _this.orgId,
+                    UserJobs: _this.userJobs
                 };
                 $.ajax({
                     url: "@Url.Action("UpdateUser")",
@@ -174,7 +162,46 @@
                     }
                 }
             },
-            value:"@Model.OrgId"
+            value: "@Model.OrgId",
+            dataBound: function () {
+                var orgId = this.dataItem().Id;
+                getJobs(orgId);
+            },
+            change: function () {
+                console.log();
+                var orgId = this.dataItem().Id;
+                getJobs(orgId);
+            }
         });
     });
+</script>
+<script>
+    function getJobs(orgId) {
+        $.ajax({
+            url: "@Url.Action("GetJobsByOrgId")",
+            data: {
+                orgId:orgId
+            },
+            success: function (res) {
+                console.log(res);
+                $("#roleBox").empty();
+                for (var i = 0; i < res.length; i++) {
+                    var content = '<li class="role-item">' +
+                        '<input type="checkbox" id="'+res[i].Id+'" class="k-checkbox">'+
+                        '<label class="k-checkbox-label" for="'+res[i].Id+'">'+res[i].Name+'</label>'+
+                        '</li>';
+                    for (var j = 0; j < selectdJobs.length;j++) {
+                        if (selectdJobs[j].JobId === res[i].Id) {
+                            content = '<li class="role-item">' +
+                                '<input type="checkbox" checked="checked" id="'+res[i].Id+'" class="k-checkbox">'+
+                                '<label class="k-checkbox-label" for="'+res[i].Id+'">'+res[i].Name+'</label>'+
+                                '</li>';
+                            break;
+                        } 
+                    }
+                    $("#roleBox").append(content);
+                }
+            }
+        });
+    }
 </script>

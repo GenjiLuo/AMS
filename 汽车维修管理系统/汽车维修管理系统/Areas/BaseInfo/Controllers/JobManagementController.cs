@@ -14,11 +14,13 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
     {
         private readonly IJobService _jobService;
         private readonly IOrgService _orgService;
+        private readonly IMenuService _menuService;
 
         public JobManagementController()
         {
             _jobService=new JobService();
             _orgService=new OrgService();
+            _menuService=new MenuService();
         }
         public ActionResult Index()
         {
@@ -39,6 +41,10 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
         {
             return View();
         }
+        public ActionResult Menu_TreeViewDataSource()
+        {
+            return Json(_menuService.GetAllMenu(), JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult AddJob(JobDto jobDto)
@@ -49,6 +55,7 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
         public ActionResult UpdateJob(Guid jobId)
         {
             var job = _jobService.GetOneJob(jobId);
+            TempData["Menus"] = _menuService.GetAllMenu();
             return View(job);
         }
         [HttpPost]

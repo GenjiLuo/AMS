@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 
 @{
     ViewBag.Title = "汽修系统 | 员工管理";
@@ -265,11 +266,11 @@
         console.log(selectedRow);
         selectedUser = selectedRow;
 
-        $("#btn_edit").data("kendoButton").enable(true);
-        $("#btn_delete").data("kendoButton").enable(true);
-        $("#btn_adjust").data("kendoButton").enable(true);
-        $("#btn_active").data("kendoButton").enable(selectedRow.State === 1 ? true : false);
-        $("#btn_disable").data("kendoButton").enable(selectedRow.State === 0 ? true : false);
+        $("#btn_edit").data("kendoButton").enable(selectedRow.OperationType === @((int)OperationTypeEnum.用户添加));
+        $("#btn_delete").data("kendoButton").enable(selectedRow.OperationType === @((int)OperationTypeEnum.用户添加));
+        $("#btn_adjust").data("kendoButton").enable(selectedRow.OperationType === @((int)OperationTypeEnum.用户添加));
+        $("#btn_active").data("kendoButton").enable(selectedRow.State === 1 && selectedRow.OperationType === @((int)OperationTypeEnum.用户添加));
+        $("#btn_disable").data("kendoButton").enable(selectedRow.State === 0 && selectedRow.OperationType === @((int)OperationTypeEnum.用户添加));
     }
 </script>
 

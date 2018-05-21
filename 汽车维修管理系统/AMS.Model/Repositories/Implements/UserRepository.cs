@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Transactions;
 using AMS.Model.dto;
 using AMS.Model.Enum;
 using AMS.Model.poco;
@@ -42,7 +43,8 @@ namespace AMS.Model.Repositories.Implements
                     State = i.State,
                     Account = i.Account,
                     OrgId = i.Org.Id,
-                    OrgName = i.Org.Name
+                    OrgName = i.Org.Name,
+                    OperationType = i.OperationType
                 }).ToList();
                 return users;
             }
@@ -62,7 +64,15 @@ namespace AMS.Model.Repositories.Implements
                     OrgName = i.Org.Name,
                     State = i.State,
                     Email = i.Email,
-                    Tel = i.Tel
+                    Tel = i.Tel,
+                    UserJobs = i.UserJobs.Select(j=>new UserJobDto()
+                    {
+                        Id = j.Id,
+                        JobId = j.JobId,
+                        JobName = j.Job.Name,
+                        UserId = j.UserId,
+                        UserName = j.User.Name
+                    }).ToList()
                 }).FirstOrDefault();
                 return user;
             }
@@ -85,16 +95,28 @@ namespace AMS.Model.Repositories.Implements
                     CreateTime = DateTime.Now,
                     CreateBy = operationUser.Id
                 };
-                try
+                var userJobs = userDto.UserJobs.Select(i => new UserJob()
                 {
-                    db.User.Add(user);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
+                    Id = Guid.NewGuid(),
+                    JobId = i.JobId,
+                    UserId = user.Id
+                });
+                using (var scope=new TransactionScope())
                 {
-                    return new ResModel() { Msg = "添加失败", Success = false };
+                    try
+                    {
+                        db.User.Add(user);
+                        db.SaveChanges();
+                        db.UserJob.AddRange(userJobs);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "添加失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "添加成功", Success = true };
                 }
-                return new ResModel() { Msg = "添加成功", Success = true };
             }
         }
 
@@ -107,25 +129,41 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel(){Msg = "更新失败，未找到该员工",Success = false};
                 }
-
-                try
+                if (user.OperationType == OperationTypeEnum.系统预置)
                 {
-                    user.Name = userDto.Name;
-                    user.Account = userDto.Account;
-                    user.Password = userDto.Password;
-                    user.Email = userDto.Email;
-                    user.Tel = userDto.Tel;
-                    user.OrgId = userDto.OrgId;
-
-                    user.UpdateTime=DateTime.Now;
-                    user.UpdateBy = operationUser.Id;
-                    db.SaveChanges();
+                    return new ResModel() { Msg = "更新失败，系统预置账户不可更新", Success = false };
                 }
-                catch (Exception e)
+                var userJobs = userDto.UserJobs.Select(i => new UserJob()
                 {
-                    return new ResModel() { Msg = "更新失败", Success = false };
+                    Id = Guid.NewGuid(),
+                    JobId = i.JobId,
+                    UserId = user.Id
+                });
+                using (var scope=new TransactionScope())
+                {
+                    try
+                    {
+                        user.Name = userDto.Name;
+                        user.Account = userDto.Account;
+                        user.Password = userDto.Password;
+                        user.Email = userDto.Email;
+                        user.Tel = userDto.Tel;
+                        user.OrgId = userDto.OrgId;
+
+                        user.UpdateTime=DateTime.Now;
+                        user.UpdateBy = operationUser.Id;
+                        db.UserJob.RemoveRange(user.UserJobs);
+                        db.SaveChanges();
+                        db.UserJob.AddRange(userJobs);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "更新失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "更新成功", Success = true };
                 }
-                return new ResModel() { Msg = "更新成功", Success = true };
             }
         }
 
@@ -138,17 +176,26 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "删除失败，未找到该员工", Success = false };
                 }
-
-                try
+                if (user.OperationType == OperationTypeEnum.系统预置)
                 {
-                    db.User.Remove(user);
-                    db.SaveChanges();
+                    return new ResModel() { Msg = "删除失败，系统预置账户不可删除", Success = false };
                 }
-                catch (Exception e)
+                using (var scope=new TransactionScope())
                 {
-                    return new ResModel() { Msg = "删除失败", Success = false };
+                    try
+                    {
+                        db.UserJob.RemoveRange(user.UserJobs);
+                        db.SaveChanges();
+                        db.User.Remove(user);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "删除失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "删除成功", Success = true };
                 }
-                return new ResModel() { Msg = "删除成功", Success = true };
             }
         }
 
@@ -161,7 +208,10 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "激活失败，未找到该员工或该员工已激活", Success = false };
                 }
-
+                if (user.OperationType == OperationTypeEnum.系统预置)
+                {
+                    return new ResModel() { Msg = "激活失败，系统预置账户不可操作", Success = false };
+                }
                 try
                 {
                     user.State = (int) UserStateEnum.激活;
@@ -186,7 +236,10 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "禁用失败，未找到该员工或该员工已禁用", Success = false };
                 }
-
+                if (user.OperationType == OperationTypeEnum.系统预置)
+                {
+                    return new ResModel() { Msg = "禁用失败，系统预置账户不可操作", Success = false };
+                }
                 try
                 {
                     user.State = (int)UserStateEnum.禁用;

@@ -34,9 +34,12 @@ input[type="password"] {
 .menu-tree-container {
     width: 100%;
     width: 400px;
-    height: 300px;
+    min-height: 300px;
     border: 1px solid #e3e3e3;
- }
+    padding-top: 10px;
+    padding-left: 6px;
+    padding-bottom: 6px;
+}
 .marginBottom30px {
     margin-bottom: 30px;
 }

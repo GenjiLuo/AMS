@@ -101,8 +101,8 @@
     $("#btn_addOrg").click(function() {
         $("body").append("<div id='addOrgWindow'></div>");
         var addWindow = $("#addOrgWindow").kendoWindow({
-            width: "800px",
-            height: "400px",
+            width: "600px",
+            height: "240px",
             title: "新建部门",
             content:"@Url.Action("AddOrgPartialView")"+"?parentOrgId="+parentOrg.Id+"&parentOrgName="+parentOrg.Name,
             visible: false,
@@ -118,8 +118,8 @@
     $("#btn_edit").click(function() {
         $("body").append("<div id='updateOrgWindow'></div>");
         var updateOrgWindow = $("#updateOrgWindow").kendoWindow({
-            width: "800px",
-            height: "400px",
+            width: "600px",
+            height: "240px",
             title: "更新部门",
             content:"@Url.Action("UpdateOrgPartialView")"+"?selectedOrgId="+selectedOrg.Id,
             visible: false,

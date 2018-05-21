@@ -61,5 +61,8 @@ namespace AMS.Model
         public virtual DbSet<ServiceRepairCashTicket> ServiceRepairCashTicket { get; set; }
         public virtual DbSet<WashItem> WashItem { get; set; }
         public virtual DbSet<ServiceWashItem> ServiceWashItem { get; set; }
+        public virtual DbSet<JobMenu> JobMenu { get; set; }
+        public virtual DbSet<UserJob> UserJob { get; set; }
+
     }
 }

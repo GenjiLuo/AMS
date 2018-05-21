@@ -1,32 +1,19 @@
 ﻿<link href="~/Style/orgManage/orgAdd.css" rel="stylesheet" />
-<div id="addOrgApp" class="container-fluid">
+<div id="addOrgApp" style="padding-left: 25px" class="container-fluid">
     <div class="row">
-        <div class="col-xs-6">
-            <h4>基础信息</h4>
-            <div class="form-group">
-                <label class="inputlabel">上级部门</label>
-                <input class="k-textbox" disabled="disabled" v-model="parentOrgName"/>
-                <input type="hidden" v-model="parentId"/>
-            </div>
-            <div class="form-group">
-                <label class="inputlabel">名称</label>
-                <input class="k-textbox" v-model="orgName"/>
-            </div>
-            <div class="form-group">
-                <label class="inputlabel">描述</label>
-                <input class="k-textbox" v-model="description"/>
-            </div>
+        <h4>基础信息</h4>
+        <div class="form-group">
+            <label class="inputlabel">上级部门</label>
+            <input class="k-textbox window-input-item" disabled="disabled" v-model="parentOrgName"/>
+            <input type="hidden" v-model="parentId"/>
         </div>
-        <div class="col-xs-5">
-            <h4>菜单分配</h4>
-            <div class="form-group">
-                <button class="btn btn-minier btn-purple">全选</button>
-                <button class="btn btn-minier btn-purple">全不选</button>
-                &nbsp;||&nbsp;
-                <button class="btn btn-minier">全展开</button>
-                <button class="btn btn-minier">全折叠</button>
-            </div>
-            <div class="form-group menu-tree-container"></div>
+        <div class="form-group">
+            <label class="inputlabel">名称</label>
+            <input class="k-textbox window-input-item" v-model="orgName"/>
+        </div>
+        <div class="form-group">
+            <label class="inputlabel">描述</label>
+            <input class="k-textbox window-input-item" v-model="description"/>
         </div>
     </div>
     <div class="row option">
@@ -55,6 +42,9 @@
                 $("#updateOrgWindow").data("kendoWindow").destroy();
             },
             saveAddOrg: function () {
+                if (!_this.orgName) {
+                    return;
+                }
                 var _this = this;
                 $.ajax({
                     url: "@Url.Action("UpdateOrganization")",

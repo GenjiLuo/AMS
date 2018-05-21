@@ -24,13 +24,15 @@
     <div class="advancedinfo container-fluid">
         <h4 class="marginBottom30px">分配权限</h4>
         <div class="form-group">
-            <button class="btn btn-minier btn-purple">全选</button>
-            <button class="btn btn-minier btn-purple">全不选</button>
+            <button id="checkAll" class="btn btn-minier btn-purple">全选</button>
+            <button id="unCheckAll" class="btn btn-minier btn-purple">全不选</button>
             &nbsp;||&nbsp;
-            <button class="btn btn-minier">全展开</button>
-            <button class="btn btn-minier">全折叠</button>
+            <button id="expandAll" class="btn btn-minier">全展开</button>
+            <button id="collapseAll" class="btn btn-minier">全折叠</button>
         </div>
-        <div class="form-group menu-tree-container"></div>
+        <div class="form-group menu-tree-container">
+            <div id="menuTree"></div>
+        </div>
     </div>
     <div class="options container-fluid">
         <div class="row">
@@ -40,14 +42,12 @@
     </div>
 </div>
 <script>
-
-</script>
-<script>
     var addJobApp = new Vue({
         el: "#addJobApp",
         data: {
             name: "",
-            orgId:""
+            orgId: "",
+            jobMenus:[]
         },
         methods: {
             goBack: function() {
@@ -55,10 +55,12 @@
             },
             saveUser: function () {
                 var _this = this;
-                _this.orgId=$("#organization").data("kendoDropDownList").value();
+                _this.orgId = $("#organization").data("kendoDropDownList").value();
+                _this.jobMenus = getCheckedNodes();
                 var user = {
                     Name: _this.name,
-                    OrgId: _this.orgId
+                    OrgId: _this.orgId,
+                    JobMenus: _this.jobMenus
                 };
                 $.ajax({
                     url: "@Url.Action("AddJob")",
@@ -103,5 +105,66 @@
                 }
             }
         });
+        var menuTree=$("#menuTree").kendoTreeView({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Menu_TreeViewDataSource")"
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "Id",
+                        children:"SubMenuDto"
+                    }
+                }
+            },
+            loadOnDemand: false,
+            messages: {
+                loading:"加载中..."
+            },
+            dataTextField:"Name",
+            checkboxes: {
+                checkChildren: true
+            }
+        }).data("kendoTreeView");
+        $("#checkAll").click(function () {
+            checkUncheckAllNodes(menuTree.dataSource.view(), true);
+        });
+        $("#unCheckAll").click(function () {
+            checkUncheckAllNodes(menuTree.dataSource.view(), false);
+        });
+        $("#expandAll").click(function () {
+            menuTree.expand(".k-item");
+        });
+        $("#collapseAll").click(function () {
+            menuTree.collapse(".k-item");
+        });
     });
+</script>
+<script>
+    function checkUncheckAllNodes(nodes, checked) {
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].set("checked", checked);
+            if (nodes[i].hasChildren) {
+                checkUncheckAllNodes(nodes[i].children.view(), checked);
+            }
+        }
+    }
+
+    function getCheckedNodes() {
+        var selectedMenus = [];
+        var menuTree = $("#menuTree").data("kendoTreeView");
+        var items = menuTree.items();
+        for (var i = 0; i < items.length; i++) {
+            var item = menuTree.dataItem(items[i]);
+            if (item.checked === true) {
+                selectedMenus.push({
+                    MenuId: item.Id,
+                    MenuName:item.Name
+                });
+            }
+        }
+        return selectedMenus;
+    }
 </script>

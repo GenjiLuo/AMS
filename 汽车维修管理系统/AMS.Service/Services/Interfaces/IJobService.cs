@@ -13,5 +13,6 @@ namespace AMS.Service.Services.Interfaces
         JobDto GetOneJob(Guid jobId);
         ResModel UpdateJob(JobDto jobDto, UserDto operationUser);
         ResModel DeleteJob(Guid jobId);
+        List<JobDto> GetJobsByOrgId(Guid orgId);
     }
 }

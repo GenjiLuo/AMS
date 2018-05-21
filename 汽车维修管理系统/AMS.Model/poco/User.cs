@@ -15,6 +15,7 @@ namespace AMS.Model.poco
         {
             OperationLogs = new HashSet<OperationLog>();
             ServiceRepairItems=new HashSet<ServiceRepairItem>();
+            UserJobs=new HashSet<UserJob>();
     }
         [Required]
         [Index(IsUnique = true)]
@@ -30,5 +31,6 @@ namespace AMS.Model.poco
         public virtual Organization Org { get; set; }
         public virtual ICollection<OperationLog> OperationLogs { get; set; }
         public virtual ICollection<ServiceRepairItem> ServiceRepairItems { get; set; }
+        public virtual ICollection<UserJob> UserJobs { get; set; }
     }
 }

@@ -10,9 +10,18 @@ using Newtonsoft.Json;
 
 namespace AMS.Model.poco
 {
-    public class JobDto : BaseModel
+    public class Job: BaseModel
     {
+        public Job()
+        {
+            JobMenus=new HashSet<JobMenu>();
+            UserJobs=new HashSet<UserJob>();
+        }
         public Guid OrgId { get; set; }
-        public string OrgName { get; set; }
+        [ForeignKey("OrgId")]
+        public virtual Organization Org { get; set; }
+
+        public virtual ICollection<JobMenu> JobMenus { get; set; }
+        public virtual ICollection<UserJob> UserJobs { get; set; }
     }
 }

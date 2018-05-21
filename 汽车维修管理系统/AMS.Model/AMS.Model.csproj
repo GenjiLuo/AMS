@@ -98,6 +98,7 @@
     <Compile Include="dto\ServiceTicketTypeDto.cs" />
     <Compile Include="dto\ServiceWashItemDto.cs" />
     <Compile Include="dto\SupplierDto.cs" />
+    <Compile Include="dto\UserJobDto.cs" />
     <Compile Include="dto\UserQuickMenuDto.cs" />
     <Compile Include="dto\QuickMenuDto.cs" />
     <Compile Include="dto\MenuDto.cs" />
@@ -128,12 +129,19 @@
     <Compile Include="Migrations\201805191512140_UpdateTableCustomer.Designer.cs">
       <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.cs" />
+    <Compile Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.Designer.cs">
+      <DependentUpon>201805210539215_AddTabelsUserJob_JobMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="poco\BaseModel.cs" />
     <Compile Include="poco\CarModel.cs" />
     <Compile Include="poco\CarSeries.cs" />
     <Compile Include="poco\CarBrand.cs" />
+    <Compile Include="dto\JobMenuDto.cs" />
+    <Compile Include="poco\UserJob.cs" />
+    <Compile Include="poco\JobMenu.cs" />
     <Compile Include="poco\ServiceWashItem.cs" />
     <Compile Include="poco\WashItem.cs" />
     <Compile Include="poco\PartsIn.cs" />
@@ -240,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805191512140_UpdateTableCustomer.resx">
       <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.resx">
+      <DependentUpon>201805210539215_AddTabelsUserJob_JobMenu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

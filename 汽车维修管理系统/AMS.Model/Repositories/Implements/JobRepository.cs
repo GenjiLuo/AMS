@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Transactions;
 using AMS.Model.dto;
 using AMS.Model.Enum;
 using AMS.Model.poco;
@@ -21,7 +22,14 @@ namespace AMS.Model.Repositories.Implements
                     Id = i.Id,
                     Name = i.Name,
                     OrgId = i.OrgId,
-                    OrgName = i.Org.Name
+                    OrgName = i.Org.Name,
+                    JobMenus = i.JobMenus.Select(j => new JobMenuDto()
+                    {
+                        Id = j.Id,
+                        JobId = j.JobId,
+                        MenuId = j.MenuId,
+                        MenuName = j.Menu.Name
+                    }).ToList()
                 }).ToList();
                 return jobs;
             }
@@ -39,16 +47,28 @@ namespace AMS.Model.Repositories.Implements
                     CreateTime = DateTime.Now,
                     CreateBy = operationUser.Id
                 };
-                try
+                var jobMenus = jobDto.JobMenus.Select(i => new JobMenu()
                 {
-                    db.Job.Add(job);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
+                    Id = Guid.NewGuid(),
+                    MenuId = i.MenuId,
+                    JobId = job.Id
+                });
+                using (var scope=new TransactionScope())
                 {
-                    return new ResModel(){Msg = "新增岗位失败",Success = false};
+                    try
+                    {
+                        db.Job.Add(job);
+                        db.SaveChanges();
+                        db.JobMenu.AddRange(jobMenus);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel(){Msg = "新增岗位失败",Success = false};
+                    }
+                    return new ResModel() { Msg = "新增岗位成功", Success = true };
                 }
-                return new ResModel() { Msg = "新增岗位成功", Success = true };
             }
         }
 
@@ -61,7 +81,14 @@ namespace AMS.Model.Repositories.Implements
                     Id = i.Id,
                     Name = i.Name,
                     OrgId = i.OrgId,
-                    OrgName = i.Org.Name
+                    OrgName = i.Org.Name,
+                    JobMenus = i.JobMenus.Select(j=>new JobMenuDto()
+                    {
+                        Id = j.Id,
+                        JobId = j.JobId,
+                        MenuId = j.MenuId,
+                        MenuName = j.Menu.Name
+                    }).ToList()
                 }).FirstOrDefault();
                 return job;
             }
@@ -76,20 +103,32 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel(){Msg = "更新失败，未找到该岗位",Success = false};
                 }
-
-                try
+                var jobMenus = jobDto.JobMenus.Select(i => new JobMenu()
                 {
-                    job.OrgId = jobDto.OrgId;
-                    job.Name = jobDto.Name;
-                    job.UpdateTime = DateTime.Now;
-                    job.UpdateBy = operationUser.Id;
-                    db.SaveChanges();
-                }
-                catch (Exception e)
+                    Id = Guid.NewGuid(),
+                    MenuId = i.MenuId,
+                    JobId = job.Id
+                });
+                using (var scope=new TransactionScope())
                 {
-                    return new ResModel(){Msg = "更新失败",Success = false};
+                    try
+                    {
+                        job.OrgId = jobDto.OrgId;
+                        job.Name = jobDto.Name;
+                        job.UpdateTime = DateTime.Now;
+                        job.UpdateBy = operationUser.Id;
+                        db.JobMenu.RemoveRange(job.JobMenus);
+                        db.SaveChanges();
+                        db.JobMenu.AddRange(jobMenus);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel(){Msg = "更新失败",Success = false};
+                    }
+                    return new ResModel() { Msg = "更新成功", Success = true };
                 }
-                return new ResModel() { Msg = "更新成功", Success = true };
             }
         }
 
@@ -103,16 +142,35 @@ namespace AMS.Model.Repositories.Implements
                     return new ResModel() { Msg = "删除失败，未找到该岗位", Success = false };
                 }
 
-                try
+                using (var scope=new TransactionScope())
                 {
-                    db.Job.Remove(job);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.JobMenu.RemoveRange(job.JobMenus);
+                        db.SaveChanges();
+                        db.Job.Remove(job);
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+                    catch (Exception e)
+                    {
+                        return new ResModel() { Msg = "删除失败", Success = false };
+                    }
+                    return new ResModel() { Msg = "删除成功", Success = true };
                 }
-                catch (Exception e)
+            }
+        }
+
+        public List<JobDto> GetJobsByOrgId(Guid orgId)
+        {
+            using (var db=new ModelContext())
+            {
+                var jobs = db.Job.Where(i => i.OrgId == orgId).Select(i => new JobDto()
                 {
-                    return new ResModel() { Msg = "删除失败", Success = false };
-                }
-                return new ResModel() { Msg = "删除成功", Success = true };
+                    Id = i.Id,
+                    Name = i.Name
+                }).ToList();
+                return jobs;
             }
         }
     }

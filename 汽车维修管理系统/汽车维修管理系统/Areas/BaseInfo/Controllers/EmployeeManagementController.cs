@@ -14,11 +14,13 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
     {
         private readonly IUserService _userService;
         private readonly IOrgService _orgService;
+        private readonly IJobService _jobService;
 
         public EmployeeManagementController()
         {
             _userService = new UserService();
             _orgService = new OrgService();
+            _jobService=new JobService();
         }
         public ActionResult Index()
         {
@@ -38,6 +40,11 @@ namespace 汽车维修管理系统.Areas.BaseInfo.Controllers
         public ActionResult AddUser()
         {
             return View();
+        }
+
+        public ActionResult GetJobsByOrgId(Guid orgId)
+        {
+            return Json(_jobService.GetJobsByOrgId(orgId), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
