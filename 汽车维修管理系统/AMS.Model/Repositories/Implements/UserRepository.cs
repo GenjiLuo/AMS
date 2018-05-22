@@ -13,11 +13,12 @@ namespace AMS.Model.Repositories.Implements
 {
     public class UserRepository : IUserRepository
     {
-        public UserDto GetUserByLoginVM(UserDto userDto)
+        public Tuple<ResModel, UserDto,List<MenuDto>> GetUserByLoginVM(UserDto userDto)
         {
             using (var db = new ModelContext())
-            {
-                var user = db.User.Where(i => i.Account == userDto.Account && i.Password == userDto.Password).Select(i => new UserDto
+            {  
+                var tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(null, null, null);
+                var user = db.User.Where(i => i.Account == userDto.Account).Select(i => new UserDto
                 {
                     Id = i.Id,
                     Name = i.Name,
@@ -27,9 +28,76 @@ namespace AMS.Model.Repositories.Implements
                     OrgName = i.Org.Name,
                     OrgHope = i.Org.OrgHope
                 }).FirstOrDefault();
-                return user;
-            };
+                if (user == null)
+                {
+                    tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
+                        new ResModel() {Msg = "登录失败，该账号不存在", Success = false}, null, null);
+                    return tuple;
+                }
 
+                if (user.Password != userDto.Password)
+                {
+                    tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
+                        new ResModel() { Msg = "登录失败，密码错误", Success = false }, null, null);
+                    return tuple;
+                }
+
+                var userJobs = db.UserJob.Where(i => i.UserId == user.Id).Select(i => new UserJobDto()
+                {
+                    Id = i.Id,
+                    JobId = i.JobId,
+                    JobName = i.Job.Name,
+                    UserId = i.UserId,
+                    UserName = i.User.Name
+                });
+                if (!userJobs.Any())
+                {
+                    tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
+                        new ResModel() { Msg = "登录失败，该账号没有任何岗位权限，无法登录", Success = false }, null, null);
+                    return tuple;
+                }
+
+                var count = 0;
+                var authorizedMenus=new List<MenuDto>();
+                foreach (var userJob in userJobs)
+                {
+                    var jobMenus = db.JobMenu.Where(i => i.JobId == userJob.JobId).Select(i=>new JobMenuDto()
+                    {
+                        Id = i.Id,
+                        JobId = i.JobId,
+                        JobName = i.Job.Name,
+                        MenuId = i.MenuId,
+                        MenuName = i.Menu.Name
+                    });
+                    if (jobMenus.Any())
+                    {
+                        count++;
+                    }
+
+                    foreach (var jobMenu in jobMenus)
+                    {
+                        var menu = new MenuDto()
+                        {
+                            Id =jobMenu.MenuId,
+                            Name = jobMenu.MenuName
+                        };
+                        if (authorizedMenus.All(i => i.Id != menu.Id))
+                        {
+                            authorizedMenus.Add(menu);
+                        }
+                    }
+                }
+
+                if (count == 0)
+                {
+                    tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
+                        new ResModel() { Msg = "登录失败，该账号岗位没有任何权限，无法登录", Success = false }, null, null);
+                    return tuple;
+                }
+                tuple = Tuple.Create(
+                    new ResModel() { Msg = "登录成功", Success = true }, user, authorizedMenus);
+                return tuple;
+            }
         }
 
         public List<UserDto> GetAllUser()

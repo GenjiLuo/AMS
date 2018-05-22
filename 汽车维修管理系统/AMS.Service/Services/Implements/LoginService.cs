@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AMS.Service.Services.interfaces;
 using AMS.Model.Repositories.Implements;
 using AMS.Model.Repositories.Interfaces;
+using AMS.Model.ResponseModel;
 
 namespace AMS.Service.Services.implements
 {
@@ -18,7 +19,7 @@ namespace AMS.Service.Services.implements
         {
             _userRepository=new UserRepository();
         }
-        public UserDto Login(UserDto userDto)
+        public Tuple<ResModel, UserDto, List<MenuDto>> Login(UserDto userDto)
         {
             return _userRepository.GetUserByLoginVM(userDto);
         }

@@ -74,7 +74,7 @@
                 account: "账户不能为空",
                 password: "密码不能为空"
             },
-            submitHandler: function(form) {
+            submitHandler: function() {
                 $(".otherError").hide();
                 $.ajax({
                     url: loginUrl,
@@ -89,7 +89,7 @@
                         if (res.Success) {
                             window.location.href = returnUrl || defaultReturnUrl;
                         } else {
-                            $(".otherError span").html(res.message).parent().show();
+                            $(".otherError span").html(res.Msg).parent().show();
                         }
                     },
                     error: function() {}

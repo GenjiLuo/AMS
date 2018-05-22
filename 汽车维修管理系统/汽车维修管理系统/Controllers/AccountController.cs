@@ -29,22 +29,21 @@ namespace 汽车维修管理系统.Controllers
         {
              if (ModelState.IsValid)
             {
-                var user = _loginService.Login(new UserDto()
+                var tuple = _loginService.Login(new UserDto()
                 {
                     Account = loginVM.Account,
                     Password = loginVM.Password
                 });
 
-                if (user != null)
+                if (tuple.Item1.Success)
                 {
-                    Session["LogUser"] = user;
-                    return Json(new ResModel { Success = true, Msg = "登录成功" });
+                    Session["LogUser"] = tuple.Item2;
+                    return Json(tuple.Item1);
                 }
+                return Json(tuple.Item1);
 
-                return Json(new ResModel { Success = false, Msg = "账号或密码错误" });
             }
-
-            return Json(new ResModel { Success = false, Msg = "账号或密码错误" });
+            return Json(new ResModel { Success = false, Msg = "请输入正确格式的账号和密码" });
         }
 
         [AllowAnonymous]

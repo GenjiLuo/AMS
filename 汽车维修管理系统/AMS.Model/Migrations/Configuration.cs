@@ -20,49 +20,6 @@ namespace AMS.Model.Migrations
 
         protected override void Seed(ModelContext context)
         {
-            //预填部门、员工默认数据
-            if (!context.Organization.Any())
-            {
-                var defaultDepartment = new Organization()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "默认部门",
-                    OrderNum = 0,
-                    OperationType = OperationTypeEnum.系统预置,
-                    Description = "系统默认数据",
-                    CreateTime = DateTime.Now,
-                    OrgHope = "好的开始是成功的一半"
-                };
-                context.Organization.Add(defaultDepartment);
-                if (!context.User.Any())
-                {
-                    var defaultUser = new User()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "系统管理员",
-                        Account = "admin",
-                        Password = "admin",
-                        Description = "系统默认数据",
-                        OperationType = OperationTypeEnum.系统预置,
-                        Org = defaultDepartment,
-                        CreateTime = DateTime.Now
-                    };
-                    context.User.Add(defaultUser);
-                }
-                if (!context.Job.Any())
-                {
-                    var defaultJob = new Job()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "仓库管理员",
-                        Description = "系统默认数据",
-                        OperationType = OperationTypeEnum.系统预置,
-                        Org = defaultDepartment,
-                        CreateTime = DateTime.Now
-                    };
-                    context.Job.Add(defaultJob);
-                }
-            }
             //菜单数据
             if (!context.Menu.Any())
             {
@@ -608,6 +565,76 @@ namespace AMS.Model.Migrations
                     }
                 };
                 context.Menu.AddRange(defaultMenus);
+            }
+            //预填部门、员工、岗位默认数据
+            if (!context.Organization.Any())
+            {
+                var defaultDepartment = new Organization()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "默认部门",
+                    OrderNum = 0,
+                    OperationType = OperationTypeEnum.系统预置,
+                    Description = "系统默认数据",
+                    CreateTime = DateTime.Now,
+                    OrgHope = "好的开始是成功的一半"
+                };
+                context.Organization.Add(defaultDepartment);
+                if (!context.User.Any())
+                {
+                    var defaultUser = new User()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "系统管理员",
+                        Account = "admin",
+                        Password = "admin",
+                        Description = "系统默认数据",
+                        OperationType = OperationTypeEnum.系统预置,
+                        Org = defaultDepartment,
+                        CreateTime = DateTime.Now
+                    };
+                    context.User.Add(defaultUser);
+                    if (!context.Job.Any())
+                    {
+                        var defaultJob = new Job()
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "系统管理员",
+                            Description = "系统默认数据",
+                            OperationType = OperationTypeEnum.系统预置,
+                            Org = defaultDepartment,
+                            CreateTime = DateTime.Now
+                        };
+                        context.Job.Add(defaultJob);
+                        if (!context.UserJob.Any())
+                        {
+                            var job = defaultJob;
+                            var user = defaultUser;
+                            var userJob=new UserJob()
+                            {
+                                UserId = user.Id,
+                                JobId = job.Id
+                            };
+                            context.UserJob.Add(userJob);
+                        }
+
+                        if (!context.JobMenu.Any())
+                        {
+                            var jobMenus = new List<JobMenu>();
+                            var job = defaultJob;
+                            foreach (var menu in context.Menu)
+                            {
+                                var jobMenu = new JobMenu()
+                                {
+                                    JobId = job.Id,
+                                    MenuId = menu.Id
+                                };
+                                jobMenus.Add(jobMenu);
+                            }
+                            context.JobMenu.AddRange(jobMenus);
+                        }
+                    }
+                }
             }
             //单据号默认数据
             if (!context.BillNoSetting.Any())
