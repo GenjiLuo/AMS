@@ -23,6 +23,7 @@ namespace AMS.Model.Repositories.Implements
                     Name = i.Name,
                     OrgId = i.OrgId,
                     OrgName = i.Org.Name,
+                    OperationType = i.OperationType,
                     JobMenus = i.JobMenus.Select(j => new JobMenuDto()
                     {
                         Id = j.Id,
@@ -82,6 +83,7 @@ namespace AMS.Model.Repositories.Implements
                     Name = i.Name,
                     OrgId = i.OrgId,
                     OrgName = i.Org.Name,
+                    OperationType = i.OperationType,
                     JobMenus = i.JobMenus.Select(j=>new JobMenuDto()
                     {
                         Id = j.Id,
@@ -141,7 +143,10 @@ namespace AMS.Model.Repositories.Implements
                 {
                     return new ResModel() { Msg = "删除失败，未找到该岗位", Success = false };
                 }
-
+                if (job.OperationType == OperationTypeEnum.系统预置)
+                {
+                    return new ResModel() { Msg = "删除失败，系统预置内容不可删除", Success = false };
+                }
                 using (var scope=new TransactionScope())
                 {
                     try
@@ -168,7 +173,8 @@ namespace AMS.Model.Repositories.Implements
                 var jobs = db.Job.Where(i => i.OrgId == orgId).Select(i => new JobDto()
                 {
                     Id = i.Id,
-                    Name = i.Name
+                    Name = i.Name,
+                    OperationType = i.OperationType
                 }).ToList();
                 return jobs;
             }

@@ -1,4 +1,5 @@
-﻿<link href="~/Style/home/quickMenu.css" rel="stylesheet"/>
+﻿@using AMS.Model.dto
+<link href="~/Style/home/quickMenu.css" rel="stylesheet"/>
 <div id="quickMenuApp">
     <div class="menu-content">
         <div v-for="item in totalMenu">
@@ -39,7 +40,8 @@
         el: "#quickMenuApp",
         data: {
             totalMenu: [],
-            currentSelectedMenu: []
+            currentSelectedMenu: [],
+            userId:"@((Session["LogUser"] as UserDto)?.Id)"
         },
         methods: {
             chooseOrCancel: function(item) {
@@ -58,6 +60,7 @@
         created: function() {
             var _this = this;
             $.get("@Url.Action("GetAllQuickMenu")",
+                {userId:_this.userId},
                 function(res) {
                     _this.totalMenu = res;
                 });

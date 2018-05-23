@@ -10,23 +10,30 @@ namespace AMS.Model.Repositories.Implements
 {
     public class QuickMenuRepository : IQuickMenuRepository
     {
+        private readonly IMenuRepository _menuRepository;
         #region 用户所有快捷菜单
+
+        public QuickMenuRepository()
+        {
+            _menuRepository=new MenuRepository();
+        }
         public List<UserQuickMenuDto> GetUserQuickMenu(UserDto userDto)
         {
             using (var db = new ModelContext())
             {
                 var quickMenuDtos = new List<UserQuickMenuDto>();
                 var userQuickMenuIds = db.QuickMenu.Where(i => i.UserId == userDto.Id).Select(i => i.MenuId);
-                var topLevelMenus = db.Menu.Where(i => i.ParentId == null);
+                var authorizedMenus = _menuRepository.GetHierarchicalMenu(userDto.Id);
+                var topLevelMenus = authorizedMenus;
                 foreach (var topLevelMenu in topLevelMenus)
                 {
                     var topQuickMenu = new UserQuickMenuDto()
                     {
                         Name = topLevelMenu.Name
                     };
-                    foreach (var secondLevelMenu in topLevelMenu.SubMenu)
+                    foreach (var secondLevelMenu in topLevelMenu.SubMenuDto)
                     {
-                        foreach (var thirdLevelMenu in secondLevelMenu.SubMenu)
+                        foreach (var thirdLevelMenu in secondLevelMenu.SubMenuDto)
                         {
                             var userQuickMenu = new UserQuickMenuDto()
                             {
@@ -47,7 +54,6 @@ namespace AMS.Model.Repositories.Implements
                 return quickMenuDtos;
             }
         }
-
         #endregion
 
         #region 新增用户快捷菜单

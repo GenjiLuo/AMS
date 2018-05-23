@@ -1,4 +1,4 @@
-﻿var getMenuUrl = "/Home/GetAllMenu";
+﻿var getMenuUrl = "/Home/GetAuthorizedMenus";
 //侧边菜单的点击事件
 var vm = new Vue({
     el: "#sidebar",
@@ -6,7 +6,7 @@ var vm = new Vue({
         selectedMenu: {},
         selectedSecondMenu: {},
         selectedThirdMenu: {},
-        autoOpen: false
+        autoOpen: false,
     },
     created: function () {
         var _this = this;
@@ -17,7 +17,7 @@ var vm = new Vue({
             Id: -1
         };
         if (!sessionStorage.getItem("selectedMenu")) {
-            $.get(getMenuUrl, function (res) {
+            $.get(getMenuUrl, {userId:userId}, function (res) {
                 _this.selectedMenu = res[0];
                 sessionStorage.setItem("selectedMenu", JSON.stringify(res[0]));
             });
@@ -57,7 +57,7 @@ var vm1 = new Vue({
     created: function () {
         var _this = this;
         if (!sessionStorage.getItem("selectedMenu")) {
-            $.get(getMenuUrl, function (res) {
+            $.get(getMenuUrl, { userId: userId },function (res) {
                 _this.totalMenu = res;
                 _this.selectedMenu = res[0];
 

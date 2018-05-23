@@ -3,7 +3,7 @@ namespace AMS.Model.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDataBase : DbMigration
+    public partial class InitDatabase : DbMigration
     {
         public override void Up()
         {
@@ -94,6 +94,8 @@ namespace AMS.Model.Migrations
                         Birthday = c.DateTime(),
                         QQ = c.String(),
                         Hobby = c.String(),
+                        PreChargeMoney = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TotalCost = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Name = c.String(),
                         OrderNum = c.Int(),
                         Description = c.String(),
@@ -536,9 +538,9 @@ namespace AMS.Model.Migrations
                         Name = c.String(),
                         OrderNum = c.Int(),
                         Description = c.String(),
+                        CreateBy = c.Guid(),
                         State = c.Int(nullable: false),
                         OperationType = c.Int(nullable: false),
-                        CreateBy = c.Guid(),
                         CreateTime = c.DateTime(),
                         UpdateBy = c.Guid(),
                         UpdateTime = c.DateTime(),
@@ -546,6 +548,97 @@ namespace AMS.Model.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Organization", t => t.OrgId, cascadeDelete: true)
                 .Index(t => t.OrgId);
+            
+            CreateTable(
+                "dbo.JobMenu",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        JobId = c.Guid(nullable: false),
+                        MenuId = c.Guid(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Job", t => t.JobId, cascadeDelete: true)
+                .ForeignKey("dbo.Menu", t => t.MenuId, cascadeDelete: true)
+                .Index(t => t.JobId)
+                .Index(t => t.MenuId);
+            
+            CreateTable(
+                "dbo.Menu",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Icon = c.String(),
+                        QuickMenuIcon = c.String(),
+                        SelectedIcon = c.String(),
+                        Url = c.String(),
+                        ParentId = c.Guid(),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Menu", t => t.ParentId)
+                .Index(t => t.ParentId);
+            
+            CreateTable(
+                "dbo.QuickMenu",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        UserId = c.Guid(nullable: false),
+                        MenuId = c.Guid(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Menu", t => t.MenuId, cascadeDelete: true)
+                .Index(t => t.MenuId);
+            
+            CreateTable(
+                "dbo.UserJob",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        JobId = c.Guid(nullable: false),
+                        UserId = c.Guid(nullable: false),
+                        Name = c.String(),
+                        OrderNum = c.Int(),
+                        Description = c.String(),
+                        CreateBy = c.Guid(),
+                        State = c.Int(nullable: false),
+                        OperationType = c.Int(nullable: false),
+                        CreateTime = c.DateTime(),
+                        UpdateBy = c.Guid(),
+                        UpdateTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Job", t => t.JobId, cascadeDelete: true)
+                .ForeignKey("dbo.User", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.JobId)
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.ServiceRepairItem",
@@ -941,51 +1034,6 @@ namespace AMS.Model.Migrations
                 .Index(t => t.ParentId);
             
             CreateTable(
-                "dbo.Menu",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Icon = c.String(),
-                        QuickMenuIcon = c.String(),
-                        SelectedIcon = c.String(),
-                        Url = c.String(),
-                        ParentId = c.Guid(),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        State = c.Int(nullable: false),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Menu", t => t.ParentId)
-                .Index(t => t.ParentId);
-            
-            CreateTable(
-                "dbo.QuickMenu",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        UserId = c.Guid(nullable: false),
-                        MenuId = c.Guid(nullable: false),
-                        Name = c.String(),
-                        OrderNum = c.Int(),
-                        Description = c.String(),
-                        CreateBy = c.Guid(),
-                        State = c.Int(nullable: false),
-                        OperationType = c.Int(nullable: false),
-                        CreateTime = c.DateTime(),
-                        UpdateBy = c.Guid(),
-                        UpdateTime = c.DateTime(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Menu", t => t.MenuId, cascadeDelete: true)
-                .Index(t => t.MenuId);
-            
-            CreateTable(
                 "dbo.ParameterControl",
                 c => new
                     {
@@ -1012,8 +1060,6 @@ namespace AMS.Model.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.QuickMenu", "MenuId", "dbo.Menu");
-            DropForeignKey("dbo.Menu", "ParentId", "dbo.Menu");
             DropForeignKey("dbo.PartsDictionary", "PartsTypeId", "dbo.PartsType");
             DropForeignKey("dbo.PartsType", "ParentId", "dbo.PartsType");
             DropForeignKey("dbo.PartsIn", "PartsDictionaryId", "dbo.PartsDictionary");
@@ -1047,7 +1093,13 @@ namespace AMS.Model.Migrations
             DropForeignKey("dbo.ServiceRepairItem", "MainOperatorId", "dbo.User");
             DropForeignKey("dbo.User", "OrgId", "dbo.Organization");
             DropForeignKey("dbo.Organization", "ParentId", "dbo.Organization");
+            DropForeignKey("dbo.UserJob", "UserId", "dbo.User");
+            DropForeignKey("dbo.UserJob", "JobId", "dbo.Job");
             DropForeignKey("dbo.Job", "OrgId", "dbo.Organization");
+            DropForeignKey("dbo.QuickMenu", "MenuId", "dbo.Menu");
+            DropForeignKey("dbo.Menu", "ParentId", "dbo.Menu");
+            DropForeignKey("dbo.JobMenu", "MenuId", "dbo.Menu");
+            DropForeignKey("dbo.JobMenu", "JobId", "dbo.Job");
             DropForeignKey("dbo.OperationLog", "OperationUserId", "dbo.User");
             DropForeignKey("dbo.ServiceBooking", "RepairTypeId", "dbo.RepairType");
             DropForeignKey("dbo.EstimateRepairParts", "ServiceBookingId", "dbo.ServiceBooking");
@@ -1068,8 +1120,6 @@ namespace AMS.Model.Migrations
             DropForeignKey("dbo.Car", "ModelId", "dbo.CarModel");
             DropForeignKey("dbo.Car", "CustomerId", "dbo.Customer");
             DropIndex("dbo.ParameterControl", new[] { "ParameterName" });
-            DropIndex("dbo.QuickMenu", new[] { "MenuId" });
-            DropIndex("dbo.Menu", new[] { "ParentId" });
             DropIndex("dbo.PartsType", new[] { "ParentId" });
             DropIndex("dbo.PartsBuy", new[] { "WarehouseId" });
             DropIndex("dbo.PartsBuy", new[] { "SupplierId" });
@@ -1090,6 +1140,12 @@ namespace AMS.Model.Migrations
             DropIndex("dbo.ServiceRepairItem", new[] { "ServiceRepairId" });
             DropIndex("dbo.ServiceRepairItem", new[] { "ServiceBookingId" });
             DropIndex("dbo.ServiceRepairItem", new[] { "RepairItemId" });
+            DropIndex("dbo.UserJob", new[] { "UserId" });
+            DropIndex("dbo.UserJob", new[] { "JobId" });
+            DropIndex("dbo.QuickMenu", new[] { "MenuId" });
+            DropIndex("dbo.Menu", new[] { "ParentId" });
+            DropIndex("dbo.JobMenu", new[] { "MenuId" });
+            DropIndex("dbo.JobMenu", new[] { "JobId" });
             DropIndex("dbo.Job", new[] { "OrgId" });
             DropIndex("dbo.Organization", new[] { "ParentId" });
             DropIndex("dbo.OperationLog", new[] { "OperationUserId" });
@@ -1126,8 +1182,6 @@ namespace AMS.Model.Migrations
             DropIndex("dbo.Car", new[] { "ModelId" });
             DropIndex("dbo.Car", new[] { "CustomerId" });
             DropTable("dbo.ParameterControl");
-            DropTable("dbo.QuickMenu");
-            DropTable("dbo.Menu");
             DropTable("dbo.PartsType");
             DropTable("dbo.Warehouse");
             DropTable("dbo.PartsBuy");
@@ -1144,6 +1198,10 @@ namespace AMS.Model.Migrations
             DropTable("dbo.RepairItemType");
             DropTable("dbo.RepairItem");
             DropTable("dbo.ServiceRepairItem");
+            DropTable("dbo.UserJob");
+            DropTable("dbo.QuickMenu");
+            DropTable("dbo.Menu");
+            DropTable("dbo.JobMenu");
             DropTable("dbo.Job");
             DropTable("dbo.Organization");
             DropTable("dbo.OperationLog");

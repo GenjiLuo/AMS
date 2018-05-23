@@ -1,4 +1,5 @@
-﻿
+﻿@using AMS.Model.Enum
+
 
 @{
     ViewBag.Title = "汽修系统 | 岗位管理";
@@ -160,8 +161,8 @@
         console.log(selectedRow);
         selectedJob = selectedRow;
 
-        $("#btn_edit").data("kendoButton").enable(true);
-        $("#btn_delete").data("kendoButton").enable(true);
+        $("#btn_edit").data("kendoButton").enable(selectedRow.OperationType !== @((int)OperationTypeEnum.系统预置));
+        $("#btn_delete").data("kendoButton").enable(selectedRow.OperationType !== @((int)OperationTypeEnum.系统预置));
     }
 </script>
 

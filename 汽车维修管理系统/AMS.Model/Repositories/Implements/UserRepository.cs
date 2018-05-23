@@ -22,6 +22,7 @@ namespace AMS.Model.Repositories.Implements
                 {
                     Id = i.Id,
                     Name = i.Name,
+                    State = i.State,
                     Account = i.Account,
                     Password = i.Password,
                     OrgId = i.Org.Id,
@@ -39,6 +40,12 @@ namespace AMS.Model.Repositories.Implements
                 {
                     tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
                         new ResModel() { Msg = "登录失败，密码错误", Success = false }, null, null);
+                    return tuple;
+                }
+                if (user.State != (int)UserStateEnum.激活)
+                {
+                    tuple = Tuple.Create<ResModel, UserDto, List<MenuDto>>(
+                        new ResModel() { Msg = "登录失败，该账号已被禁用", Success = false }, null, null);
                     return tuple;
                 }
 
@@ -73,19 +80,6 @@ namespace AMS.Model.Repositories.Implements
                     {
                         count++;
                     }
-
-                    foreach (var jobMenu in jobMenus)
-                    {
-                        var menu = new MenuDto()
-                        {
-                            Id =jobMenu.MenuId,
-                            Name = jobMenu.MenuName
-                        };
-                        if (authorizedMenus.All(i => i.Id != menu.Id))
-                        {
-                            authorizedMenus.Add(menu);
-                        }
-                    }
                 }
 
                 if (count == 0)
@@ -112,7 +106,7 @@ namespace AMS.Model.Repositories.Implements
                     Account = i.Account,
                     OrgId = i.Org.Id,
                     OrgName = i.Org.Name,
-                    OperationType = i.OperationType
+                    OperationType = i.OperationType,
                 }).ToList();
                 return users;
             }
@@ -159,8 +153,9 @@ namespace AMS.Model.Repositories.Implements
                     Email = userDto.Email,
                     Tel = userDto.Tel,
                     OrgId = userDto.OrgId,
+                    State = (int)UserStateEnum.激活,
 
-                    CreateTime = DateTime.Now,
+                CreateTime = DateTime.Now,
                     CreateBy = operationUser.Id
                 };
                 var userJobs = userDto.UserJobs.Select(i => new UserJob()

@@ -565,6 +565,7 @@ namespace AMS.Model.Migrations
                     }
                 };
                 context.Menu.AddRange(defaultMenus);
+                context.SaveChanges();
             }
             //预填部门、员工、岗位默认数据
             if (!context.Organization.Any())
@@ -612,8 +613,10 @@ namespace AMS.Model.Migrations
                             var user = defaultUser;
                             var userJob=new UserJob()
                             {
+                                Id = Guid.NewGuid(),
                                 UserId = user.Id,
-                                JobId = job.Id
+                                JobId = job.Id,
+                                OperationType = OperationTypeEnum.系统预置
                             };
                             context.UserJob.Add(userJob);
                         }
@@ -622,12 +625,15 @@ namespace AMS.Model.Migrations
                         {
                             var jobMenus = new List<JobMenu>();
                             var job = defaultJob;
-                            foreach (var menu in context.Menu)
+                            var menuIds = context.Menu.Select(i => i.Id);
+                            foreach (var menuId in menuIds)
                             {
                                 var jobMenu = new JobMenu()
                                 {
+                                    Id = Guid.NewGuid(),
                                     JobId = job.Id,
-                                    MenuId = menu.Id
+                                    MenuId = menuId,
+                                    OperationType = OperationTypeEnum.系统预置
                                 };
                                 jobMenus.Add(jobMenu);
                             }

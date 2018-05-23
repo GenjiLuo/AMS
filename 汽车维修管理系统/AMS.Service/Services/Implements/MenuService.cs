@@ -22,5 +22,10 @@ namespace AMS.Service.Services.Implements
         {
             return _menuRepository.GetAllMenu();
         }
+
+        public List<MenuDto> GenerateMenuByUserId(Guid userId)
+        {
+            return _menuRepository.GetHierarchicalMenu(userId);
+        }
     }
 }

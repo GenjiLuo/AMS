@@ -10,5 +10,6 @@ namespace AMS.Model.Repositories.Interfaces
     public interface IMenuRepository
     {
         List<MenuDto> GetAllMenu();
+        List<MenuDto> GetHierarchicalMenu(Guid userId);
     }
 }

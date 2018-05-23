@@ -16,6 +16,7 @@ namespace AMS.Model.dto
         public string SelectedIcon { get; set; }
         public string Url { get; set; }
         public Guid? ParentId { get; set; }
+        public string QuickMenuIcon { get; set; }
 
         public List<MenuDto> SubMenuDto { get; set; }
     }

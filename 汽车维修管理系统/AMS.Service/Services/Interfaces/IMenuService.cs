@@ -10,5 +10,6 @@ namespace AMS.Service.Services.Interfaces
     public interface IMenuService
     {
         List<MenuDto> GetAllMenu();
+        List<MenuDto> GenerateMenuByUserId(Guid userId);
     }
 }

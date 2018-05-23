@@ -121,17 +121,9 @@
     <Compile Include="Enum\ServiceBookingState.cs" />
     <Compile Include="Enum\UserStateEnum.cs" />
     <Compile Include="Enum\OrgStateEnum.cs" />
-    <Compile Include="Migrations\201805191400214_InitDataBase.cs" />
-    <Compile Include="Migrations\201805191400214_InitDataBase.Designer.cs">
-      <DependentUpon>201805191400214_InitDataBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805191512140_UpdateTableCustomer.cs" />
-    <Compile Include="Migrations\201805191512140_UpdateTableCustomer.Designer.cs">
-      <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.cs" />
-    <Compile Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.Designer.cs">
-      <DependentUpon>201805210539215_AddTabelsUserJob_JobMenu.cs</DependentUpon>
+    <Compile Include="Migrations\201805221610234_InitDatabase.cs" />
+    <Compile Include="Migrations\201805221610234_InitDatabase.Designer.cs">
+      <DependentUpon>201805221610234_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelContext.cs" />
@@ -243,14 +235,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805191400214_InitDataBase.resx">
-      <DependentUpon>201805191400214_InitDataBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805191512140_UpdateTableCustomer.resx">
-      <DependentUpon>201805191512140_UpdateTableCustomer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805210539215_AddTabelsUserJob_JobMenu.resx">
-      <DependentUpon>201805210539215_AddTabelsUserJob_JobMenu.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805221610234_InitDatabase.resx">
+      <DependentUpon>201805221610234_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -34,11 +34,16 @@ namespace 汽车维修管理系统.Controllers
             return Json(_menuService.GetAllMenu(),JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetAuthorizedMenus(Guid userId)
+        {
+            return Json(_menuService.GenerateMenuByUserId(userId),JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Help()
         {
             return View();
         }
-        public ActionResult GetAllMenuAndUserQuickMenu()
+        public ActionResult GetAllMenuAndUserQuickMenu(Guid userId)
         {
             return Json(_menuService.GetAllMenu().OrderBy(i => i.OrderNum), JsonRequestBehavior.AllowGet);
         }
